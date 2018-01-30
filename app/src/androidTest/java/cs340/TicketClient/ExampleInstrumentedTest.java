@@ -1,4 +1,4 @@
-package cs340.tickettoride;
+package cs340.TicketClient;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

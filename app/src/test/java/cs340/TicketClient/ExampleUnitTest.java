@@ -1,4 +1,4 @@
-package cs340.tickettoride;
+package cs340.TicketClient;
 
 import org.junit.Test;
 
