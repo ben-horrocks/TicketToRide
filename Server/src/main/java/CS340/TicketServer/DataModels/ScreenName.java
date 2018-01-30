@@ -5,4 +5,26 @@ package CS340.TicketServer.DataModels;
  */
 
 public class ScreenName
-{}
+{
+  private String name;
+
+  public ScreenName(String name)
+  {
+    this.name = name;
+  }
+
+  public String getName()
+  {
+    return name;
+  }
+
+  public void setName(String name)
+  {
+    this.name = name;
+  }
+
+  public static boolean isValidScreenName(String name)
+  {
+    return true;
+  }
+}

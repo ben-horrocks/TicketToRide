@@ -5,4 +5,26 @@ package CS340.TicketServer.DataModels;
  */
 
 public class Password
-{}
+{
+  private String pass;
+
+  public Password(String pass)
+  {
+    this.pass = pass;
+  }
+
+  public String getPass()
+  {
+    return pass;
+  }
+
+  public void setPass(String pass)
+  {
+    this.pass = pass;
+  }
+
+  public static boolean isValidPass(String pass)
+  {
+    return true;
+  }
+}
