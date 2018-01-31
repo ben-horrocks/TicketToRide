@@ -1,4 +1,4 @@
-package CS340.TicketServer.DataModels;
+package common.DataModels;
 
 import java.util.*;
 
