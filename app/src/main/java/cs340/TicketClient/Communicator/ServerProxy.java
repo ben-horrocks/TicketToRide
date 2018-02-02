@@ -1,5 +1,8 @@
 package cs340.TicketClient.Communicator;
 
+import cs340.TicketClient.common.IServer;
+import cs340.TicketClient.common.Signal;
+
 /**
  * Created by Ben_D on 1/29/2018.
  */
@@ -19,13 +22,13 @@ public class ServerProxy implements IServer
     public Signal login(String username, String password) {
 
         //create Command
-        
+
         return null;
     }
 
     @Override
-    public boolean register(String username, String password, String screenName) {
-        return false;
+    public Signal register(String username, String password, String screenName) {
+        return null;
     }
 
     @Override
