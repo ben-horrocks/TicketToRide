@@ -1,4 +1,4 @@
-package cs340.TicketClient.DataModels;
+package cs340.TicketClient.common.DataModels;
 
 import java.util.HashSet;
 import java.util.Set;

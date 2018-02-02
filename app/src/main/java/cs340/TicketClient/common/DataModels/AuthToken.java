@@ -1,6 +1,9 @@
-package cs340.TicketClient.DataModels;
+package cs340.TicketClient.common.DataModels;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * Created by Ben_D on 1/29/2018.

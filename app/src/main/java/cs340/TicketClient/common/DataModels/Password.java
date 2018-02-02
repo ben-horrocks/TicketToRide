@@ -1,4 +1,4 @@
-package cs340.TicketClient.DataModels;
+package cs340.TicketClient.common.DataModels;
 
 /**
  * Created by Ben_D on 1/29/2018.
