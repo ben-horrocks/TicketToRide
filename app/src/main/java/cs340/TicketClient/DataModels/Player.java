@@ -1,10 +1,12 @@
 package cs340.TicketClient.DataModels;
 
+import java.io.Serializable;
+
 /**
  * Created by Ben_D on 1/29/2018.
  */
 
-public class Player
+public class Player implements Serializable
 {
   private int points;
   private Username name;

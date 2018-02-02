@@ -5,4 +5,8 @@ package cs340.TicketClient.Communicator;
  */
 
 public interface IServer
-{}
+{
+    boolean login(String username, String password);
+    boolean register(String username, String password, String screenName);
+    void startGame();
+}

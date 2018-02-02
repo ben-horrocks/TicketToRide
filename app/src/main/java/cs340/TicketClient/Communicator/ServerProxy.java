@@ -5,4 +5,28 @@ package cs340.TicketClient.Communicator;
  */
 
 public class ServerProxy implements IServer
-{}
+{
+    private static ServerProxy singleton;
+
+    public static ServerProxy getInstance()
+    {
+        if (singleton == null)
+            singleton = new ServerProxy();
+        return singleton;
+    }
+
+    @Override
+    public boolean login(String username, String password) {
+        return false;
+    }
+
+    @Override
+    public boolean register(String username, String password, String screenName) {
+        return false;
+    }
+
+    @Override
+    public void startGame() {
+
+    }
+}
