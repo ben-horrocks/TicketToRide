@@ -179,6 +179,8 @@ public class LoginActivity extends AppCompatActivity
     protected void onPostExecute(Player player) {
       super.onPostExecute(player);
       if(player != null) {
+        setLogin();
+        setRegister();
         //gotoLobby(player);
         successToast("Login");
       }
@@ -202,6 +204,8 @@ public class LoginActivity extends AppCompatActivity
     protected void onPostExecute(Player player) {
       super.onPostExecute(player);
       if (player != null) {
+        setLogin();
+        setRegister();
         //gotoLobby(player);
         successToast("Register");
       }

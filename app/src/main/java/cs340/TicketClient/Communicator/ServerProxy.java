@@ -16,8 +16,11 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public boolean login(String username, String password) {
-        return false;
+    public Signal login(String username, String password) {
+
+        //create Command
+        
+        return null;
     }
 
     @Override
