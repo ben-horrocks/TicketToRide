@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import cs340.TicketClient.DataModels.Player;
+import cs340.TicketClient.common.DataModels.Player;
 import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.R;
 

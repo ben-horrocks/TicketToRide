@@ -16,6 +16,11 @@ public class Username
     this.name = name;
   }
 
+
+  public String getName(){
+    return this.name;
+  }
+
   public static boolean isValidUserName(String name)
   {
     if(usedname.contains(name))

@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/game_name"
+        android:layout_width="260dp"
+        android:layout_height="36dp"
+        android:text="Game Name"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/host_player_name"
+        android:layout_width="202dp"
+        android:layout_height="36dp"
+        android:text="HostPlayerName"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="36dp" />
+
+    <TextView
+        android:id="@+id/player_count"
+        android:layout_width="58dp"
+        android:layout_height="36dp"
+        android:text="0/5"
+        android:textAlignment="textEnd"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="264dp"
+        tools:layout_editor_absoluteY="36dp" />
 </android.support.constraint.ConstraintLayout>
