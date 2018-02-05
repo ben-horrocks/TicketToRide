@@ -6,4 +6,11 @@ package cs340.TicketClient.common;
 
 public class Signal {
 
+    enum SignalType{
+
+    }
+
+    SignalType type;
+    
+
 }
