@@ -23,4 +23,12 @@ public class Game
     gameStarted = true;
   }
 
+  public GameID getId() { return id; }
+
+  public void setId(GameID id) { this.id = id; }
+
+  public boolean isGameStarted() { return gameStarted; }
+
+  public void setGameStarted(boolean gameStarted) { this.gameStarted = gameStarted; }
+
 }
