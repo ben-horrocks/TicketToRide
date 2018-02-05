@@ -1,14 +1,11 @@
 package cs340.TicketClient.Login;
 
 import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.DataModels.Password;
-import cs340.TicketClient.DataModels.Player;
-import cs340.TicketClient.DataModels.ScreenName;
-import cs340.TicketClient.DataModels.Username;
+import cs340.TicketClient.common.DataModels.Password;
+import cs340.TicketClient.common.DataModels.Player;
+import cs340.TicketClient.common.DataModels.ScreenName;
+import cs340.TicketClient.common.DataModels.Username;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
 
 public class LoginPresenter
 {

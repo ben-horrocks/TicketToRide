@@ -23,4 +23,11 @@ public class Game
     gameStarted = true;
   }
 
+  public Boolean isGameFull()
+  {
+    if(currentPlayers.size()==5) {
+      return true;
+    }
+    return false;
+  }
 }
