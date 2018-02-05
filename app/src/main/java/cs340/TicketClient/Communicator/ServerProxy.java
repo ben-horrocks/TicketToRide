@@ -1,5 +1,6 @@
 package cs340.TicketClient.Communicator;
 
+import cs340.TicketClient.common.Command;
 import cs340.TicketClient.common.IServer;
 import cs340.TicketClient.common.Signal;
 
@@ -18,17 +19,38 @@ public class ServerProxy implements IServer
         return singleton;
     }
 
+    /**
+     *
+     * @param username username of player trying to login
+     * @param password password of player trying to login
+     * @return success or fail login Signal
+     */
     @Override
     public Signal login(String username, String password) {
 
-        //create Command
-
-        return null;
+        String[] parameterTypes = {"String", "String"};
+        Object[] parameters = {username, password};
+        Command loginCommand = new Command("login", parameterTypes, parameters);
+        //send to server
+        Signal response = null;
+        return response;
     }
 
+    /**
+     *
+     * @param username username of player trying to register (must be unique)
+     * @param password password of player trying to register
+     * @param screenName screenname of player trying to register
+     * @return success or fail register Signal
+     */
     @Override
     public Signal register(String username, String password, String screenName) {
-        return null;
+        String[] parameterTypes = {"String", "String", "String"};
+        Object[] parameters = {username, password, screenName};
+        Command registerCommand = new Command("register", parameterTypes, parameters);
+        //send to server
+        Signal response = null;
+        return response;
     }
 
     @Override
