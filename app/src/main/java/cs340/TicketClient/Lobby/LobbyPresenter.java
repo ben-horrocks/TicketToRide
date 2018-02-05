@@ -9,6 +9,13 @@ import cs340.TicketClient.Login.LoginActivity;
 import cs340.TicketClient.common.DataModels.Game;
 import cs340.TicketClient.common.DataModels.GameID;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import cs340.TicketClient.ASyncTask.AddGameTask;
+import cs340.TicketClient.Communicator.ServerProxy;
+import cs340.TicketClient.common.DataModels.*;
+
 /**
  * Created by Ben_D on 1/29/2018.
  */

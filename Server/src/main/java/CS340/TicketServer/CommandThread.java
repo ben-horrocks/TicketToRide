@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import common.Command;
+import common.DataModels.Player;
+import communicators.ServerCommunicator;
 
 /**
  * Created by Kavika F.
@@ -16,10 +18,13 @@ public class CommandThread extends Thread
 	private Socket clientSocket;
 	private ObjectInputStream in = null;
 	private ObjectOutputStream out = null;
+	private ServerCommunicator serverCommunicator = null;
 
-	public CommandThread(Socket clientSocket)
+
+	public CommandThread(Socket clientSocket, ServerCommunicator serverCommunicator)
 	{
 		this.clientSocket = clientSocket;
+		this.serverCommunicator = serverCommunicator;
 	}
 
 	public void run()
@@ -34,9 +39,14 @@ public class CommandThread extends Thread
 				in = new ObjectInputStream(clientSocket.getInputStream());
 				Object object = in.readObject();
 				Object result = null;
-				if (object instanceof Command)
+				if (object instanceof Player)
 				{
-					Command command = (Command)in.readObject();
+					Player player = (Player)object;
+					serverCommunicator.getThreads().put(player, this);
+				}
+				else if (object instanceof Command)
+				{
+					Command command = (Command)object;
 					result = command.execute();
 				}
 				else // can be changed to switch statement in future for other object cases

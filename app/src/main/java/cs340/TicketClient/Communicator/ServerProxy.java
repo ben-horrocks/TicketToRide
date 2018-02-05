@@ -1,7 +1,15 @@
 package cs340.TicketClient.Communicator;
 
+import android.content.Context;
+import cs340.TicketClient.common.Command;
 import cs340.TicketClient.common.IServer;
 import cs340.TicketClient.common.Signal;
+
+import cs340.TicketClient.ASyncTask.AddGameTask;
+import cs340.TicketClient.ASyncTask.JoinGameTask;
+import cs340.TicketClient.common.*;
+import cs340.TicketClient.common.DataModels.Game;
+import cs340.TicketClient.common.DataModels.GameID;
 
 /**
  * Created by Ben_D on 1/29/2018.
@@ -18,21 +26,65 @@ public class ServerProxy implements IServer
         return singleton;
     }
 
+    /**
+     *
+     * @param username username of player trying to login
+     * @param password password of player trying to login
+     * @return success or fail login Signal
+     */
     @Override
     public Signal login(String username, String password) {
 
-        //create Command
-
-        return null;
+        String[] parameterTypes = {"String", "String"};
+        Object[] parameters = {username, password};
+        Command loginCommand = new Command("login", parameterTypes, parameters);
+        //send to server
+        Signal response = null;
+        return response;
     }
 
+    /**
+     *
+     * @param username username of player trying to register (must be unique)
+     * @param password password of player trying to register
+     * @param screenName screenname of player trying to register
+     * @return success or fail register Signal
+     */
     @Override
     public Signal register(String username, String password, String screenName) {
-        return null;
+        String[] parameterTypes = {"String", "String", "String"};
+        Object[] parameters = {username, password, screenName};
+        Command registerCommand = new Command("register", parameterTypes, parameters);
+        //send to server
+        Signal response = null;
+        return response;
     }
 
     @Override
     public void startGame() {
 
     }
+
+    @Override
+    public void addGame(Game newgame)
+    {
+        String[] paramTypes = {"Game"};
+        Object[] params = {newgame};
+        Command newcommand = new Command("AddGame", paramTypes, params);
+        //Call the Client Communicator here
+
+    }
+
+    @Override
+    public Signal JoinGame(GameID id)
+    {
+        String[] paramTypes = {"GameID"};
+        Object[] params = {id};
+        Command newcommand = new Command("JoinGame", paramTypes, params);
+        //execute the command over the client server here
+
+        JoinGameTask task = new JoinGameTask();
+        task.execute(id);
+    }
 }
+    
