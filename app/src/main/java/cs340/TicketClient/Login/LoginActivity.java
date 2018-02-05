@@ -15,7 +15,7 @@ import cs340.TicketClient.common.DataModels.Player;
 import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.R;
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity implements ILoginActivity
 {
   /** Field for players username*/
   EditText username;
@@ -141,7 +141,8 @@ public class LoginActivity extends AppCompatActivity
   /**
    * Sets login button to enabled if it meets the requirements of loginReady()
    */
-  void setLogin()
+  @Override
+  public void setLogin()
   {
     login.setEnabled(loginReady());
   }
@@ -150,7 +151,8 @@ public class LoginActivity extends AppCompatActivity
    * Checks if username and password text fields are filled in
    * @return true if both username and password are filled, false otherwise
    */
-  private boolean loginReady()
+  @Override
+  public boolean loginReady()
   {
     return username.getText().toString().length() > 0 && password.getText().toString().length() > 0;
   }
@@ -158,7 +160,8 @@ public class LoginActivity extends AppCompatActivity
   /**
    * Sets register button to enabled if it meets the requirements of registerReady()
    */
-  void setRegister()
+  @Override
+  public void setRegister()
   {
     register.setEnabled(registerReady());
   }
@@ -167,7 +170,8 @@ public class LoginActivity extends AppCompatActivity
    * Checks if username, password, and screenname fields are filled in
    * @return true if username, password, and screenname are filled, false otherwise
    */
-  private boolean registerReady()
+  @Override
+  public boolean registerReady()
   {
     return username.getText().toString().length() > 0 && password.getText().toString().length() > 0
             && screenname.getText().toString().length() > 0;
@@ -177,7 +181,8 @@ public class LoginActivity extends AppCompatActivity
    * Creates intent and starts lobby activity for the player
    * @param player the player that just logged in or registered
    */
-  void gotoLobby(Player player)
+  @Override
+  public void gotoLobby(Player player)
   {
     Intent intent = new Intent(this, LobbyActivity.class);
     intent.putExtra("player", player);
@@ -219,8 +224,8 @@ public class LoginActivity extends AppCompatActivity
       if(player != null) {
         setLogin();
         setRegister();
-        //gotoLobby(player);
-        successToast("Login");
+        gotoLobby(player);
+        //successToast("Login");
       }
       else
         failToast("Login");
@@ -244,8 +249,8 @@ public class LoginActivity extends AppCompatActivity
       if (player != null) {
         setLogin();
         setRegister();
-        //gotoLobby(player);
-        successToast("Register");
+        gotoLobby(player);
+        //successToast("Register");
       }
       else
         failToast("Register");

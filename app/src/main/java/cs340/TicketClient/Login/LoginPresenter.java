@@ -11,7 +11,7 @@ import cs340.TicketClient.common.Signal;
  * Created by Ben_D on 1/29/2018.
  */
 
-public class LoginPresenter
+public class LoginPresenter implements ILoginPresenter
 {
 
 
@@ -25,7 +25,8 @@ public class LoginPresenter
     * @param password the player's password
     * @return A player object representing the logged in player
      */
-    Player login(String username, String password) {
+    @Override
+    public Player login(String username, String password) {
         if (Password.isValidPass(password)) {
             Signal response = ServerProxy.getInstance().login(username, password);
             return new Player(new Username(username), new Password(password), new ScreenName("test"));
@@ -42,7 +43,8 @@ public class LoginPresenter
     * @return A player object representing the logged in player
     *
      */
-    Player register(String username, String password, String screenname) {
+    @Override
+    public Player register(String username, String password, String screenname) {
         if(ScreenName.isValidScreenName(screenname) && Username.isValidUserName(username) && Password.isValidPass(password)) {
             Signal response = ServerProxy.getInstance().login(username, password);
             return new Player(new Username(username), new Password(password), new ScreenName(screenname));
