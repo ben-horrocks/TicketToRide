@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import CS340.TicketServer.ServerFacade;
+import cs340.TicketClient.Communicator.ServerProxy;
 
 
 public class Command implements Serializable
@@ -127,8 +127,8 @@ public class Command implements Serializable
 
 		try
 		{
-			Method method = ServerFacade.class.getMethod(methodName, parameterTypes);
-			result = method.invoke(ServerFacade.getInstance(), parameters);
+			Method method = ServerProxy.class.getMethod(methodName, parameterTypes);
+			result = method.invoke(ServerProxy.getInstance(), parameters);
 		} catch (NoSuchMethodException | SecurityException e)
 		{
 			System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");
