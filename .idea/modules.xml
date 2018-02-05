@@ -3,10 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Server/Server.iml" filepath="$PROJECT_DIR$/Server/Server.iml" />
+      <module fileurl="file://C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\Server\Server.iml" filepath="C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\Server\Server.iml" />
       <module fileurl="file://C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\TicketToRide.iml" filepath="C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\TicketToRide.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\app\app.iml" filepath="C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" filepath="$PROJECT_DIR$/gson-2.8.2/gson-2.8.2.iml" />
+      <module fileurl="file://C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\gson-2.8.2\gson-2.8.2.iml" filepath="C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\gson-2.8.2\gson-2.8.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/working.iml" filepath="$PROJECT_DIR$/working.iml" />
+      <module fileurl="file://C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\working.iml" filepath="C:\Users\kavik\Desktop\Notes\CS\CS 340\ticketToRide\working\working.iml" />
     </modules>
   </component>
 </project>
