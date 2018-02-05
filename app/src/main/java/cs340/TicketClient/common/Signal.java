@@ -7,10 +7,23 @@ package cs340.TicketClient.common;
 public class Signal {
 
     enum SignalType{
-
+        ERROR, OK, ANNOUNCEMENT
     }
 
-    SignalType type;
-    
+    private SignalType type;
+    private Object obj;
 
+    Signal(SignalType type, Object obj)
+    {
+        this.type = type;
+        this.obj = obj;
+    }
+
+    public Object getObj() {
+        return obj;
+    }
+
+    public SignalType getType() {
+        return type;
+    }
 }
