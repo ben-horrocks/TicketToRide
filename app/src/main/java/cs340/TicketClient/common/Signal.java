@@ -5,4 +5,5 @@ package cs340.TicketClient.common;
  */
 
 public class Signal {
+
 }
