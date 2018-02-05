@@ -1,5 +1,6 @@
 package cs340.TicketClient.Lobby;
 
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +11,8 @@ import cs340.TicketClient.common.DataModels.GameID;
 /**
  * Created by Ben_D on 1/29/2018.
  */
+
+import cs340.TicketClient.common.DataModels.*;
 
 public class LobbyModel
 {

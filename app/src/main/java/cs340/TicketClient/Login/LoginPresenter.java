@@ -6,10 +6,11 @@ import cs340.TicketClient.common.DataModels.Player;
 import cs340.TicketClient.common.DataModels.ScreenName;
 import cs340.TicketClient.common.DataModels.Username;
 import cs340.TicketClient.common.Signal;
+import cs340.TicketClient.common.DataModels.Password;
+import cs340.TicketClient.common.DataModels.Player;
+import cs340.TicketClient.common.DataModels.ScreenName;
+import cs340.TicketClient.common.DataModels.Username;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
 
 public class LoginPresenter implements ILoginPresenter
 {

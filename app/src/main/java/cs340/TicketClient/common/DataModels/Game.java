@@ -47,4 +47,11 @@ public class Game
   public Set<Player> getPlayers() {
     return this.currentPlayers;
   }
+  public Boolean isGameFull()
+  {
+    if(currentPlayers.size()==5) {
+      return true;
+    }
+    return false;
+  }
 }
