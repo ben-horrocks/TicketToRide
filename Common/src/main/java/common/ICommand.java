@@ -1,4 +1,4 @@
-package common.DataModels;
+package common;
 
 /**
  * Created by Carter on 2/5/18.

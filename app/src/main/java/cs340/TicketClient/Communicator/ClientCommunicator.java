@@ -1,4 +1,4 @@
-package communicators;
+package cs340.TicketClient.Communicator;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

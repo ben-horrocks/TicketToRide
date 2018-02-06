@@ -15,7 +15,7 @@ import common.DataModels.Username;
  * Created by Ben_D on 1/29/2018.
  */
 
-public class ServerMain {
+public class Database {
 
     /**
      * Fields for the server database

@@ -10,5 +10,5 @@ import common.DataModels.Game;
 
 public interface IClient {
 
-    public boolean updateGameList(Set<Game> gameList);
+    public ISignal updateGameList(Set<Game> gameList);
 }
