@@ -1,15 +1,11 @@
 package cs340.TicketClient.Login;
 
+import common.DataModels.Password;
+import common.DataModels.Player;
+import common.DataModels.ScreenName;
+import common.DataModels.Username;
+import common.Signal;
 import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.common.DataModels.Password;
-import cs340.TicketClient.common.DataModels.Player;
-import cs340.TicketClient.common.DataModels.ScreenName;
-import cs340.TicketClient.common.DataModels.Username;
-import cs340.TicketClient.common.Signal;
-import cs340.TicketClient.common.DataModels.Password;
-import cs340.TicketClient.common.DataModels.Player;
-import cs340.TicketClient.common.DataModels.ScreenName;
-import cs340.TicketClient.common.DataModels.Username;
 
 
 public class LoginPresenter implements ILoginPresenter
