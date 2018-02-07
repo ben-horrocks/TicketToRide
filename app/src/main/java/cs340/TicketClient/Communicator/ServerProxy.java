@@ -29,7 +29,7 @@ public class ServerProxy implements IServer
      * @return success or fail login Signal
      */
     @Override
-    public AbstractSignal login(String username, String password) {
+    public Signal login(String username, String password) {
 
         String[] parameterTypes = {"String", "String"};
         Object[] parameters = {username, password};
@@ -47,7 +47,7 @@ public class ServerProxy implements IServer
      * @return success or fail register Signal
      */
     @Override
-    public AbstractSignal register(String username, String password, String screenName) {
+    public Signal register(String username, String password, String screenName) {
         String[] parameterTypes = {"String", "String", "String"};
         Object[] parameters = {username, password, screenName};
         CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
@@ -57,7 +57,7 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public void startGame() {
+    public Signal startGame() {
 
     }
 
