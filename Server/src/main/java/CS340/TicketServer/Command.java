@@ -1,69 +1,73 @@
-package common;
-
-/**
- * Created by Kavika F.
- * Credit to Professor Woodfiel at BYU
- */
+package CS340.TicketServer;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import CS340.TicketServer.ClientProxy;
-import CS340.TicketServer.ServerFacade;
+import common.CommandParams;
+import common.IServer;
 
-
+/**
+ * A Command class that extends the CommandParams class and is Serializable. This class
+ * is meant to send Commands between Clients and Servers. The CommandParams class has one
+ * public function that Command has to implement (execute()). The implementation will vary
+ * depending on the context of the Command (what is the destination of the Command?).
+ */
 public class Command implements Serializable
 {
 	private static final long serialVersionUID = 5950169519310163575L;
 
 	private String methodName;
 	private String[] parameterTypeNames;
-	private Object[] parameters = null; //Only used on the server side
-	private Class<?>[] parameterTypes; //Only used on server side.
-	public enum CommandType
-	{
-		CLIENT, SERVER
-	}
-	private CommandType commandType;
+	private Object[] parameters = null;
+	private Class<?>[] parameterTypes;
 
 	//I don't generate the parameter type names from the
 	//parameters because some of the parameters might be
 	//null.
-	public Command(String methodName, String[] parameterTypeNames, Object[] parameters,
-				   CommandType commandType)
+
+	/**
+	 * The constructor for the Command to be sent.
+	 * @param methodName The name of the method the sending party wishes to invoke.
+	 * @param parameterTypeNames The types of the parameters.
+	 * @param parameters The parameters to be used in the method.
+	 */
+	public Command(String methodName, String[] parameterTypeNames, Object[] parameters)
 	{
 		this.methodName = methodName;
 		this.parameterTypeNames = parameterTypeNames;
 		this.parameters = parameters;
 		createParameterTypes();
-		this.commandType = commandType;
 	}
 
-	public String getMethodName()
+	public Command(CommandParams commandParams)
 	{
-		return methodName;
+		this.methodName = commandParams.getMethodName();
+		this.parameterTypeNames = commandParams.getParameterTypeNames();
+		this.parameters = commandParams.getParameters();
+		createParameterTypes();
 	}
 
-	public String[] getParameterTypeNames()
-	{
-		return parameterTypeNames;
-	}
+	/*
+	public String getMethodName() { return methodName; }
 
-	public Object[] getParameters()
-	{
-		return parameters;
-	}
+	public String[] getParameterTypeNames() { return parameterTypeNames; }
+
+	public Object[] getParameters() { return parameters; }
+	*/
 
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer();
-		result.append("methodName = " + methodName + "\n");
+		StringBuilder result = new StringBuilder();
+		result.append("methodName = ");
+		result.append(methodName);
+		result.append("\n");
 
 		result.append("    parameterTypeNames = ");
 		for (String parameterTypeName : parameterTypeNames)
 		{
-			result.append(parameterTypeName + ", ");
+			result.append(parameterTypeName);
+			result.append(", ");
 		}
 		result.delete(result.length() - 2, result.length());
 		result.append("\n");
@@ -77,7 +81,9 @@ public class Command implements Serializable
 			for (Object parameter : parameters)
 			{
 				result.append(parameter);
-				result.append("(" + parameter.getClass().getName() + ")");
+				result.append("(");
+				result.append(parameter.getClass().getName());
+				result.append( ")");
 				result.append(", ");
 			}
 			result.delete(result.length() - 2, result.length());
@@ -86,22 +92,16 @@ public class Command implements Serializable
 		return result.toString();
 	}
 
+	@SuppressWarnings("TryWithIdenticalCatches") // For the InvocationTargetException on API < 19
 	public Object execute()
 	{
 		Object result = null;
 		try
 		{
-			Method method = null;
-			if (commandType == CommandType.SERVER)
-			{
-				method = ServerFacade.class.getMethod(methodName, parameterTypes);
-				result = method.invoke(ServerFacade.getSINGLETON(), parameters);
-			}
-			else if (commandType == CommandType.CLIENT)
-			{
-				method = ClientProxy.class.getMethod(methodName, parameterTypes);
-				result = method.invoke(ClientProxy.getSINGLETON(), parameters);
-			}
+			Method method;
+			method = IServer.class.getMethod(methodName, parameterTypes);
+			result = method.invoke(IServer.class, parameters);
+
 		} catch (NoSuchMethodException | SecurityException e)
 		{
 			System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");
@@ -123,7 +123,7 @@ public class Command implements Serializable
 		return result;
 	}
 
-	private final void createParameterTypes()
+	private void createParameterTypes()
 	{
 		parameterTypes = new Class<?>[parameterTypeNames.length];
 		for (int i = 0; i < parameterTypeNames.length; i++)
@@ -140,10 +140,10 @@ public class Command implements Serializable
 		}
 	}
 
-	private static final Class<?> getClassFor(String className)
+	private static Class<?> getClassFor(String className)
 			throws ClassNotFoundException
 	{
-		Class<?> result = null;
+		Class<?> result;
 		switch (className)
 		{
 			case "boolean":

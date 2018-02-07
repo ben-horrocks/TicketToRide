@@ -43,7 +43,6 @@ public class ClientCommunicator
      * @throws IOException Can throw an IOException if there is an issue with the input/output streams.
      */
     public Object send(Object object) throws IOException {
-
         Object result = null;
         try
         {

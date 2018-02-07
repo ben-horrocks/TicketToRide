@@ -3,11 +3,9 @@ package CS340.TicketServer;
 import java.util.Set;
 
 import common.DataModels.Game;
+import common.DataModels.Signal;
+import common.DataModels.SignalType;
 import common.IClient;
-
-/**
- * Created by Carter on 2/5/18.
- */
 
 public class ClientProxy implements IClient {
 
@@ -16,7 +14,7 @@ public class ClientProxy implements IClient {
      * these fields make access to the database thread safe
      */
     private static volatile ClientProxy SINGLETON;
-    private static Object mutex = new Object();
+    private static final Object mutex = new Object();
 
     /**
      * Default constructor for the serverFacade class
@@ -41,7 +39,8 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public boolean updateGameList(Set<Game> gameList) {
+    public Signal updateGameList(Set<Game> gameList) {
         //return all the games from the server
+        return new Signal(SignalType.ERROR, null);
     }
 }
