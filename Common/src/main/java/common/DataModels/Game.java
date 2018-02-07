@@ -9,12 +9,22 @@ import java.util.Set;
 
 public class Game
 {
+  private String name;
+  private Player creator;
   private Set<Player> currentPlayers = new HashSet<>();
   private GameID id = new GameID();
   private boolean gameStarted = false;
 
   public Game(Player startingPlayer)
   {
+    name = startingPlayer.getName() + "\'s game";
+    creator = startingPlayer;
+    currentPlayers.add(startingPlayer);
+  }
+
+  public Game(String name, Player startingPlayer){
+    this.name = name;
+    creator = startingPlayer;
     currentPlayers.add(startingPlayer);
   }
 
@@ -26,6 +36,12 @@ public class Game
   public GameID getId() { return id; }
 
   public void setId(GameID id) { this.id = id; }
+
+  public String getName(){ return name;
+
+  public String getCreatorName() {return creator.getName().getName();}
+
+  public Set<Player>getPlayers() {return currentPlayers;}
 
   public boolean isGameStarted() { return gameStarted; }
 

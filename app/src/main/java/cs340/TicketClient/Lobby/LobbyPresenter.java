@@ -3,18 +3,12 @@ package cs340.TicketClient.Lobby;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import cs340.TicketClient.Login.LoginActivity;
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.DataModels.GameID;
-
-import android.content.Context;
-import android.widget.Toast;
-
-import cs340.TicketClient.ASyncTask.AddGameTask;
-import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.common.DataModels.*;
+import common.DataModels.GameID;
+import common.DataModels.GameInfo;
 
 /**
  * Created by Ben_D on 1/29/2018.
@@ -28,21 +22,25 @@ public class LobbyPresenter
 
     public LobbyPresenter(LobbyActivity activity){
         this.activity = activity;
-        model = new LobbyModel(new ArrayList<Game>());
+        model = new LobbyModel(new HashMap<GameID, GameInfo>());
     }
 
-    public LobbyPresenter(LobbyActivity activity, List<Game> games){
+    public LobbyPresenter(LobbyActivity activity, Map<GameID, GameInfo> games){
         this.activity = activity;
         model = new LobbyModel(games);
     }
 
     private void updateGameList(){
         String filter = activity.getFilter();
-        activity.updateGameList(getFilteredGames(filter));
+        activity.updateGameList(searchGames(filter));
     }
 
-    public List<Game> getAllGames(){
-        return model.getAllGames();
+    public List<GameInfo> getAllGames(){
+        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
+        for (GameInfo g : model.getAllGames()) {
+            list.add(g);
+        }
+        return list;
     }
 
     /**
@@ -56,18 +54,19 @@ public class LobbyPresenter
      * @param  filter  The phrase to search for
      * @return The list of games containing the filter phrase
      */
-    public List<Game> getFilteredGames(String filter){
-        if(filter == null || filter == "")
-            return model.getAllGames();
-
-        List<Game> filteredList = new ArrayList<Game>();
-        for (Game g: model.getAllGames()) {
-            String name = g.getName().toLowerCase();
-            if (name.contains(filter.toLowerCase())) {
-                filteredList.add(g);
+    public List<GameInfo> searchGames(String filter){
+        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
+        if(filter == null || filter == "") {
+            return getAllGames();
+        } else {
+            for (GameInfo g : model.getAllGames()) {
+                String name = g.getName().toLowerCase();
+                if (name.contains(filter.toLowerCase())) {
+                    list.add(g);
+                }
             }
         }
-        return filteredList;
+        return list;
     }
 
     /**
@@ -108,12 +107,12 @@ public class LobbyPresenter
         updateGameList();
     }
 
-    public void addGame(Game g){
+    public void addGame(GameInfo g){
         model.addGame(g);
         updateGameList();
     }
 
-    public void addGames(List<Game> games){
+    public void addGames(List<GameInfo> games){
         model.addGame(games);
         updateGameList();
     }
