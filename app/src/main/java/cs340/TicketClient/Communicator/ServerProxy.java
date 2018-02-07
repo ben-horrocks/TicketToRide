@@ -1,5 +1,6 @@
 package cs340.TicketClient.Communicator;
 
+import common.CommandParams;
 import common.DataModels.Signal;
 import common.DataModels.Game;
 import common.DataModels.GameID;
@@ -28,11 +29,11 @@ public class ServerProxy implements IServer
      * @return success or fail login Signal
      */
     @Override
-    public Signal login(String username, String password) {
+    public AbstractSignal login(String username, String password) {
 
         String[] parameterTypes = {"String", "String"};
         Object[] parameters = {username, password};
-        Command loginCommand = new Command("login", parameterTypes, parameters, Command.CommandType.SERVER);
+        CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
         //send to server
         Signal response = null;
         return response;
@@ -46,12 +47,12 @@ public class ServerProxy implements IServer
      * @return success or fail register Signal
      */
     @Override
-    public ISignal register(String username, String password, String screenName) {
+    public AbstractSignal register(String username, String password, String screenName) {
         String[] parameterTypes = {"String", "String", "String"};
         Object[] parameters = {username, password, screenName};
-        Command registerCommand = new Command("register", parameterTypes, parameters, Command.CommandType.SERVER);
+        CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
         //send to server
-        ISignal response = null;
+        Signal response = null;
         return response;
     }
 
