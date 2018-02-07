@@ -5,24 +5,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.DataModels.GameID;
+import common.DataModels.GameInfo;
+import common.DataModels.GameID;
 
 /**
  * Created by Ben_D on 1/29/2018.
  */
 
-import cs340.TicketClient.common.DataModels.*;
-
 public class LobbyModel
 {
-    private List<Game> games;
+    private Map<GameID, GameInfo> games;
 
     public LobbyModel(){
-        games = new ArrayList<Game>();
+        games = new HashMap<GameID, GameInfo>();
     }
 
-    public LobbyModel(List<Game> games) {
+    public LobbyModel(Map<GameID, GameInfo> games) {
         this.games = games;
     }
 
@@ -33,19 +31,21 @@ public class LobbyModel
      *
      * @param  game  The game to be added
      */
-    public void addGame(Game game){
-        games.add(game);
+    public void addGame(GameInfo game){
+        games.put(game.getId(), game);
     }
 
     /**
-     * Adds a collection of games to the game list
+     * Adds a list of games to the game list
      * @pre none
      * @post All the games in the collection will be added to the game list
      *
      * @param  games  The games to be added
      */
-    public void addGame(Collection<Game> games){
-        this.games.addAll(games);
+    public void addGame(List<GameInfo> games){
+        for(GameInfo g: games){
+            addGame(g);
+        }
     }
 
     /**
@@ -56,7 +56,7 @@ public class LobbyModel
      * @param  id  The id of the game to be removed
      */
     public void removeGame(GameID id) throws GameNotFoundException{
-        Game g = getGame(id);
+        GameInfo g = getGame(id);
         games.remove(g);
     }
 
@@ -67,12 +67,9 @@ public class LobbyModel
      *
      * @param  id  The id for the game that is being looked for
      */
-    public Game getGame(GameID id) throws GameNotFoundException{
-        for(Game g: games){
-            if(g.getID() == id){
-                return g;
-            }
-        }
+    public GameInfo getGame(GameID id) throws GameNotFoundException{
+        if(games.containsKey(id))
+            return games.get(id);
         throw new GameNotFoundException(id);
     }
 
@@ -82,8 +79,8 @@ public class LobbyModel
      *
      * @return The list of games
      */
-    public List<Game> getAllGames(){
-        return this.games;
+    public Collection<GameInfo> getAllGames(){
+        return this.games.values();
     }
 
     /**
@@ -94,12 +91,8 @@ public class LobbyModel
      * @param   id  The id for the game that is being checked
      */
     public boolean isGameFull(GameID id) throws GameNotFoundException {
-        Game g = getGame(id);
-        if (g.getPlayers().size() < 5){
-            return false;
-        } else {
-            return true;
-        }
+        GameInfo g = getGame(id);
+        return g.isFull();
     }
 
     /**
