@@ -1,7 +1,13 @@
 package CS340.TicketServer;
 
-import com.sun.security.ntlm.Server;
-
+import common.DataModels.AuthToken;
+import common.DataModels.Game;
+import common.DataModels.Password;
+import common.DataModels.Player;
+import common.DataModels.ScreenName;
+import common.DataModels.Signal;
+import common.DataModels.SignalType;
+import common.DataModels.Username;
 import common.IServer;
 
 /**
@@ -45,11 +51,22 @@ public class ServerFacade implements IServer
 	 * @param password
 	 * @return
 	 */
-	public boolean login(String username, String password) {
-		//check if player exists in database
-			//If no, return false
-			//if yes, add new authtoken and return player information
-		return false;
+	public AbstractSignal login(String username, String password) {
+		Database database = Database.SINGLETON;
+
+		//Check that player is already registered
+		Player player = database.getPlayer(username);
+		if (player == null) {
+			String errorMsg = "error: you are not yet registered. Please register first.";
+			Signal signal = new Signal(SignalType.ERROR, errorMsg);
+			return signal;
+		}
+		else {
+			AuthToken token = new AuthToken();
+			player.setToken(token);
+			Signal signal = new Signal(SignalType.OK, player);
+			return signal;
+		}
 	}
 
 	/**
@@ -59,11 +76,29 @@ public class ServerFacade implements IServer
 	 * @param displayName
 	 * @return
 	 */
-	public boolean register(String username, String password, String displayName) {
-		//check if player exists in database
-		//If no, create player and return information
-		//if yes, return error message
-		return true;
+	public AbstractSignal register(String username, String password, String screenName) {
+		Database database = Database.SINGLETON;
+
+		//Check that player is already registered
+		Player player = database.getPlayer(username);
+		if (player == null) {
+
+			AuthToken token = new AuthToken();
+			Username uName = new Username(username);
+			Password pass = new Password(password);
+			ScreenName sName = new ScreenName(screenName);
+			player = new Player(uName, pass, sName);
+			player.setToken(token);
+
+			Signal signal = new Signal(SignalType.OK, player);
+			return signal;
+		}
+		else {
+
+			String errorMsg = "error: you are not yet registered. Please register first.";
+			Signal signal = new Signal(SignalType.ERROR, errorMsg);
+			return signal;
+		}
 	}
 
 	/**
@@ -71,17 +106,41 @@ public class ServerFacade implements IServer
 	 * @param gameName
 	 * @return
 	 */
-	public boolean createGame (String gameName) {
-		//check if game exists in database
-		//if no, create new game and add to database
-		//if yes, return error message
-		return true;
+	public AbstractSignal createGame (String gameName, Player startingPlayer) {
+		Database database = Database.SINGLETON;
+
+		Integer increment = 1;
+		StringBuilder finalName = new StringBuilder(gameName);
+
+		//If a provided game name is already in the database, modify with a numeric symbol in parentheses
+		//which is appended to the end of the name
+		while (database.getGame(gameName) != null) {
+			if (finalName.length() !=  gameName.length()) {
+				finalName.deleteCharAt(finalName.length() - 1);
+			}
+			finalName.append("(").append(increment.toString()).append(")");
+			increment++;
+		}
+
+		//Created name that is not in the database
+		Game game = new Game(startingPlayer);
+		//TODO: add the name of the game to the game itself
+		database.addGame(game);
+		Signal signal = new Signal(SignalType.OK, game);
+		return signal;
+
+
+		return null;
 	}
 
 	/**
 	 *
 	 */
-	public void startGame() {
-		//Switch gameStart field to true
+	public AbstractSignal startGame() {
+		//TODO: need to be passed a game id or name to start
+		//Check to see if the game is already started. if yes, return error signal
+		//Change the value of game started to true of the specified game in the database
+		//Create a signal with the game and return it
+		return null;
 	}
 }
