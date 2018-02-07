@@ -37,6 +37,12 @@ public class Game
 
   public void setId(GameID id) { this.id = id; }
 
+  public String getName(){ return name;
+
+  public String getCreatorName() {return creator.getName().getName();}
+
+  public Set<Player>getPlayers() {return currentPlayers;}
+
   public boolean isGameStarted() { return gameStarted; }
 
   public void setGameStarted(boolean gameStarted) { this.gameStarted = gameStarted; }
