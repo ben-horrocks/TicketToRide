@@ -1,17 +1,10 @@
 package cs340.TicketClient.Communicator;
 
-import common.Command;
-import android.content.Context;
 import common.DataModels.Signal;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.IServer;
-import common.ISignal;
-import common.Signal;
 import cs340.TicketClient.ASyncTask.JoinGameTask;
-import cs340.TicketClient.common.*;
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.DataModels.GameID;
 
 /**
  * Created by Ben_D on 1/29/2018.
@@ -35,13 +28,13 @@ public class ServerProxy implements IServer
      * @return success or fail login Signal
      */
     @Override
-    public ISignal login(String username, String password) {
+    public Signal login(String username, String password) {
 
         String[] parameterTypes = {"String", "String"};
         Object[] parameters = {username, password};
         Command loginCommand = new Command("login", parameterTypes, parameters, Command.CommandType.SERVER);
         //send to server
-        ISignal response = null;
+        Signal response = null;
         return response;
     }
 
