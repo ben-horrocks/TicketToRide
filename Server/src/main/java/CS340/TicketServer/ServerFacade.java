@@ -51,7 +51,7 @@ public class ServerFacade implements IServer
 	 * @param password
 	 * @return
 	 */
-	public AbstractSignal login(String username, String password) {
+	public Signal login(String username, String password) {
 		Database database = Database.SINGLETON;
 
 		//Check that player is already registered
@@ -73,10 +73,10 @@ public class ServerFacade implements IServer
 	 *
 	 * @param username
 	 * @param password
-	 * @param displayName
+	 * @param screenName
 	 * @return
 	 */
-	public AbstractSignal register(String username, String password, String screenName) {
+	public Signal register(String username, String password, String screenName) {
 		Database database = Database.SINGLETON;
 
 		//Check that player is already registered
@@ -106,7 +106,7 @@ public class ServerFacade implements IServer
 	 * @param gameName
 	 * @return
 	 */
-	public AbstractSignal createGame (String gameName, Player startingPlayer) {
+	public Signal createGame (String gameName, Player startingPlayer) {
 		Database database = Database.SINGLETON;
 
 		Integer increment = 1;
@@ -128,15 +128,12 @@ public class ServerFacade implements IServer
 		database.addGame(game);
 		Signal signal = new Signal(SignalType.OK, game);
 		return signal;
-
-
-		return null;
 	}
 
 	/**
 	 *
 	 */
-	public AbstractSignal startGame() {
+	public Signal startGame() {
 		//TODO: need to be passed a game id or name to start
 		//Check to see if the game is already started. if yes, return error signal
 		//Change the value of game started to true of the specified game in the database

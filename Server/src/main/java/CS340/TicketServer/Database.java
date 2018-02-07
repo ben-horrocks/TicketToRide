@@ -112,6 +112,7 @@ public class Database {
      */
     public boolean addToken(String name,AuthToken token) {
         this.authList.put(name, token);
+        return true;
     }
 
     /**
