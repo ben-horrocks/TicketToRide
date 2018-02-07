@@ -1,12 +1,14 @@
 package common;
 
+import common.DataModels.Signal;
+
 /**
  * Created by Kavika F.
  */
 
 public interface IServer
 {
-	public AbstractSignal login(String username, String password);
-	public AbstractSignal register(String username, String password, String displayName);
-	public AbstractSignal startGame();
+	public Signal login(String username, String password);
+	public Signal register(String username, String password, String displayName);
+	public Signal startGame();
 }
