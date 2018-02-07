@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class Username
 {
-  private static Set<String> usedname = new HashSet<>();
   private String name;
   public Username(String name)
   {
@@ -18,12 +17,6 @@ public class Username
 
   public static boolean isValidUserName(String name)
   {
-    if(usedname.contains(name))
-    {
-      return false;
-    } else
-    {
-      return true;
-    }
+    return true;
   }
 }

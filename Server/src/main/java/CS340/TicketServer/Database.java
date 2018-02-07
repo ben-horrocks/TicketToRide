@@ -1,7 +1,5 @@
 package CS340.TicketServer;
 
-import com.sun.tools.javac.util.Pair;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -11,11 +9,7 @@ import common.DataModels.GameID;
 import common.DataModels.Player;
 import common.DataModels.Username;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
-public class ServerMain {
+public class Database {
 
     /**
      * Fields for the server database

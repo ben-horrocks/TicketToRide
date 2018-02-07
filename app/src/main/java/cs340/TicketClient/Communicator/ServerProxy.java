@@ -1,11 +1,10 @@
 package cs340.TicketClient.Communicator;
 
-import android.content.Context;
+import common.DataModels.Signal;
 import cs340.TicketClient.common.Command;
 import cs340.TicketClient.common.IServer;
 import cs340.TicketClient.common.Signal;
 
-import cs340.TicketClient.ASyncTask.AddGameTask;
 import cs340.TicketClient.ASyncTask.JoinGameTask;
 import cs340.TicketClient.common.*;
 import cs340.TicketClient.common.DataModels.Game;

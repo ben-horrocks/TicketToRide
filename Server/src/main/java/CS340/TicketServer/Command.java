@@ -1,103 +1,72 @@
-package common;
-
-/**
- * Created by Kavika F.
- * Credit to Professor Woodfiel at BYU
- */
-
-import com.google.gson.Gson;
+package CS340.TicketServer;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import CS340.TicketServer.ServerFacade;
+import common.CommandParams;
+import common.IServer;
 
-
+/**
+ * A Command class that extends the CommandParams class and is Serializable. This class
+ * is meant to send Commands between Clients and Servers. The CommandParams class has one
+ * public function that Command has to implement (execute()). The implementation will vary
+ * depending on the context of the Command (what is the destination of the Command?).
+ */
 public class Command implements Serializable
 {
-	private static Gson gson = new Gson();
 	private static final long serialVersionUID = 5950169519310163575L;
 
 	private String methodName;
 	private String[] parameterTypeNames;
-	private Object[] parameters = null; //Only used on the server side
-	private String[] parametersAsJsonStrings;
-	private Class<?>[] parameterTypes; //Only used on server side.
+	private Object[] parameters = null;
+	private Class<?>[] parameterTypes;
 
 	//I don't generate the parameter type names from the
 	//parameters because some of the parameters might be
 	//null.
+
+	/**
+	 * The constructor for the Command to be sent.
+	 * @param methodName The name of the method the sending party wishes to invoke.
+	 * @param parameterTypeNames The types of the parameters.
+	 * @param parameters The parameters to be used in the method.
+	 */
 	public Command(String methodName, String[] parameterTypeNames, Object[] parameters)
 	{
 		this.methodName = methodName;
 		this.parameterTypeNames = parameterTypeNames;
-		this.parametersAsJsonStrings = new String[parameters.length];
-		for (int i = 0; i < parameters.length; i++)
-		{
-			parametersAsJsonStrings[i] = gson.toJson(parameters[i]);
-		}
 		this.parameters = parameters;
 		createParameterTypes();
 	}
 
-	/*
-	public Command(InputStreamReader inputStreamReader)
+	public Command(CommandParams commandParams)
 	{
-		Command tempCommand = (Command) gson.fromJson(inputStreamReader, Command.class);
-
-		methodName = tempCommand.getMethodName();
-		parameterTypeNames = tempCommand.getParameterTypeNames();
-
-		parametersAsJsonStrings = tempCommand.getParametersAsJsonStrings();
+		this.methodName = commandParams.getMethodName();
+		this.parameterTypeNames = commandParams.getParameterTypeNames();
+		this.parameters = commandParams.getParameters();
 		createParameterTypes();
-		parameters = new Object[parametersAsJsonStrings.length];
-		for (int i = 0; i < parametersAsJsonStrings.length; i++)
-		{
-			parameters[i] = gson.fromJson(parametersAsJsonStrings[i], parameterTypes[i]);
-		}
-
 	}
+
+	/*
+	public String getMethodName() { return methodName; }
+
+	public String[] getParameterTypeNames() { return parameterTypeNames; }
+
+	public Object[] getParameters() { return parameters; }
 	*/
-
-	public String getMethodName()
-	{
-		return methodName;
-	}
-
-	public String[] getParameterTypeNames()
-	{
-		return parameterTypeNames;
-	}
-
-	public Object[] getParameters()
-	{
-		return parameters;
-	}
-
-
-	public String[] getParametersAsJsonStrings()
-	{
-		return parametersAsJsonStrings;
-	}
 
 	public String toString()
 	{
-		StringBuffer result = new StringBuffer();
-		result.append("methodName = " + methodName + "\n");
+		StringBuilder result = new StringBuilder();
+		result.append("methodName = ");
+		result.append(methodName);
+		result.append("\n");
 
 		result.append("    parameterTypeNames = ");
 		for (String parameterTypeName : parameterTypeNames)
 		{
-			result.append(parameterTypeName + ", ");
-		}
-		result.delete(result.length() - 2, result.length());
-		result.append("\n");
-
-		result.append("    parametersAsJsonStrings = ");
-		for (String parameterString : parametersAsJsonStrings)
-		{
-			result.append("'" + parameterString + "'");
+			result.append(parameterTypeName);
 			result.append(", ");
 		}
 		result.delete(result.length() - 2, result.length());
@@ -112,7 +81,9 @@ public class Command implements Serializable
 			for (Object parameter : parameters)
 			{
 				result.append(parameter);
-				result.append("(" + parameter.getClass().getName() + ")");
+				result.append("(");
+				result.append(parameter.getClass().getName());
+				result.append( ")");
 				result.append(", ");
 			}
 			result.delete(result.length() - 2, result.length());
@@ -121,14 +92,16 @@ public class Command implements Serializable
 		return result.toString();
 	}
 
+	@SuppressWarnings("TryWithIdenticalCatches") // For the InvocationTargetException on API < 19
 	public Object execute()
 	{
 		Object result = null;
-
 		try
 		{
-			Method method = ServerFacade.class.getMethod(methodName, parameterTypes);
-			result = method.invoke(ServerFacade.getInstance(), parameters);
+			Method method;
+			method = IServer.class.getMethod(methodName, parameterTypes);
+			result = method.invoke(IServer.class, parameters);
+
 		} catch (NoSuchMethodException | SecurityException e)
 		{
 			System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");
@@ -150,7 +123,7 @@ public class Command implements Serializable
 		return result;
 	}
 
-	private final void createParameterTypes()
+	private void createParameterTypes()
 	{
 		parameterTypes = new Class<?>[parameterTypeNames.length];
 		for (int i = 0; i < parameterTypeNames.length; i++)
@@ -167,10 +140,10 @@ public class Command implements Serializable
 		}
 	}
 
-	private static final Class<?> getClassFor(String className)
+	private static Class<?> getClassFor(String className)
 			throws ClassNotFoundException
 	{
-		Class<?> result = null;
+		Class<?> result;
 		switch (className)
 		{
 			case "boolean":
