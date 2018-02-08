@@ -1,5 +1,9 @@
 package cs340.TicketClient.Communicator;
 
+import android.util.Log;
+
+import java.io.IOException;
+
 import common.CommandParams;
 import common.DataModels.Signal;
 import common.DataModels.Game;
@@ -31,11 +35,18 @@ public class ServerProxy implements IServer
     @Override
     public Signal login(String username, String password) {
 
-        String[] parameterTypes = {"String", "String"};
-        Object[] parameters = {username, password};
-        CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
-        Signal returnSignal = (Signal)ClientCommunicator.getInstance().send(loginCommand);
-        return returnSignal;
+        try {
+            String[] parameterTypes = {"String", "String"};
+            Object[] parameters = {username, password};
+            CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
+            Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(loginCommand);
+            return returnSignal;
+        }
+        catch(IOException e)
+        {
+            Log.d("IO Execption",e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -47,11 +58,18 @@ public class ServerProxy implements IServer
      */
     @Override
     public Signal register(String username, String password, String screenName) {
-        String[] parameterTypes = {"String", "String", "String"};
-        Object[] parameters = {username, password, screenName};
-        CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
-        Signal returnSignal =  (Signal)ClientCommunicator.getInstance().send(registerCommand);
-        return returnSignal;
+        try {
+            String[] parameterTypes = {"String", "String", "String"};
+            Object[] parameters = {username, password, screenName};
+            CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
+            Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(registerCommand);
+            return returnSignal;
+        }
+        catch(IOException e)
+        {
+            Log.d("IO Exception", e.getMessage());
+            return null;
+        }
     }
 
     @Override
