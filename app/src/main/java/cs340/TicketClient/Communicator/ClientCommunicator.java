@@ -11,21 +11,14 @@ import java.net.Socket;
 
 public class ClientCommunicator
 {
+	public static final ClientCommunicator SINGLETON = new ClientCommunicator();
 
-	private static ClientCommunicator comm;
-
-	public static ClientCommunicator getInstance() {
-		if(comm==null) {
-			comm = new ClientCommunicator();
-		}
-		return comm;
-	}
 	/**
 	 * Initialize a ClientCommunicator object. Create a socket to communicate with the server.
 	 * This socket will stay open throughout the program; therefore, the ClientCommunicator object
 	 * must stay relevant throughout a client's entire game.
 	 */
-	public ClientCommunicator()
+	private ClientCommunicator()
 	{
 		try
 		{
