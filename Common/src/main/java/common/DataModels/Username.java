@@ -15,7 +15,6 @@ public class Username
     this.name = name;
   }
 
-  public String getName() {return name;}
   public static boolean isValidUserName(String name)
   {
     return true;

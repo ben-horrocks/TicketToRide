@@ -37,7 +37,7 @@ public class Game
 
   public void setId(GameID id) { this.id = id; }
 
-  public String getName(){ return name;
+  public String getName(){ return name;}
 
   public String getCreatorName() {return creator.getName().getName();}
 

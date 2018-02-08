@@ -1,14 +1,10 @@
 package cs340.TicketClient.Communicator;
 
 import common.DataModels.Signal;
-import cs340.TicketClient.common.Command;
-import cs340.TicketClient.common.IServer;
-import cs340.TicketClient.common.Signal;
 
 import cs340.TicketClient.ASyncTask.JoinGameTask;
-import cs340.TicketClient.common.*;
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.DataModels.GameID;
+import common.*;
+import common.DataModels.*;
 
 /**
  * Created by Ben_D on 1/29/2018.
@@ -36,7 +32,7 @@ public class ServerProxy implements IServer
 
         String[] parameterTypes = {"String", "String"};
         Object[] parameters = {username, password};
-        Command loginCommand = new Command("login", parameterTypes, parameters);
+        CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
         //send to server
         Signal response = null;
         return response;
@@ -53,25 +49,37 @@ public class ServerProxy implements IServer
     public Signal register(String username, String password, String screenName) {
         String[] parameterTypes = {"String", "String", "String"};
         Object[] parameters = {username, password, screenName};
-        Command registerCommand = new Command("register", parameterTypes, parameters);
+        CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
         //send to server
         Signal response = null;
         return response;
     }
 
     @Override
-    public void startGame() {
-
+    public Signal startGame() {
+        String[] parameterTypes = {};
+        Object[] parameters = {};
+        CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
+        try {
+            return (Signal) ClientCommunicator.getInstance().send(startGameCommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public void addGame(Game newgame)
+    public Signal addGame(Game newgame)
     {
         String[] paramTypes = {"Game"};
         Object[] params = {newgame};
-        Command newcommand = new Command("AddGame", paramTypes, params);
-        //Call the Client Communicator here
-
+        CommandParams newcommand = new CommandParams("AddGame", paramTypes, params);
+        try {
+            return (Signal) ClientCommunicator.getInstance().send(newcommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -79,11 +87,14 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {"GameID"};
         Object[] params = {id};
-        Command newcommand = new Command("JoinGame", paramTypes, params);
-        //execute the command over the client server here
+        CommandParams newcommand = new CommandParams("JoinGame", paramTypes, params);
+        try {
+            return (Signal) ClientCommunicator.getInstance().send(newcommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 
-        JoinGameTask task = new JoinGameTask();
-        task.execute(id);
     }
 }
     

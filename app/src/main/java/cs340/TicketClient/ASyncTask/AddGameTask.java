@@ -2,35 +2,36 @@ package cs340.TicketClient.ASyncTask;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
-import cs340.TicketClient.Communicator.ClientCommunicator;
+import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.common.Command;
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.Signal;
-
-/**
- * Created by Ben_D on 2/4/2018.
- */
+import cs340.TicketClient.Lobby.LobbyActivity;
+import cs340.TicketClient.Lobby.LobbyPresenter;
 
 public class AddGameTask extends AsyncTask<Game, Void, Signal>
 {
-  public AddGameTask()
+  private Context context;
+  public AddGameTask(Context context)
   {
-
+    this.context = context;
   }
+
   @Override
   protected Signal doInBackground(Game... games)
   {
-    ServerProxy.getInstance().addGame(games.clone()[0]);
-
-    //execute the command over the client server here
-    return null;
+    return ServerProxy.getInstance().addGame(games.clone()[0]);
   }
 
   @Override
   protected void onPostExecute(Signal signal)
   {
-    //Signal Handling here
+    if (signal.getSignalType() == SignalType.ERROR)
+    {
+      Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+    } else
+    {
+      //send a successful add game to the LobbyPresenter
+    }
   }
 }

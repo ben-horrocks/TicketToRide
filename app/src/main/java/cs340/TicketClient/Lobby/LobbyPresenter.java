@@ -31,8 +31,8 @@ public class LobbyPresenter
     }
 
     private void updateGameList(){
-        String filter = activity.getFilter();
-        activity.updateGameList(searchGames(filter));
+//        String filter = activity.getFilter();
+//        activity.updateGameList(searchGames(filter));
     }
 
     public List<GameInfo> getAllGames(){

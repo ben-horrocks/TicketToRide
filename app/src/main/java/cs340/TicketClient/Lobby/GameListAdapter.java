@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import common.DataModels.Game;
+import common.DataModels.GameInfo;
 import cs340.TicketClient.R;
 
 /**
@@ -16,7 +16,7 @@ import cs340.TicketClient.R;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHolder>
 {
-  private List<Game> games = new ArrayList<>();
+  private List<GameInfo> games = new ArrayList<>();
 
   public GameListAdapter()
   {
@@ -34,16 +34,35 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   @Override
   public void onBindViewHolder(viewHolder holder, int position)
   {
-    Game game = games.get(position);
-    holder.GameName = game
+    GameInfo game = games.get(position);
+    holder.GameName.setText(game.getName());
+    holder.HostPlayerName.setText(game.getCreatorName());
+    holder.PlayerCount.setText(game.getPlayerCount() + '/' + '5');
+
   }
 
   @Override
   public int getItemCount()
   {
-    return 0;
+    return games.size();
   }
 
+  @Override
+  public void onAttachedToRecyclerView(RecyclerView recyclerView)
+  {
+    super.onAttachedToRecyclerView(recyclerView);
+  }
+
+  public void addGames(List<GameInfo> newgames) {
+    games.addAll(newgames);
+    notifyDataSetChanged();
+  }
+
+  public void clear()
+  {
+    games.clear();
+    notifyDataSetChanged();
+  }
 
   public class viewHolder extends RecyclerView.ViewHolder
   {
