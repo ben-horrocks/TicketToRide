@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   /** Button for registering */
   Button register;
   /** presenter used for login and register processes*/
-  LoginPresenter presenter = new LoginPresenter();
+  LoginPresenter presenter = new LoginPresenter(this);
 
 
   /**
@@ -113,12 +113,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        String[] playerDetails = {username.getText().toString(),
-                password.getText().toString()};
-        login.setEnabled(false);
-        LoginTask task = new LoginTask();
-        task.execute(playerDetails);
-
+        presenter.login(username.getText().toString(), password.getText().toString());
       }
     });
 
@@ -126,12 +121,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
       @Override
       public void onClick(View view) {
 
-        String[] playerDetails = {username.getText().toString(),
-                password.getText().toString(),
-                screenname.getText().toString()};
-        register.setEnabled(false);
-        RegisterTask task = new RegisterTask();
-        task.execute(playerDetails);
+       presenter.register(username.getText().toString(), password.getText().toString(), screenname.getText().toString());
 
       }
     });
@@ -187,74 +177,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     Intent intent = new Intent(this, LobbyActivity.class);
     intent.putExtra("player", player);
     startActivity(intent);
-  }
-
-  /**
-   * Creates a fail toast for an action s.
-   * @param s the action that failed
-   */
-  void failToast(String s)
-  {
-    Toast.makeText(this, s+" Failed", Toast.LENGTH_SHORT).show();
-  }
-
-  /**
-   * Creates a success toast for an action s
-   * @param s the action that succeeded
-   */
-  void successToast(String s)
-  {
-    Toast.makeText(this, s+" Succeeded", Toast.LENGTH_SHORT).show();
-  }
-
-
-  public class LoginTask extends AsyncTask<String, Integer, Player>
-  {
-    @Override
-    protected Player doInBackground(String[] arrayLists) {
-
-      String username = arrayLists[0];
-      String password = arrayLists[1];
-      return presenter.login(username, password);
-    }
-
-    @Override
-    protected void onPostExecute(Player player) {
-      super.onPostExecute(player);
-      if(player != null) {
-        setLogin();
-        setRegister();
-        gotoLobby(player);
-        //successToast("Login");
-      }
-      else
-        failToast("Login");
-    }
-  }
-
-  public class RegisterTask extends AsyncTask<String, Integer, Player>
-  {
-    @Override
-    protected Player doInBackground(String[] arrayLists) {
-
-      String username = arrayLists[0];
-      String password = arrayLists[1];
-      String screenname =  arrayLists[2];
-      return presenter.register(username, password, screenname);
-    }
-
-    @Override
-    protected void onPostExecute(Player player) {
-      super.onPostExecute(player);
-      if (player != null) {
-        setLogin();
-        setRegister();
-        gotoLobby(player);
-        //successToast("Register");
-      }
-      else
-        failToast("Register");
-    }
   }
 
 

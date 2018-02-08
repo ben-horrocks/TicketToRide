@@ -34,9 +34,8 @@ public class ServerProxy implements IServer
         String[] parameterTypes = {"String", "String"};
         Object[] parameters = {username, password};
         CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
-        //send to server
-        Signal response = null;
-        return response;
+        Signal returnSignal = (Signal)ClientCommunicator.getInstance().send(loginCommand);
+        return returnSignal;
     }
 
     /**
@@ -51,9 +50,8 @@ public class ServerProxy implements IServer
         String[] parameterTypes = {"String", "String", "String"};
         Object[] parameters = {username, password, screenName};
         CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
-        //send to server
-        Signal response = null;
-        return response;
+        Signal returnSignal =  (Signal)ClientCommunicator.getInstance().send(registerCommand);
+        return returnSignal;
     }
 
     @Override
