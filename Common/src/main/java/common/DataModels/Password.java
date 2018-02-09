@@ -1,5 +1,8 @@
 package common.DataModels;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Ben_D on 1/29/2018.
  */
@@ -25,6 +28,8 @@ public class Password
 
   public static boolean isValidPass(String pass)
   {
-    return true;
+    Pattern pattern = Pattern.compile("\\s");
+    Matcher matcher = pattern.matcher(pass);
+    return matcher.find();
   }
 }
