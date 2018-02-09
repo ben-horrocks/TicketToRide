@@ -1,5 +1,6 @@
 package common.DataModels;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +8,7 @@ import java.util.regex.Pattern;
  * Created by Ben_D on 1/29/2018.
  */
 
-public class ScreenName
+public class ScreenName implements Serializable
 {
   private String name;
 

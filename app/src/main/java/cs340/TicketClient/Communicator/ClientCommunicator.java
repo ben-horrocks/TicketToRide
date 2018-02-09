@@ -11,7 +11,16 @@ import java.net.Socket;
 
 public class ClientCommunicator
 {
-	public static final ClientCommunicator SINGLETON = new ClientCommunicator();
+	private static final ClientCommunicator SINGLETON = new ClientCommunicator();
+	public static ClientCommunicator getSingleton()
+	{
+		return SINGLETON;
+	}
+
+	private Socket socket;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
+	private static final String SERVER_HOST = "192.168.1.126";
 
 	/**
 	 * Initialize a ClientCommunicator object. Create a socket to communicate with the server.
@@ -32,11 +41,6 @@ public class ClientCommunicator
 			e.printStackTrace();
 		}
 	}
-
-	private Socket socket = null;
-	private ObjectInputStream inputStream = null;
-	private ObjectOutputStream outputStream = null;
-	private static final String SERVER_HOST = "localhost";
 
 	/**
 	 * Sends an object from the client to the server.
