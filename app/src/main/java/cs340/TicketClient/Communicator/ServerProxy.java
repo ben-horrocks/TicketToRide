@@ -82,10 +82,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal addGame(Game newgame)
+    public Signal addGame(String gameName, Player player)
     {
-        String[] paramTypes = {"Game"};
-        Object[] params = {newgame};
+        String[] paramTypes = {"String, Player"};
+        Object[] params = {gameName, player};
         CommandParams newcommand = new CommandParams("AddGame", paramTypes, params);
         try {
             return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
@@ -96,10 +96,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal JoinGame(GameID id)
+    public Signal joinGame(Player player, GameID id)
     {
-        String[] paramTypes = {"GameID"};
-        Object[] params = {id};
+        String[] paramTypes = {"Player","GameID"};
+        Object[] params = {player, id};
         CommandParams newcommand = new CommandParams("JoinGame", paramTypes, params);
         try {
             return (Signal) ClientCommunicator.SINGLETON.send(newcommand);

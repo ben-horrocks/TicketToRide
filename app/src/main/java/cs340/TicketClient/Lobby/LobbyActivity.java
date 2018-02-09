@@ -24,6 +24,12 @@ import cs340.TicketClient.ASyncTask.StartGameTask;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
+/**
+ * LobbyActivity
+ * Abstract: The View of our lobby
+ * @domain
+ *
+ */
 public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
 {
   private EditText mSearchGameText;

@@ -9,7 +9,7 @@ import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.Lobby.LobbyPresenter;
 
-public class AddGameTask extends AsyncTask<Game, Void, Signal>
+public class AddGameTask extends AsyncTask<Object, Void, Signal>
 {
   private Context context;
   public AddGameTask(Context context)
@@ -18,9 +18,11 @@ public class AddGameTask extends AsyncTask<Game, Void, Signal>
   }
 
   @Override
-  protected Signal doInBackground(Game... games)
+  protected Signal doInBackground(Object... objects)
   {
-    return ServerProxy.getInstance().addGame(games.clone()[0]);
+    String gamename = (String) objects[0];
+    Player player = (Player) objects[1];
+    return ServerProxy.getInstance().addGame(gamename, player);
   }
 
   @Override
