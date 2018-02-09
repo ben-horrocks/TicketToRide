@@ -1,18 +1,15 @@
 package cs340.TicketClient.Communicator;
 
+import android.util.Log;
+
+import java.io.IOException;
+
+import common.CommandParams;
 import common.DataModels.Signal;
-import cs340.TicketClient.common.Command;
-import cs340.TicketClient.common.IServer;
-import cs340.TicketClient.common.Signal;
 
 import cs340.TicketClient.ASyncTask.JoinGameTask;
-import cs340.TicketClient.common.*;
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.DataModels.GameID;
-
-/**
- * Created by Ben_D on 1/29/2018.
- */
+import common.*;
+import common.DataModels.*;
 
 public class ServerProxy implements IServer
 {
@@ -34,12 +31,18 @@ public class ServerProxy implements IServer
     @Override
     public Signal login(String username, String password) {
 
-        String[] parameterTypes = {"String", "String"};
-        Object[] parameters = {username, password};
-        Command loginCommand = new Command("login", parameterTypes, parameters);
-        //send to server
-        Signal response = null;
-        return response;
+        try {
+            String[] parameterTypes = {"String", "String"};
+            Object[] parameters = {username, password};
+            CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
+            Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(loginCommand);
+            return returnSignal;
+        }
+        catch(IOException e)
+        {
+            Log.d("IO Execption",e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -51,27 +54,45 @@ public class ServerProxy implements IServer
      */
     @Override
     public Signal register(String username, String password, String screenName) {
-        String[] parameterTypes = {"String", "String", "String"};
-        Object[] parameters = {username, password, screenName};
-        Command registerCommand = new Command("register", parameterTypes, parameters);
-        //send to server
-        Signal response = null;
-        return response;
+        try {
+            String[] parameterTypes = {"String", "String", "String"};
+            Object[] parameters = {username, password, screenName};
+            CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
+            Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(registerCommand);
+            return returnSignal;
+        }
+        catch(IOException e)
+        {
+            Log.d("IO Exception", e.getMessage());
+            return null;
+        }
     }
 
     @Override
-    public void startGame() {
-
+    public Signal startGame(GameID id) {
+        String[] parameterTypes = {"GameID"};
+        Object[] parameters = {id};
+        CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
+        try {
+            return (Signal) ClientCommunicator.SINGLETON.send(startGameCommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public void addGame(Game newgame)
+    public Signal addGame(Game newgame)
     {
         String[] paramTypes = {"Game"};
         Object[] params = {newgame};
-        Command newcommand = new Command("AddGame", paramTypes, params);
-        //Call the Client Communicator here
-
+        CommandParams newcommand = new CommandParams("AddGame", paramTypes, params);
+        try {
+            return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -79,11 +100,14 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {"GameID"};
         Object[] params = {id};
-        Command newcommand = new Command("JoinGame", paramTypes, params);
-        //execute the command over the client server here
+        CommandParams newcommand = new CommandParams("JoinGame", paramTypes, params);
+        try {
+            return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 
-        JoinGameTask task = new JoinGameTask();
-        task.execute(id);
     }
 }
     

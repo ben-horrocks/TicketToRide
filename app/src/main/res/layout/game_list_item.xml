@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gameButton"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/game_name"
-        android:layout_width="260dp"
-        android:layout_height="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Game Name"
         android:textAlignment="center"
         android:textSize="24sp"
         tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"/>
 
-    <TextView
-        android:id="@+id/host_player_name"
-        android:layout_width="202dp"
-        android:layout_height="36dp"
-        android:text="HostPlayerName"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="36dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/player_count"
-        android:layout_width="58dp"
-        android:layout_height="36dp"
-        android:text="0/5"
-        android:textAlignment="textEnd"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="264dp"
-        tools:layout_editor_absoluteY="36dp" />
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/host_player_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HostPlayerName"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            tools:layout_editor_absoluteX="62dp"
+            tools:layout_editor_absoluteY="36dp"/>
+
+        <TextView
+            android:id="@+id/player_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0/5"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="264dp"
+            tools:layout_editor_absoluteY="36dp"/>
+    </LinearLayout>
+</LinearLayout>

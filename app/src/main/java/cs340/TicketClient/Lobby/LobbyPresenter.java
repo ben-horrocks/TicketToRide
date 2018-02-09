@@ -31,8 +31,8 @@ public class LobbyPresenter
     }
 
     private void updateGameList(){
-        String filter = activity.getFilter();
-        activity.updateGameList(searchGames(filter));
+//        String filter = activity.getFilter();
+//        activity.updateGameList(searchGames(filter));
     }
 
     public List<GameInfo> getAllGames(){
@@ -41,6 +41,11 @@ public class LobbyPresenter
             list.add(g);
         }
         return list;
+    }
+
+    public GameID getJoinedGameID()
+    {
+        return model.getJoinedGame();
     }
 
     /**

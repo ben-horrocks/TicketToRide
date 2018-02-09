@@ -15,9 +15,16 @@ public class Username
     this.name = name;
   }
 
-  public String getName() {return name;}
   public static boolean isValidUserName(String name)
   {
     return true;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }
