@@ -37,7 +37,7 @@ public class LoginPresenter implements ILoginPresenter
             task.execute(playerDetails);
         }
         else
-            return; //TODO throw failedLoginExecption
+            Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT);
     }
 
     /**
@@ -57,7 +57,7 @@ public class LoginPresenter implements ILoginPresenter
             task.execute(playerDetails);
         }
         else
-            return; //TODO throw failedRegisterExecption
+            Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show();
     }
 
     public class RegisterTask extends AsyncTask<String, Integer, Signal>

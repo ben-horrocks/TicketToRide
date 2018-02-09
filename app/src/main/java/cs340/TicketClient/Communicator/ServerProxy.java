@@ -58,6 +58,7 @@ public class ServerProxy implements IServer
             String[] parameterTypes = {"String", "String", "String"};
             Object[] parameters = {username, password, screenName};
             CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
+            ClientCommunicator temp = ClientCommunicator.SINGLETON;
             Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(registerCommand);
             return returnSignal;
         }

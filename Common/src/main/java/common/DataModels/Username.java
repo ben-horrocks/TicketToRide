@@ -19,9 +19,10 @@ public class Username
 
   public static boolean isValidUserName(String name)
   {
-    Pattern pattern = Pattern.compile("\\s");
-    Matcher matcher = pattern.matcher(name);
-    return matcher.find();
+    if (name.contains(" ")) {
+      return false;
+    }
+    return true;
   }
 
   public String getName() {
