@@ -32,7 +32,7 @@ public class LobbyModel
      * @param  game  The game to be added
      */
     public void addGame(GameInfo game){
-        games.put(game.getId(), game);
+        games.put(game.getID(), game);
     }
 
     /**
@@ -93,6 +93,21 @@ public class LobbyModel
     public boolean isGameFull(GameID id) throws GameNotFoundException {
         GameInfo g = getGame(id);
         return g.isFull();
+    }
+
+    /**
+     * Sets the data in the model to the provided list of GameInfo.
+     * @pre none
+     * @post The model will add any new games in the list and remove any games that are not in the
+     * list.
+     * @param games The new list of GameInfo
+     */
+    public void setGames(List<GameInfo> games) {
+        HashMap<GameID, GameInfo> newGames  = new HashMap<GameID, GameInfo>();
+        for(GameInfo g: games){
+            newGames.put(g.getID(), g);
+        }
+        this.games = newGames;
     }
 
     /**

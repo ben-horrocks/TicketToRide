@@ -18,7 +18,10 @@ import android.widget.*;
 
 import java.util.List;
 
-import common.DataModels.GameInfo;
+import common.DataModels.*;
+import cs340.TicketClient.ASyncTask.AddGameTask;
+import cs340.TicketClient.ASyncTask.StartGameTask;
+import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
 /**
