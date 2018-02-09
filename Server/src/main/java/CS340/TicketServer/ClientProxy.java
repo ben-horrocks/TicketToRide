@@ -1,6 +1,7 @@
 package CS340.TicketServer;
 
 import java.util.Set;
+import java.util.zip.DataFormatException;
 
 import common.DataModels.Game;
 import common.DataModels.Signal;
@@ -40,7 +41,6 @@ public class ClientProxy implements IClient {
 
     @Override
     public Signal updateGameList(Set<Game> gameList) {
-        //return all the games from the server
-        return new Signal(SignalType.ERROR, null);
+        return new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
     }
 }
