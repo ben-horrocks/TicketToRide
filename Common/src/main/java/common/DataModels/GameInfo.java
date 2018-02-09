@@ -1,7 +1,7 @@
 package common.DataModels;
 
 /**
- * Created by Ryan on 2/7/2018.
+ * Created by Ryan on 2/6/2018.
  */
 
 public class GameInfo {
@@ -24,23 +24,23 @@ public class GameInfo {
         this.playerCount = playerCount;
     }
 
-    public GameID getId() {
-        return id;
+    public GameID getID(){
+        return this.id;
     }
 
-    public String getName() {
-        return name;
+    public String getName(){
+        return this.name;
     }
 
     public String getCreatorName() {
-        return creatorName;
+        return this.creatorName;
     }
 
-    public int getPlayerCount() {
-        return playerCount;
+    public int getPlayerCount(){
+        return this.playerCount;
     }
 
-    public boolean isFull(){
+    public boolean isFull() {
         return playerCount < 5;
     }
 }
