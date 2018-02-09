@@ -24,5 +24,5 @@ public interface ILobbyActivity {
      * @post The return value will be the text in the filter box
      * @return The text in the filter box
      */
-    public String getFilter();
+    public String getSearchQuery();
 }
