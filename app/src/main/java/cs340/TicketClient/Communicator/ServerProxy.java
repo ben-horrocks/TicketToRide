@@ -6,18 +6,10 @@ import java.io.IOException;
 
 import common.CommandParams;
 import common.DataModels.Signal;
-import cs340.TicketClient.common.Command;
-import cs340.TicketClient.common.IServer;
-import cs340.TicketClient.common.Signal;
 
 import cs340.TicketClient.ASyncTask.JoinGameTask;
-import cs340.TicketClient.common.*;
-import cs340.TicketClient.common.DataModels.Game;
-import cs340.TicketClient.common.DataModels.GameID;
-
-/**
- * Created by Ben_D on 1/29/2018.
- */
+import common.*;
+import common.DataModels.*;
 
 public class ServerProxy implements IServer
 {
@@ -82,7 +74,7 @@ public class ServerProxy implements IServer
         Object[] parameters = {};
         CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
         try {
-            return (Signal) ClientCommunicator.getInstance().send(startGameCommand);
+            return (Signal) ClientCommunicator.SINGLETON.send(startGameCommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +88,7 @@ public class ServerProxy implements IServer
         Object[] params = {newgame};
         CommandParams newcommand = new CommandParams("AddGame", paramTypes, params);
         try {
-            return (Signal) ClientCommunicator.getInstance().send(newcommand);
+            return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,7 +102,7 @@ public class ServerProxy implements IServer
         Object[] params = {id};
         CommandParams newcommand = new CommandParams("JoinGame", paramTypes, params);
         try {
-            return (Signal) ClientCommunicator.getInstance().send(newcommand);
+            return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
