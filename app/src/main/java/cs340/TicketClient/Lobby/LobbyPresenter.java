@@ -9,12 +9,14 @@ import java.util.Map;
 
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
+import common.DataModels.Signal;
+import cs340.TicketClient.Communicator.ServerProxy;
 
 /**
  * Created by Ben_D on 1/29/2018.
  */
 
-public class LobbyPresenter
+public class LobbyPresenter implements ILobbyPresenter
 {
     private static final String TAG = "LOBBY";
     private LobbyActivity activity;
@@ -31,18 +33,28 @@ public class LobbyPresenter
     }
 
     private void updateGameList(){
-//        String filter = activity.getFilter();
+//        String filter = activity.getSearchQuery();
 //        activity.updateGameList(searchGames(filter));
     }
 
+    /**
+     * Gets all the Game info in the LobbyModel, converting it into a List instead of a Map.
+     * @pre none
+     * @post returns a list representing all the GameInfo items in the model.
+     * @return The list of GameInfo
+     */
     public List<GameInfo> getAllGames(){
         ArrayList<GameInfo> list = new ArrayList<GameInfo>();
-        for (GameInfo g : model.getAllGames()) {
+        for (GameInfo g: model.getAllGames()){
             list.add(g);
         }
         return list;
     }
 
+    /**
+     * //TODO Documentation
+     * @return
+     */
     public GameID getJoinedGameID()
     {
         return model.getJoinedGame();
@@ -112,13 +124,41 @@ public class LobbyPresenter
         updateGameList();
     }
 
+    /**
+     * Adds a GameInfo Object to the model
+     * @pre none
+     * @post The model will include an entry for the new GameInfo object
+     * @param g The GameInfo object to be added to the model
+     */
     public void addGame(GameInfo g){
         model.addGame(g);
         updateGameList();
     }
 
+    /**
+     * Adds a List of GameInfo objects to the model
+     * @pre none
+     * @post The model will include entries for all the new GameInfo objects
+     * @param games The list of GameInfo objects to add to the model
+     */
     public void addGames(List<GameInfo> games){
         model.addGame(games);
         updateGameList();
+    }
+
+    /**
+     * Sends a request to the server to get the list of non-full games that haven't started yet.
+     * Then adds the returned list to the model and updates the LobbyActivity.
+     *
+     * @pre none
+     * @post The LobbyModel will contain entries for each game on the list. Any entries that are not
+     * returned by the server, but were previously contained in the model are removed so that the
+     * model only contains the updated list. Then the GUI is notified to update the displayed games.
+     */
+    public void fetchGames(){
+        List<GameInfo> games = new ArrayList<GameInfo>();
+//      Signal s = ServerProxy.getInstance().getAvailableGameInfo();
+//      games = (List<GameInfo>) s.getObject();
+        model.setGames(games);
     }
 }
