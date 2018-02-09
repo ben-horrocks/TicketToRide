@@ -22,20 +22,18 @@ public class Database {
      * Fields for the server database
      * these fields will most likely be turned into persistent tables via SQL in the future
      * all maps are name strings which map to specific objects.
-     * player list is a map from player name to player object
-     * auth list is a map from player name to auth token object
+     * player list is a map from Username object to player object
+     * auth list is a map from Username to auth token object
      * game list is a map from the game name to a game object
      */
-    private Map<String, Player> playerList;
-    private Map<String, AuthToken> authList;
-    private Map<String, Game> gameList;
+    private Map<Username, Player> playerList;
+    private Map<GameID, Game> gameList;
 
     /**
      * Private constructor for singleton class
      */
     private Database() {
         playerList = new HashMap<>();
-        authList = new HashMap<>();
         gameList = new HashMap<>();
     }
 
@@ -48,7 +46,7 @@ public class Database {
      * @post the player will definitely be in the database
      */
     public boolean addPlayer(Player player) {
-        playerList.put(player.getName().getName(), player);
+        playerList.put(player.getName(), player);
         return true;
     }
 
@@ -61,7 +59,7 @@ public class Database {
      * @post will return the player if found, null if the
      * player is not present in the database
      */
-    public Player getPlayer(String name) {
+    public Player getPlayer(Username name) {
         if (playerList.containsKey(name)) {
             return playerList.get(name);
         }
@@ -80,7 +78,7 @@ public class Database {
      */
     public boolean updatePlayer(Player player) {
         if (playerList.containsKey(player.getName())) {
-            playerList.put(player.getName().getName(), player);
+            playerList.put(player.getName(), player);
             return true;
         }
         return false;
@@ -95,24 +93,11 @@ public class Database {
      * @post the player will definitely not be in the database
      */
     public boolean deletePlayer(Player player) {
-        if (playerList.containsKey(player.getName().getName())) {
-            playerList.remove(player.getName().getName());
+        if (playerList.containsKey(player.getName())) {
+            playerList.remove(player.getName());
             return true;
         }
         return false;
-    }
-
-    /**
-     * Adds a new authtoken to the database mapped to a user's name
-     * @param name
-     * @param token
-     * @return
-     * @pre none
-     * @post can have a one to many relationship in this relation
-     */
-    public boolean addToken(String name,AuthToken token) {
-        this.authList.put(name, token);
-        return true;
     }
 
     /**
@@ -124,7 +109,7 @@ public class Database {
      * @post the game will definitely be in the database
      */
     public boolean addGame(Game game) {
-        gameList.put(game.getId().getId(), game);
+        gameList.put(game.getId(), game);
         return true;
     }
 
@@ -137,9 +122,18 @@ public class Database {
      * @post will return the game if found, null if the
      * game is not present in the database
      */
-    public Game getGame(String id) {
+    public Game getGameByID(GameID id) {
         if (gameList.containsKey(id)) {
             return gameList.get(id);
+        }
+        return null;
+    }
+
+    public Game getGameByName(String name) {
+        for (Map.Entry<GameID, Game> entry : gameList.entrySet()) {
+            if (entry.getValue().getName().equals(name)) {
+                return entry.getValue();
+            }
         }
         return null;
     }
@@ -152,7 +146,7 @@ public class Database {
      */
     public Set<Game> getAllGames() {
         Set<Game> gameSet = new HashSet<>();
-        for (String id : gameList.keySet()) {
+        for (GameID id : gameList.keySet()) {
             gameSet.add(gameList.get(id));
         }
         return gameSet;
@@ -170,7 +164,7 @@ public class Database {
      */
     public boolean updateGame(Game game) {
         if (gameList.containsKey(game.getId().getId())) {
-            gameList.put(game.getId().getId(), game);
+            gameList.put(game.getId(), game);
             return true;
         }
         return false;
@@ -185,8 +179,8 @@ public class Database {
      * @post the game will definitely not be in the database
      */
     public boolean deleteGame(Game game) {
-        if (gameList.containsKey(game.getId().getId())) {
-            gameList.remove(game.getId().getId());
+        if (gameList.containsKey(game.getId())) {
+            gameList.remove(game.getId());
             return true;
         }
         return false;

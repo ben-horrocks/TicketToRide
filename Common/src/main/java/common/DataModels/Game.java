@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class Game
 {
+  private static final Integer PLAYERLIMIT = 5;
   private String name;
   private Player creator;
   private Set<Player> currentPlayers = new HashSet<>();
@@ -46,5 +47,14 @@ public class Game
   public boolean isGameStarted() { return gameStarted; }
 
   public void setGameStarted(boolean gameStarted) { this.gameStarted = gameStarted; }
+
+  public void addPlayer(Player player) { currentPlayers.add(player); }
+
+  public boolean isGameFull() {
+    if (currentPlayers.size() > PLAYERLIMIT) {
+      return false;
+    }
+    return true;
+  }
 
 }
