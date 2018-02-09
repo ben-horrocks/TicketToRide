@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.DataModels.GameInfo;
 import cs340.TicketClient.R;
 import cs340.TicketClient.common.DataModels.Game;
 
@@ -40,7 +41,7 @@ public class LobbyActivity extends AppCompatActivity {
         filter = this.findViewById(R.id.filter);
         list = this.findViewById(R.id.game_list);
 
-        List<Game> g = presenter.getAllGames();
+        List<GameInfo> g = presenter.getAllGames();
         adapter = new GameListAdapter(this, R.layout.game_list_item, g);
         list.setAdapter(adapter);
 
@@ -55,13 +56,13 @@ public class LobbyActivity extends AppCompatActivity {
         filter.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                List<Game> filteredList = presenter.getFilteredGames(filter.getText().toString());
+                List<GameInfo> filteredList = presenter.getFilteredGames(filter.getText().toString());
                 updateGameList(filteredList);
             }
         });
     }
 
-    public void updateGameList(List<Game> games){
+    public void updateGameList(List<GameInfo> games){
         adapter.openGames = games;
         adapter.notifyDataSetChanged();
     }
@@ -73,10 +74,10 @@ public class LobbyActivity extends AppCompatActivity {
     /**
      * The List adapter that handles formatting the Game objects in the ListView for display
      */
-    private class GameListAdapter extends ArrayAdapter<Game> {
+    private class GameListAdapter extends ArrayAdapter<GameInfo> {
         private int layout;
-        private List<Game> openGames;
-        private GameListAdapter(Context context, int resource, List<Game> games) {
+        private List<GameInfo> openGames;
+        private GameListAdapter(Context context, int resource, List<GameInfo> games) {
             super(context, resource, games);
             openGames = games;
             layout = resource;
@@ -95,12 +96,11 @@ public class LobbyActivity extends AppCompatActivity {
                 convertView.setTag(item);
             }
 
-            Game g = getItem(position);
+            GameInfo g = getItem(position);
             mainItem = (GameListItem) convertView.getTag();
             mainItem.gameName.setText(g.getName());
             mainItem.hostPlayer.setText(g.getCreatorName());
-            mainItem.playerCount.setText(
-                    Integer.toString(g.getPlayers().size()) + "\\5");
+            mainItem.playerCount.setText(Integer.toString(g.getPlayerCount()) + "/5");
             return convertView;
         }
     }

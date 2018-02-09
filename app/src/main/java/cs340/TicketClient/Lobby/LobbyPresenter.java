@@ -36,11 +36,7 @@ public class LobbyPresenter
     }
 
     public List<GameInfo> getAllGames(){
-        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
-        for (GameInfo g : model.getAllGames()) {
-            list.add(g);
-        }
-        return list;
+        return model.getAllGames();
     }
 
     /**
