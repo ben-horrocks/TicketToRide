@@ -3,10 +3,12 @@ package cs340.TicketClient.Lobby;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import common.DataModels.GameInfo;
 import common.DataModels.GameID;
+import common.DataModels.GameInfo;
 
 /**
  * Created by Ben_D on 1/29/2018.
@@ -20,21 +22,30 @@ public class LobbyPresenter
 
     public LobbyPresenter(LobbyActivity activity){
         this.activity = activity;
-        model = new LobbyModel(new ArrayList<GameInfo>());
+        model = new LobbyModel(new HashMap<GameID, GameInfo>());
     }
 
-    public LobbyPresenter(LobbyActivity activity, List<GameInfo> games){
+    public LobbyPresenter(LobbyActivity activity, Map<GameID, GameInfo> games){
         this.activity = activity;
         model = new LobbyModel(games);
     }
 
     private void updateGameList(){
-        String filter = activity.getFilter();
-        activity.updateGameList(getFilteredGames(filter));
+//        String filter = activity.getFilter();
+//        activity.updateGameList(searchGames(filter));
     }
 
     public List<GameInfo> getAllGames(){
-        return model.getAllGames();
+        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
+        for (GameInfo g : model.getAllGames()) {
+            list.add(g);
+        }
+        return list;
+    }
+
+    public GameID getJoinedGameID()
+    {
+        return model.getJoinedGame();
     }
 
     /**
@@ -48,18 +59,19 @@ public class LobbyPresenter
      * @param  filter  The phrase to search for
      * @return The list of games containing the filter phrase
      */
-    public List<GameInfo> getFilteredGames(String filter){
-        if(filter == null || filter == "")
-            return model.getAllGames();
-
-        List<GameInfo> filteredList = new ArrayList<GameInfo>();
-        for (GameInfo g: model.getAllGames()) {
-            String name = g.getName().toLowerCase();
-            if (name.contains(filter.toLowerCase())) {
-                filteredList.add(g);
+    public List<GameInfo> searchGames(String filter){
+        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
+        if(filter == null || filter == "") {
+            return getAllGames();
+        } else {
+            for (GameInfo g : model.getAllGames()) {
+                String name = g.getName().toLowerCase();
+                if (name.contains(filter.toLowerCase())) {
+                    list.add(g);
+                }
             }
         }
-        return filteredList;
+        return list;
     }
 
     /**

@@ -1,9 +1,11 @@
 package CS340.TicketServer;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import common.DataModels.AuthToken;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.Player;
@@ -12,11 +14,28 @@ import common.DataModels.Username;
 public class Database {
 
     /**
+     * Singleton instance of the database
+     */
+    public static final Database SINGLETON = new Database();
+
+    /**
      * Fields for the server database
      * these fields will most likely be turned into persistent tables via SQL in the future
+     * all maps are name strings which map to specific objects.
+     * player list is a map from Username object to player object
+     * auth list is a map from Username to auth token object
+     * game list is a map from the game name to a game object
      */
-    Map<Username, Player> playerList;
-    Map<GameID, Game> gameList;
+    private Map<Username, Player> playerList;
+    private Map<GameID, Game> gameList;
+
+    /**
+     * Private constructor for singleton class
+     */
+    private Database() {
+        playerList = new HashMap<>();
+        gameList = new HashMap<>();
+    }
 
     /**
      * Add a new player to the database
@@ -81,7 +100,6 @@ public class Database {
         return false;
     }
 
-
     /**
      * Add a new game to the database
      * @param game
@@ -104,9 +122,18 @@ public class Database {
      * @post will return the game if found, null if the
      * game is not present in the database
      */
-    public Game getGame(GameID id) {
+    public Game getGameByID(GameID id) {
         if (gameList.containsKey(id)) {
             return gameList.get(id);
+        }
+        return null;
+    }
+
+    public Game getGameByName(String name) {
+        for (Map.Entry<GameID, Game> entry : gameList.entrySet()) {
+            if (entry.getValue().getName().equals(name)) {
+                return entry.getValue();
+            }
         }
         return null;
     }
@@ -136,7 +163,7 @@ public class Database {
      * otherwise returns false if game not found
      */
     public boolean updateGame(Game game) {
-        if (gameList.containsKey(game.getId())) {
+        if (gameList.containsKey(game.getId().getId())) {
             gameList.put(game.getId(), game);
             return true;
         }

@@ -5,4 +5,10 @@
     <string name="username">Username</string>
     <string name="screen_name">Screen Name</string>
     <string name="password">Password</string>
+    <string name="new_game">New Game</string>
+    <string name="remove_search_text">Remove Search Text</string>
+    <string name="game_activity">Game Activity</string>
+    <string name="new_game_confirm">New Game</string>
+    <string name="new_game_cancel">Cancel</string>
+    <string name="start_game">Start Game</string>
 </resources>

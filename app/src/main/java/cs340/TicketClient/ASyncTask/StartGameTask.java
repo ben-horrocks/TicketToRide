@@ -1,26 +1,27 @@
 package cs340.TicketClient.ASyncTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
+import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.Lobby.LobbyActivity;
-import cs340.TicketClient.Lobby.LobbyPresenter;
 
-public class AddGameTask extends AsyncTask<Game, Void, Signal>
+public class StartGameTask extends AsyncTask<GameID, Void, Signal>
 {
   private Context context;
-  public AddGameTask(Context context)
+  public StartGameTask(Context context)
   {
     this.context = context;
   }
 
   @Override
-  protected Signal doInBackground(Game... games)
+  protected Signal doInBackground(GameID... games)
   {
-    return ServerProxy.getInstance().addGame(games.clone()[0]);
+    return ServerProxy.getInstance().startGame(games[0]);
   }
 
   @Override
@@ -31,7 +32,7 @@ public class AddGameTask extends AsyncTask<Game, Void, Signal>
       Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
     } else
     {
-      //send a successful add game to the LobbyPresenter, change add new game to start game
+      //Send to presenter to start game activity
     }
   }
 }

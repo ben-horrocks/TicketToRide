@@ -10,7 +10,14 @@ public class GameInfo {
     private String creatorName;
     private int playerCount;
 
-    public GameInfo(GameID id, String name, String creatorName, int playerCount){
+    public GameInfo(Game g){
+        this.id = g.getId();
+        this.name = g.getName();
+        this.creatorName = g.getCreatorName();
+        this.playerCount = g.getPlayers().size();
+    }
+
+    public GameInfo(GameID id, String name, String creatorName, int playerCount) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;

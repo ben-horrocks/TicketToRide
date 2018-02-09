@@ -14,13 +14,13 @@ import common.DataModels.GameID;
 
 public class LobbyModel
 {
-    private List<GameInfo> games;
-
+    private Map<GameID, GameInfo> games;
+    private GameID joinedGame;
     public LobbyModel(){
-        games = new ArrayList<GameInfo>();
+        games = new HashMap<GameID, GameInfo>();
     }
 
-    public LobbyModel(List<GameInfo> games) {
+    public LobbyModel(Map<GameID, GameInfo> games) {
         this.games = games;
     }
 
@@ -32,18 +32,20 @@ public class LobbyModel
      * @param  game  The game to be added
      */
     public void addGame(GameInfo game){
-        games.add(game);
+        games.put(game.getId(), game);
     }
 
     /**
-     * Adds a collection of games to the game list
+     * Adds a list of games to the game list
      * @pre none
      * @post All the games in the collection will be added to the game list
      *
      * @param  games  The games to be added
      */
-    public void addGame(Collection<GameInfo> games){
-        this.games.addAll(games);
+    public void addGame(List<GameInfo> games){
+        for(GameInfo g: games){
+            addGame(g);
+        }
     }
 
     /**
@@ -66,11 +68,8 @@ public class LobbyModel
      * @param  id  The id for the game that is being looked for
      */
     public GameInfo getGame(GameID id) throws GameNotFoundException{
-        for(GameInfo g: games){
-            if(g.getID() == id){
-                return g;
-            }
-        }
+        if(games.containsKey(id))
+            return games.get(id);
         throw new GameNotFoundException(id);
     }
 
@@ -80,8 +79,8 @@ public class LobbyModel
      *
      * @return The list of games
      */
-    public List<GameInfo> getAllGames(){
-        return this.games;
+    public Collection<GameInfo> getAllGames(){
+        return this.games.values();
     }
 
     /**
@@ -103,5 +102,15 @@ public class LobbyModel
         public GameNotFoundException(GameID id){
             super("No game found with ID: " + id.getId());
         }
+    }
+
+    public GameID getJoinedGame()
+    {
+        return joinedGame;
+    }
+
+    public void setJoinedGame(GameID joinedGame)
+    {
+        this.joinedGame = joinedGame;
     }
 }

@@ -1,6 +1,7 @@
 package cs340.TicketClient.Login;
 
-import cs340.TicketClient.common.DataModels.Player;
+
+import common.DataModels.Player;
 
 /**
  * Created by jhens on 2/5/2018.
@@ -8,6 +9,6 @@ import cs340.TicketClient.common.DataModels.Player;
 
 public interface ILoginPresenter {
 
-    Player login(String username, String password);
-    Player register(String username, String password, String screenname);
+    void login(String username, String password);
+    void register(String username, String password, String screenname);
 }
