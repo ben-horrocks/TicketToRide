@@ -43,6 +43,11 @@ public class LobbyPresenter
         return list;
     }
 
+    public GameID getJoinedGameID()
+    {
+        return model.getJoinedGame();
+    }
+
     /**
      * Searches through the model for games containing the filter in their game names and returns
      * them.

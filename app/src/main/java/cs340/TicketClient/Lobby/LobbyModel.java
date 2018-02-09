@@ -15,7 +15,7 @@ import common.DataModels.GameID;
 public class LobbyModel
 {
     private Map<GameID, GameInfo> games;
-
+    private GameID joinedGame;
     public LobbyModel(){
         games = new HashMap<GameID, GameInfo>();
     }
@@ -102,5 +102,15 @@ public class LobbyModel
         public GameNotFoundException(GameID id){
             super("No game found with ID: " + id.getId());
         }
+    }
+
+    public GameID getJoinedGame()
+    {
+        return joinedGame;
+    }
+
+    public void setJoinedGame(GameID joinedGame)
+    {
+        this.joinedGame = joinedGame;
     }
 }

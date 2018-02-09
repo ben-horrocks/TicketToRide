@@ -20,6 +20,7 @@ import java.util.List;
 
 import common.DataModels.*;
 import cs340.TicketClient.ASyncTask.AddGameTask;
+import cs340.TicketClient.ASyncTask.StartGameTask;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
@@ -95,4 +96,19 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
     intent.putExtra("player", player);
     startActivity(intent);
   }
+
+  public void gameAdded()
+  {
+    mNewGameButton.setText(R.string.start_game);
+    mNewGameButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view)
+      {
+        GameID id = presenter.getJoinedGameID();
+        StartGameTask task = new StartGameTask(getBaseContext());
+        task.execute(id);
+      }
+    });
+  }
+
 }

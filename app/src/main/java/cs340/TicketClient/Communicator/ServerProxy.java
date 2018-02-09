@@ -69,9 +69,9 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal startGame() {
-        String[] parameterTypes = {};
-        Object[] parameters = {};
+    public Signal startGame(GameID id) {
+        String[] parameterTypes = {"GameID"};
+        Object[] parameters = {id};
         CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
         try {
             return (Signal) ClientCommunicator.SINGLETON.send(startGameCommand);
