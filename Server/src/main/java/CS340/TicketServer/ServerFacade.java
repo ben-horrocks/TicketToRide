@@ -2,6 +2,7 @@ package CS340.TicketServer;
 
 import common.DataModels.AuthToken;
 import common.DataModels.Game;
+import common.DataModels.GameID;
 import common.DataModels.Password;
 import common.DataModels.Player;
 import common.DataModels.ScreenName;
@@ -46,31 +47,38 @@ public class ServerFacade implements IServer
 	}
 
 	/**
-	 *
+	 * API call for player that has previously registered. returns a player object for
+	 * the player logging in with an updated auth token.
+	 * Returns an error signal if the player has not previously registered
 	 * @param username
 	 * @param password
 	 * @return
 	 */
 	public Signal login(String username, String password) {
 		Database database = Database.SINGLETON;
+		Username uName = new Username(username);
+		Password pWord = new Password(password);
 
 		//Check that player is already registered
-		Player player = database.getPlayer(username);
+		Player player = database.getPlayer(uName);
 		if (player == null) {
-			String errorMsg = "error: you are not yet registered. Please register first.";
-			Signal signal = new Signal(SignalType.ERROR, errorMsg);
-			return signal;
+			String errorMsg = "Sorry, you are not registered yet";
+			return new Signal(SignalType.ERROR, errorMsg);
 		}
-		else {
-			AuthToken token = new AuthToken();
-			player.setToken(token);
-			Signal signal = new Signal(SignalType.OK, player);
-			return signal;
+		//Check that the provided password matches the profile password
+		if (!player.getPass().getPass().equals(password)) {
+			String errorMsg = "Sorry, that's not the correct username or password";
+			return new Signal(SignalType.ERROR, errorMsg);
 		}
+		AuthToken token = new AuthToken();
+		player.setToken(token);
+		return new Signal(SignalType.OK, player);
 	}
 
 	/**
-	 *
+	 * API call for a new player to register for the first time.
+	 * Returns a player object with a new Auth Token.
+	 * Returns an error message if the player's username has already registered
 	 * @param username
 	 * @param password
 	 * @param screenName
@@ -79,34 +87,33 @@ public class ServerFacade implements IServer
 	public Signal register(String username, String password, String screenName) {
 		Database database = Database.SINGLETON;
 
+		Username uName = new Username(username);
+		Password pWord = new Password(password);
+		ScreenName sName = new ScreenName(screenName);
+
 		//Check that player is already registered
-		Player player = database.getPlayer(username);
+		Player player = database.getPlayer(uName);
 		if (player == null) {
 
 			AuthToken token = new AuthToken();
-			Username uName = new Username(username);
-			Password pass = new Password(password);
-			ScreenName sName = new ScreenName(screenName);
-			player = new Player(uName, pass, sName);
+			player = new Player(uName, pWord, sName);
 			player.setToken(token);
 
-			Signal signal = new Signal(SignalType.OK, player);
-			return signal;
+			return new Signal(SignalType.OK, player);
 		}
-		else {
-
-			String errorMsg = "error: you are not yet registered. Please register first.";
-			Signal signal = new Signal(SignalType.ERROR, errorMsg);
-			return signal;
-		}
+		String errorMsg = "error: you are not yet registered. Please register first.";
+		return new Signal(SignalType.ERROR, errorMsg);
 	}
 
 	/**
-	 *
+	 * API call to create a new game and add it to the game list of the lobby.
+	 * If the name is already the name of a previously created game, it simply appends a number which
+	 * is not taken in the game list and appends it on the end.
+	 * Then it creates a game object to push back to all client listeners.
 	 * @param gameName
 	 * @return
 	 */
-	public Signal createGame (String gameName, Player startingPlayer) {
+	public Signal addGame (String gameName, Player startingPlayer) {
 		Database database = Database.SINGLETON;
 
 		Integer increment = 1;
@@ -114,7 +121,7 @@ public class ServerFacade implements IServer
 
 		//If a provided game name is already in the database, modify with a numeric symbol in parentheses
 		//which is appended to the end of the name
-		while (database.getGame(gameName) != null) {
+		while (database.getGameByName(gameName) != null) {
 			if (finalName.length() !=  gameName.length()) {
 				finalName.deleteCharAt(finalName.length() - 1);
 			}
@@ -122,22 +129,50 @@ public class ServerFacade implements IServer
 			increment++;
 		}
 
-		//Created name that is not in the database
-		Game game = new Game(startingPlayer);
-		//TODO: add the name of the game to the game itself
+		//Created name that is not in the database.
+		//create new game with new name and starting player
+		Game game = new Game(finalName.toString(), startingPlayer);
 		database.addGame(game);
-		Signal signal = new Signal(SignalType.OK, game);
-		return signal;
+		return new Signal(SignalType.OK, game);
 	}
 
 	/**
-	 *
+	 * API call for player to join an existing game.
+	 * return an updated game entry if the player has successfully joined the game.
+	 * returns an error signal if the game cannot be joined.
+	 * @return
 	 */
-	public Signal startGame() {
-		//TODO: need to be passed a game id or name to start
-		//Check to see if the game is already started. if yes, return error signal
-		//Change the value of game started to true of the specified game in the database
-		//Create a signal with the game and return it
-		return null;
+	public Signal joinGame(Player player, GameID id) {
+		Database database = Database.SINGLETON;
+		Game game = database.getGameByID(id);
+		if (!game.isGameFull()) {
+			game.addPlayer(player);
+			return new Signal(SignalType.OK, game);
+		}
+		String errMsg = "Sorry, the game you have chosen is already full.";
+		return new Signal(SignalType.ERROR, errMsg);
+	}
+
+	/**
+	 * API Call to start a previously registered game
+	 * returns a signal with the started game if successful.
+	 * returns an error signal if the game was already started or the game did not exist.
+	 * @param id
+	 * @return
+	 */
+	public Signal startGame(GameID id) {
+		Database database = Database.SINGLETON;
+		Game game = database.getGameByID(id);
+		if (game == null) {
+			String errMsg = "Sorry, this game does not exist";
+			Signal signal = new Signal(SignalType.ERROR, errMsg);
+			return signal;
+		}
+		if (!game.isGameStarted()) {
+			game.startGame();
+			return new Signal(SignalType.OK, game);
+		}
+		String errMsg = "Sorry, this game has already started.";
+		return new Signal(SignalType.ERROR, errMsg);
 	}
 }
