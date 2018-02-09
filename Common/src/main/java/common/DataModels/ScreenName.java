@@ -28,8 +28,9 @@ public class ScreenName
 
   public static boolean isValidScreenName(String name)
   {
-    Pattern pattern = Pattern.compile("\\s");
-    Matcher matcher = pattern.matcher(name);
-    return matcher.find();
+    if (name.contains(" ")) {
+      return false;
+    }
+    return true;
   }
 }

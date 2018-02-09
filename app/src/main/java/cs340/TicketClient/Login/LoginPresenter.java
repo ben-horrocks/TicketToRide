@@ -57,7 +57,7 @@ public class LoginPresenter implements ILoginPresenter
             task.execute(playerDetails);
         }
         else
-            Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT);
+            Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show();
     }
 
     public class RegisterTask extends AsyncTask<String, Integer, Signal>

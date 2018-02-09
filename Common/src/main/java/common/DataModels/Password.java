@@ -28,8 +28,9 @@ public class Password
 
   public static boolean isValidPass(String pass)
   {
-    Pattern pattern = Pattern.compile("\\s");
-    Matcher matcher = pattern.matcher(pass);
-    return matcher.find();
+    if (pass.contains(" ")) {
+      return false;
+    }
+    return true;
   }
 }
