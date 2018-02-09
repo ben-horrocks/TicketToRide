@@ -2,10 +2,6 @@ package common;
 
 import common.DataModels.*;
 
-/**
- * Created by Kavika F.
- */
-
 public interface IServer
 {
 	public Signal login(String username, String password);
