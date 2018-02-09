@@ -8,11 +8,7 @@ import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
 import common.CommandParams;
 
-/**
- * Created by Ben_D on 2/4/2018.
- */
-
-public class JoinGameTask extends AsyncTask<GameID, Void, Signal>
+public class JoinGameTask extends AsyncTask<Object, Void, Signal>
 {
   private Context context;
   public JoinGameTask(Context context)
@@ -21,10 +17,11 @@ public class JoinGameTask extends AsyncTask<GameID, Void, Signal>
   }
 
   @Override
-  protected Signal doInBackground(GameID... gameIDS)
+  protected Signal doInBackground(Object... objects)
   {
-
-    return ServerProxy.getInstance().JoinGame(gameIDS.clone()[0]);
+    Player player = (Player) objects[0];
+    GameID id = (GameID) objects[1];
+    return ServerProxy.getInstance().joinGame(player, id);
   }
 
   @Override
