@@ -1,13 +1,6 @@
 package CS340.TicketServer;
 
-import common.DataModels.AuthToken;
-import common.DataModels.Game;
-import common.DataModels.Password;
-import common.DataModels.Player;
-import common.DataModels.ScreenName;
-import common.DataModels.Signal;
-import common.DataModels.SignalType;
-import common.DataModels.Username;
+import common.DataModels.*;
 import common.IServer;
 
 /**
@@ -133,11 +126,23 @@ public class ServerFacade implements IServer
 	/**
 	 *
 	 */
-	public Signal startGame() {
+	public Signal startGame(GameID id) {
 		//TODO: need to be passed a game id or name to start
 		//Check to see if the game is already started. if yes, return error signal
 		//Change the value of game started to true of the specified game in the database
 		//Create a signal with the game and return it
+		return null;
+	}
+
+	@Override
+	public Signal addGame(Game newgame)
+	{
+		return null;
+	}
+
+	@Override
+	public Signal JoinGame(GameID id)
+	{
 		return null;
 	}
 }
