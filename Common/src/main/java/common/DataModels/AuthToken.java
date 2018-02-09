@@ -1,12 +1,13 @@
 package common.DataModels;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Created by Ben_D on 1/29/2018.
  */
 
-public class AuthToken
+public class AuthToken implements Serializable
 {
   private String token;
   private long generationTime;

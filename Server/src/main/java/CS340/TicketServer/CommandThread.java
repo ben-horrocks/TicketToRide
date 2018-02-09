@@ -49,7 +49,7 @@ public class CommandThread extends Thread
 					Command command = new Command(commandParams);
 					result = command.execute();
 				}
-				else // can be changed to switch statement in future for other object cases
+				else
 				{
 					return;
 				}

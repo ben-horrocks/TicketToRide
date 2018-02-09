@@ -1,6 +1,8 @@
 package common;
 
-public class CommandParams
+import java.io.Serializable;
+
+public class CommandParams implements Serializable
 {
 	private String methodName;
 	private String[] parameterTypeNames;

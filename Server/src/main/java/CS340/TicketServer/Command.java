@@ -99,8 +99,8 @@ public class Command implements Serializable
 		try
 		{
 			Method method;
-			method = IServer.class.getMethod(methodName, parameterTypes);
-			result = method.invoke(IServer.class, parameters);
+			method = ServerFacade.class.getMethod(methodName, parameterTypes);
+			result = method.invoke(ServerFacade.getSINGLETON(), parameters);
 
 		} catch (NoSuchMethodException | SecurityException e)
 		{
