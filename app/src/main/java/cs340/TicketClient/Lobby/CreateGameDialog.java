@@ -33,7 +33,7 @@ public class CreateGameDialog extends DialogFragment
               public void onClick(DialogInterface dialogInterface, int i)
               {
                 String gamename = mNewGameName.getText().toString();
-                Player player = (Player) savedInstanceState.getSerializable("player");
+                Player player = (Player) savedInstanceState.get("player");
                 AddGameTask task = new AddGameTask(getContext());
                 task.execute(gamename, player);
               }
