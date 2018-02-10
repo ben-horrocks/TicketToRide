@@ -21,13 +21,4 @@ public class ClientFacade implements IClient
     return null;
   }
 
-  @Override
-  public Signal addGame(GameInfo game) {
-    return null;
-  }
-
-  @Override
-  public Signal removeGame(GameID id) {
-    return null;
-  }
 }

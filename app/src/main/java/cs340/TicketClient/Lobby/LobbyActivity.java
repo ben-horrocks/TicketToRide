@@ -28,6 +28,8 @@ import cs340.TicketClient.R;
  * LobbyActivity
  * Abstract: The View of our lobby
  * @domain
+ * mSearchGameText ( Search bar to check lobby for specific games
+ * mClearSeatch
  *
  */
 public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
@@ -111,6 +113,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
       public void onClick(View view)
       {
         GameID id = presenter.getJoinedGameID();
+        //Check if canStartGame(Gameid id) here
         StartGameTask task = new StartGameTask(getBaseContext());
         task.execute(id);
       }
