@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   /** Field for player's screenname */
   EditText screenname;
   /** ip address for server*/
-  EditText ipAddress;
+  public EditText ipAddress;
   /** Button for logging in */
   Button login;
   /** Button for registering */
@@ -136,7 +136,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        ClientCommunicator.getSingleton().SERVER_HOST = ipAddress.getText().toString();
         presenter.login(username.getText().toString(), password.getText().toString());
       }
     });
@@ -144,7 +143,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     register.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        ClientCommunicator.getSingleton().SERVER_HOST = ipAddress.getText().toString();
         presenter.register(username.getText().toString(), password.getText().toString(), screenname.getText().toString());
 
       }
