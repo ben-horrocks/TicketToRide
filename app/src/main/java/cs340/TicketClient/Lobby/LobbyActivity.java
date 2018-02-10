@@ -44,8 +44,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
   @Override
   protected void onCreate(final Bundle savedInstanceState)
   {
-    LobbyPresenter.initSingleton(this);
-    player = (Player) this.getIntent().getSerializableExtra("player");
+    player = (Player) this.getIntent().getExtras().get("player");
     super.onCreate(savedInstanceState);
     this.setContentView(R.layout.activity_lobby);
 
