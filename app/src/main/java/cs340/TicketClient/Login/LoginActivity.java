@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   /** Field for player's screenname */
   EditText screenname;
   /** ip address for server*/
-  public EditText ipAddress;
+  EditText ip;
   /** Button for logging in */
   Button login;
   /** Button for registering */
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     username = this.findViewById(R.id.username);
     password = this.findViewById(R.id.password);
     screenname = this.findViewById(R.id.screen_name);
-    ipAddress = this.findViewById(R.id.ipAddress);
+    ip = this.findViewById(R.id.ipAddress);
     login = this.findViewById(R.id.login);
     register = this.findViewById(R.id.register);
     login.setEnabled(false);
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
       }
     });
 
-    ipAddress.addTextChangedListener(new TextWatcher() {
+    ip.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -136,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        ClientCommunicator.setSERVER_HOST(ip.getText().toString() );
         presenter.login(username.getText().toString(), password.getText().toString());
       }
     });
@@ -143,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     register.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        ClientCommunicator.setSERVER_HOST(ip.getText().toString());
         presenter.register(username.getText().toString(), password.getText().toString(), screenname.getText().toString());
 
       }
@@ -167,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   public boolean loginReady()
   {
     return username.getText().toString().length() > 0 && password.getText().toString().length() > 0
-            && ipAddress.getText().toString().length() > 0;
+            && ip.getText().toString().length() > 0;
   }
 
   /**
@@ -187,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   public boolean registerReady()
   {
     return username.getText().toString().length() > 0 && password.getText().toString().length() > 0
-            && screenname.getText().toString().length() > 0 && ipAddress.getText().toString().length() > 0;
+            && screenname.getText().toString().length() > 0 && ip.getText().toString().length() > 0;
   }
 
   /**
