@@ -23,7 +23,7 @@ public class CreateGameDialog extends DialogFragment
   @Override
   public Dialog onCreateDialog(final Bundle savedInstanceState)
   {
-    mNewGameName = (EditText) getView().findViewById(R.id.newGameButton);
+    mNewGameName = (EditText) getView().findViewById(R.id.newGameText);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater inflater = getActivity().getLayoutInflater();
     builder.setView(inflater.inflate(R.layout.new_game_fragment,null))
