@@ -175,4 +175,10 @@ public class ServerFacade implements IServer
 		String errMsg = "Sorry, this game has already started.";
 		return new Signal(SignalType.ERROR, errMsg);
 	}
+
+	@Override
+	public Signal getAvailableGameInfo() {
+		//TODO stub
+		return null;
+	}
 }
