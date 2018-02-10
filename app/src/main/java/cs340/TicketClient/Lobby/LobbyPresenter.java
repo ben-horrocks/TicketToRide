@@ -22,6 +22,17 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyActivity activity;
     private LobbyModel model;
 
+    private static LobbyPresenter singleton;
+
+    public static void initSingleton(LobbyActivity activity){
+        if(singleton == null)
+            singleton = new LobbyPresenter(activity);
+    }
+
+    public static LobbyPresenter getInstance() {
+        return singleton;
+    }
+
     public LobbyPresenter(LobbyActivity activity){
         this.activity = activity;
         model = new LobbyModel(new HashMap<GameID, GameInfo>());
@@ -157,8 +168,19 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public void fetchGames(){
         List<GameInfo> games = new ArrayList<GameInfo>();
-//      Signal s = ServerProxy.getInstance().getAvailableGameInfo();
-//      games = (List<GameInfo>) s.getObject();
+        Signal s = ServerProxy.getInstance().getAvailableGameInfo();
+        games = (List<GameInfo>) s.getObject();
         model.setGames(games);
+    }
+
+    @Override
+    public boolean canStartGame(GameID id){
+        try {
+            GameInfo info = model.getGame(id);
+            return info.getPlayerCount() > 1 && info.getPlayerCount() <= 5;
+        } catch (LobbyModel.GameNotFoundException e) {
+            Log.w(TAG, e.getMessage(), e);
+        }
+        return false;
     }
 }
