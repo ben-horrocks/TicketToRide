@@ -22,6 +22,8 @@ public class ServerProxy implements IServer
         return singleton;
     }
 
+    private static final String stringClassName = "java.lang.String";
+
     /**
      *
      * @param username username of player trying to login
@@ -32,10 +34,10 @@ public class ServerProxy implements IServer
     public Signal login(String username, String password) {
 
         try {
-            String[] parameterTypes = {"String", "String"};
+            String[] parameterTypes = {stringClassName, stringClassName};
             Object[] parameters = {username, password};
             CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
-            Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(loginCommand);
+            Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(loginCommand);
             return returnSignal;
         }
         catch(IOException e)
@@ -55,16 +57,16 @@ public class ServerProxy implements IServer
     @Override
     public Signal register(String username, String password, String screenName) {
         try {
-            String[] parameterTypes = {"String", "String", "String"};
+            String[] parameterTypes = {stringClassName, stringClassName, stringClassName};
             Object[] parameters = {username, password, screenName};
             CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
-            ClientCommunicator temp = ClientCommunicator.SINGLETON;
-            Signal returnSignal = (Signal) ClientCommunicator.SINGLETON.send(registerCommand);
+            Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(registerCommand);
             return returnSignal;
         }
         catch(IOException e)
         {
             Log.d("IO Exception", e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -75,7 +77,7 @@ public class ServerProxy implements IServer
         Object[] parameters = {id};
         CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
         try {
-            return (Signal) ClientCommunicator.SINGLETON.send(startGameCommand);
+            return (Signal) ClientCommunicator.getSingleton().send(startGameCommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +91,7 @@ public class ServerProxy implements IServer
         Object[] params = {gameName, player};
         CommandParams newcommand = new CommandParams("AddGame", paramTypes, params);
         try {
-            return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
+            return (Signal) ClientCommunicator.getSingleton().send(newcommand);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,7 +105,7 @@ public class ServerProxy implements IServer
         Object[] params = {player, id};
         CommandParams newcommand = new CommandParams("JoinGame", paramTypes, params);
         try {
-            return (Signal) ClientCommunicator.SINGLETON.send(newcommand);
+            return (Signal) ClientCommunicator.getSingleton().send(newcommand);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,14 +1,10 @@
 package cs340.TicketClient.Login;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import common.DataModels.Password;
 import common.DataModels.Player;
-import common.DataModels.ScreenName;
 import common.DataModels.Signal;
-import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 
@@ -21,6 +17,9 @@ public class LoginPresenter implements ILoginPresenter
     {
         this.activity = activity;
     }
+
+    private static final String stringClassName = "java.lang.String";
+    private static final String playerClassName = "common.DataModels.Player";
 
     /**
     * Method to login the player given a username and password
@@ -37,7 +36,9 @@ public class LoginPresenter implements ILoginPresenter
             task.execute(playerDetails);
         }
         else
-            Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT);
+		{
+			Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show();
+		}
     }
 
     /**
@@ -75,12 +76,13 @@ public class LoginPresenter implements ILoginPresenter
         protected void onPostExecute(Signal signal) {
             super.onPostExecute(signal);
             if (signal != null) {
-                switch (signal.getObject().getClass().toString())
+                String signalObjectName = signal.getObject().getClass().getName();
+                switch (signalObjectName)
                 {
-                    case "String":
+                    case stringClassName:
                         Toast.makeText(activity, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
                         break;
-                    case "Player":
+                    case playerClassName:
                         activity.gotoLobby((Player)signal.getObject());
                         break;
                     default:
@@ -107,13 +109,13 @@ public class LoginPresenter implements ILoginPresenter
         protected void onPostExecute(Signal signal) {
             super.onPostExecute(signal);
             if(signal != null) {
-
-                switch (signal.getObject().getClass().toString())
+            	String signalObjectName = signal.getObject().getClass().getName();
+                switch (signalObjectName)
                 {
-                    case "String":
+                    case stringClassName:
                         Toast.makeText(activity, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
                         break;
-                    case "Player":
+                    case playerClassName:
                         activity.gotoLobby((Player)signal.getObject());
                         break;
                     default:

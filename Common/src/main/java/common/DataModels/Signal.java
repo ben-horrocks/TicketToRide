@@ -1,6 +1,8 @@
 package common.DataModels;
 
-public class Signal
+import java.io.Serializable;
+
+public class Signal implements Serializable
 {
     private SignalType signalType;
     private Object object;
