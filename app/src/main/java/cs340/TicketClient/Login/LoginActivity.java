@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import common.DataModels.Player;
+import cs340.TicketClient.Communicator.ClientCommunicator;
 import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.R;
 
@@ -135,6 +136,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     login.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        ClientCommunicator.getSingleton().SERVER_HOST = ipAddress.getText().toString();
         presenter.login(username.getText().toString(), password.getText().toString());
       }
     });
@@ -142,8 +144,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     register.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-
-       presenter.register(username.getText().toString(), password.getText().toString(), screenname.getText().toString());
+        ClientCommunicator.getSingleton().SERVER_HOST = ipAddress.getText().toString();
+        presenter.register(username.getText().toString(), password.getText().toString(), screenname.getText().toString());
 
       }
     });

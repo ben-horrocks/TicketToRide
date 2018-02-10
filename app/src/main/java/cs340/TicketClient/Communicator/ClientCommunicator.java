@@ -20,7 +20,7 @@ public class ClientCommunicator
 	private Socket socket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
-	private static final String SERVER_HOST = "192.168.1.126";
+	public static String SERVER_HOST = "localhost";
 
 	/**
 	 * Initialize a ClientCommunicator object. Create a socket to communicate with the server.
