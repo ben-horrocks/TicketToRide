@@ -23,6 +23,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   EditText password;
   /** Field for player's screenname */
   EditText screenname;
+  /** ip address for server*/
+  EditText ipAddress;
   /** Button for logging in */
   Button login;
   /** Button for registering */
@@ -45,12 +47,32 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     username = this.findViewById(R.id.username);
     password = this.findViewById(R.id.password);
     screenname = this.findViewById(R.id.screen_name);
+    ipAddress = this.findViewById(R.id.ipAddress);
     login = this.findViewById(R.id.login);
     register = this.findViewById(R.id.register);
     login.setEnabled(false);
     register.setEnabled(false);
 
     username.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable editable) {
+
+        setLogin();
+        setRegister();
+      }
+    });
+
+    ipAddress.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -144,7 +166,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   @Override
   public boolean loginReady()
   {
-    return username.getText().toString().length() > 0 && password.getText().toString().length() > 0;
+    return username.getText().toString().length() > 0 && password.getText().toString().length() > 0
+            && ipAddress.getText().toString().length() > 0;
   }
 
   /**
@@ -164,7 +187,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   public boolean registerReady()
   {
     return username.getText().toString().length() > 0 && password.getText().toString().length() > 0
-            && screenname.getText().toString().length() > 0;
+            && screenname.getText().toString().length() > 0 && ipAddress.getText().toString().length() > 0;
   }
 
   /**
