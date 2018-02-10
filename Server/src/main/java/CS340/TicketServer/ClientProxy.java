@@ -43,14 +43,14 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList) {
-        return new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
+    public void updateGameList(List<GameInfo> gameList) {
+        Signal signal = new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
     }
 
     @Override
-    public Signal startGame(GameID id)
-    {
-        return null;
+    public void startGame(GameID id) {
+
+
     }
 
 }
