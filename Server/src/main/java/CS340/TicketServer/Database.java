@@ -1,13 +1,16 @@
 package CS340.TicketServer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import common.DataModels.AuthToken;
 import common.DataModels.Game;
 import common.DataModels.GameID;
+import common.DataModels.GameInfo;
 import common.DataModels.Player;
 import common.DataModels.Username;
 
@@ -144,10 +147,11 @@ public class Database {
      * @pre none
      * @post none
      */
-    public Set<Game> getAllGames() {
-        Set<Game> gameSet = new HashSet<>();
+    public List<GameInfo> getAllGames() {
+        List<GameInfo> gameSet = new ArrayList<>();
         for (GameID id : gameList.keySet()) {
-            gameSet.add(gameList.get(id));
+            GameInfo info = new GameInfo(gameList.get(id));
+            gameSet.add(info);
         }
         return gameSet;
     }

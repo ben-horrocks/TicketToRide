@@ -1,9 +1,12 @@
 package CS340.TicketServer;
 
+import java.util.List;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 
 import common.DataModels.Game;
+import common.DataModels.GameID;
+import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.IClient;
@@ -40,7 +43,17 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal updateGameList(Set<Game> gameList) {
+    public Signal updateGameList(List<GameInfo> gameList) {
         return new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
+    }
+
+    @Override
+    public Signal addGame(GameInfo game) {
+        return null;
+    }
+
+    @Override
+    public Signal removeGame(GameID id) {
+        return null;
     }
 }
