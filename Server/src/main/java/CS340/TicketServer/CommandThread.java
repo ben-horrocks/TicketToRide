@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import common.CommandParams;
 import common.DataModels.Player;
+import common.DataModels.Signal;
 import communicators.ServerCommunicator;
 
 /**
@@ -27,6 +28,18 @@ public class CommandThread extends Thread
 		this.serverCommunicator = serverCommunicator;
 	}
 
+	public void push(Signal signal)
+	{
+		try
+		{
+			out.writeObject(signal);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public void run()
 	{
 		try
@@ -36,6 +49,17 @@ public class CommandThread extends Thread
 			boolean exitThread = false;
 			while(!exitThread)
 			{
+				while (in.available() == 0)
+				{
+					try
+					{
+						Thread.sleep(1);
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
 				Object object = in.readObject();
 				Object result = null;
 				if (object instanceof Player)
