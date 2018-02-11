@@ -17,14 +17,13 @@ import cs340.TicketClient.Lobby.LobbyPresenter;
 public class ClientFacade implements IClient
 {
   @Override
-  public Signal updateGameList(List<GameInfo> gameList) {
-    return null;
+  public void updateGameList(List<GameInfo> gameList) {
+
   }
 
   @Override
-  public Signal startGame(GameID id)
-  {
-    return null;
+  public void startGame(GameID id) {
+
   }
 
 }

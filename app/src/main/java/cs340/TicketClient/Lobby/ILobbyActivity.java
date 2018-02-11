@@ -14,7 +14,6 @@ public interface ILobbyActivity {
      * @pre none
      * @post The list of games in the lobby will be updated and displayed.
      *
-     * @param gameList The new list of games to display
      */
-    public void updateGameList(List<GameInfo> gameList);
+    public void updateGameList();
 }

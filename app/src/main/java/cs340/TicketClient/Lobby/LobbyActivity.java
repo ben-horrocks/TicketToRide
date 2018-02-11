@@ -92,10 +92,11 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
       }
     });
   }
-  public void updateGameList(List<GameInfo> newgames)
+  public void updateGameList()
   {
     mGameListAdapter.clear();
-    mGameListAdapter.addGames(newgames);
+    List<GameInfo> games = presenter.searchGames(mSearchGameText.getText().toString());
+    mGameListAdapter.addGames(games);
   }
 
   public void startGame()
