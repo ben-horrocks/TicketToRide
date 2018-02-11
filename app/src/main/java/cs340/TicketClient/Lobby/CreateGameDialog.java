@@ -7,18 +7,19 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import common.DataModels.Player;
 import cs340.TicketClient.ASyncTask.AddGameTask;
 import cs340.TicketClient.R;
 
-/**
- * Created by Ben_D on 2/7/2018.
- */
-
 public class CreateGameDialog extends DialogFragment
 {
+  public interface CreateGameDialogListener {
+    public void onAddGame(DialogFragment frag, String newGameName);
+  }
   EditText mNewGameName;
+  CreateGameDialogListener mlistener;
 
   @Override
   public Dialog onCreateDialog(final Bundle savedInstanceState)
@@ -28,14 +29,11 @@ public class CreateGameDialog extends DialogFragment
     LayoutInflater inflater = getActivity().getLayoutInflater();
     builder.setView(inflater.inflate(R.layout.new_game_fragment,null))
             .setPositiveButton(R.string.new_game_confirm, new DialogInterface.OnClickListener() {
-              @RequiresApi(api = Build.VERSION_CODES.M)
+
               @Override
               public void onClick(DialogInterface dialogInterface, int i)
               {
-                String gamename = mNewGameName.getText().toString();
-                Player player = (Player) savedInstanceState.get("player");
-                AddGameTask task = new AddGameTask(getContext());
-                task.execute(gamename, player);
+                mlistener.onAddGame(CreateGameDialog.this, mNewGameName.getText().toString());
               }
             })
             .setNegativeButton(R.string.new_game_cancel, new DialogInterface.OnClickListener() {
@@ -46,5 +44,16 @@ public class CreateGameDialog extends DialogFragment
               }
             });
     return builder.create();
+  }
+  @Override
+  public void onAttach(Activity activity)
+  {
+    super.onAttach(activity);
+
+    try {
+      mlistener = (CreateGameDialogListener) activity;
+    } catch (ClassCastException e) {
+      Toast.makeText(activity, "This activity must implement CreateGameDialogListener", Toast.LENGTH_SHORT).show();
+    }
   }
 }

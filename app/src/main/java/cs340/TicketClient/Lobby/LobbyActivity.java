@@ -6,6 +6,7 @@
  */
 package cs340.TicketClient.Lobby;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +33,7 @@ import cs340.TicketClient.R;
  * mClearSeatch
  *
  */
-public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
+public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, CreateGameDialog.CreateGameDialogListener
 {
   private EditText mSearchGameText;
   private ImageView mClearSearch;
@@ -120,5 +121,13 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
       }
     });
   }
+
+  @Override
+  public void onAddGame(DialogFragment frag, String newGame)
+  {
+    AddGameTask task = new AddGameTask(getBaseContext());
+    task.execute(newGame, player);
+  }
+
 
 }
