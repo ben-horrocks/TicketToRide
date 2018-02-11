@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,10 +25,11 @@ public class CreateGameDialog extends DialogFragment
   @Override
   public Dialog onCreateDialog(final Bundle savedInstanceState)
   {
-    mNewGameName = (EditText) getView().findViewById(R.id.newGameText);
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater inflater = getActivity().getLayoutInflater();
-    builder.setView(inflater.inflate(R.layout.new_game_fragment,null))
+    View view = inflater.inflate(R.layout.new_game_fragment, null);
+    mNewGameName = (EditText) view.findViewById(R.id.newGameText);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setView(view)
             .setPositiveButton(R.string.new_game_confirm, new DialogInterface.OnClickListener() {
 
               @Override

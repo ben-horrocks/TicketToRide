@@ -87,7 +87,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, 
       public void onClick(View view)
       {
         CreateGameDialog dialog = new CreateGameDialog();
-        dialog.getArguments().putSerializable("player", player);
+//        dialog.getArguments().putSerializable("player", player);
         dialog.show(getFragmentManager(), "New Game");
       }
     });
@@ -95,7 +95,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, 
   public void updateGameList()
   {
     mGameListAdapter.clear();
-    List<GameInfo> games = presenter.searchGames(mSearchGameText.getText().toString());
+    List<GameInfo> games = LobbyPresenter.getInstance().searchGames(mSearchGameText.getText().toString());
     mGameListAdapter.addGames(games);
   }
 
