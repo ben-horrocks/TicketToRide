@@ -28,6 +28,8 @@ import cs340.TicketClient.R;
  * LobbyActivity
  * Abstract: The View of our lobby
  * @domain
+ * mSearchGameText ( Search bar to check lobby for specific games
+ * mClearSeatch
  *
  */
 public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
@@ -43,7 +45,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
   @Override
   protected void onCreate(final Bundle savedInstanceState)
   {
-    player = (Player) this.getIntent().getSerializableExtra("player");
+    player = (Player) this.getIntent().getExtras().get("player");
     super.onCreate(savedInstanceState);
     this.setContentView(R.layout.activity_lobby);
 
@@ -111,6 +113,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity
       public void onClick(View view)
       {
         GameID id = presenter.getJoinedGameID();
+        //Check if canStartGame(Gameid id) here
         StartGameTask task = new StartGameTask(getBaseContext());
         task.execute(id);
       }

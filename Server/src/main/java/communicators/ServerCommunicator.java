@@ -61,7 +61,7 @@ public class ServerCommunicator
 		return SERVER_PORT_NUMBER;
 	}
 
-	public Map<Player, CommandThread> getThreads()
+	public static Map<Player, CommandThread> getThreads()
 	{
 		return threads;
 	}

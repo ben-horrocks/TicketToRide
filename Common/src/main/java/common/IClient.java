@@ -10,7 +10,6 @@ import common.DataModels.Signal;
 
 public interface IClient {
 
-    Signal updateGameList(List<GameInfo> gameList);
-    Signal addGame(GameInfo game);
-    Signal removeGame(GameID id);
+    void updateGameList(List<GameInfo> gameList);
+    void startGame(GameID id);
 }

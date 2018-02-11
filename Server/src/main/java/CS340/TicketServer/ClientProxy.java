@@ -1,15 +1,19 @@
 package CS340.TicketServer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
+import common.DataModels.Player;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.IClient;
+import communicators.ServerCommunicator;
 
 public class ClientProxy implements IClient {
 
@@ -43,17 +47,17 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList) {
-        return new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
+    public void updateGameList(List<GameInfo> gameList) {
+        HashMap<Player, CommandThread> threadList = (HashMap<Player, CommandThread>) ServerCommunicator.getThreads();
+        Signal signal = new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
+        for (CommandThread thread : threadList.values()) {
+            thread.push(signal);
+        }
     }
 
     @Override
-    public Signal addGame(GameInfo game) {
-        return null;
+    public void startGame(GameID id) {
+
     }
 
-    @Override
-    public Signal removeGame(GameID id) {
-        return null;
-    }
 }

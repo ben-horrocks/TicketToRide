@@ -5,22 +5,30 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import cs340.TicketClient.Login.LoginModel;
+
 /**
  * Created by Kavika F.
  */
 
 public class ClientCommunicator
 {
-	private static final ClientCommunicator SINGLETON = new ClientCommunicator();
+	private static ClientCommunicator SINGLETON = null;
 	public static ClientCommunicator getSingleton()
 	{
+		if(SINGLETON == null)
+		{
+			SINGLETON = new ClientCommunicator();
+		}
 		return SINGLETON;
 	}
+
+
 
 	private Socket socket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
-	private static final String SERVER_HOST = "192.168.1.126";
+	private static String SERVER_HOST = "localhost";
 
 	/**
 	 * Initialize a ClientCommunicator object. Create a socket to communicate with the server.
@@ -40,6 +48,11 @@ public class ClientCommunicator
 			System.out.println("IOException in ClientCommunicator: " + e);
 			e.printStackTrace();
 		}
+	}
+
+	public static void setSERVER_HOST(String ip)
+	{
+		SERVER_HOST = ip;
 	}
 
 	/**
