@@ -57,7 +57,7 @@ public class ClientProxy implements IClient {
 
     @Override
     public void startGame(GameID id) {
-
+        
     }
 
 }
