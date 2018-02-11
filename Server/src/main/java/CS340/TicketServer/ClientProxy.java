@@ -49,7 +49,7 @@ public class ClientProxy implements IClient {
     @Override
     public void updateGameList(List<GameInfo> gameList) {
         HashMap<Player, CommandThread> threadList = (HashMap<Player, CommandThread>) ServerCommunicator.getThreads();
-        Signal signal = new Signal(SignalType.OK, Database.SINGLETON.getAllGames());
+        Signal signal = new Signal(SignalType.OK, gameList);
         for (CommandThread thread : threadList.values()) {
             thread.push(signal);
         }
