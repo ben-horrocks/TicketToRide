@@ -9,5 +9,5 @@ public interface IServer
 	public Signal addGame(String gameName, Player player);
 	public Signal joinGame(Player player , GameID id);
 	public Signal startGame(GameID id);
-	public Signal getAvailableGameInfo();
+//	public Signal getAvailableGameInfo();
 }

@@ -41,7 +41,6 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, 
   private GameListAdapter mGameListAdapter;
   private RecyclerView.LayoutManager mLayoutManager;
   private Button mNewGameButton;
-  private LobbyPresenter presenter = new LobbyPresenter(this);
   private Player player;
   @Override
   protected void onCreate(final Bundle savedInstanceState)
@@ -72,7 +71,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, 
         if (charSequence.length() > 0)
         {
           //Call Lobby Model Search Function here
-          List<GameInfo> games = presenter.searchGames(charSequence.toString());
+          List<GameInfo> games = LobbyPresenter.getInstance().searchGames(charSequence.toString());
           mGameListAdapter.addGames(games);
         }
       }
@@ -114,8 +113,7 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, 
       @Override
       public void onClick(View view)
       {
-        GameID id = presenter.getJoinedGameID();
-        //Check if canStartGame(Gameid id) here
+        GameID id = LobbyPresenter.getInstance().getJoinedGameID();
         StartGameTask task = new StartGameTask(getBaseContext());
         task.execute(id);
       }
