@@ -169,7 +169,11 @@ public class ServerFacade implements IServer
 			return signal;
 		}
 		if (!game.isGameStarted()) {
+			//start game
 			game.startGame();
+			//push start notification to all players
+			ClientProxy.getSINGLETON().startGame(game.getId());
+			//return start signal to player
 			return new Signal(SignalType.OK, game);
 		}
 		String errMsg = "Sorry, this game has already started.";

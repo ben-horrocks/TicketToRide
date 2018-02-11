@@ -57,7 +57,17 @@ public class ClientProxy implements IClient {
 
     @Override
     public void startGame(GameID id) {
+        //get threads for all players & the game to be started with associated players
+        HashMap<Player, CommandThread> threadList = (HashMap<Player, CommandThread>) ServerCommunicator.getThreads();
+        Game game = Database.SINGLETON.getGameByID(id);
         
+        //create start signal to push to all players in game
+        Signal signal = new Signal(SignalType.OK, game);
+
+        for (Player p : game.getPlayers()) {
+            threadList.get(p).push(signal);
+        }
+
     }
 
 }
