@@ -23,6 +23,7 @@
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/username"
         android:hint="@string/username"
    />
     <EditText
@@ -30,12 +31,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:text="@string/password"
         android:hint="@string/password"
     />
     <EditText
         android:id="@+id/screen_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/screen_name"
         android:hint="@string/screen_name"
         />
 </LinearLayout>
