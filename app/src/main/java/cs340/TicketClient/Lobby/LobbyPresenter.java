@@ -43,11 +43,6 @@ public class LobbyPresenter implements ILobbyPresenter
         model = new LobbyModel(games);
     }
 
-    private void updateGameList(){
-//        String filter = activity.getSearchQuery();
-//        activity.updateGameList(searchGames(filter));
-    }
-
     /**
      * Gets all the Game info in the LobbyModel, converting it into a List instead of a Map.
      * @pre none
@@ -112,7 +107,7 @@ public class LobbyPresenter implements ILobbyPresenter
         } catch (LobbyModel.GameNotFoundException e) {
             Log.w(TAG, e.getMessage(), e);
         }
-        updateGameList();
+        activity.updateGameList();
     }
 
     /**
@@ -132,7 +127,7 @@ public class LobbyPresenter implements ILobbyPresenter
                 Log.w(TAG, e.getMessage(), e);
             }
         }
-        updateGameList();
+        activity.updateGameList();
     }
 
     /**
@@ -143,7 +138,7 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public void addGame(GameInfo g){
         model.addGame(g);
-        updateGameList();
+        activity.updateGameList();
     }
 
     /**
@@ -154,7 +149,7 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public void addGames(List<GameInfo> games){
         model.addGame(games);
-        updateGameList();
+        activity.updateGameList();
     }
 
     /**
