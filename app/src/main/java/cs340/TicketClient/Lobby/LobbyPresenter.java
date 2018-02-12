@@ -24,23 +24,34 @@ public class LobbyPresenter implements ILobbyPresenter
 
     private static LobbyPresenter singleton;
 
+    /**
+     * A method that initializes the singleton object
+     * @pre activity must be active
+     * @post the singleton object will be initialized with an empty model and a reference to the
+     * activity that initialized it.
+     * @param activity
+     */
     public static void initSingleton(LobbyActivity activity){
-        if(singleton == null)
-            singleton = new LobbyPresenter(activity);
+        singleton = new LobbyPresenter(activity);
     }
 
+    /**
+     * Gets a reference to the singleton object
+     * @pre the singleton must have been properly initialized using the initSingleton method
+     * @post the singleton reference will be returned
+     * @return the singleton
+     */
     public static LobbyPresenter getInstance() {
         return singleton;
     }
 
-    public LobbyPresenter(LobbyActivity activity){
+    /**
+     * The bare-minimum constructor that stores a reference to the activity that initialized it
+     * @param activity the initializing activity.
+     */
+    private LobbyPresenter(LobbyActivity activity){
         this.activity = activity;
         model = new LobbyModel(new HashMap<GameID, GameInfo>());
-    }
-
-    public LobbyPresenter(LobbyActivity activity, Map<GameID, GameInfo> games){
-        this.activity = activity;
-        model = new LobbyModel(games);
     }
 
     /**
@@ -152,7 +163,7 @@ public class LobbyPresenter implements ILobbyPresenter
         activity.updateGameList();
     }
 
-    /**
+   /**
      * Sends a request to the server to get the list of non-full games that haven't started yet.
      * Then adds the returned list to the model and updates the LobbyActivity.
      *
@@ -160,13 +171,13 @@ public class LobbyPresenter implements ILobbyPresenter
      * @post The LobbyModel will contain entries for each game on the list. Any entries that are not
      * returned by the server, but were previously contained in the model are removed so that the
      * model only contains the updated list. Then the GUI is notified to update the displayed games.
-     */
+     *//*
     public void fetchGames(){
         List<GameInfo> games = new ArrayList<GameInfo>();
         Signal s = ServerProxy.getInstance().getAvailableGameInfo();
         games = (List<GameInfo>) s.getObject();
         model.setGames(games);
-    }
+    }*/
 
     @Override
     public boolean canStartGame(GameID id){
