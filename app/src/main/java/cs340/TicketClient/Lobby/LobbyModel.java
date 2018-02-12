@@ -5,17 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import common.DataModels.GameInfo;
-import common.DataModels.GameID;
-
-/**
- * Created by Ben_D on 1/29/2018.
- */
+import common.DataModels.*;
 
 public class LobbyModel
 {
     private Map<GameID, GameInfo> games;
     private GameID joinedGame;
+    private Player player;
     public LobbyModel(){
         games = new HashMap<GameID, GameInfo>();
     }
@@ -142,5 +138,15 @@ public class LobbyModel
         public GameNotFoundException(GameID id){
             super("No game found with ID: " + id.getId());
         }
+    }
+
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
     }
 }
