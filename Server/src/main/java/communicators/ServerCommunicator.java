@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import CS340.TicketServer.CommandThread;
+import CS340.TicketServer.PushTimer;
 import common.DataModels.Player;
 
 /**
@@ -69,5 +70,6 @@ public class ServerCommunicator
 	public static void main(String[] args)
 	{
 		new ServerCommunicator().run();
+		new PushTimer();
 	}
 }
