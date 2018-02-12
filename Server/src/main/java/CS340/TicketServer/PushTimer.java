@@ -11,7 +11,7 @@ public class PushTimer {
 
     Timer timer;
 
-    PushTimer() {
+    public PushTimer() {
         timer = new Timer();
         timer.schedule(new PushTask(), 0, 1000);
     }
