@@ -2,8 +2,7 @@ package cs340.TicketClient.Lobby;
 
 import java.util.List;
 
-import common.DataModels.GameID;
-import common.DataModels.GameInfo;
+import common.DataModels.*;
 
 public interface ILobbyPresenter
 {
@@ -32,5 +31,9 @@ public interface ILobbyPresenter
    * @return a List of all games with the search term in their names
    */
   public List<GameInfo> searchGames(String search);
+
+  public void addGame(String newgame);
+  public void joinGame(GameID id);
+  public void startGame(GameID id);
 
 }

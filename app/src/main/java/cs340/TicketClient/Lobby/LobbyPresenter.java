@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.DataModels.GameID;
-import common.DataModels.GameInfo;
-import common.DataModels.Signal;
+import common.DataModels.*;
+import cs340.TicketClient.ASyncTask.*;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 /**
@@ -103,6 +102,7 @@ public class LobbyPresenter implements ILobbyPresenter
         return list;
     }
 
+
     /**
      * Removes the game with the specified ID and updates the GUI
      * @pre None
@@ -193,6 +193,32 @@ public class LobbyPresenter implements ILobbyPresenter
     public LobbyModel getModel()
     {
         return model;
+    }
+
+    @Override
+    public void addGame(String newGame)
+    {
+        AddGameTask task = new AddGameTask(activity.getBaseContext());
+        task.execute(newGame, model.getPlayer());
+    }
+
+    @Override
+    public void joinGame(GameID id)
+    {
+        JoinGameTask task = new JoinGameTask(activity.getBaseContext());
+        Object[] obj = {model.getPlayer(), id};
+        task.execute(obj);
+    }
+
+    @Override
+    public void startGame(GameID id)
+    {
+        if (LobbyPresenter.getInstance().canStartGame(id))
+        {
+            StartGameTask task = new StartGameTask(activity.getBaseContext());
+            task.execute(id);
+        }
+
     }
 
 }

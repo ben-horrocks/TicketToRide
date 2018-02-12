@@ -136,11 +136,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
           public void onClick(View view)
           {
             GameID id = LobbyPresenter.getInstance().getJoinedGameID();
-            if (LobbyPresenter.getInstance().canStartGame(id))
-            {
-              StartGameTask task = new StartGameTask(view.getContext());
-              task.execute(id);
-            }
+            LobbyPresenter.getInstance().startGame(id);
           }
         });
 
@@ -151,9 +147,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
           @Override
           public void onClick(View view)
           {
-            JoinGameTask task = new JoinGameTask(view.getContext());
-            Object[] obj = {LobbyPresenter.getInstance().getModel().getPlayer(), id};
-            task.execute(obj);
+            LobbyPresenter.getInstance().joinGame(id);
           }
         });
       } else
