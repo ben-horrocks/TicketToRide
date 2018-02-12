@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/gameButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -64,4 +65,11 @@
             tools:layout_editor_absoluteX="264dp"
             tools:layout_editor_absoluteY="36dp"/>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/bottomBorder"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/bottomborder"/>
+
 </LinearLayout>

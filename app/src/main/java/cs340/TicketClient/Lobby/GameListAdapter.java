@@ -50,7 +50,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
     holder.isMyGame = game.getCreatorName().equals(
             LobbyPresenter.getInstance().getPlayer().getName());
 
-    //Implement HasJoinedGame here
     Player player = LobbyPresenter.getInstance().getPlayer();
     holder.hasJoinedGame = game.getPlayers().contains(player);
     String status = (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join"));
