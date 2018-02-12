@@ -98,6 +98,7 @@ public class ServerFacade implements IServer
 			AuthToken token = new AuthToken();
 			player = new Player(uName, pWord, sName);
 			player.setToken(token);
+			database.addPlayer(player);
 
 			return new Signal(SignalType.OK, player);
 		}
