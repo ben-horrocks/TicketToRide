@@ -83,7 +83,7 @@ public class ServerProxy implements IServer
         }
         return null;
     }
-
+/*
     @Override
     public Signal getAvailableGameInfo() {
         String[] parameterTypes = {};
@@ -96,7 +96,7 @@ public class ServerProxy implements IServer
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     @Override
     public Signal addGame(String gameName, Player player)

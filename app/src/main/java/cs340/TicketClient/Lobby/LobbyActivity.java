@@ -49,6 +49,8 @@ public class LobbyActivity extends AppCompatActivity implements ILobbyActivity, 
     super.onCreate(savedInstanceState);
     this.setContentView(R.layout.activity_lobby);
 
+    LobbyPresenter.initSingleton(this);
+
     mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
     mClearSearch = (ImageView) this.findViewById(R.id.ClearSearch);
     mGameList = (RecyclerView) this.findViewById(R.id.GameList);

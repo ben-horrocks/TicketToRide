@@ -111,21 +111,36 @@ public class LobbyModel
     }
 
     /**
+     * Gets the id of the currently joined game. Note in the future we may need to join multiple
+     * games so the implementation of this method will change
+     * @pre none
+     * @post the id of the joined game will be returned, if there is no joined games the return will
+     * be null
+     * @return The joined game id
+     */
+    public GameID getJoinedGame()
+    {
+        return joinedGame;
+    }
+
+    /**
+     * Sets the value of the currently joined game. Note in the future we may need to join multiple
+     * games so this method may be removed in favor of an addJoinedGame() method.
+     * @pre none
+     * @post the GameID for joined game will be the same as the passed in value
+     * @param joinedGame the game id of the game to set as the joined game
+     */
+    public void setJoinedGame(GameID joinedGame)
+    {
+        this.joinedGame = joinedGame;
+    }
+
+    /**
      * An exception that occurs when the model tries to access a game that is not found in the games list
      */
     public class GameNotFoundException extends Exception {
         public GameNotFoundException(GameID id){
             super("No game found with ID: " + id.getId());
         }
-    }
-
-    public GameID getJoinedGame()
-    {
-        return joinedGame;
-    }
-
-    public void setJoinedGame(GameID joinedGame)
-    {
-        this.joinedGame = joinedGame;
     }
 }
