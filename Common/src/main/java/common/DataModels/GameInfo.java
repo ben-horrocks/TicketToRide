@@ -1,5 +1,8 @@
 package common.DataModels;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Ryan on 2/6/2018.
  */
@@ -8,16 +11,16 @@ public class GameInfo {
     private GameID id;
     private String name;
     private String creatorName;
-    private Player[] players;
+    private Set<Player> players = new HashSet<>();
 
     public GameInfo(Game g){
         this.id = g.getId();
         this.name = g.getName();
         this.creatorName = g.getCreatorName();
-        this.players = (Player[]) g.getPlayers().toArray();
+        this.players = g.getPlayers();
     }
 
-    public GameInfo(GameID id, String name, String creatorName, Player[] players) {
+    public GameInfo(GameID id, String name, String creatorName, Set<Player> players) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
@@ -36,9 +39,9 @@ public class GameInfo {
         return this.creatorName;
     }
 
-    public int getPlayerCount(){ return this.players.length; }
+    public int getPlayerCount(){ return this.players.size(); }
 
     public boolean isFull() {
-        return players.length < 5;
+        return players.size() < 5;
     }
 }
