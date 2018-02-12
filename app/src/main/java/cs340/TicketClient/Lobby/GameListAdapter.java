@@ -18,6 +18,7 @@ import java.util.List;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
 import cs340.TicketClient.ASyncTask.JoinGameTask;
+import cs340.TicketClient.ASyncTask.StartGameTask;
 import cs340.TicketClient.R;
 
 /**
@@ -48,7 +49,12 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   public void onBindViewHolder(viewHolder holder, int position)
   {
     GameInfo game = games.get(position);
-    holder.GameName.setText(game.getName());
+    holder.isMyGame = game.getCreatorName() ==
+                      LobbyPresenter.getInstance().getModel().getPlayer().getName().getName();
+    //Implement HasJoinedGame here
+    holder.GameName.setText(
+            (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join")) +
+            game.getName());
     holder.HostPlayerName.setText(game.getCreatorName());
     holder.PlayerCount.setText(game.getPlayerCount() + '/' + '5');
     holder.id = game.getID();
@@ -103,11 +109,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
    */
   public class viewHolder extends RecyclerView.ViewHolder
   {
-    private TextView GameName;
-    private TextView HostPlayerName;
-    private TextView PlayerCount;
-    private LinearLayout mButton;
-    private GameID id;
+    public TextView GameName;
+    public TextView HostPlayerName;
+    public TextView PlayerCount;
+    public LinearLayout mButton;
+    public GameID id;
+    public Boolean isMyGame;
+    public Boolean hasJoinedGame;
 
     public viewHolder(View itemView)
     {
@@ -120,16 +128,38 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
       //END VIEW BINDING
 
       //LISTENERS
-      mButton.setOnClickListener(new View.OnClickListener()
+      if (isMyGame)
       {
-        @Override
-        public void onClick(View view)
+        mButton.setOnClickListener(new View.OnClickListener()
         {
-          JoinGameTask task = new JoinGameTask(view.getContext());
-          Object[] obj = {LobbyPresenter.getInstance().getModel().getPlayer(), id};
-          task.execute(obj);
-        }
-      });
+          @Override
+          public void onClick(View view)
+          {
+            GameID id = LobbyPresenter.getInstance().getJoinedGameID();
+            if (LobbyPresenter.getInstance().canStartGame(id))
+            {
+              StartGameTask task = new StartGameTask(view.getContext());
+              task.execute(id);
+            }
+          }
+        });
+
+      } else if (!hasJoinedGame)
+      {
+        mButton.setOnClickListener(new View.OnClickListener()
+        {
+          @Override
+          public void onClick(View view)
+          {
+            JoinGameTask task = new JoinGameTask(view.getContext());
+            Object[] obj = {LobbyPresenter.getInstance().getModel().getPlayer(), id};
+            task.execute(obj);
+          }
+        });
+      } else
+      {
+        //implement remove thyself from game here.
+      }
       //END LISTENERS
     }
   }
