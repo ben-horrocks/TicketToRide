@@ -21,7 +21,7 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyActivity activity;
     private LobbyModel model;
 
-    private static LobbyPresenter singleton;
+    private static LobbyPresenter singleton = new LobbyPresenter();
 
     /**
      * A method that initializes the singleton object
@@ -30,7 +30,7 @@ public class LobbyPresenter implements ILobbyPresenter
      * activity that initialized it.
      * @param activity
      */
-    public static void initSingleton(LobbyActivity activity){
+    public static void setActivity(LobbyActivity activity){
         singleton = new LobbyPresenter(activity);
     }
 
@@ -44,6 +44,10 @@ public class LobbyPresenter implements ILobbyPresenter
         return singleton;
     }
 
+    public LobbyPresenter(){
+        this(null);
+    }
+
     /**
      * The bare-minimum constructor that stores a reference to the activity that initialized it
      * @param activity the initializing activity.
@@ -51,6 +55,11 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyPresenter(LobbyActivity activity){
         this.activity = activity;
         model = new LobbyModel(new HashMap<GameID, GameInfo>());
+    }
+
+    private void updateGameList(){
+        if(activity != null)
+            activity.updateGameList();
     }
 
     /**
@@ -118,7 +127,7 @@ public class LobbyPresenter implements ILobbyPresenter
         } catch (LobbyModel.GameNotFoundException e) {
             Log.w(TAG, e.getMessage(), e);
         }
-        activity.updateGameList();
+        updateGameList();
     }
 
     /**
@@ -138,7 +147,7 @@ public class LobbyPresenter implements ILobbyPresenter
                 Log.w(TAG, e.getMessage(), e);
             }
         }
-        activity.updateGameList();
+        updateGameList();
     }
 
     /**
@@ -149,7 +158,7 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public void addGame(GameInfo g){
         model.addGame(g);
-        activity.updateGameList();
+        updateGameList();
     }
 
     /**
@@ -160,7 +169,7 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public void addGames(List<GameInfo> games){
         model.addGame(games);
-        activity.updateGameList();
+        updateGameList();
     }
 
    /**

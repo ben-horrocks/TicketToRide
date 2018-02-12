@@ -53,7 +53,7 @@ public class LobbyActivity extends AppCompatActivity
     this.setContentView(R.layout.activity_lobby);
 
     //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
-    LobbyPresenter.initSingleton(this);
+    LobbyPresenter.setActivity(this);
     LobbyPresenter.getInstance().getModel()
             .setPlayer((Player) this.getIntent().getExtras().get("player"));
 
