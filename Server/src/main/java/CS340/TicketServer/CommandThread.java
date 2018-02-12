@@ -20,11 +20,13 @@ public class CommandThread extends Thread
 	private LinkedBlockingQueue<Object> messages;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
+	private Socket clientSocket;
 
 	public CommandThread(final Socket clientSocket)
 	{
 		try
 		{
+			this.clientSocket = clientSocket;
 			messages = new LinkedBlockingQueue<>();
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
@@ -69,8 +71,10 @@ public class CommandThread extends Thread
 			receiver.setDaemon(true);
 			receiver.start();
 
-			Thread read = new Thread()
+			Thread read = new Thread(thisThread)
 			{
+				CommandThread parent = thisThread;
+
 				public void run()
 				{
 					boolean keepRunning = true;
@@ -99,6 +103,7 @@ public class CommandThread extends Thread
 					try
 					{
 						clientSocket.close();
+						ServerCommunicator.getThreads().remove(thisThread);
 					}
 					catch (IOException e)
 					{
@@ -133,6 +138,19 @@ public class CommandThread extends Thread
 		{
 			System.out.println("Error pushing from CommandThread: " + e);
 			e.printStackTrace();
+			try
+			{
+				clientSocket.close();
+				if (ServerCommunicator.getThreads().containsValue(this))
+				{
+					ServerCommunicator.getThreads().remove(this);
+				}
+			}
+			catch (IOException ex)
+			{
+				System.out.println("Error closing socket " + clientSocket.getInetAddress());
+				ex.printStackTrace();
+			}
 		}
 	}
 }
