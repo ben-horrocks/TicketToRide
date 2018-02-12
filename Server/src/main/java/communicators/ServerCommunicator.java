@@ -51,7 +51,7 @@ public class ServerCommunicator
 				System.out.println("Error in receiving client socket: " + e);
 			}
 			System.out.println("Thread for " + socket.getInetAddress() + " started");
-			CommandThread commandThread = new CommandThread(socket, this);
+			CommandThread commandThread = new CommandThread(socket);
 			commandThread.start();
 		}
 	}

@@ -6,5 +6,5 @@ package common.DataModels;
 
 public enum SignalType
 {
-	ERROR, OK, ANNOUNCEMENT
+	ERROR, OK, ANNOUNCEMENT, UPDATE
 }

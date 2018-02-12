@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import common.CommandParams;
-import common.DataModels.Player;
 import common.DataModels.Signal;
-import communicators.ServerCommunicator;
 
 /**
  * Created by Kavika F.
@@ -16,16 +15,88 @@ import communicators.ServerCommunicator;
 
 public class CommandThread extends Thread
 {
-	private Socket clientSocket;
-	private ObjectInputStream in = null;
-	private ObjectOutputStream out = null;
-	private ServerCommunicator serverCommunicator = null;
+	private LinkedBlockingQueue<Object> messages;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
 
-
-	public CommandThread(Socket clientSocket, ServerCommunicator serverCommunicator)
+	public CommandThread(Socket clientSocket)
 	{
-		this.clientSocket = clientSocket;
-		this.serverCommunicator = serverCommunicator;
+		try
+		{
+			messages = new LinkedBlockingQueue<>();
+			out = new ObjectOutputStream(clientSocket.getOutputStream());
+			in = new ObjectInputStream(clientSocket.getInputStream());
+
+			Thread receiver = new Thread()
+			{
+				public void run()
+				{
+					while(true)
+					{
+						try
+						{
+							Object message = messages.take();
+							Signal result;
+							if (message instanceof CommandParams)
+							{
+								CommandParams commandParams = (CommandParams) message;
+								Command command = new Command(commandParams);
+								result = (Signal) command.execute();
+							}
+							else
+							{
+								return;
+							}
+							push(result);
+						}
+						catch (InterruptedException e)
+						{
+							System.out.println("InterruptedException when receiving in CommandThread: " + e);
+						}
+					}
+				}
+			};
+
+			receiver.setDaemon(true);
+			receiver.start();
+
+			Thread read = new Thread()
+			{
+				public void run()
+				{
+					while (true)
+					{
+						try
+						{
+							Object object = in.readObject();
+							messages.put(object);
+						}
+						catch (IOException e)
+						{
+							/* Quietly Ignore EOF exceptions */
+						}
+						catch (ClassNotFoundException e)
+						{
+							System.out.println("ClassNotFoundException in read Thread: " + e);
+							e.printStackTrace();
+						}
+						catch (InterruptedException e)
+						{
+							System.out.println("InterruptedException in read Thread: " + e);
+							e.printStackTrace();
+						}
+					}
+				}
+			};
+
+			read.setDaemon(true);
+			read.start();
+		}
+		catch (IOException e)
+		{
+			System.out.println("IOException in read Thread: " + e);
+			e.printStackTrace();
+		}
 	}
 
 	public void push(Signal signal)
@@ -33,72 +104,11 @@ public class CommandThread extends Thread
 		try
 		{
 			out.writeObject(signal);
+			out.flush();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-	}
-
-	public void run()
-	{
-		try
-		{
-			in = new ObjectInputStream(clientSocket.getInputStream());
-			out = new ObjectOutputStream(clientSocket.getOutputStream());
-			boolean exitThread = false;
-			while(!exitThread)
-			{
-				while (in.available() == 0)
-				{
-					try
-					{
-						Thread.sleep(1);
-					}
-					catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-				}
-				Object object = in.readObject();
-				Object result = null;
-				if (object instanceof Player)
-				{
-					Player player = (Player)object;
-					serverCommunicator.getThreads().put(player, this);
-				}
-				else if (object instanceof CommandParams)
-				{
-					CommandParams commandParams = (CommandParams)object;
-					Command command = new Command(commandParams);
-					result = command.execute();
-				}
-				else
-				{
-					return;
-				}
-				out.writeObject(result);
-				out.flush();
-			}
-		}
-		catch (IOException e)
-		{
-			System.out.println("Error running Command Thread: " + e);
-			e.printStackTrace();
-			try
-			{
-				System.out.println("Closing socket from " + clientSocket.getInetAddress());
-				clientSocket.close();
-			}
-			catch (IOException ex)
-			{
-				System.out.println("Error trying to close socket: " + ex);
-				ex.printStackTrace();
-			}
-		}
-		catch (ClassNotFoundException e)
-		{
-			System.out.println("Class not found exception in CommandThread: " + e);
 		}
 	}
 }

@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
-import cs340.TicketClient.Login.LoginModel;
+import common.DataModels.GameInfo;
+import common.DataModels.Signal;
+import common.DataModels.SignalType;
 
 /**
  * Created by Kavika F.
@@ -23,12 +27,20 @@ public class ClientCommunicator
 		return SINGLETON;
 	}
 
-
-
+	private ConnectionToServer server;
 	private Socket socket;
-	private ObjectInputStream inputStream;
-	private ObjectOutputStream outputStream;
+	private LinkedBlockingQueue<Object> messages;
+	private Signal signalFromServer = null;
 	private static String SERVER_HOST = "localhost";
+
+	public static void setSERVER_HOST(String ip)
+	{
+		SERVER_HOST = ip;
+	}
+
+	private Signal getSignalFromServer() { return signalFromServer; }
+
+	private void setSignalFromServer(Signal signalFromServer) { this.signalFromServer = signalFromServer; }
 
 	/**
 	 * Initialize a ClientCommunicator object. Create a socket to communicate with the server.
@@ -40,8 +52,45 @@ public class ClientCommunicator
 		try
 		{
 			socket = new Socket(SERVER_HOST, 8080);
-			outputStream = new ObjectOutputStream(socket.getOutputStream());
-			inputStream = new ObjectInputStream(socket.getInputStream());
+			messages = new LinkedBlockingQueue<>();
+			server = new ConnectionToServer(socket);
+
+			Thread receiver = new Thread()
+			{
+				public void run()
+				{
+					while(true)
+					{
+						try
+						{
+							Signal signal = (Signal) messages.take();
+
+							if (signal.getSignalType() == SignalType.UPDATE &&
+									signal.getObject() instanceof List)
+							{
+								ClientFacade facade = new ClientFacade();
+
+								// Hope that the List of type UPDATE has GameInfo Objects
+								@SuppressWarnings("unchecked")
+								List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
+
+								facade.updateGameList(infoList);
+							}
+							else // Should be a signal
+							{
+								setSignalFromServer(signal);
+							}
+						}
+						catch (InterruptedException e)
+						{
+							System.out.println("InterruptedException when receiving data from server: " + e);
+						}
+					}
+				}
+			};
+
+			receiver.setDaemon(true);
+			receiver.start();
 		}
 		catch (IOException e)
 		{
@@ -50,9 +99,63 @@ public class ClientCommunicator
 		}
 	}
 
-	public static void setSERVER_HOST(String ip)
+	private class ConnectionToServer
 	{
-		SERVER_HOST = ip;
+		private Socket socket;
+		private ObjectInputStream inputStream;
+		private ObjectOutputStream outputStream;
+
+		private ConnectionToServer(Socket socket) throws IOException
+		{
+			this.socket = socket;
+			inputStream = new ObjectInputStream(this.socket.getInputStream());
+			outputStream = new ObjectOutputStream(this.socket.getOutputStream());
+
+			Thread read = new Thread()
+			{
+				public void run()
+				{
+					while(true)
+					{
+						try
+						{
+							Object object = inputStream.readObject();
+							messages.put(object);
+						}
+						catch (IOException e)
+						{
+							System.out.println("IOException in read Thread: " + e);
+							e.printStackTrace();
+						}
+						catch (ClassNotFoundException e)
+						{
+							System.out.println("ClassNotFoundException in read Thread: " + e);
+							e.printStackTrace();
+						}
+						catch (InterruptedException e)
+						{
+							System.out.println("InterruptedException in read Thread: " + e);
+							e.printStackTrace();
+						}
+					}
+				}
+			};
+
+			read.setDaemon(true);
+			read.start();
+		}
+
+		private void write(Object object)
+		{
+			try
+			{
+				outputStream.writeObject(object);
+			}
+			catch (IOException e)
+			{
+				System.out.println("IOException when writing object to Server: " + e);
+			}
+		}
 	}
 
 	/**
@@ -61,26 +164,23 @@ public class ClientCommunicator
 	 * @return Return a result object from the server. May or may not be an error object.
 	 * @throws IOException Can throw an IOException if there is an issue with the input/output streams.
 	 */
-	public Object send(Object object) throws IOException {
-		Object result = null;
-		try
+	public Object send(Object object) throws IOException
+	{
+		Signal result = null;
+		server.write(object);
+		while (result == null)
 		{
-			outputStream.writeObject(object);
-			result = inputStream.readObject();
+			result = getSignalFromServer();
 		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		setSignalFromServer(null);
 		return result;
+
 	}
 
 	private void closeSocket()
 	{
 		try
 		{
-			inputStream.close();
-			outputStream.close();
 			socket.close();
 		}
 		catch (IOException e)

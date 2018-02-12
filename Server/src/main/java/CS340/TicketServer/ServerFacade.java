@@ -176,8 +176,8 @@ public class ServerFacade implements IServer
 		return new Signal(SignalType.ERROR, errMsg);
 	}
 
-//	@Override
-//	public Signal getAvailableGameInfo() {
-//		return null;
-//	}
+	@Override
+	public Signal getAvailableGameInfo() {
+		return null;
+	}
 }
