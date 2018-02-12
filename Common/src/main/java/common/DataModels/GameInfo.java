@@ -41,6 +41,8 @@ public class GameInfo implements Serializable
         return this.creatorName;
     }
 
+    public Set<Player> getPlayers() {return this.players;}
+
     public int getPlayerCount(){ return this.players.size(); }
 
     public boolean isFull() {
