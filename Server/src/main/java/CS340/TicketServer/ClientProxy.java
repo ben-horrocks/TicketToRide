@@ -50,7 +50,7 @@ public class ClientProxy implements IClient {
     @Override
     public void updateGameList(List<GameInfo> gameList) {
 		ConcurrentHashMap<Player, CommandThread> threadList = (ConcurrentHashMap<Player, CommandThread>) ServerCommunicator.getThreads();
-        Signal signal = new Signal(SignalType.OK, gameList);
+        Signal signal = new Signal(SignalType.UPDATE, gameList);
         for (CommandThread thread : threadList.values()) {
             thread.push(signal);
         }

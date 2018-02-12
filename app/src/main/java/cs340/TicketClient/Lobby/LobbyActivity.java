@@ -53,7 +53,7 @@ public class LobbyActivity extends AppCompatActivity
     this.setContentView(R.layout.activity_lobby);
 
     //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
-    LobbyPresenter.initSingleton(this);
+    LobbyPresenter.setActivity(this);
     LobbyPresenter.getInstance().getModel()
             .setPlayer((Player) this.getIntent().getExtras().get("player"));
 
@@ -121,10 +121,15 @@ public class LobbyActivity extends AppCompatActivity
    */
   public void updateGameList()
   {
-    mGameListAdapter.clear();
-    List<GameInfo> games =
-            LobbyPresenter.getInstance().searchGames(mSearchGameText.getText().toString());
-    mGameListAdapter.addGames(games);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        mGameListAdapter.clear();
+        List<GameInfo> games =
+                LobbyPresenter.getInstance().searchGames(mSearchGameText.getText().toString());
+        mGameListAdapter.addGames(games);
+      }
+    });
   }
 
 

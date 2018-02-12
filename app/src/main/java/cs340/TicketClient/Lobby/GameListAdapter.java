@@ -49,8 +49,9 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   public void onBindViewHolder(viewHolder holder, int position)
   {
     GameInfo game = games.get(position);
-    holder.isMyGame = game.getCreatorName() ==
-                      LobbyPresenter.getInstance().getModel().getPlayer().getName().getName();
+    holder.isMyGame = game.getCreatorName().equals(
+            LobbyPresenter.getInstance().getModel().getPlayer().getName().getName());
+
     //Implement HasJoinedGame here
     holder.GameName.setText(
             (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join")) +
