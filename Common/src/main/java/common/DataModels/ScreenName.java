@@ -34,4 +34,19 @@ public class ScreenName implements Serializable
     }
     return true;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof ScreenName)) return false;
+
+    ScreenName that = (ScreenName) o;
+
+    return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return getName() != null ? getName().hashCode() : 0;
+  }
 }
