@@ -7,6 +7,13 @@ import java.util.List;
 
 import common.DataModels.*;
 
+/**
+ * Abstract: The class that holds all the data that the LobbyActivity needs to display a list of
+ * games, create games, and join games.
+ * @domain Map<GameID, GameInfo>    games   the set of games that can be displayed
+ * GameID   joinedGame    the id of the currently joined game
+ * Player   player        the Player object associated with this client
+ */
 public class LobbyModel
 {
     /**
