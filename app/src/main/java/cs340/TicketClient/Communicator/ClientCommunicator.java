@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -126,6 +127,12 @@ public class ClientCommunicator
 						{
 							System.out.println("IOException in read Thread: " + e);
 							e.printStackTrace();
+							// if SocketException, like a problem with Server, stop listening
+							if (e instanceof SocketException)
+							{
+								closeSocket();
+								break;
+							}
 						}
 						catch (ClassNotFoundException e)
 						{
@@ -137,6 +144,7 @@ public class ClientCommunicator
 							System.out.println("InterruptedException in read Thread: " + e);
 							e.printStackTrace();
 						}
+						System.out.println("You have disconnected from the Server!");
 					}
 				}
 			};
