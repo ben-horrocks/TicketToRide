@@ -57,7 +57,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
             (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join")) +
             game.getName());
     holder.HostPlayerName.setText(game.getCreatorName());
-    holder.PlayerCount.setText(game.getPlayerCount() + '/' + '5');
+    holder.PlayerCount.setText(String.valueOf(game.getPlayerCount() + '/' + '5'));
     holder.id = game.getID();
 
   }
