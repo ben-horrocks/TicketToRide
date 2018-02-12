@@ -122,11 +122,13 @@ public class ServerFacade implements IServer
 
 		//If a provided game name is already in the database, modify with a numeric symbol in parentheses
 		//which is appended to the end of the name
-		while (database.getOpenGameByName(gameName) != null) {
+		String suffix = "";
+		while (database.getOpenGameByName(gameName + suffix) != null) {
 			if (finalName.length() !=  gameName.length()) {
 				finalName.deleteCharAt(finalName.length() - 1);
 			}
-			finalName.append("(").append(increment.toString()).append(")");
+			suffix = "(" + increment.toString() + ")";
+			finalName.append(suffix);
 			increment++;
 		}
 
