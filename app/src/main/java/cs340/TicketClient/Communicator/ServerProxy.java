@@ -23,6 +23,8 @@ public class ServerProxy implements IServer
     }
 
     private static final String stringClassName = "java.lang.String";
+    private static final String gameIDClassname = "common.DataModels.GameID";
+    private static final String playerClassName = "common.DataModels.Player";
 
     /**
      *
@@ -73,7 +75,7 @@ public class ServerProxy implements IServer
 
     @Override
     public Signal startGame(GameID id) {
-        String[] parameterTypes = {"GameID"};
+        String[] parameterTypes = {gameIDClassname};
         Object[] parameters = {id};
         CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
         try {
@@ -83,7 +85,7 @@ public class ServerProxy implements IServer
         }
         return null;
     }
-/*
+
     @Override
     public Signal getAvailableGameInfo() {
         String[] parameterTypes = {};
@@ -96,14 +98,14 @@ public class ServerProxy implements IServer
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
 
     @Override
     public Signal addGame(String gameName, Player player)
     {
-        String[] paramTypes = {"String, Player"};
+        String[] paramTypes = {stringClassName, playerClassName};
         Object[] params = {gameName, player};
-        CommandParams newcommand = new CommandParams("AddGame", paramTypes, params);
+        CommandParams newcommand = new CommandParams("addGame", paramTypes, params);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
         } catch (Exception e) {
@@ -115,9 +117,9 @@ public class ServerProxy implements IServer
     @Override
     public Signal joinGame(Player player, GameID id)
     {
-        String[] paramTypes = {"Player","GameID"};
+        String[] paramTypes = {playerClassName, gameIDClassname};
         Object[] params = {player, id};
-        CommandParams newcommand = new CommandParams("JoinGame", paramTypes, params);
+        CommandParams newcommand = new CommandParams("joinGame", paramTypes, params);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
         } catch (Exception e) {

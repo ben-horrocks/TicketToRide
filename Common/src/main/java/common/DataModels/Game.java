@@ -1,5 +1,6 @@
 package common.DataModels;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  * Created by Ben_D on 1/29/2018.
  */
 
-public class Game
+public class Game implements Serializable
 {
   private static final Integer PLAYERLIMIT = 5;
   private String name;
@@ -29,10 +30,7 @@ public class Game
     currentPlayers.add(startingPlayer);
   }
 
-  public void startGame()
-  {
-    gameStarted = true;
-  }
+  public void startGame() { gameStarted = true; }
 
   public GameID getId() { return id; }
 
