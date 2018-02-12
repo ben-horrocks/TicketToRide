@@ -7,6 +7,7 @@
 
 package cs340.TicketClient.Lobby;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.LinearLayout;
@@ -15,8 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.GameID;
-import common.DataModels.GameInfo;
+import common.DataModels.*;
 import cs340.TicketClient.R;
 
 /**
@@ -51,10 +51,18 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
             LobbyPresenter.getInstance().getPlayer().getName());
 
     //Implement HasJoinedGame here
+    Player player = LobbyPresenter.getInstance().getPlayer();
+    holder.hasJoinedGame = game.getPlayers().contains(player);
     String status = (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join"));
     String formattedPlayerCount = Integer.toString(game.getPlayerCount()) + '/' + '5';
     holder.GameName.setText(game.getName());
     holder.JoinStart.setText(status);
+    if(holder.hasJoinedGame)
+    {
+      holder.JoinStart.setTextColor(Color.BLACK);
+    } else if (game.getPlayerCount() == 1 && holder.isMyGame) {
+      holder.JoinStart.setTextColor(Color.RED);
+    }
     holder.HostPlayerName.setText(game.getCreatorName());
     holder.PlayerCount.setText(formattedPlayerCount);
     holder.id = game.getID();

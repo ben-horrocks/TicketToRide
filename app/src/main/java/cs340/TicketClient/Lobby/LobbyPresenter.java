@@ -1,6 +1,7 @@
 package cs340.TicketClient.Lobby;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -226,6 +227,8 @@ public class LobbyPresenter implements ILobbyPresenter
         {
             StartGameTask task = new StartGameTask(activity.getBaseContext());
             task.execute(id);
+        } else {
+            Toast.makeText(activity, "Invalid number of Players", Toast.LENGTH_SHORT).show();
         }
 
     }
