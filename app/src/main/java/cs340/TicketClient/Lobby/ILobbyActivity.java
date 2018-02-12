@@ -4,10 +4,6 @@ import java.util.List;
 
 import common.DataModels.GameInfo;
 
-/**
- * Created by Ryan on 2/6/2018.
- */
-
 public interface ILobbyActivity {
     /**
      * A method that passes in a list of GameInfo for the LobbyActivity to display

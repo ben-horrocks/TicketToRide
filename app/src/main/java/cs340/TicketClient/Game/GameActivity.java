@@ -15,10 +15,6 @@ import common.DataModels.GameInfo;
 import cs340.TicketClient.Lobby.GameListAdapter;
 import cs340.TicketClient.R;
 
-/**
- * Created by Ben_D on 2/7/2018.
- */
-
 public class GameActivity extends AppCompatActivity
 {
   @Override

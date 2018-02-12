@@ -189,4 +189,10 @@ public class LobbyPresenter implements ILobbyPresenter
         }
         return false;
     }
+
+    public LobbyModel getModel()
+    {
+        return model;
+    }
+
 }
