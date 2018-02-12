@@ -38,10 +38,12 @@ public class Player implements Serializable
     this.points += points;
   }
 
-  public Username getName()
+  public Username getUsername()
   {
     return name;
   }
+
+  public String getName() {return name.getName(); }
 
   public void setName(Username name)
   {

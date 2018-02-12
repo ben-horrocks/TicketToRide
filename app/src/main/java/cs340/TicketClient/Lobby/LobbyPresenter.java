@@ -230,4 +230,7 @@ public class LobbyPresenter implements ILobbyPresenter
 
     }
 
+    public Player getPlayer() {
+        return model.getPlayer();
+    }
 }

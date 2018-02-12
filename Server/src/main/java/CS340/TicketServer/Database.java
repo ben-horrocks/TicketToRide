@@ -2,12 +2,9 @@ package CS340.TicketServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import common.DataModels.AuthToken;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
@@ -51,7 +48,7 @@ public class Database {
      * @post the player will definitely be in the database
      */
     public boolean addPlayer(Player player) {
-        playerList.put(player.getName(), player);
+        playerList.put(player.getUsername(), player);
         return true;
     }
 
@@ -82,8 +79,8 @@ public class Database {
      * otherwise returns false if player not found
      */
     public boolean updatePlayer(Player player) {
-        if (playerList.containsKey(player.getName())) {
-            playerList.put(player.getName(), player);
+        if (playerList.containsKey(player.getUsername())) {
+            playerList.put(player.getUsername(), player);
             return true;
         }
         return false;
@@ -98,8 +95,8 @@ public class Database {
      * @post the player will definitely not be in the database
      */
     public boolean deletePlayer(Player player) {
-        if (playerList.containsKey(player.getName())) {
-            playerList.remove(player.getName());
+        if (playerList.containsKey(player.getUsername())) {
+            playerList.remove(player.getUsername());
             return true;
         }
         return false;

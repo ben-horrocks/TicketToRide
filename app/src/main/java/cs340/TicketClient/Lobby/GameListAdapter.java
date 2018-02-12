@@ -17,8 +17,6 @@ import java.util.List;
 
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
-import cs340.TicketClient.ASyncTask.JoinGameTask;
-import cs340.TicketClient.ASyncTask.StartGameTask;
 import cs340.TicketClient.R;
 
 /**
@@ -50,7 +48,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   {
     GameInfo game = games.get(position);
     holder.isMyGame = game.getCreatorName().equals(
-            LobbyPresenter.getInstance().getModel().getPlayer().getName().getName());
+            LobbyPresenter.getInstance().getPlayer().getName());
 
     //Implement HasJoinedGame here
     holder.GameName.setText(
@@ -115,8 +113,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
     public TextView PlayerCount;
     public LinearLayout mButton;
     public GameID id;
-    public Boolean isMyGame;
-    public Boolean hasJoinedGame;
+    public boolean isMyGame;
+    public boolean hasJoinedGame;
 
     public viewHolder(View itemView)
     {

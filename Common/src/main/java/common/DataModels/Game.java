@@ -19,7 +19,7 @@ public class Game implements Serializable
 
   public Game(Player startingPlayer)
   {
-    name = startingPlayer.getName() + "\'s game";
+    name = startingPlayer.getUsername() + "\'s game";
     creator = startingPlayer;
     currentPlayers.add(startingPlayer);
   }
@@ -38,7 +38,7 @@ public class Game implements Serializable
 
   public String getName(){ return name;}
 
-  public String getCreatorName() {return creator.getName().getName();}
+  public String getCreatorName() {return creator.getName();}
 
   public Set<Player>getPlayers() {return currentPlayers;}
 
