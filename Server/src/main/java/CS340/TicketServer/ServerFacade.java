@@ -102,7 +102,7 @@ public class ServerFacade implements IServer
 
 			return new Signal(SignalType.OK, player);
 		}
-		String errorMsg = "error: you are not yet registered. Please register first.";
+		String errorMsg = "Sorry, this username is already taken";
 		return new Signal(SignalType.ERROR, errorMsg);
 	}
 
@@ -149,6 +149,12 @@ public class ServerFacade implements IServer
 		Database database = Database.SINGLETON;
 		Game game = database.getOpenGameByID(id);
 		if (!game.isGameFull()) {
+			//Check if game contains player
+			if (game.getPlayers().contains(player)) {
+				String errMsg = "Sorry, you have already joined this game.";
+				return new Signal(SignalType.ERROR, errMsg);
+
+			}
 			game.addPlayer(player);
 			return new Signal(SignalType.OK, game);
 		}
