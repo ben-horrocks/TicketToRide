@@ -51,12 +51,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
             LobbyPresenter.getInstance().getPlayer().getName());
 
     //Implement HasJoinedGame here
-    holder.GameName.setText(
-            (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join")) +
-            game.getName());
+    String status = (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join"));
+    String formattedPlayerCount = Integer.toString(game.getPlayerCount()) + '/' + '5';
+    holder.GameName.setText(game.getName());
+    holder.JoinStart.setText(status);
     holder.HostPlayerName.setText(game.getCreatorName());
-    holder.PlayerCount.setText(String.valueOf(game.getPlayerCount() + '/' + '5'));
+    holder.PlayerCount.setText(formattedPlayerCount);
     holder.id = game.getID();
+    String.va
 
   }
 
@@ -109,6 +111,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   public class viewHolder extends RecyclerView.ViewHolder
   {
     public TextView GameName;
+    public TextView JoinStart;
     public TextView HostPlayerName;
     public TextView PlayerCount;
     public LinearLayout mButton;
@@ -121,6 +124,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
       //VIEW BINDING
       super(itemView);
       GameName = (TextView) itemView.findViewById(R.id.game_name);
+      JoinStart = (TextView) itemView.findViewById(R.id.join_start);
       HostPlayerName = (TextView) itemView.findViewById(R.id.host_player_name);
       PlayerCount = (TextView) itemView.findViewById(R.id.player_count);
       mButton = (LinearLayout) itemView.findViewById(R.id.gameButton);
