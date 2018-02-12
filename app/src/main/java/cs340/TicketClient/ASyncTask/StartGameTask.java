@@ -9,6 +9,7 @@ import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.Lobby.LobbyActivity;
+import cs340.TicketClient.Lobby.LobbyPresenter;
 
 public class StartGameTask extends AsyncTask<GameID, Void, Signal>
 {
@@ -32,7 +33,8 @@ public class StartGameTask extends AsyncTask<GameID, Void, Signal>
       Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
     } else
     {
-      //Send to presenter to start game activity
+      GameID id = (GameID) signal.getObject();
+      LobbyPresenter.getInstance().startGame(id);
     }
   }
 }
