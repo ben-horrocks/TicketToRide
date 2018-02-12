@@ -49,7 +49,7 @@ public class Game implements Serializable
   public void addPlayer(Player player) { currentPlayers.add(player); }
 
   public boolean isGameFull() {
-    if (currentPlayers.size() > PLAYERLIMIT) {
+    if (currentPlayers.size() <= PLAYERLIMIT) {
       return false;
     }
     return true;

@@ -29,7 +29,7 @@ public class JoinGameTask extends AsyncTask<Object, Void, Signal>
   {
     if(signal.getSignalType() == SignalType.ERROR)
     {
-      Toast.makeText(context, "ERROR", Toast.LENGTH_SHORT).show();
+      Toast.makeText(context, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
     } else
     {
 
