@@ -19,42 +19,51 @@ public class ServerCommunicator
 	private static final int SERVER_PORT_NUMBER = 8080;
 	private static final Map<Player, CommandThread> threads = new ConcurrentHashMap<>();
 
-	/**
-	 * Runs the server. Initializes a ServerSocket at the designated port number. Then, it enters
-	 * an infinite loop where it can constantly be listening for sockets from the port number. If
-	 * a socket makes a connection, the server will create a new thread for that socket and
-	 * continue listening. The server is not meant to handle input/output streams, only sockets.
-	 */
-	private void run()
+	public ServerCommunicator()
 	{
-		ServerSocket serverSocket = null;
-		Socket socket = null;
-
-		try
+		/**
+		 * Runs the server. Initializes a ServerSocket at the designated port number. Then, it enters
+		 * an infinite loop where it can constantly be listening for sockets from the port number. If
+		 * a socket makes a connection, the server will create a new thread for that socket and
+		 * continue listening. The server is not meant to handle input/output streams, only sockets.
+		 */
+		Thread server = new Thread()
 		{
-			serverSocket = new ServerSocket(getServerPortNumber());
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		while (true)
-		{
-			try
+			public void run()
 			{
-				System.out.println("Waiting for socket connection...");
-				socket = serverSocket.accept();
-				System.out.println("Connection received from " + socket.getInetAddress());
+				ServerSocket serverSocket = null;
+				Socket socket = null;
+
+				try
+				{
+					serverSocket = new ServerSocket(getServerPortNumber());
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+
+				while (true)
+				{
+					try
+					{
+						System.out.println("Waiting for socket connection...");
+						socket = serverSocket.accept();
+						System.out.println("Connection received from " + socket.getInetAddress());
+					}
+					catch (IOException e)
+					{
+						System.out.println("Error in receiving client socket: " + e);
+					}
+					System.out.println("Thread for " + socket.getInetAddress() + " started");
+					CommandThread commandThread = new CommandThread(socket);
+					commandThread.start();
+				}
 			}
-			catch (IOException e)
-			{
-				System.out.println("Error in receiving client socket: " + e);
-			}
-			System.out.println("Thread for " + socket.getInetAddress() + " started");
-			CommandThread commandThread = new CommandThread(socket);
-			commandThread.start();
-		}
+		};
+
+		server.setDaemon(true);
+		server.start();
 	}
 
 	public static int getServerPortNumber()
@@ -69,7 +78,7 @@ public class ServerCommunicator
 
 	public static void main(String[] args)
 	{
-		new ServerCommunicator().run();
+		new ServerCommunicator();
 		new PushTimer();
 	}
 }
