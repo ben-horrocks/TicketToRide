@@ -58,6 +58,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
     holder.HostPlayerName.setText(game.getCreatorName());
     holder.PlayerCount.setText(formattedPlayerCount);
     holder.id = game.getID();
+    String.va
 
   }
 
