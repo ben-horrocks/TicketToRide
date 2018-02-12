@@ -1,5 +1,6 @@
 package cs340.TicketClient.Communicator;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -128,7 +129,7 @@ public class ClientCommunicator
 							System.out.println("IOException in read Thread: " + e);
 							e.printStackTrace();
 							// if SocketException, like a problem with Server, stop listening
-							if (e instanceof SocketException)
+							if (e instanceof SocketException || e instanceof EOFException)
 							{
 								closeSocket();
 								break;
@@ -144,8 +145,8 @@ public class ClientCommunicator
 							System.out.println("InterruptedException in read Thread: " + e);
 							e.printStackTrace();
 						}
-						System.out.println("You have disconnected from the Server!");
 					}
+					System.out.println("You have disconnected from the Server!");
 				}
 			};
 
