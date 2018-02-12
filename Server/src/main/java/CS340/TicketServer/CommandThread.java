@@ -19,7 +19,7 @@ public class CommandThread extends Thread
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 
-	public CommandThread(Socket clientSocket)
+	public CommandThread(final Socket clientSocket)
 	{
 		try
 		{
@@ -64,7 +64,8 @@ public class CommandThread extends Thread
 			{
 				public void run()
 				{
-					while (true)
+					boolean keepRunning = true;
+					while (keepRunning)
 					{
 						try
 						{
@@ -85,6 +86,15 @@ public class CommandThread extends Thread
 							System.out.println("InterruptedException in read Thread: " + e);
 							e.printStackTrace();
 						}
+					}
+					try
+					{
+						clientSocket.close();
+					}
+					catch (IOException e)
+					{
+						System.out.println("Error closing socket in read thread: " + e);
+						e.printStackTrace();
 					}
 				}
 			};
