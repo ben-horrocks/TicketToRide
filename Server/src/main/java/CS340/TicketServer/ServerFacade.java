@@ -122,7 +122,7 @@ public class ServerFacade implements IServer
 
 		//If a provided game name is already in the database, modify with a numeric symbol in parentheses
 		//which is appended to the end of the name
-		while (database.getGameByName(gameName) != null) {
+		while (database.getOpenGameByName(gameName) != null) {
 			if (finalName.length() !=  gameName.length()) {
 				finalName.deleteCharAt(finalName.length() - 1);
 			}
@@ -133,7 +133,7 @@ public class ServerFacade implements IServer
 		//Created name that is not in the database.
 		//create new game with new name and starting player
 		Game game = new Game(finalName.toString(), startingPlayer);
-		database.addGame(game);
+		database.addOpenGame(game);
 		return new Signal(SignalType.OK, game);
 	}
 
@@ -145,7 +145,7 @@ public class ServerFacade implements IServer
 	 */
 	public Signal joinGame(Player player, GameID id) {
 		Database database = Database.SINGLETON;
-		Game game = database.getGameByID(id);
+		Game game = database.getOpenGameByID(id);
 		if (!game.isGameFull()) {
 			game.addPlayer(player);
 			return new Signal(SignalType.OK, game);
@@ -163,7 +163,7 @@ public class ServerFacade implements IServer
 	 */
 	public Signal startGame(GameID id) {
 		Database database = Database.SINGLETON;
-		Game game = database.getGameByID(id);
+		Game game = database.getOpenGameByID(id);
 		if (game == null) {
 			String errMsg = "Sorry, this game does not exist";
 			Signal signal = new Signal(SignalType.ERROR, errMsg);
@@ -172,6 +172,9 @@ public class ServerFacade implements IServer
 		if (!game.isGameStarted()) {
 			//start game
 			game.startGame();
+			//remove the game from the list of open games and move to the list of running games
+			database.deleteOpenGame(game);
+			database.addRunningGame(game);
 			//push start notification to all players
 			ClientProxy.getSINGLETON().startGame(game.getId());
 			//return start signal to player
