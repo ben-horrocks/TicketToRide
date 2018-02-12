@@ -59,6 +59,24 @@ public class AuthToken implements Serializable
     return token.toString();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof AuthToken)) return false;
+
+    AuthToken authToken = (AuthToken) o;
+
+    if (generationTime != authToken.generationTime) return false;
+    return token != null ? token.equals(authToken.token) : authToken.token == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = token != null ? token.hashCode() : 0;
+    result = 31 * result + (int) (generationTime ^ (generationTime >>> 32));
+    return result;
+  }
+
   static class Timeout extends TimerTask
   {
     private final String authtoken;
