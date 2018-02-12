@@ -50,8 +50,6 @@ public class ClientProxy implements IClient {
     @Override
     public void updateGameList(List<GameInfo> gameList) {
 		ConcurrentHashMap<Player, CommandThread> threadList = (ConcurrentHashMap<Player, CommandThread>) ServerCommunicator.getThreads();
-		// Below caused a ClassCastException because you can't cast a ConcurrentHashMap to a HashMap
-        // HashMap<Player, CommandThread> threadList = (HashMap<Player, CommandThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.OK, gameList);
         for (CommandThread thread : threadList.values()) {
             thread.push(signal);

@@ -9,13 +9,36 @@ import common.DataModels.*;
 
 public class LobbyModel
 {
+    /**
+     * The list of available games on the server
+     */
     private Map<GameID, GameInfo> games;
+
+    /**
+     * The GameID of the currently joined game
+     */
     private GameID joinedGame;
+
+    /**
+     * The player object associated with this instance of the client
+     */
     private Player player;
+
+    /**
+     * Default constructor
+     * @pre none
+     * @post creates a new model instance with an empty list of games
+     */
     public LobbyModel(){
         games = new HashMap<GameID, GameInfo>();
     }
 
+    /**
+     * Constructor for creating a new model with initialized games
+     * @pre the map of games must be valid on the server
+     * @post creates a new model instance with the passed in values
+     * @param games The map of games to be used in initialization
+     */
     public LobbyModel(Map<GameID, GameInfo> games) {
         this.games = games;
     }
@@ -132,21 +155,33 @@ public class LobbyModel
     }
 
     /**
+     * Gets the player data object
+     * @pre none
+     * @post the player will be returned
+     * @return the player associated with the client
+     */
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    /**
+     * Sets the player associated with the client
+     * @pre none
+     * @post The player will be stored in the model
+     * @param player The player object from the server
+     */
+    public void setPlayer(Player player)
+    {
+        this.player = player;
+    }
+
+    /**
      * An exception that occurs when the model tries to access a game that is not found in the games list
      */
     public class GameNotFoundException extends Exception {
         public GameNotFoundException(GameID id){
             super("No game found with ID: " + id.getId());
         }
-    }
-
-    public Player getPlayer()
-    {
-        return player;
-    }
-
-    public void setPlayer(Player player)
-    {
-        this.player = player;
     }
 }
