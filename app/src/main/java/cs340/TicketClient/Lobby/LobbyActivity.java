@@ -149,20 +149,7 @@ public class LobbyActivity extends AppCompatActivity
    */
   public void gameAdded()
   {
-    mNewGameButton.setText(R.string.start_game);
-    mNewGameButton.setOnClickListener(new View.OnClickListener()
-    {
-      @Override
-      public void onClick(View view)
-      {
-        GameID id = LobbyPresenter.getInstance().getJoinedGameID();
-        if (LobbyPresenter.getInstance().canStartGame(id))
-        {
-          StartGameTask task = new StartGameTask(getBaseContext());
-          task.execute(id);
-        }
-      }
-    });
+//    mNewGameButton.setText(R.string.start_game);
   }
 
   /**
