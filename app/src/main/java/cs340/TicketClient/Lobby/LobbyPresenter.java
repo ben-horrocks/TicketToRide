@@ -172,7 +172,7 @@ public class LobbyPresenter implements ILobbyPresenter
         updateGameList();
     }
 
-   /**
+    /**
      * Sends a request to the server to get the list of non-full games that haven't started yet.
      * Then adds the returned list to the model and updates the LobbyActivity.
      *
