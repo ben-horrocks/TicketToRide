@@ -144,8 +144,8 @@ public class ClientCommunicator
 							System.out.println("InterruptedException in read Thread: " + e);
 							e.printStackTrace();
 						}
-						System.out.println("You have disconnected from the Server!");
 					}
+					System.out.println("You have disconnected from the Server!");
 				}
 			};
 
