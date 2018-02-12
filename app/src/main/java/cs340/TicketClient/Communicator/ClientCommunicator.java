@@ -3,7 +3,7 @@ package cs340.TicketClient.Communicator;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.net.*;
 
 import cs340.TicketClient.Login.LoginModel;
 

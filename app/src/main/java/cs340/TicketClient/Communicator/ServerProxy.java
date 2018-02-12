@@ -84,7 +84,6 @@ public class ServerProxy implements IServer
         return null;
     }
 
-    @Override
     public Signal getAvailableGameInfo() {
         String[] parameterTypes = {};
         Object[] parameters = {};
