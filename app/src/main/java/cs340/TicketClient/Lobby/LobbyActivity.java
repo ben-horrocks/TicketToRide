@@ -121,10 +121,15 @@ public class LobbyActivity extends AppCompatActivity
    */
   public void updateGameList()
   {
-    mGameListAdapter.clear();
-    List<GameInfo> games =
-            LobbyPresenter.getInstance().searchGames(mSearchGameText.getText().toString());
-    mGameListAdapter.addGames(games);
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        mGameListAdapter.clear();
+        List<GameInfo> games =
+                LobbyPresenter.getInstance().searchGames(mSearchGameText.getText().toString());
+        mGameListAdapter.addGames(games);
+      }
+    });
   }
 
 
