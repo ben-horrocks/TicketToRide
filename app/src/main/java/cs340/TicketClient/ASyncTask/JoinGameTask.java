@@ -32,7 +32,7 @@ public class JoinGameTask extends AsyncTask<Object, Void, Signal>
       Toast.makeText(context, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
     } else
     {
-
+      // Please implement
     }
   }
 }

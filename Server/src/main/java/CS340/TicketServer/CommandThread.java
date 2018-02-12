@@ -136,8 +136,7 @@ public class CommandThread extends Thread
 		}
 		catch (IOException e)
 		{
-			System.out.println("Error pushing from CommandThread: " + e);
-			e.printStackTrace();
+			System.out.println(clientSocket.getInetAddress() + " disconnected from the server");
 			try
 			{
 				clientSocket.close();
