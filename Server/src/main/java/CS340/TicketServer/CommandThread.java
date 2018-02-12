@@ -118,6 +118,10 @@ public class CommandThread extends Thread
 		}
 	}
 
+	/**
+	 * This function "pushes" or sends Signals from the Server to the Client.
+	 * @param signal The signal to be sent to the Client
+	 */
 	public void push(Signal signal)
 	{
 		try
@@ -127,6 +131,7 @@ public class CommandThread extends Thread
 		}
 		catch (IOException e)
 		{
+			System.out.println("Error pushing from CommandThread: " + e);
 			e.printStackTrace();
 		}
 	}
