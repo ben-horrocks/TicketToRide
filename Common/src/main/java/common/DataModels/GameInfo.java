@@ -8,20 +8,20 @@ public class GameInfo {
     private GameID id;
     private String name;
     private String creatorName;
-    private int playerCount;
+    private Player[] players;
 
     public GameInfo(Game g){
         this.id = g.getId();
         this.name = g.getName();
         this.creatorName = g.getCreatorName();
-        this.playerCount = g.getPlayers().size();
+        this.players = (Player[]) g.getPlayers().toArray();
     }
 
-    public GameInfo(GameID id, String name, String creatorName, int playerCount) {
+    public GameInfo(GameID id, String name, String creatorName, Player[] players) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
-        this.playerCount = playerCount;
+        this.players = players;
     }
 
     public GameID getID(){
@@ -36,11 +36,9 @@ public class GameInfo {
         return this.creatorName;
     }
 
-    public int getPlayerCount(){
-        return this.playerCount;
-    }
+    public int getPlayerCount(){ return this.players.length; }
 
     public boolean isFull() {
-        return playerCount < 5;
+        return players.length < 5;
     }
 }

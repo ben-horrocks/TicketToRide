@@ -33,4 +33,21 @@ public class Username implements Serializable
   public void setName(String name) {
     this.name = name;
   }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Username username = (Username) o;
+
+		return name.equals(username.name);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return name.hashCode();
+	}
 }
