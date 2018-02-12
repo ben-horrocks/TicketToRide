@@ -7,7 +7,9 @@ import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import common.CommandParams;
+import common.DataModels.Player;
 import common.DataModels.Signal;
+import communicators.ServerCommunicator;
 
 /**
  * Created by Kavika F.
@@ -26,9 +28,11 @@ public class CommandThread extends Thread
 			messages = new LinkedBlockingQueue<>();
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
-
-			Thread receiver = new Thread()
+			final CommandThread thisThread = this;
+			Thread receiver = new Thread(thisThread)
 			{
+				CommandThread parent = thisThread;
+
 				public void run()
 				{
 					while(true)
@@ -42,6 +46,11 @@ public class CommandThread extends Thread
 								CommandParams commandParams = (CommandParams) message;
 								Command command = new Command(commandParams);
 								result = (Signal) command.execute();
+								if (result.getObject() instanceof Player)
+								{
+									Player player = (Player) result.getObject();
+									ServerCommunicator.getThreads().put(player, parent);
+								}
 							}
 							else
 							{
