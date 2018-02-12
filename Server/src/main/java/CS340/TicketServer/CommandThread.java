@@ -21,6 +21,7 @@ public class CommandThread extends Thread
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Socket clientSocket;
+	private Player socketOwner;
 
 	public CommandThread(final Socket clientSocket)
 	{
@@ -51,6 +52,7 @@ public class CommandThread extends Thread
 								if (result.getObject() instanceof Player)
 								{
 									Player player = (Player) result.getObject();
+									socketOwner = player;
 									ServerCommunicator.getThreads().put(player, parent);
 								}
 							}
@@ -73,8 +75,6 @@ public class CommandThread extends Thread
 
 			Thread read = new Thread(thisThread)
 			{
-				CommandThread parent = thisThread;
-
 				public void run()
 				{
 					boolean keepRunning = true;
@@ -103,7 +103,7 @@ public class CommandThread extends Thread
 					try
 					{
 						clientSocket.close();
-						ServerCommunicator.getThreads().remove(thisThread);
+						ServerCommunicator.getThreads().remove(socketOwner);
 					}
 					catch (IOException e)
 					{
@@ -141,10 +141,7 @@ public class CommandThread extends Thread
 			try
 			{
 				clientSocket.close();
-				if (ServerCommunicator.getThreads().containsValue(this))
-				{
-					ServerCommunicator.getThreads().remove(this);
-				}
+				ServerCommunicator.getThreads().remove(socketOwner);
 			}
 			catch (IOException ex)
 			{
