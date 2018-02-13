@@ -20,6 +20,7 @@ public class GameActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
+    // TODO: Make a "Game Started" Toast
     super.onCreate(savedInstanceState);
     this.setContentView(R.layout.activity_game);
 
