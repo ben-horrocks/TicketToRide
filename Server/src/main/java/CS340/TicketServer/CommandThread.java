@@ -9,6 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import common.CommandParams;
 import common.DataModels.Player;
 import common.DataModels.Signal;
+import common.DataModels.Username;
 import communicators.ServerCommunicator;
 
 /**
@@ -21,7 +22,7 @@ public class CommandThread extends Thread
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Socket clientSocket;
-	private Player socketOwner;
+	private Username socketOwner;
 
 	public CommandThread(final Socket clientSocket)
 	{
@@ -51,9 +52,9 @@ public class CommandThread extends Thread
 								result = (Signal) command.execute();
 								if (result.getObject() instanceof Player)
 								{
-									Player player = (Player) result.getObject();
-									socketOwner = player;
-									ServerCommunicator.getThreads().put(player, parent);
+									Username username = ((Player) result.getObject()).getUsername();
+									socketOwner = username;
+									ServerCommunicator.getThreads().put(username, parent);
 								}
 							}
 							else

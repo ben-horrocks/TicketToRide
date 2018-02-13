@@ -13,6 +13,7 @@ import common.DataModels.GameInfo;
 import common.DataModels.Player;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
+import common.DataModels.Username;
 import common.IClient;
 import communicators.ServerCommunicator;
 
@@ -49,7 +50,7 @@ public class ClientProxy implements IClient {
 
     @Override
     public void updateGameList(List<GameInfo> gameList) {
-		ConcurrentHashMap<Player, CommandThread> threadList = (ConcurrentHashMap<Player, CommandThread>) ServerCommunicator.getThreads();
+		ConcurrentHashMap<Username, CommandThread> threadList = (ConcurrentHashMap<Username, CommandThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.UPDATE, gameList);
         for (CommandThread thread : threadList.values()) {
             thread.push(signal);
@@ -59,14 +60,14 @@ public class ClientProxy implements IClient {
     @Override
     public void startGame(GameID id) {
         //get threads for all players & the game to be started with associated players
-        ConcurrentHashMap<Player, CommandThread> threadList = (ConcurrentHashMap<Player, CommandThread>) ServerCommunicator.getThreads();
+        ConcurrentHashMap<Username, CommandThread> threadList = (ConcurrentHashMap<Username, CommandThread>) ServerCommunicator.getThreads();
         Game game = Database.SINGLETON.getRunningGameByID(id);
         
         //create start signal to push to all players in game
         Signal signal = new Signal(SignalType.OK, game);
 
         for (Player p : game.getPlayers()) {
-            threadList.get(p).push(signal);
+            threadList.get(p.getUsername()).push(signal);
         }
 
     }

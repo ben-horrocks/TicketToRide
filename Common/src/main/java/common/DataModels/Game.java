@@ -40,7 +40,7 @@ public class Game implements Serializable
 
   public String getCreatorName() {return creator.getName();}
 
-  public Set<Player>getPlayers() {return currentPlayers;}
+  public Set<Player> getPlayers() {return currentPlayers;}
 
   public boolean isGameStarted() { return gameStarted; }
 
