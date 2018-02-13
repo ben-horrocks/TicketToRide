@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import common.DataModels.Game;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
@@ -77,6 +78,9 @@ public class ClientCommunicator
 								List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
 
 								facade.updateGameList(infoList);
+							}else if (signal.getSignalType() == SignalType.START_GAME){
+								ClientFacade c = new ClientFacade();
+								c.startGame(((Game)signal.getObject()).getId());
 							}
 							else // Should be a signal
 							{
