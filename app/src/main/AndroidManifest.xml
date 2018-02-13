@@ -22,6 +22,10 @@
         <activity
             android:name=".Lobby.LobbyActivity"
             android:label="Lobby"/>
+
+        <activity
+            android:name=".Game.GameActivity"
+            android:label="Game"/>
     </application>
 
 </manifest>
