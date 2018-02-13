@@ -133,6 +133,7 @@ public class CommandThread extends Thread
 		{
 			out.writeObject(signal);
 			out.flush();
+			out.reset();
 		}
 		catch (IOException e)
 		{

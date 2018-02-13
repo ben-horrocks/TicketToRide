@@ -48,4 +48,11 @@ public class GameInfo implements Serializable
     public boolean isFull() {
         return players.size() < 5;
     }
+
+    public boolean canStart(Player p){
+        boolean correctPlayer = p.getName().equals(this.getName());
+        boolean enoughPlayers = players.size() > 1;
+        boolean tooManyPlayers = players.size() > 5;
+        return correctPlayer && enoughPlayers && !tooManyPlayers;
+    }
 }
