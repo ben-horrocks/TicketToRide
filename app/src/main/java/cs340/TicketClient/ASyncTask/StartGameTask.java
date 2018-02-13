@@ -33,7 +33,6 @@ public class StartGameTask extends AsyncTask<GameID, Void, Signal>
       Toast.makeText(context, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
     } else
     {
-      GameID id = (GameID) signal.getObject();
       LobbyPresenter.getInstance().gameStarted();
     }
   }
