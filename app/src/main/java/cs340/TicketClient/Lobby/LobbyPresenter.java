@@ -233,7 +233,34 @@ public class LobbyPresenter implements ILobbyPresenter
 
     }
 
+    public void gameStarted()
+    {
+        activity.startGame();
+    }
+
     public Player getPlayer() {
         return model.getPlayer();
+    }
+
+    public boolean isMyGame(GameID id) {
+        try
+        {
+            return model.getGame(id).getCreatorName().equals(model.getPlayer().getName());
+        } catch(LobbyModel.GameNotFoundException e)
+        {
+            Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    public boolean hasJoinedGame(GameID id) {
+        try
+        {
+            return model.getGame(id).getPlayers().contains(model.getPlayer());
+        } catch(LobbyModel.GameNotFoundException e)
+        {
+            Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 }

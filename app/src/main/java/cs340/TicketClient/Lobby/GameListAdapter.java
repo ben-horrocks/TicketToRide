@@ -47,25 +47,21 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   public void onBindViewHolder(viewHolder holder, int position)
   {
     GameInfo game = games.get(position);
-    holder.isMyGame = game.getCreatorName().equals(
-            LobbyPresenter.getInstance().getPlayer().getName());
-
-    Player player = LobbyPresenter.getInstance().getPlayer();
-    holder.hasJoinedGame = game.getPlayers().contains(player);
-    System.out.println("Player is null: " + player == null);
-    String status = (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join"));
+    holder.id = game.getID();
+    boolean isMyGame = LobbyPresenter.getInstance().isMyGame(holder.id);
+    boolean hasJoinedGame = LobbyPresenter.getInstance().hasJoinedGame(holder.id);
+    String status = (isMyGame ? "Start" : (hasJoinedGame ? "Joined" : "Join"));
     String formattedPlayerCount = Integer.toString(game.getPlayerCount()) + '/' + '5';
     holder.GameName.setText(game.getName());
     holder.JoinStart.setText(status);
-    if(holder.hasJoinedGame)
+    if(hasJoinedGame)
     {
       holder.JoinStart.setTextColor(Color.BLACK);
-    } else if (!game.canStart(player)) {
+    } else if (!game.canStart(LobbyPresenter.getInstance().getPlayer())) {
       holder.JoinStart.setTextColor(Color.RED);
     }
     holder.HostPlayerName.setText(game.getCreatorName());
     holder.PlayerCount.setText(formattedPlayerCount);
-    holder.id = game.getID();
 
   }
 
@@ -123,8 +119,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
     public TextView PlayerCount;
     public LinearLayout mButton;
     public GameID id;
-    public boolean isMyGame;
-    public boolean hasJoinedGame;
 
     public viewHolder(View itemView)
     {
@@ -138,32 +132,20 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
       //END VIEW BINDING
 
       //LISTENERS
-      if (isMyGame)
-      {
         mButton.setOnClickListener(new View.OnClickListener()
         {
           @Override
           public void onClick(View view)
           {
-            GameID id = LobbyPresenter.getInstance().getJoinedGameID();
-            LobbyPresenter.getInstance().startGame(id);
+            if (LobbyPresenter.getInstance().isMyGame(id))
+            {
+              LobbyPresenter.getInstance().startGame(id);
+            } else if (LobbyPresenter.getInstance().hasJoinedGame(id))
+            {
+              LobbyPresenter.getInstance().joinGame(id);
+            }
           }
         });
-
-      } else if (!hasJoinedGame)
-      {
-        mButton.setOnClickListener(new View.OnClickListener()
-        {
-          @Override
-          public void onClick(View view)
-          {
-            LobbyPresenter.getInstance().joinGame(id);
-          }
-        });
-      } else
-      {
-        //implement remove thyself from game here.
-      }
       //END LISTENERS
     }
   }

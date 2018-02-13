@@ -34,7 +34,7 @@ public class StartGameTask extends AsyncTask<GameID, Void, Signal>
     } else
     {
       GameID id = (GameID) signal.getObject();
-      LobbyPresenter.getInstance().startGame(id);
+      LobbyPresenter.getInstance().gameStarted();
     }
   }
 }
