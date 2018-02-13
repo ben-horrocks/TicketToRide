@@ -20,7 +20,7 @@ public class ClientFacade implements IClient
 
   @Override
   public void startGame(GameID id) {
-
+    LobbyPresenter.getInstance().gameStarted();
   }
 
 }
