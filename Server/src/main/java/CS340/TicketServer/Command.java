@@ -107,7 +107,7 @@ public class Command implements Serializable
 			e.printStackTrace();
 		} catch (IllegalAccessException e)
 		{
-			System.err.println("Illegal accesss while trying to execute the method " + methodName);
+			System.err.println("Illegal access while trying to execute the method " + methodName);
 			e.printStackTrace();
 		} catch (IllegalArgumentException e)
 		{
@@ -115,7 +115,7 @@ public class Command implements Serializable
 			e.printStackTrace();
 		} catch (InvocationTargetException e)
 		{
-			System.err.println("Illegal accesss while trying to execute the method " + methodName);
+			System.err.println("Illegal access while trying to execute the method " + methodName);
 			e.printStackTrace();
 		}
 
