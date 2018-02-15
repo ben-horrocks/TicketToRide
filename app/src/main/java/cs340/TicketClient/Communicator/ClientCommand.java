@@ -1,4 +1,4 @@
-package CS340.TicketServer;
+package cs340.TicketClient.Communicator;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +12,7 @@ import common.CommandParams;
  * public function that Command has to implement (execute()). The implementation will vary
  * depending on the context of the Command (what is the destination of the Command?).
  */
-public class Command implements Serializable
+public class ClientCommand implements Serializable
 {
 	private static final long serialVersionUID = 5950169519310163575L;
 
@@ -31,7 +31,7 @@ public class Command implements Serializable
 	 * @param parameterTypeNames The types of the parameters.
 	 * @param parameters The parameters to be used in the method.
 	 */
-	public Command(String methodName, String[] parameterTypeNames, Object[] parameters)
+	public ClientCommand(String methodName, String[] parameterTypeNames, Object[] parameters)
 	{
 		this.methodName = methodName;
 		this.parameterTypeNames = parameterTypeNames;
@@ -39,7 +39,7 @@ public class Command implements Serializable
 		createParameterTypes();
 	}
 
-	public Command(CommandParams commandParams)
+	public ClientCommand(CommandParams commandParams)
 	{
 		this.methodName = commandParams.getMethodName();
 		this.parameterTypeNames = commandParams.getParameterTypeNames();
@@ -98,8 +98,8 @@ public class Command implements Serializable
 		try
 		{
 			Method method;
-			method = ServerFacade.class.getMethod(methodName, parameterTypes);
-			result = method.invoke(ServerFacade.getSINGLETON(), parameters);
+			method = ClientFacade.class.getMethod(methodName, parameterTypes);
+			result = method.invoke(ClientFacade.getSingleton(), parameters);
 
 		} catch (NoSuchMethodException | SecurityException e)
 		{

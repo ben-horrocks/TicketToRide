@@ -71,13 +71,10 @@ public class ClientCommunicator
 							if (signal.getSignalType() == SignalType.UPDATE &&
 									signal.getObject() instanceof List)
 							{
-								ClientFacade facade = new ClientFacade();
-
 								// Hope that the List of type UPDATE has GameInfo Objects
 								@SuppressWarnings("unchecked")
 								List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
-
-								facade.updateGameList(infoList);
+								ClientFacade.getSingleton().updateGameList(infoList);
 							}else if (signal.getSignalType() == SignalType.START_GAME){
 								ClientFacade c = new ClientFacade();
 								c.startGame(((Game)signal.getObject()).getId());
