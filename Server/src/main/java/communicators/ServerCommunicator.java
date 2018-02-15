@@ -6,9 +6,8 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import CS340.TicketServer.CommandThread;
+import CS340.TicketServer.ClientThread;
 import CS340.TicketServer.PushTimer;
-import common.DataModels.Player;
 import common.DataModels.Username;
 
 /**
@@ -18,7 +17,7 @@ import common.DataModels.Username;
 public class ServerCommunicator
 {
 	private static final int SERVER_PORT_NUMBER = 8080;
-	private static final Map<Username, CommandThread> threads = new ConcurrentHashMap<>();
+	private static final Map<Username, ClientThread> threads = new ConcurrentHashMap<>();
 
 	public ServerCommunicator()
 	{
@@ -57,8 +56,8 @@ public class ServerCommunicator
 						System.out.println("Error in receiving client socket: " + e);
 					}
 					System.out.println("Thread for " + socket.getInetAddress() + " started");
-					CommandThread commandThread = new CommandThread(socket);
-					commandThread.start();
+					ClientThread clientThread = new ClientThread(socket);
+					clientThread.start();
 				}
 			}
 		};
@@ -72,7 +71,7 @@ public class ServerCommunicator
 		return SERVER_PORT_NUMBER;
 	}
 
-	public static Map<Username, CommandThread> getThreads()
+	public static Map<Username, ClientThread> getThreads()
 	{
 		return threads;
 	}

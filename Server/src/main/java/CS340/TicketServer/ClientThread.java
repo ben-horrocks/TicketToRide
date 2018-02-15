@@ -16,7 +16,7 @@ import communicators.ServerCommunicator;
  * Created by Kavika F.
  */
 
-public class CommandThread extends Thread
+public class ClientThread extends Thread
 {
 	private LinkedBlockingQueue<Object> messages;
 	private ObjectInputStream in;
@@ -24,7 +24,7 @@ public class CommandThread extends Thread
 	private Socket clientSocket;
 	private Username socketOwner;
 
-	public CommandThread(final Socket clientSocket)
+	public ClientThread(final Socket clientSocket)
 	{
 		try
 		{
@@ -32,10 +32,10 @@ public class CommandThread extends Thread
 			messages = new LinkedBlockingQueue<>();
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
-			final CommandThread thisThread = this;
+			final ClientThread thisThread = this;
 			Thread receiver = new Thread(thisThread)
 			{
-				CommandThread parent = thisThread;
+				ClientThread parent = thisThread;
 
 				public void run()
 				{
@@ -48,8 +48,8 @@ public class CommandThread extends Thread
 							if (message instanceof CommandParams)
 							{
 								CommandParams commandParams = (CommandParams) message;
-								Command command = new Command(commandParams);
-								result = (Signal) command.execute();
+								ServerCommand serverCommand = new ServerCommand(commandParams);
+								result = (Signal) serverCommand.execute();
 								if (result.getObject() instanceof Player)
 								{
 									Username username = ((Player) result.getObject()).getUsername();
@@ -65,7 +65,7 @@ public class CommandThread extends Thread
 						}
 						catch (InterruptedException e)
 						{
-							System.out.println("InterruptedException when receiving in CommandThread: " + e);
+							System.out.println("InterruptedException when receiving in ClientThread: " + e);
 						}
 					}
 				}
