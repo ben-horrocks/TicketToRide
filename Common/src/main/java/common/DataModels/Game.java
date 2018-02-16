@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class Game implements Serializable
 {
   private static final Integer PLAYERLIMIT = 5;
@@ -48,11 +44,8 @@ public class Game implements Serializable
 
   public void addPlayer(Player player) { currentPlayers.add(player); }
 
-  public boolean isGameFull() {
-    if (currentPlayers.size() < PLAYERLIMIT) {
-      return false;
-    }
-    return true;
+  public boolean isGameFull()
+  {
+    return currentPlayers.size() < PLAYERLIMIT;
   }
-
 }

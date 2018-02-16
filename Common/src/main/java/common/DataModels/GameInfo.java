@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Ryan on 2/6/2018.
- */
-
 public class GameInfo implements Serializable
 {
     private GameID id;

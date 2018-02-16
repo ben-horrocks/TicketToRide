@@ -20,6 +20,9 @@ import common.DataModels.SignalType;
 
 public class ClientCommunicator
 {
+	/**
+	 * Singleton object to access the ClientCommunicator
+	 */
 	private static ClientCommunicator SINGLETON = null;
 	public static ClientCommunicator getSingleton()
 	{
@@ -60,9 +63,15 @@ public class ClientCommunicator
 
 			Thread receiver = new Thread()
 			{
+				/**
+				 * While this thread is running, take Objects from the blockingQueue, cast them
+				 * as signals (because we're assuming that everything coming in is a Signal),
+				 * and deal with each one depending on the object's type.
+				 */
 				public void run()
 				{
-					while(true)
+					boolean keepRunning = true;
+					while(keepRunning)
 					{
 						try
 						{
@@ -116,6 +125,11 @@ public class ClientCommunicator
 
 			Thread read = new Thread()
 			{
+				/**
+				 * While this thread is running, constantly listen for incoming objects from the
+				 * server. Once something has come in, assign it to an Object, and push that Object
+				 * onto the blockingQueue. Continue listening.
+				 */
 				public void run()
 				{
 					while(true)
@@ -155,6 +169,10 @@ public class ClientCommunicator
 			read.start();
 		}
 
+		/**
+		 * Function to output objects from the client to the server.
+		 * @param object The object to be sent.
+		 */
 		private void write(Object object)
 		{
 			try
@@ -187,6 +205,9 @@ public class ClientCommunicator
 
 	}
 
+	/**
+	 * Closes the socket held by the ClientCommunicator.
+	 */
 	private void closeSocket()
 	{
 		try

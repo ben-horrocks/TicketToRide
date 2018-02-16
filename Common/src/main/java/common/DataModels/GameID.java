@@ -3,10 +3,6 @@ package common.DataModels;
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class GameID implements Serializable
 {
   private String id;

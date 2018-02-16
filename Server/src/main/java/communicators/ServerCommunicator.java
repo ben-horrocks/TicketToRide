@@ -50,14 +50,18 @@ public class ServerCommunicator
 						System.out.println("Waiting for socket connection...");
 						socket = serverSocket.accept();
 						System.out.println("Connection received from " + socket.getInetAddress());
+						System.out.println("Thread for " + socket.getInetAddress() + " started");
+						ClientThread clientThread = new ClientThread(socket);
+						clientThread.start();
 					}
 					catch (IOException e)
 					{
 						System.out.println("Error in receiving client socket: " + e);
 					}
-					System.out.println("Thread for " + socket.getInetAddress() + " started");
-					ClientThread clientThread = new ClientThread(socket);
-					clientThread.start();
+					catch (NullPointerException e)
+					{
+						System.out.println("NullPointerException when trying to accept incoming socket: " + e);
+					}
 				}
 			}
 		};

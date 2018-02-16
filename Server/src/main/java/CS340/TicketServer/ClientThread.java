@@ -33,10 +33,18 @@ public class ClientThread extends Thread
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
 			final ClientThread thisThread = this;
+
+
 			Thread receiver = new Thread(thisThread)
 			{
 				ClientThread parent = thisThread;
 
+				/**
+				 * When this thread is running, it blocks when there is nothing to take from
+				 * the LinkedBlockingQueue. When there is something in the queue, it removes it from
+				 * the queue and looks to see what type of Object it is. What is done with the Object
+				 * depends on the Object's type.
+				 */
 				public void run()
 				{
 					while(true)
@@ -76,6 +84,12 @@ public class ClientThread extends Thread
 
 			Thread read = new Thread(thisThread)
 			{
+				/**
+				 * When this thread is running, it is constantly listening on the input stream of
+				 * the socket. When something is received, it is put into an object and that object
+				 * is put into the LinkedBlockingQueue so it can be dealt with. That way, the
+				 * inputStream can go back to listening for incoming objects.
+				 */
 				public void run()
 				{
 					boolean keepRunning = true;
@@ -125,8 +139,8 @@ public class ClientThread extends Thread
 	}
 
 	/**
-	 * This function "pushes" or sends Signals from the Server to the Client.
-	 * @param signal The signal to be sent to the Client
+	 * This function "pushes" or sends Signal Objects from the Server to the Client.
+	 * @param signal The signal to be sent to the Client.
 	 */
 	public void push(Signal signal)
 	{

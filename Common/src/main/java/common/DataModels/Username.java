@@ -1,14 +1,6 @@
 package common.DataModels;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-/**
- * Created by Ben_D on 1/29/2018.
- */
 
 public class Username implements Serializable
 {
@@ -20,10 +12,7 @@ public class Username implements Serializable
 
   public static boolean isValidUserName(String name)
   {
-    if (name.contains(" ")) {
-      return false;
-    }
-    return true;
+    return name.contains(" ");
   }
 
   public String getName() {

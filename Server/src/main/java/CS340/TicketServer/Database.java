@@ -41,7 +41,7 @@ public class Database {
 
     /**
      * Add a new player to the database
-     * @param player
+     * @param player The player to be added to the database.
      * @return boolean true if player was successfully added
      * @pre requires that one has previously checked to make sure
      * that the username is not already present in the username list
@@ -55,8 +55,8 @@ public class Database {
     /**
      * Gets a specific player from the database, according
      * to the username object key
-     * @param name
-     * @return Player object, null
+     * @param name The username of the player being queried from the database.
+     * @return Return a player object if successfully found; otherwise, null.
      * @pre none
      * @post will return the player if found, null if the
      * player is not present in the database
@@ -70,7 +70,7 @@ public class Database {
 
     /**
      * Update a specific player in the database
-     * @param player
+     * @param player The player to be updated in the database.
      * @return true if the player was successfully updated,
      * false if the player was not found in the database
      * @pre none (though recommended to check the database
@@ -89,7 +89,7 @@ public class Database {
     /**
      * removes a specified player from the database
      * removes according to the provided player's username
-     * @param player
+     * @param player The player to be deleted from the database.
      * @return boolean (true if player is found, false if player is not found)
      * @pre none (though recommended that you check for presence first)
      * @post the player will definitely not be in the database
@@ -104,7 +104,7 @@ public class Database {
 
     /**
      * Add a new game to the database
-     * @param game
+     * @param game The game to be added and marked as "open".
      * @return boolean true if game was successfully added
      * @pre requires that one has previously checked to make sure
      * the game is not already present in the list
@@ -118,7 +118,7 @@ public class Database {
     /**
      * Gets a specific game from the database, according
      * to the gameID object key
-     * @param id
+     * @param id The id of the game to be queried from the list of open-games.
      * @return game object, null
      * @pre none
      * @post will return the game if found, null if the
@@ -134,7 +134,7 @@ public class Database {
     /**
      * Get a specific game from the database according
      * to the game's associated game name
-     * @param name
+     * @param name The name of the game being queried.
      * @return
      */
     public Game getOpenGameByName(String name) {
@@ -148,7 +148,7 @@ public class Database {
 
     /**
      * Get all the games currently available in the database
-     * @return
+     * @return Return all of the games that are marked as "open".
      * @pre none
      * @post none
      */
@@ -163,7 +163,7 @@ public class Database {
 
     /**
      * Update a specific game in the database
-     * @param game
+     * @param game The game to be updated from the list of open games.
      * @return true if the game was successfully updated,
      * false if the game was not found in the database
      * @pre none (though recommended to check the database
@@ -182,7 +182,7 @@ public class Database {
     /**
      * removes a specified game from the database
      * removes according to the provided game's gameID
-     * @param game
+     * @param game The game to be deleted from the list of open games.
      * @return boolean (true if game is found, false if game is not found)
      * @pre none (though recommended that you check for presence first)
      * @post the game will definitely not be in the database
@@ -197,7 +197,7 @@ public class Database {
 
     /**
      * Add a new game to the database
-     * @param game
+     * @param game The game to be added to the list of running games.
      * @return boolean true if game was successfully added
      * @pre requires that one has previously checked to make sure
      * the game is not already present in the list
@@ -211,7 +211,7 @@ public class Database {
     /**
      * Gets a specific game from the database, according
      * to the gameID object key
-     * @param id
+     * @param id The id of the game to be queried from the list of running games.
      * @return game object, null
      * @pre none
      * @post will return the game if found, null if the
@@ -227,8 +227,8 @@ public class Database {
     /**
      * Get a specific game from the database according
      * to the game's associated game name
-     * @param name
-     * @return
+     * @param name The name of the game being queried by the list of running games.
+     * @return Return the game with the specified name. If not found, return null.
      */
     public Game getRunningGameByName(String name) {
         for (Map.Entry<GameID, Game> entry : runningGameList.entrySet()) {
@@ -241,7 +241,7 @@ public class Database {
 
     /**
      * Get all the games currently available in the database
-     * @return
+     * @return Return all games in the list of running games.
      * @pre none
      * @post none
      */
@@ -256,7 +256,7 @@ public class Database {
 
     /**
      * Update a specific game in the database
-     * @param game
+     * @param game The game to update that is being queried by the list of running games.
      * @return true if the game was successfully updated,
      * false if the game was not found in the database
      * @pre none (though recommended to check the database
@@ -275,7 +275,7 @@ public class Database {
     /**
      * removes a specified game from the database
      * removes according to the provided game's gameID
-     * @param game
+     * @param game The game to be deleted from the list of running games.
      * @return boolean (true if game is found, false if game is not found)
      * @pre none (though recommended that you check for presence first)
      * @post the game will definitely not be in the database
