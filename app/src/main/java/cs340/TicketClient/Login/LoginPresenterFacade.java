@@ -7,10 +7,6 @@ import common.DataModels.Player;
 import common.DataModels.Signal;
 import cs340.TicketClient.Communicator.ServerProxy;
 
-/**
- * Created by jhens on 2/12/2018.
- */
-
 public class LoginPresenterFacade implements ILoginPresenter {
 
     private static final String stringClassName = "java.lang.String";
@@ -60,8 +56,8 @@ public class LoginPresenterFacade implements ILoginPresenter {
 
             String username = arrayLists[0];
             String password = arrayLists[1];
-            String screenname = arrayLists[2];
-            return ServerProxy.getInstance().register(username, password, screenname);
+            String screenName = arrayLists[2];
+            return ServerProxy.getInstance().register(username, password, screenName);
         }
 
         @Override

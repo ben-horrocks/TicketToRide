@@ -7,7 +7,7 @@ public interface IServer
 	/**
 	 * checks the database for the username ans password and logs in if the username and password match one on the server
 	 * @param username username of player attempting to login
-	 * @param password password of player attemption to login
+	 * @param password password of player attempting to login
 	 * @return Signal containing error or ok message and Player object
 	 */
 	Signal login(String username, String password);

@@ -11,10 +11,6 @@ import common.DataModels.SignalType;
 import common.DataModels.Username;
 import common.IServer;
 
-/**
- * Created by Kavika F.
- */
-
 public class ServerFacade implements IServer
 {
 	/**
