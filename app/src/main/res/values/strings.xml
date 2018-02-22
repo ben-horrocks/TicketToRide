@@ -15,5 +15,5 @@
     <string name="draw_train_card">Draw\nTrain Card</string>
     <string name="claim_route">Claim Route</string>
     <string name="hand">Hand</string>
-    <string name="google_maps_key">AIzaSyDzjmhbp2fNAz72vXbv9wXseDV63bPbc44</string>
+    <string name="title_activity_game">Game</string>
 </resources>

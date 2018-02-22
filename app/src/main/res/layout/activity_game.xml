@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_map"
-    android:name="@string/game_activity">
+    android:name="com.google.android.gms.maps.MapFragment">
 
     <Button
         android:id="@+id/hand_button"
@@ -17,10 +17,12 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/move_bar"
-        android:layout_below="@id/hand_button"/>
+        android:layout_below="@id/hand_button"
+        android:layout_above="@id/move_bar"
+        />
 
     <LinearLayout
         android:id="@+id/move_bar"

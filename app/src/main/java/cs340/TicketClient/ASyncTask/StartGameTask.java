@@ -1,14 +1,11 @@
 package cs340.TicketClient.ASyncTask;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.Game.GameActivity;
-import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.Lobby.LobbyPresenter;
 
 public class StartGameTask extends AsyncTask<GameID, Void, Signal>
