@@ -23,7 +23,7 @@ public class Password implements Serializable
 
   public static boolean isValidPass(String pass)
   {
-    return pass.contains(" ");
+    return !pass.contains(" ");
   }
 
   @Override

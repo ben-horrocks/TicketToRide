@@ -12,7 +12,7 @@ public class Username implements Serializable
 
   public static boolean isValidUserName(String name)
   {
-    return name.contains(" ");
+    return !name.contains(" ");
   }
 
   public String getName() {

@@ -23,7 +23,7 @@ public class ScreenName implements Serializable
 
   public static boolean isValidScreenName(String name)
   {
-    return name.contains(" ");
+    return !name.contains(" ");
   }
 
   @Override

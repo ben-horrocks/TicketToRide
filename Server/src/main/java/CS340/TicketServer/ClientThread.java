@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import common.CommandParams;
@@ -22,7 +27,7 @@ public class ClientThread extends Thread
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Socket clientSocket;
-	private Username socketOwner;
+	private Set<Username> socketOwners = new HashSet<>();
 
 	public ClientThread(final Socket clientSocket)
 	{
@@ -58,10 +63,14 @@ public class ClientThread extends Thread
 								CommandParams commandParams = (CommandParams) message;
 								ServerCommand serverCommand = new ServerCommand(commandParams);
 								result = (Signal) serverCommand.execute();
-								if (result.getObject() instanceof Player)
+								if (result == null)
+								{
+									System.out.println("Result of command.execute() was null");
+								}
+								else if (result.getObject() instanceof Player)
 								{
 									Username username = ((Player) result.getObject()).getUsername();
-									socketOwner = username;
+									socketOwners.add(username);
 									ServerCommunicator.getThreads().put(username, parent);
 								}
 							}
@@ -118,7 +127,7 @@ public class ClientThread extends Thread
 					try
 					{
 						clientSocket.close();
-						ServerCommunicator.getThreads().remove(socketOwner);
+						closeThread();
 					}
 					catch (IOException e)
 					{
@@ -156,12 +165,24 @@ public class ClientThread extends Thread
 			try
 			{
 				clientSocket.close();
-				ServerCommunicator.getThreads().remove(socketOwner);
+				closeThread();
 			}
 			catch (IOException ex)
 			{
 				System.out.println("Error closing socket " + clientSocket.getInetAddress());
 				ex.printStackTrace();
+			}
+		}
+	}
+
+	private void closeThread()
+	{
+		Map<Username, ClientThread> threads = ServerCommunicator.getThreads();
+		for (Username username : socketOwners)
+		{
+			if (threads.containsKey(username))
+			{
+				threads.remove(username);
 			}
 		}
 	}

@@ -46,6 +46,6 @@ public class Game implements Serializable
 
   public boolean isGameFull()
   {
-    return currentPlayers.size() < PLAYERLIMIT;
+    return currentPlayers.size() >= PLAYERLIMIT;
   }
 }
