@@ -17,11 +17,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import cs340.TicketClient.R;
+import cs340.TicketClient.client_common.City;
+import cs340.TicketClient.client_common.Edge;
+import cs340.TicketClient.client_common.EdgeColor;
 
 /**
  * Created by Kavika F.
@@ -32,7 +41,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	private MapView mapView;
 	private Bundle extras;
 	private GoogleMap googleMap;
-	private List<MarkerOptions> cityMarkers = new ArrayList<>();
+	private Map<String, City> cities = new HashMap<>();
+	private Set<Edge> edges = new HashSet<>();
+	private Set<Polyline> lines = new HashSet<>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -81,95 +92,480 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		googleMap.setLatLngBoundsForCameraTarget(unitedStates);
 		googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unitedStates.getCenter(), 3));
 		makeCityMarkers();
+		drawMarkers();
+		createEdges();
+		drawEdges();
 	}
 
 	private void makeCityMarkers()
 	{
 		final LatLng LOS_ANGELES = new LatLng(34.052234, -118.243685);
-		addToMarkerList(LOS_ANGELES, "Los Angeles");
+		addCityToList(LOS_ANGELES, "Los Angeles");
 		final LatLng NEW_YORK_CITY = new LatLng(40.712775, -74.005973);
-		addToMarkerList(NEW_YORK_CITY, "New York City");
+		addCityToList(NEW_YORK_CITY, "New York City");
 		final LatLng DULUTH = new LatLng(46.786672, -92.100485);
-		addToMarkerList(DULUTH, "Duluth");
+		addCityToList(DULUTH, "Duluth");
 		final LatLng HOUSTON = new LatLng(29.760427, -95.369803);
-		addToMarkerList(HOUSTON, "Houston");
+		addCityToList(HOUSTON, "Houston");
 		final LatLng SAULT_ST_MARIE = new LatLng(46.495300, -84.345317);
-		addToMarkerList(SAULT_ST_MARIE, "Sault St. Marie");
+		addCityToList(SAULT_ST_MARIE, "Sault St. Marie");
 		final LatLng NASHVILLE = new LatLng(36.162664, -86.781602);
-		addToMarkerList(NASHVILLE, "Nashville");
+		addCityToList(NASHVILLE, "Nashville");
 		final LatLng ATLANTA = new LatLng(33.748995, -84.387982);
-		addToMarkerList(ATLANTA, "Atlanta");
+		addCityToList(ATLANTA, "Atlanta");
 		final LatLng PORTLAND = new LatLng(45.523062, -122.676482);
-		addToMarkerList(PORTLAND, "Portland");
+		addCityToList(PORTLAND, "Portland");
 		final LatLng VANCOUVER = new LatLng(49.282729, -123.120738);
-		addToMarkerList(VANCOUVER, "Vancouver");
+		addCityToList(VANCOUVER, "Vancouver");
 		final LatLng MONTREAL = new LatLng(45.501689, -73.567256);
-		addToMarkerList(MONTREAL, "Montreal");
+		addCityToList(MONTREAL, "Montreal");
 		final LatLng EL_PASO = new LatLng(31.761878, -106.485022);
-		addToMarkerList(EL_PASO, "El Paso");
+		addCityToList(EL_PASO, "El Paso");
 		final LatLng TORONTO = new LatLng(43.653226, -79.383184);
-		addToMarkerList(TORONTO, "Toronto");
+		addCityToList(TORONTO, "Toronto");
 		final LatLng MIAMI = new LatLng(25.761680, -80.191790);
-		addToMarkerList(MIAMI, "Miami");
+		addCityToList(MIAMI, "Miami");
 		final LatLng PHOENIX = new LatLng(33.448377, -112.074037);
-		addToMarkerList(PHOENIX, "Phoenix");
+		addCityToList(PHOENIX, "Phoenix");
 		final LatLng DALLAS = new LatLng(32.776664, -96.796988);
-		addToMarkerList(DALLAS, "Dallas");
+		addCityToList(DALLAS, "Dallas");
 		final LatLng CALGARY = new LatLng(51.048615, -114.070846);
-		addToMarkerList(CALGARY, "Calgary");
+		addCityToList(CALGARY, "Calgary");
 		final LatLng SALT_LAKE_CITY = new LatLng(40.760779, -111.891047);
-		addToMarkerList(SALT_LAKE_CITY, "Salt Lake City");
+		addCityToList(SALT_LAKE_CITY, "Salt Lake City");
 		final LatLng WINNIPEG = new LatLng(49.895136, -97.138374);
-		addToMarkerList(WINNIPEG, "Winnipeg");
+		addCityToList(WINNIPEG, "Winnipeg");
 		final LatLng LITTLE_ROCK = new LatLng(34.746481, -92.289595);
-		addToMarkerList(LITTLE_ROCK, "Little Rock");
+		addCityToList(LITTLE_ROCK, "Little Rock");
 		final LatLng SAN_FRANCISCO = new LatLng(37.774929, -122.419416);
-		addToMarkerList(SAN_FRANCISCO, "San Francisco");
+		addCityToList(SAN_FRANCISCO, "San Francisco");
 		final LatLng KANSAS_CITY = new LatLng(39.099727, -94.578567);
-		addToMarkerList(KANSAS_CITY, "Kansas City");
+		addCityToList(KANSAS_CITY, "Kansas City");
 		final LatLng CHICAGO = new LatLng(41.878114, -87.629798);
-		addToMarkerList(CHICAGO, "Chicago");
+		addCityToList(CHICAGO, "Chicago");
 		final LatLng DENVER = new LatLng(39.739236, -104.990251);
-		addToMarkerList(DENVER, "Denver");
+		addCityToList(DENVER, "Denver");
 		final LatLng PITTSBURGH = new LatLng(40.440625, -79.995886);
-		addToMarkerList(PITTSBURGH, "Pittsburgh");
+		addCityToList(PITTSBURGH, "Pittsburgh");
 		final LatLng SANTA_FE = new LatLng(35.686975, -105.937799);
-		addToMarkerList(SANTA_FE, "Santa Fe");
+		addCityToList(SANTA_FE, "Santa Fe");
 		final LatLng BOSTON = new LatLng(42.360082, -71.058880);
-		addToMarkerList(BOSTON, "Boston");
+		addCityToList(BOSTON, "Boston");
 		final LatLng NEW_ORLEANS = new LatLng(29.951066, -90.071532);
-		addToMarkerList(NEW_ORLEANS, "New Orleans");
+		addCityToList(NEW_ORLEANS, "New Orleans");
 		final LatLng SEATTLE = new LatLng(47.606209, -122.332071);
-		addToMarkerList(SEATTLE, "Seattle");
+		addCityToList(SEATTLE, "Seattle");
 		final LatLng HELENA = new LatLng(46.588371, -112.024505);
-		addToMarkerList(HELENA, "Helena");
+		addCityToList(HELENA, "Helena");
 		final LatLng OKLAHOMA_CITY = new LatLng(35.467560, -97.516428);
-		addToMarkerList(OKLAHOMA_CITY, "Oklahoma City");
+		addCityToList(OKLAHOMA_CITY, "Oklahoma City");
 		final LatLng LAS_VEGAS = new LatLng(36.169941, -115.139830);
-		addToMarkerList(LAS_VEGAS, "Las Vegas");
+		addCityToList(LAS_VEGAS, "Las Vegas");
 		final LatLng OMAHA = new LatLng(41.252363, -95.997988);
-		addToMarkerList(OMAHA, "Omaha");
+		addCityToList(OMAHA, "Omaha");
 		final LatLng SAINT_LOUIS = new LatLng(38.627003, -90.199404);
-		addToMarkerList(SAINT_LOUIS, "Saint Louis");
+		addCityToList(SAINT_LOUIS, "Saint Louis");
 		final LatLng WASHINGTON_DC = new LatLng(38.907192, -77.036871);
-		addToMarkerList(WASHINGTON_DC, "Washington D.C.");
+		addCityToList(WASHINGTON_DC, "Washington D.C.");
 		final LatLng CHARLESTON = new LatLng(32.776475, -79.931051);
-		addToMarkerList(CHARLESTON, "Charleston");
+		addCityToList(CHARLESTON, "Charleston");
 		final LatLng RALEIGH = new LatLng(35.779590, -78.638179);
-		addToMarkerList(RALEIGH, "Raleigh");
-
-		/* Able to store an arbitrary object in a marker with Marker.setTag(Object)
-		* and get the object with Marker.getTag(). Can use in future if we want */
-		for (MarkerOptions marker : cityMarkers)
-		{
-			googleMap.addMarker(marker);
-		}
+		addCityToList(RALEIGH, "Raleigh");
 	}
 
 	/* Helper function to save lines when adding markers to list of all markers */
-	private void addToMarkerList(LatLng coordinates, String title)
+	private void addCityToList(LatLng coordinates, String title)
 	{
-		MarkerOptions city = new MarkerOptions().position(coordinates).title(title);
-		cityMarkers.add(city);
+		MarkerOptions marker = new MarkerOptions().position(coordinates).title(title);
+		City city = new City(marker, title);
+		cities.put(title, city);
+	}
+
+	private void drawMarkers()
+	{
+		/* Able to store an arbitrary object in a marker with Marker.setTag(Object)
+		* and get the object with Marker.getTag(). Can use in future if we want */
+		Set<String> keys = cities.keySet();
+		for (String key : keys)
+		{
+			City city = cities.get(key);
+			googleMap.addMarker(city.getCoordinates());
+		}
+	}
+
+	/* Creates all the edges of the board game */
+	private void createEdges()
+	{
+		// TODO: Possibly add id to route as a unique identifier
+		City vancouver = cities.get("Vancouver");
+		City seattle = cities.get("Seattle");
+		City portland = cities.get("Portland");
+		City sanFrancisco = cities.get("San Francisco");
+		City losAngeles = cities.get("Los Angeles");
+		City calgary = cities.get("Calgary");
+		City saltLakeCity = cities.get("Salt Lake City");
+		City lasVegas = cities.get("Las Vegas");
+		City phoenix = cities.get("Phoenix");
+		City helena = cities.get("Helena");
+		City denver = cities.get("Denver");
+		City santaFe = cities.get("Santa Fe");
+		City elPaso = cities.get("El Paso");
+		City winnipeg = cities.get("Winnipeg");
+		City duluth = cities.get("Duluth");
+		City omaha = cities.get("Omaha");
+		City kansasCity = cities.get("Kansas City");
+		City oklahomaCity = cities.get("Oklahoma City");
+		City dallas = cities.get("Dallas");
+		City houston = cities.get("Houston");
+		City newOrleans = cities.get("New Orleans");
+		City littleRock = cities.get("Little Rock");
+		City saintLouis = cities.get("Saint Louis");
+		City chicago = cities.get("Chicago");
+		City saultStMarie = cities.get("Sault St. Marie");
+		City toronto = cities.get("Toronto");
+		City montreal = cities.get("Montreal");
+		City boston = cities.get("Boston");
+		City newYork = cities.get("New York City");
+		City pittsburgh = cities.get("Pittsburgh");
+		City washingtonDC = cities.get("Washington D.C.");
+		City raleigh = cities.get("Raleigh");
+		City nashville = cities.get("Nashville");
+		City atlanta = cities.get("Atlanta");
+		City charleston = cities.get("Charleston");
+		City miami = cities.get("Miami");
+
+		// Vancouver to Seattle
+		addEdge(vancouver, seattle, EdgeColor.GRAY, 1);
+
+		// Seattle to Vancouver
+		addEdge(seattle, vancouver, EdgeColor.GRAY, 1);
+
+		// Seattle to Portland
+		addEdge(seattle, portland, EdgeColor.GRAY, 1);
+
+		// Portland to Seattle
+		addEdge(portland, seattle, EdgeColor.GRAY, 1);
+
+		// Vancouver to Calgary
+		addEdge(vancouver, calgary, EdgeColor.GRAY, 3);
+
+		// Seattle to Calgary
+		addEdge(seattle, calgary, EdgeColor.GRAY, 4);
+
+		// Portland to San Francisco
+		addEdge(portland, sanFrancisco, EdgeColor.GREEN, 5);
+
+		// San Francisco to Portland
+		addEdge(sanFrancisco, portland, EdgeColor.PINK, 5);
+
+		// San Francisco to Los Angeles
+		addEdge(sanFrancisco, losAngeles, EdgeColor.YELLOW, 3);
+
+		// Los Angeles to San Francisco
+		addEdge(losAngeles, sanFrancisco, EdgeColor.PINK, 3);
+
+		// San Francisco to Salt Lake City
+		addEdge(sanFrancisco, saltLakeCity, EdgeColor.ORANGE, 5);
+
+		// Salt Lake City to San Francisco
+		addEdge(saltLakeCity, sanFrancisco, EdgeColor.WHITE, 5);
+
+		// Portland to Salt Lake City
+		addEdge(portland, saltLakeCity, EdgeColor.BLUE, 6);
+
+		// Los Angeles to Las Vegas
+		addEdge(losAngeles, lasVegas, EdgeColor.GRAY, 2);
+
+		// Los Angeles to Phoenix
+		addEdge(losAngeles, phoenix, EdgeColor.GRAY, 3);
+
+		// Las Vegas to Salt Lake City
+		addEdge(lasVegas, saltLakeCity, EdgeColor.ORANGE, 3);
+
+		// Calgary to Helena
+		addEdge(calgary, helena, EdgeColor.GRAY, 4);
+
+		// Seattle to Helena
+		addEdge(seattle, helena, EdgeColor.YELLOW, 6);
+
+		// Salt Lake City to Helena
+		addEdge(saltLakeCity, helena, EdgeColor.PINK, 3);
+
+		// Los Angeles to El Paso
+		addEdge(losAngeles, elPaso, EdgeColor.BLACK, 6);
+
+		// Phoenix to El Paso
+		addEdge(phoenix, elPaso, EdgeColor.GRAY, 3);
+
+		// El Paso to Santa Fe
+		addEdge(elPaso, santaFe, EdgeColor.GRAY, 2);
+
+		// Phoenix to Santa Fe
+		addEdge(phoenix, sanFrancisco, EdgeColor.GRAY, 3);
+
+		// Phoenix to Denver
+		addEdge(phoenix, denver, EdgeColor.WHITE, 5);
+
+		// Santa Fe to Denver
+		addEdge(santaFe, denver, EdgeColor.GRAY, 2);
+
+		// Salt Lake City to Denver
+		addEdge(saltLakeCity, denver, EdgeColor.RED, 3);
+
+		// Denver to Salt Lake City
+		addEdge(denver, saltLakeCity, EdgeColor.YELLOW, 3);
+
+		// Denver to Helena
+		addEdge(denver, helena, EdgeColor.GREEN, 4);
+
+		// Calgary to Winnipeg
+		addEdge(calgary, winnipeg, EdgeColor.WHITE, 6);
+
+		// Helena to Winnipeg
+		addEdge(helena, winnipeg, EdgeColor.BLUE, 4);
+
+		// Winnipeg to Duluth
+		addEdge(winnipeg, duluth, EdgeColor.BLACK, 4);
+
+		// Helena to Duluth
+		addEdge(helena, duluth, EdgeColor.ORANGE, 6);
+
+		// Winnipeg to Saul St. Marie
+		addEdge(winnipeg, saultStMarie, EdgeColor.GRAY, 6);
+
+		// Duluth to Saul St. Marie
+		addEdge(duluth, saultStMarie, EdgeColor.GRAY, 3);
+
+		// Duluth to Omaha
+		addEdge(duluth, omaha, EdgeColor.GRAY, 2);
+
+		// Omaha to Duluth
+		addEdge(omaha, duluth, EdgeColor.GRAY, 2);
+
+		// Helena to Omaha
+		addEdge(helena, omaha, EdgeColor.RED, 5);
+
+		// Denver to Omaha
+		addEdge(denver, omaha, EdgeColor.PINK, 4);
+
+		// Omaha to Kansas City
+		addEdge(omaha, kansasCity, EdgeColor.GRAY, 1);
+
+		// Kansas City to Omaha
+		addEdge(kansasCity, omaha, EdgeColor.GRAY, 1);
+
+		// Denver to Kansas City
+		addEdge(denver, kansasCity, EdgeColor.BLACK, 4);
+
+		// Kansas City to Denver
+		addEdge(kansasCity, denver, EdgeColor.ORANGE, 4);
+
+		// Kansas City to Oklahoma City
+		addEdge(kansasCity, oklahomaCity, EdgeColor.GRAY, 2);
+
+		// Oklahoma City to Kansas City
+		addEdge(oklahomaCity, kansasCity, EdgeColor.GRAY, 2);
+
+		// Denver to Oklahoma City
+		addEdge(denver, oklahomaCity, EdgeColor.RED, 4);
+
+		// Santa Fe to Oklahoma City
+		addEdge(sanFrancisco, oklahomaCity, EdgeColor.BLUE, 3);
+
+		// El Paso to Dallas
+		addEdge(elPaso, dallas, EdgeColor.RED, 4);
+
+		// El Paso to Houston
+		addEdge(elPaso, houston, EdgeColor.GREEN, 6);
+
+		// Dallas to Houston
+		addEdge(dallas, houston, EdgeColor.GRAY, 1);
+
+		// Houston to Dallas
+		addEdge(houston, dallas, EdgeColor.GRAY, 1);
+
+		// Oklahoma City to Dallas
+		addEdge(oklahomaCity, dallas, EdgeColor.GRAY, 2);
+
+		// Dallas to Oklahoma City
+		addEdge(dallas, oklahomaCity, EdgeColor.GRAY, 2);
+
+		// Oklahoma City to Little Rock
+		addEdge(oklahomaCity, littleRock, EdgeColor.GRAY, 2);
+
+		// Dallas to Little Rock
+		addEdge(dallas, littleRock, EdgeColor.GRAY, 2);
+
+		// Duluth to Chicago
+		addEdge(duluth, chicago, EdgeColor.RED, 3);
+
+		// Omaha to Chicago
+		addEdge(omaha, chicago, EdgeColor.BLUE, 4);
+
+		// Kansas City to Saint Louis
+		addEdge(kansasCity, saintLouis, EdgeColor.BLUE, 2);
+
+		// Saint Louis to Kansas City
+		addEdge(saintLouis, kansasCity, EdgeColor.PINK, 2);
+
+		// Saint Louis to Chicago
+		addEdge(saintLouis, chicago, EdgeColor.GREEN, 2);
+
+		// Chicago to Saint Louis
+		addEdge(chicago, saintLouis, EdgeColor.WHITE, 2);
+
+		// Saint Louis to Little Rock
+		addEdge(saintLouis, littleRock, EdgeColor.GRAY, 2);
+
+		// Houston to New Orleans
+		addEdge(houston, newOrleans, EdgeColor.GRAY, 2);
+
+		// Little Rock to New Orleans
+		addEdge(littleRock, newOrleans, EdgeColor.GREEN, 3);
+
+		// Saul St. Marie to Toronto
+		addEdge(saultStMarie, toronto, EdgeColor.GRAY, 2);
+
+		// Duluth to Toronto
+		addEdge(duluth, toronto, EdgeColor.PINK, 6);
+
+		// Chicago to Toronto
+		addEdge(chicago, toronto, EdgeColor.WHITE, 4);
+
+		// Toronto to Pittsburgh
+		addEdge(toronto, pittsburgh, EdgeColor.GRAY, 2);
+
+		// Chicago to Pittsburgh
+		addEdge(chicago, pittsburgh, EdgeColor.ORANGE, 3);
+
+		// Pittsburgh to Chicago
+		addEdge(pittsburgh, chicago, EdgeColor.BLACK, 3);
+
+		// Saint Louis to Pittsburgh
+		addEdge(saintLouis, pittsburgh, EdgeColor.GREEN, 5);
+
+		// Saint Louis to Nashville
+		addEdge(saintLouis, nashville, EdgeColor.GRAY, 2);
+
+		// Little Rock to Nashville
+		addEdge(littleRock, nashville, EdgeColor.WHITE, 3);
+
+		// Nashville to Pittsburgh
+		addEdge(nashville, pittsburgh, EdgeColor.YELLOW, 4);
+
+		// Nashville to Atlanta
+		addEdge(nashville, atlanta, EdgeColor.GRAY, 1);
+
+		// Atlanta to New Orleans
+		addEdge(atlanta, newOrleans, EdgeColor.YELLOW, 4);
+
+		// New Orleans to Atlanta
+		addEdge(newOrleans, atlanta, EdgeColor.ORANGE, 4);
+
+		// New Orleans to Miami
+		addEdge(newOrleans, miami, EdgeColor.RED, 6);
+
+		// Atlanta to Miami
+		addEdge(atlanta, miami, EdgeColor.BLUE, 5);
+
+		// Miami to Charleston
+		addEdge(miami, charleston, EdgeColor.PINK, 4);
+
+		// Atlanta to Charleston
+		addEdge(atlanta, charleston, EdgeColor.GRAY, 2);
+
+		// Nashville to Raleigh
+		addEdge(nashville, raleigh, EdgeColor.BLACK, 3);
+
+		// Atlanta to Raleigh
+		addEdge(atlanta, raleigh, EdgeColor.GRAY, 2);
+
+		// Raleigh to Atlanta
+		addEdge(raleigh, atlanta, EdgeColor.GRAY, 2);
+
+		// Charleston to Raleigh
+		addEdge(charleston, raleigh, EdgeColor.GRAY, 2);
+
+		// Raleigh to Washington D.C.
+		addEdge(raleigh, washingtonDC, EdgeColor.GRAY, 2);
+
+		// Washington D.C. Raleigh
+		addEdge(washingtonDC, raleigh, EdgeColor.GRAY, 2);
+
+		// Washington D.C. to Pittsburgh
+		addEdge(washingtonDC, pittsburgh, EdgeColor.GRAY, 2);
+
+		// Pittsburgh to New York
+		addEdge(pittsburgh, newYork, EdgeColor.WHITE, 2);
+
+		// New York to Pittsburgh
+		addEdge(newYork, pittsburgh, EdgeColor.GREEN, 2);
+
+		// New York to Washington D.C.
+		addEdge(newYork, washingtonDC, EdgeColor.ORANGE, 2);
+
+		// Washington D.C. to New York
+		addEdge(washingtonDC, newYork, EdgeColor.BLACK, 2);
+
+		// Boston to New York
+		addEdge(boston, newYork, EdgeColor.YELLOW, 2);
+
+		// New York to Boston
+		addEdge(newYork, boston, EdgeColor.RED, 2);
+
+		// Montreal to Boston
+		addEdge(montreal, boston, EdgeColor.GRAY, 2);
+
+		// Boston to Montreal
+		addEdge(boston, montreal, EdgeColor.GRAY, 2);
+
+		// Saul St. Marie to Montreal
+		addEdge(saultStMarie, montreal, EdgeColor.BLACK, 5);
+
+		// Toronto to Montreal
+		addEdge(toronto, montreal, EdgeColor.GRAY, 3);
+
+		// New York to Montreal
+		addEdge(newYork, montreal, EdgeColor.BLUE, 3);
+	}
+
+	private void addEdge(City city1, City city2, EdgeColor color, int length)
+	{
+		Edge edge = new Edge(city1, city2, color, length);
+		edges.add(edge);
+	}
+
+	private void drawEdges()
+	{
+		for (Edge edge : edges)
+		{
+			City city1 = edge.getFirstCity();
+			City city2 = edge.getSecondCity();
+			PolylineOptions polylineOptions = new PolylineOptions()
+					.add(city1.getCoordinates().getPosition(), city2.getCoordinates().getPosition())
+					.color(pickColor(edge.getColor()));
+			Polyline line = googleMap.addPolyline(polylineOptions);
+			line.setTag(edge);
+			lines.add(line);
+		}
+	}
+
+	private int pickColor(EdgeColor color)
+	{
+		switch(color)
+		{
+			case PINK: return getContext().getResources().getColor(R.color.colorEdgePink);
+			case WHITE: return getContext().getResources().getColor(R.color.colorEdgeWhite);
+			case BLUE: return getContext().getResources().getColor(R.color.colorEdgeBlue);
+			case YELLOW: return getContext().getResources().getColor(R.color.colorEdgeYellow);
+			case ORANGE: return getContext().getResources().getColor(R.color.colorEdgeOrange);
+			case BLACK: return getContext().getResources().getColor(R.color.colorEdgeBlack);
+			case RED: return getContext().getResources().getColor(R.color.colorEdgeRed);
+			case GREEN: return getContext().getResources().getColor(R.color.colorEdgeGreen);
+			case GRAY: return getContext().getResources().getColor(R.color.colorEdgeGray);
+			default:
+				System.out.println("No color found");
+				return 0;
+		}
 	}
 }
