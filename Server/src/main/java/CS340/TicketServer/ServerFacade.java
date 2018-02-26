@@ -195,4 +195,31 @@ public class ServerFacade implements IServer
 	public Signal getAvailableGameInfo() {
 		return null;
 	}
+
+	@Override
+	public Signal populate(){
+		Player[] players = new Player[5];
+		for(int i = 1; i <= 5; i++){
+			String name = "Tester" + Integer.toString(i);
+			String pass = "test";
+			Signal s = register(name, pass, name);
+			players[i-1] = (Player)s.getObject();
+		}
+
+		Signal s = addGame("Game1", players[0]);
+		GameID id = ((Game) s.getObject()).getId();
+		addGame("Game2", players[0]);
+		addGame("Game3", players[1]);
+
+		for(Player p: players){
+			joinGame(p, id);
+		}
+		/*for(int i = 0; i < 2; i++){
+			String name = "Game" + Integer.toString(i+2);
+			addGame(name, players[i]);
+		}*/
+
+		Signal signal = new Signal(SignalType.OK, "Populated");
+		return signal;
+	}
 }
