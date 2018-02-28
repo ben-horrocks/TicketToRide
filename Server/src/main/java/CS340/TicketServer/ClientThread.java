@@ -26,6 +26,9 @@ public class ClientThread extends Thread
 	private ObjectOutputStream out;
 	private Socket clientSocket;
 	private Set<Username> socketOwners = new HashSet<>();
+	private boolean close = false;
+
+	private void setClose(boolean close) { this.close = close; }
 
 	public ClientThread(final Socket clientSocket)
 	{
@@ -54,6 +57,10 @@ public class ClientThread extends Thread
 					{
 						try
 						{
+							if (close)
+							{
+								currentThread().interrupt();
+							}
 							Object message = messages.take();
 							Signal result;
 							if (message instanceof CommandParams)
@@ -102,6 +109,10 @@ public class ClientThread extends Thread
 					boolean keepRunning = true;
 					while (keepRunning)
 					{
+						if (close)
+						{
+							currentThread().interrupt();
+						}
 						try
 						{
 							Object object = in.readObject();
@@ -180,6 +191,7 @@ public class ClientThread extends Thread
 		{
 			if (threads.containsKey(username))
 			{
+				threads.get(username).setClose(true);
 				threads.remove(username);
 			}
 		}
