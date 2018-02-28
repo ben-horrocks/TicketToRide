@@ -11,6 +11,7 @@ import cs340.TicketClient.Lobby.LobbyPresenter;
 public class StartGameTask extends AsyncTask<GameID, Void, Signal>
 {
   private Context context;
+
   public StartGameTask(Context context)
   {
     this.context = context;

@@ -16,13 +16,15 @@ public class Edge
 	private EdgeColor color;
 	private int length;
 	private Player owner = null;
+	private boolean isDoubleEdge;
 
-	public Edge(City firstCity, City secondCity, EdgeColor color, int length)
+	public Edge(City firstCity, City secondCity, EdgeColor color, int length, boolean isDoubleEdge)
 	{
 		this.firstCity = firstCity;
 		this.secondCity = secondCity;
 		this.color = color;
 		this.length = length;
+		this.isDoubleEdge = isDoubleEdge;
 	}
 
 	public City getFirstCity() { return firstCity; }
@@ -45,6 +47,8 @@ public class Edge
 
 	public void setOwner(Player owner) { this.owner = owner; }
 
+	public boolean isDoubleEdge() { return isDoubleEdge; }
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -54,10 +58,11 @@ public class Edge
 		Edge edge = (Edge) o;
 
 		if (length != edge.length) return false;
+		if (isDoubleEdge != edge.isDoubleEdge) return false;
 		if (!firstCity.equals(edge.firstCity)) return false;
 		if (!secondCity.equals(edge.secondCity)) return false;
-		return color == edge.color &&
-				owner != null ? owner.equals(edge.owner) : edge.owner == null;
+		if (color != edge.color) return false;
+		return owner.equals(edge.owner);
 	}
 
 	@Override
@@ -67,7 +72,7 @@ public class Edge
 		result = 31 * result + secondCity.hashCode();
 		result = 31 * result + color.hashCode();
 		result = 31 * result + length;
-		result = 31 * result + (owner != null ? owner.hashCode() : 0);
+		result = 31 * result + (isDoubleEdge ? 1 : 0);
 		return result;
 	}
 }
