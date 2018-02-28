@@ -238,7 +238,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		City miami = cities.get("Miami");
 
 		// Vancouver to Seattle
-		addEdge(vancouver, seattle, EdgeColor.GRAY, 1, false);
+		addEdge(vancouver, seattle, EdgeColor.GRAY, 1, true);
 
 		// Seattle to Vancouver
 		addEdge(seattle, vancouver, EdgeColor.GRAY, 1, true);
@@ -271,7 +271,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(sanFrancisco, saltLakeCity, EdgeColor.ORANGE, 5, true);
 
 		// Salt Lake City to San Francisco
-		addEdge(saltLakeCity, sanFrancisco, EdgeColor.WHITE, 5, false);
+		addEdge(saltLakeCity, sanFrancisco, EdgeColor.WHITE, 5, true);
 
 		// Portland to Salt Lake City
 		addEdge(portland, saltLakeCity, EdgeColor.BLUE, 6, false);
@@ -316,7 +316,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(saltLakeCity, denver, EdgeColor.RED, 3, true);
 
 		// Denver to Salt Lake City
-		addEdge(denver, saltLakeCity, EdgeColor.YELLOW, 3, false);
+		addEdge(denver, saltLakeCity, EdgeColor.YELLOW, 3, true);
 
 		// Denver to Helena
 		addEdge(denver, helena, EdgeColor.GREEN, 4, false);
@@ -361,7 +361,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(denver, kansasCity, EdgeColor.BLACK, 4, true);
 
 		// Kansas City to Denver
-		addEdge(kansasCity, denver, EdgeColor.ORANGE, 4, false);
+		addEdge(kansasCity, denver, EdgeColor.ORANGE, 4, true);
 
 		// Kansas City to Oklahoma City
 		addEdge(kansasCity, oklahomaCity, EdgeColor.GRAY, 2, true);
@@ -409,7 +409,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(kansasCity, saintLouis, EdgeColor.BLUE, 2, true);
 
 		// Saint Louis to Kansas City
-		addEdge(saintLouis, kansasCity, EdgeColor.PINK, 2, false);
+		addEdge(saintLouis, kansasCity, EdgeColor.PINK, 2, true);
 
 		// Saint Louis to Chicago
 		addEdge(saintLouis, chicago, EdgeColor.GREEN, 2, true);
@@ -502,7 +502,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(pittsburgh, newYork, EdgeColor.WHITE, 2, true);
 
 		// New York to Pittsburgh
-		addEdge(newYork, pittsburgh, EdgeColor.GREEN, 2, false);
+		addEdge(newYork, pittsburgh, EdgeColor.GREEN, 2, true);
 
 		// New York to Washington D.C.
 		addEdge(newYork, washingtonDC, EdgeColor.ORANGE, 2, true);
@@ -546,7 +546,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			City city1 = edge.getFirstCity();
 			City city2 = edge.getSecondCity();
 			Polyline line;
-			/*
+
 			if (edge.isDoubleEdge())
 			{
 				line = showCurvedPolyline(city1.getCoordinates().getPosition(),
@@ -556,9 +556,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			{
 				line = showStraightPolyline(city1, city2, edge.getColor());
 			}
-			*/
-			line = showStraightPolyline(city1, city2, edge.getColor()); // just for now
+
+			//line = showStraightPolyline(city1, city2, edge.getColor()); // just for now
 			line.setTag(edge);
+			line.setClickable(true);
 			lines.add(line);
 		}
 	}
@@ -593,24 +594,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
 	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, double curvature, EdgeColor color) {
 
-		int numPoints = 10;
+		int numPoints = 3;
 		double a = SphericalUtil.computeDistanceBetween(p1, p2);
 		a = a/2; // only need half the distance
-		double b = 75000; // 7.5km
+		double b = 30000; // radius of ellipse
 		double heading = SphericalUtil.computeHeading(p1, p2);
-		heading = Math.toRadians(heading);
+		double testHeading = SphericalUtil.computeHeading(p2, p1);
+		if (testHeading > 0) testHeading -= 180;
+		else if (testHeading < 0) testHeading += 180;
+		double averageHeading = (testHeading + heading) / 2;
+		//heading = Math.toRadians(heading);
 		PolylineOptions options = new PolylineOptions();
-		//options.add(p2);
 		LatLng c = SphericalUtil.interpolate(p1, p2, 0.5);
-		//googleMap.addMarker(new MarkerOptions().position(c).title("center point")); // Just to see center. Debugging only
+		//googleMap.addMarker(new MarkerOptions().position(c).title("center point - interpolate")); // Just to see center. Debugging only
 
-		for (int i = 0; i <= numPoints; i++)
+		for (int i = 0; i < numPoints; i++)
 		{
-			double time = (2 * i * Math.PI) / (numPoints);
-			double x = (a * Math.cos(time) * Math.cos(heading)) - (b * Math.sin(time) * Math.sin(heading));//a * Math.cos(time);//
-			double y = (a * Math.cos(time) * Math.sin(heading)) + (b * Math.sin(time) * Math.cos(heading));//b * Math.sin(time);//
+			double time = (i * Math.PI) / 2;
+			double x = a * Math.cos(time); //(a * Math.cos(time) * Math.cos(heading)) - (b * Math.sin(time) * Math.sin(heading));
+			double y = b * Math.sin(time); //(a * Math.cos(time) * Math.sin(heading)) + (b * Math.sin(time) * Math.cos(heading));
 			double distance = Math.sqrt(x*x - y*y);
-			LatLng point = SphericalUtil.computeOffset(c, distance, Math.toDegrees(heading) + Math.toDegrees(time));
+			if (Double.isNaN(distance))
+			{
+				distance = Math.sqrt(y*y - x*x);
+			}
+			LatLng point = SphericalUtil.computeOffset(c, distance, averageHeading + Math.toDegrees(time));
 			options.add(point);
 		}
 		List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));

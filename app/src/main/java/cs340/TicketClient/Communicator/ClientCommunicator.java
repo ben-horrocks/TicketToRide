@@ -88,7 +88,7 @@ public class ClientCommunicator
 								ClientFacade c = new ClientFacade();
 								c.startGame(((Game)signal.getObject()).getId());
 							}
-							else // Should be a signal
+							else
 							{
 								setSignalFromServer(signal);
 							}
