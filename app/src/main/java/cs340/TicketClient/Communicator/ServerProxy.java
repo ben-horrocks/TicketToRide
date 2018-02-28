@@ -128,5 +128,11 @@ public class ServerProxy implements IServer
         return null;
 
     }
+
+    @Override
+    public Signal populate(){
+        //empty
+        return null;
+    }
 }
     
