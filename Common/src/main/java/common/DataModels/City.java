@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package common.DataModels;
 
 /**
@@ -50,13 +49,3 @@ public class City
 		return result;
 	}
 }
-=======
-package common.DataModels;
-
-public enum City
-{
-  Los_Angeles, New_York_City, Duluth, Houston, Sault_Saint_Marie, Nashville, New_York, Atlanta,
-  Portland, Vancouver, Montreal, El_Paso, Toronto, Miami, Phoenix, Dallas, Calgary, Salt_Lake_City,
-  Pheonix, Chicago, New_Orleans
-}
->>>>>>> f873fa080879db442ee0fd99e573187b63b28eff
