@@ -546,6 +546,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			City city1 = edge.getFirstCity();
 			City city2 = edge.getSecondCity();
 			Polyline line;
+			/*
 			if (edge.isDoubleEdge())
 			{
 				line = showCurvedPolyline(city1.getCoordinates().getPosition(),
@@ -555,6 +556,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			{
 				line = showStraightPolyline(city1, city2, edge.getColor());
 			}
+			*/
+			line = showStraightPolyline(city1, city2, edge.getColor()); // just for now
 			line.setTag(edge);
 			lines.add(line);
 		}
@@ -607,12 +610,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			double x = (a * Math.cos(time) * Math.cos(heading)) - (b * Math.sin(time) * Math.sin(heading));//a * Math.cos(time);//
 			double y = (a * Math.cos(time) * Math.sin(heading)) + (b * Math.sin(time) * Math.cos(heading));//b * Math.sin(time);//
 			double distance = Math.sqrt(x*x - y*y);
-			LatLng point = SphericalUtil.computeOffset(c, distance, Math.toDegrees(heading));// + Math.toDegrees(time));
+			LatLng point = SphericalUtil.computeOffset(c, distance, Math.toDegrees(heading) + Math.toDegrees(time));
 			options.add(point);
 		}
 		List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));
 		Polyline line = googleMap.addPolyline(
-				options.width(10).color(pickColor(color)).pattern(pattern).geodesic(true));
+				options.width(10).color(pickColor(color)).pattern(pattern).geodesic(false));
 		return line;
 	}
 }
