@@ -63,9 +63,8 @@ public class ClientProxy implements IClient {
         Signal signal = new Signal(SignalType.START_GAME, game);
 
         for (Player p : game.getPlayers()) {
-            threadList.get(p.getUsername()).push(signal);
+            if(threadList.get(p.getUsername()) != null)
+                threadList.get(p.getUsername()).push(signal);
         }
-
     }
-
 }
