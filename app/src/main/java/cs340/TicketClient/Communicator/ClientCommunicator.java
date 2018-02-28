@@ -1,12 +1,15 @@
 package cs340.TicketClient.Communicator;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import common.DataModels.Game;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
@@ -17,6 +20,9 @@ import common.DataModels.SignalType;
 
 public class ClientCommunicator
 {
+	/**
+	 * Singleton object to access the ClientCommunicator
+	 */
 	private static ClientCommunicator SINGLETON = null;
 	public static ClientCommunicator getSingleton()
 	{
@@ -57,9 +63,15 @@ public class ClientCommunicator
 
 			Thread receiver = new Thread()
 			{
+				/**
+				 * While this thread is running, take Objects from the blockingQueue, cast them
+				 * as signals (because we're assuming that everything coming in is a Signal),
+				 * and deal with each one depending on the object's type.
+				 */
 				public void run()
 				{
-					while(true)
+					boolean keepRunning = true;
+					while(keepRunning)
 					{
 						try
 						{
@@ -68,15 +80,15 @@ public class ClientCommunicator
 							if (signal.getSignalType() == SignalType.UPDATE &&
 									signal.getObject() instanceof List)
 							{
-								ClientFacade facade = new ClientFacade();
-
 								// Hope that the List of type UPDATE has GameInfo Objects
 								@SuppressWarnings("unchecked")
 								List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
-
-								facade.updateGameList(infoList);
+								ClientFacade.getSingleton().updateGameList(infoList);
+							}else if (signal.getSignalType() == SignalType.START_GAME){
+								ClientFacade c = new ClientFacade();
+								c.startGame(((Game)signal.getObject()).getId());
 							}
-							else // Should be a signal
+							else
 							{
 								setSignalFromServer(signal);
 							}
@@ -113,6 +125,11 @@ public class ClientCommunicator
 
 			Thread read = new Thread()
 			{
+				/**
+				 * While this thread is running, constantly listen for incoming objects from the
+				 * server. Once something has come in, assign it to an Object, and push that Object
+				 * onto the blockingQueue. Continue listening.
+				 */
 				public void run()
 				{
 					while(true)
@@ -126,6 +143,12 @@ public class ClientCommunicator
 						{
 							System.out.println("IOException in read Thread: " + e);
 							e.printStackTrace();
+							// if SocketException, like a problem with Server, stop listening
+							if (e instanceof SocketException || e instanceof EOFException)
+							{
+								closeSocket();
+								break;
+							}
 						}
 						catch (ClassNotFoundException e)
 						{
@@ -138,6 +161,7 @@ public class ClientCommunicator
 							e.printStackTrace();
 						}
 					}
+					System.out.println("You have disconnected from the Server!");
 				}
 			};
 
@@ -145,6 +169,10 @@ public class ClientCommunicator
 			read.start();
 		}
 
+		/**
+		 * Function to output objects from the client to the server.
+		 * @param object The object to be sent.
+		 */
 		private void write(Object object)
 		{
 			try
@@ -177,6 +205,9 @@ public class ClientCommunicator
 
 	}
 
+	/**
+	 * Closes the socket held by the ClientCommunicator.
+	 */
 	private void closeSocket()
 	{
 		try

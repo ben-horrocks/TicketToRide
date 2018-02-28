@@ -30,7 +30,7 @@ public class AddGameTask extends AsyncTask<Object, Void, Signal>
   {
     if (signal.getSignalType() == SignalType.ERROR)
     {
-      Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+      Toast.makeText(context, (String) signal.getObject(), Toast.LENGTH_SHORT).show();
     } else
     {
       //send a successful add game to the LobbyPresenter, change add new game to start game

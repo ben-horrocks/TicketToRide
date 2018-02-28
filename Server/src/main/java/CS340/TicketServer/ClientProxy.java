@@ -1,11 +1,7 @@
 package CS340.TicketServer;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.zip.DataFormatException;
 
 import common.DataModels.Game;
 import common.DataModels.GameID;
@@ -13,6 +9,7 @@ import common.DataModels.GameInfo;
 import common.DataModels.Player;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
+import common.DataModels.Username;
 import common.IClient;
 import communicators.ServerCommunicator;
 
@@ -49,9 +46,9 @@ public class ClientProxy implements IClient {
 
     @Override
     public void updateGameList(List<GameInfo> gameList) {
-		ConcurrentHashMap<Player, CommandThread> threadList = (ConcurrentHashMap<Player, CommandThread>) ServerCommunicator.getThreads();
+		ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.UPDATE, gameList);
-        for (CommandThread thread : threadList.values()) {
+        for (ClientThread thread : threadList.values()) {
             thread.push(signal);
         }
     }
@@ -59,16 +56,15 @@ public class ClientProxy implements IClient {
     @Override
     public void startGame(GameID id) {
         //get threads for all players & the game to be started with associated players
-        HashMap<Player, CommandThread> threadList = (HashMap<Player, CommandThread>) ServerCommunicator.getThreads();
-        Game game = Database.SINGLETON.getGameByID(id);
+        ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
+        Game game = Database.SINGLETON.getRunningGameByID(id);
         
         //create start signal to push to all players in game
-        Signal signal = new Signal(SignalType.OK, game);
+        Signal signal = new Signal(SignalType.START_GAME, game);
 
         for (Player p : game.getPlayers()) {
-            threadList.get(p).push(signal);
+            if(threadList.get(p.getUsername()) != null)
+                threadList.get(p.getUsername()).push(signal);
         }
-
     }
-
 }

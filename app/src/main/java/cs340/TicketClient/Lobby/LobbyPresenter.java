@@ -1,6 +1,7 @@
 package cs340.TicketClient.Lobby;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -172,7 +173,7 @@ public class LobbyPresenter implements ILobbyPresenter
         updateGameList();
     }
 
-   /**
+    /**
      * Sends a request to the server to get the list of non-full games that haven't started yet.
      * Then adds the returned list to the model and updates the LobbyActivity.
      *
@@ -226,8 +227,40 @@ public class LobbyPresenter implements ILobbyPresenter
         {
             StartGameTask task = new StartGameTask(activity.getBaseContext());
             task.execute(id);
+        } else {
+            Toast.makeText(activity, "Invalid number of Players", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    public void gameStarted()
+    {
+        activity.startGame();
+    }
+
+    public Player getPlayer() {
+        return model.getPlayer();
+    }
+
+    public boolean isMyGame(GameID id) {
+        try
+        {
+            return model.getGame(id).getCreatorName().equals(model.getPlayer().getName());
+        } catch(LobbyModel.GameNotFoundException e)
+        {
+            Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    public boolean hasJoinedGame(GameID id) {
+        try
+        {
+            return model.getGame(id).getPlayers().contains(model.getPlayer());
+        } catch(LobbyModel.GameNotFoundException e)
+        {
+            Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 }

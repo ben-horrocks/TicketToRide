@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class Game implements Serializable
 {
   private static final Integer PLAYERLIMIT = 5;
@@ -19,7 +15,7 @@ public class Game implements Serializable
 
   public Game(Player startingPlayer)
   {
-    name = startingPlayer.getName() + "\'s game";
+    name = startingPlayer.getUsername() + "\'s game";
     creator = startingPlayer;
     currentPlayers.add(startingPlayer);
   }
@@ -38,9 +34,9 @@ public class Game implements Serializable
 
   public String getName(){ return name;}
 
-  public String getCreatorName() {return creator.getName().getName();}
+  public String getCreatorName() {return creator.getName();}
 
-  public Set<Player>getPlayers() {return currentPlayers;}
+  public Set<Player> getPlayers() {return currentPlayers;}
 
   public boolean isGameStarted() { return gameStarted; }
 
@@ -48,11 +44,8 @@ public class Game implements Serializable
 
   public void addPlayer(Player player) { currentPlayers.add(player); }
 
-  public boolean isGameFull() {
-    if (currentPlayers.size() > PLAYERLIMIT) {
-      return false;
-    }
-    return true;
+  public boolean isGameFull()
+  {
+    return currentPlayers.size() >= PLAYERLIMIT;
   }
-
 }

@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Ryan on 2/6/2018.
- */
-
 public class GameInfo implements Serializable
 {
     private GameID id;
@@ -41,9 +37,18 @@ public class GameInfo implements Serializable
         return this.creatorName;
     }
 
+    public Set<Player> getPlayers() {return this.players;}
+
     public int getPlayerCount(){ return this.players.size(); }
 
     public boolean isFull() {
         return players.size() < 5;
+    }
+
+    public boolean canStart(Player p){
+        boolean correctPlayer = p.getName().equals(this.getName());
+        boolean enoughPlayers = players.size() > 1;
+        boolean tooManyPlayers = players.size() > 5;
+        return correctPlayer && enoughPlayers && !tooManyPlayers;
     }
 }

@@ -1,5 +1,7 @@
 package common;
 
+import java.util.ArrayList;
+
 import common.DataModels.*;
 
 public interface IServer
@@ -7,10 +9,10 @@ public interface IServer
 	/**
 	 * checks the database for the username ans password and logs in if the username and password match one on the server
 	 * @param username username of player attempting to login
-	 * @param password password of player attemption to login
+	 * @param password password of player attempting to login
 	 * @return Signal containing error or ok message and Player object
 	 */
-	public Signal login(String username, String password);
+	Signal login(String username, String password);
 
 	/**
 	 * registers a new player with the given credentials, rejects invalid or preexiting credentials
@@ -19,7 +21,7 @@ public interface IServer
 	 * @param displayName name to be displayed for the public
 	 * @return Signal containing error or ok message and Player object
 	 */
-	public Signal register(String username, String password, String displayName);
+	Signal register(String username, String password, String displayName);
 
 	/**
 	 * adds game to the database
@@ -27,7 +29,7 @@ public interface IServer
 	 * @param player what player owns the gain
 	 * @return Signal containing error or ok message
 	 */
-	public Signal addGame(String gameName, Player player);
+	Signal addGame(String gameName, Player player);
 
 	/**
 	 * joins a game in the lobby
@@ -35,18 +37,31 @@ public interface IServer
 	 * @param id game the player wants to join
 	 * @return Signal containing error or ok message
 	 */
-	public Signal joinGame(Player player , GameID id);
+	Signal joinGame(Player player , GameID id);
 
 	/**
 	 * starts the game
 	 * @param id game to start
 	 * @return Signal containing error or ok message
 	 */
-	public Signal startGame(GameID id);
+	Signal startGame(GameID id);
 
 	/**
 	 * Accesses game info from the serve
 	 * @return Signal containing error or ok message and gameInfo object
 	 */
-	public Signal getAvailableGameInfo();
+	Signal getAvailableGameInfo();
+
+	/**
+	 * Debug method for pre-populating a server with data
+	 */
+	Signal populate();
+
+	/**
+	 * returns information on what destination cards the player picked and which to return to the deck.
+	 * @param pickedCards list of destination cards the player picked (must be at least 2)
+	 * @param returnCards list of destination cards the player didn't pick (can be 0)
+	 * @return Signal with OK or ERROR status
+	 */
+	Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards);
 }

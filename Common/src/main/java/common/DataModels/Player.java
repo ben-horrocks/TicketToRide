@@ -2,10 +2,6 @@ package common.DataModels;
 
 import java.io.Serializable;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class Player implements Serializable
 {
   private int points;
@@ -38,10 +34,12 @@ public class Player implements Serializable
     this.points += points;
   }
 
-  public Username getName()
+  public Username getUsername()
   {
     return name;
   }
+
+  public String getName() {return name.getName(); }
 
   public void setName(Username name)
   {
@@ -77,4 +75,30 @@ public class Player implements Serializable
   {
     this.token = token;
   }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Player player = (Player) o;
+
+		if (points != player.points) return false;
+		if (!name.equals(player.name)) return false;
+		if (!pass.equals(player.pass)) return false;
+		if (!screenName.equals(player.screenName)) return false;
+		return token.equals(player.token);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = points;
+		result = 31 * result + name.hashCode();
+		result = 31 * result + pass.hashCode();
+		result = 31 * result + screenName.hashCode();
+		result = 31 * result + token.hashCode();
+		return result;
+	}
 }

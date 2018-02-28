@@ -3,10 +3,6 @@ package common.DataModels;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class AuthToken implements Serializable
 {
   private String token;
@@ -15,38 +11,32 @@ public class AuthToken implements Serializable
 
   public AuthToken()
   {
-    this.token = generateNewtoken();
+    this.token = generateNewToken();
     validTokens.add(this.token);
     this.generationTime = System.currentTimeMillis();
   }
 
   public static boolean isValidToken(String token)
   {
-    if(validTokens.contains(token))
-    {
-      return true;
-    } else
-    {
-      return false;
-    }
+    return validTokens.contains(token);
   }
 
-  public static TimerTask generateTimeout(String authtoken)
+  public static TimerTask generateTimeout(String authToken)
   {
-    return new Timeout(authtoken);
+    return new Timeout(authToken);
   }
 
-  public String gettoken()
+  public String getToken()
   {
     return token;
   }
 
-  public void settoken(String token)
+  public void setToken(String token)
   {
     this.token = token;
   }
 
-  private String generateNewtoken()
+  private String generateNewToken()
   {
 
     StringBuilder token = new StringBuilder();
@@ -79,17 +69,17 @@ public class AuthToken implements Serializable
 
   static class Timeout extends TimerTask
   {
-    private final String authtoken;
+    private final String authToken;
 
-    Timeout(String authtoken)
+    Timeout(String authToken)
     {
-      this.authtoken = authtoken;
+      this.authToken = authToken;
     }
 
     @Override
     public void run()
     {
-      validTokens.remove(this.authtoken);
+      validTokens.remove(this.authToken);
     }
   }
 

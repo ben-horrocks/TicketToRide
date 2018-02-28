@@ -7,6 +7,7 @@
 
 package cs340.TicketClient.Lobby;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.LinearLayout;
@@ -15,10 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.GameID;
-import common.DataModels.GameInfo;
-import cs340.TicketClient.ASyncTask.JoinGameTask;
-import cs340.TicketClient.ASyncTask.StartGameTask;
+import common.DataModels.*;
 import cs340.TicketClient.R;
 
 /**
@@ -49,15 +47,21 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   public void onBindViewHolder(viewHolder holder, int position)
   {
     GameInfo game = games.get(position);
-    holder.isMyGame = game.getCreatorName() ==
-                      LobbyPresenter.getInstance().getModel().getPlayer().getName().getName();
-    //Implement HasJoinedGame here
-    holder.GameName.setText(
-            (holder.isMyGame ? "Start" : (holder.hasJoinedGame ? "Joined" : "Join")) +
-            game.getName());
-    holder.HostPlayerName.setText(game.getCreatorName());
-    holder.PlayerCount.setText(game.getPlayerCount() + '/' + '5');
     holder.id = game.getID();
+    boolean isMyGame = LobbyPresenter.getInstance().isMyGame(holder.id);
+    boolean hasJoinedGame = LobbyPresenter.getInstance().hasJoinedGame(holder.id);
+    String status = (isMyGame ? "Start" : (hasJoinedGame ? "Joined" : "Join"));
+    String formattedPlayerCount = Integer.toString(game.getPlayerCount()) + '/' + '5';
+    holder.GameName.setText(game.getName());
+    holder.JoinStart.setText(status);
+    if(hasJoinedGame)
+    {
+      holder.JoinStart.setTextColor(Color.BLACK);
+    } else if (!game.canStart(LobbyPresenter.getInstance().getPlayer())) {
+      holder.JoinStart.setTextColor(Color.RED);
+    }
+    holder.HostPlayerName.setText(game.getCreatorName());
+    holder.PlayerCount.setText(formattedPlayerCount);
 
   }
 
@@ -110,50 +114,38 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
   public class viewHolder extends RecyclerView.ViewHolder
   {
     public TextView GameName;
+    public TextView JoinStart;
     public TextView HostPlayerName;
     public TextView PlayerCount;
     public LinearLayout mButton;
     public GameID id;
-    public Boolean isMyGame;
-    public Boolean hasJoinedGame;
 
     public viewHolder(View itemView)
     {
       //VIEW BINDING
       super(itemView);
       GameName = (TextView) itemView.findViewById(R.id.game_name);
+      JoinStart = (TextView) itemView.findViewById(R.id.join_start);
       HostPlayerName = (TextView) itemView.findViewById(R.id.host_player_name);
       PlayerCount = (TextView) itemView.findViewById(R.id.player_count);
       mButton = (LinearLayout) itemView.findViewById(R.id.gameButton);
       //END VIEW BINDING
 
       //LISTENERS
-      if (isMyGame)
-      {
         mButton.setOnClickListener(new View.OnClickListener()
         {
           @Override
           public void onClick(View view)
           {
-            GameID id = LobbyPresenter.getInstance().getJoinedGameID();
-            LobbyPresenter.getInstance().startGame(id);
+            if (LobbyPresenter.getInstance().isMyGame(id))
+            {
+              LobbyPresenter.getInstance().startGame(id);
+            } else if (!LobbyPresenter.getInstance().hasJoinedGame(id))
+            {
+              LobbyPresenter.getInstance().joinGame(id);
+            }
           }
         });
-
-      } else if (!hasJoinedGame)
-      {
-        mButton.setOnClickListener(new View.OnClickListener()
-        {
-          @Override
-          public void onClick(View view)
-          {
-            LobbyPresenter.getInstance().joinGame(id);
-          }
-        });
-      } else
-      {
-        //implement remove thyself from game here.
-      }
       //END LISTENERS
     }
   }

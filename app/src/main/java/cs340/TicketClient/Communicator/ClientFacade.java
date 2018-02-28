@@ -13,6 +13,16 @@ import cs340.TicketClient.Lobby.LobbyPresenter;
 
 public class ClientFacade implements IClient
 {
+	private static ClientFacade SINGLETON = null;
+	public static ClientFacade getSingleton()
+	{
+		if(SINGLETON == null)
+		{
+			SINGLETON = new ClientFacade();
+		}
+		return SINGLETON;
+	}
+
   @Override
   public void updateGameList(List<GameInfo> gameList) {
     LobbyPresenter.getInstance().addGames(gameList);
@@ -20,7 +30,7 @@ public class ClientFacade implements IClient
 
   @Override
   public void startGame(GameID id) {
-
+    LobbyPresenter.getInstance().gameStarted();
   }
 
 }

@@ -1,15 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:id="@+id/fragment_map"
+    android:name="com.google.android.gms.maps.MapFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/hand_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/game_activity"/>
-</LinearLayout>
+        android:layout_alignParentTop="true"
+        android:text="@string/hand"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hand_button"
+        android:layout_above="@id/move_bar"
+        />
+
+    <LinearLayout
+        android:id="@+id/move_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/draw_destination_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/draw_destination_card"
+            android:layout_weight="1"
+            tools:ignore="ButtonStyle"/>
+        <Button
+            android:id="@+id/draw_trainCar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/draw_train_card"
+            android:layout_weight="1"
+            tools:ignore="ButtonStyle"/>
+        <Button
+            android:id="@+id/claim_route_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/claim_route"
+            android:layout_weight="1"
+            tools:ignore="ButtonStyle"/>
+    </LinearLayout>
+
+</RelativeLayout>

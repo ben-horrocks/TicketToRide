@@ -5,15 +5,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import common.CommandParams;
-import common.IServer;
 
 /**
- * A Command class that extends the CommandParams class and is Serializable. This class
+ * A ServerCommand class that extends the CommandParams class and is Serializable. This class
  * is meant to send Commands between Clients and Servers. The CommandParams class has one
- * public function that Command has to implement (execute()). The implementation will vary
- * depending on the context of the Command (what is the destination of the Command?).
+ * public function that ServerCommand has to implement (execute()). The implementation will vary
+ * depending on the context of the ServerCommand (what is the destination of the ServerCommand?).
  */
-public class Command implements Serializable
+public class ServerCommand implements Serializable
 {
 	private static final long serialVersionUID = 5950169519310163575L;
 
@@ -27,12 +26,12 @@ public class Command implements Serializable
 	//null.
 
 	/**
-	 * The constructor for the Command to be sent.
+	 * The constructor for the ServerCommand to be sent.
 	 * @param methodName The name of the method the sending party wishes to invoke.
 	 * @param parameterTypeNames The types of the parameters.
 	 * @param parameters The parameters to be used in the method.
 	 */
-	public Command(String methodName, String[] parameterTypeNames, Object[] parameters)
+	public ServerCommand(String methodName, String[] parameterTypeNames, Object[] parameters)
 	{
 		this.methodName = methodName;
 		this.parameterTypeNames = parameterTypeNames;
@@ -40,7 +39,7 @@ public class Command implements Serializable
 		createParameterTypes();
 	}
 
-	public Command(CommandParams commandParams)
+	public ServerCommand(CommandParams commandParams)
 	{
 		this.methodName = commandParams.getMethodName();
 		this.parameterTypeNames = commandParams.getParameterTypeNames();
@@ -108,7 +107,7 @@ public class Command implements Serializable
 			e.printStackTrace();
 		} catch (IllegalAccessException e)
 		{
-			System.err.println("Illegal accesss while trying to execute the method " + methodName);
+			System.err.println("Illegal access while trying to execute the method " + methodName);
 			e.printStackTrace();
 		} catch (IllegalArgumentException e)
 		{
@@ -116,7 +115,7 @@ public class Command implements Serializable
 			e.printStackTrace();
 		} catch (InvocationTargetException e)
 		{
-			System.err.println("Illegal accesss while trying to execute the method " + methodName);
+			System.err.println("Illegal access while trying to execute the method " + methodName);
 			e.printStackTrace();
 		}
 
@@ -133,7 +132,7 @@ public class Command implements Serializable
 				parameterTypes[i] = getClassFor(parameterTypeNames[i]);
 			} catch (ClassNotFoundException e)
 			{
-				System.err.println("ERROR: IN Command.execute could not create a parameter type from the parameter type name " +
+				System.err.println("ERROR: IN ServerCommand.execute could not create a parameter type from the parameter type name " +
 						parameterTypeNames[i]);
 				e.printStackTrace();
 			}

@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorEdgeBlue">#87CEEB</color>
+    <color name="colorEdgePink">#F36190</color>
+    <color name="colorEdgeWhite">#FFFFFF</color>
+    <color name="colorEdgeYellow">#FFFF00</color>
+    <color name="colorEdgeOrange">#FFA500</color>
+    <color name="colorEdgeBlack">#000000</color>
+    <color name="colorEdgeRed">#FF0000</color>
+    <color name="colorEdgeGreen">#9ACD32</color>
+    <color name="colorEdgeGray">#808080</color>
 </resources>
