@@ -1,9 +1,7 @@
-package cs340.TicketClient.client_common;
+package common.DataModels;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import common.DataModels.Player;
 
 /**
  * Created by Kavika F.
@@ -46,6 +44,8 @@ public class Edge
 	public Player getOwner() { return owner; }
 
 	public void setOwner(Player owner) { this.owner = owner; }
+
+	public boolean isClaimed() { return owner != null; }
 
 	public boolean isDoubleEdge() { return isDoubleEdge; }
 
