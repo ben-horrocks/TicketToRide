@@ -32,9 +32,9 @@ import java.util.Map;
 import java.util.Set;
 
 import cs340.TicketClient.R;
-import cs340.TicketClient.client_common.City;
-import cs340.TicketClient.client_common.Edge;
-import cs340.TicketClient.client_common.EdgeColor;
+import common.DataModels.City;
+import common.DataModels.Edge;
+import common.DataModels.EdgeColor;
 
 /**
  * Created by Kavika F.
@@ -90,6 +90,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	public void onMapReady(GoogleMap mMap)
 	{
 		googleMap = mMap;
+		googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 		LatLng southWest = new LatLng(24.52, -124.77);
 		LatLng northEast = new LatLng( 49.01, -66.94);
 		LatLngBounds unitedStates = new LatLngBounds(southWest, northEast);
@@ -180,8 +181,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	/* Helper function to save lines when adding markers to list of all markers */
 	private void addCityToList(LatLng coordinates, String title)
 	{
-		MarkerOptions marker = new MarkerOptions().position(coordinates).title(title);
-		City city = new City(marker, title);
+		City city = new City(coordinates.latitude, coordinates.longitude, title);
 		cities.put(title, city);
 	}
 
@@ -193,7 +193,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		for (String key : keys)
 		{
 			City city = cities.get(key);
-			googleMap.addMarker(city.getCoordinates());
+			googleMap.addMarker(new MarkerOptions().position( new LatLng(
+					city.getLatitude(), city.getLongitude()))
+			.title(city.getCityName()
+			));
 		}
 	}
 
@@ -540,26 +543,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
 	private void drawEdges()
 	{
-		double curvature = 0.15;
 		for (Edge edge : edges)
 		{
 			City city1 = edge.getFirstCity();
+			LatLng city1coords = new LatLng(city1.getLatitude(), city1.getLongitude());
 			City city2 = edge.getSecondCity();
+			LatLng city2coords = new LatLng(city2.getLatitude(), city2.getLongitude());
 			Polyline line;
 
 			if (edge.isDoubleEdge())
 			{
-				line = showCurvedPolyline(city1.getCoordinates().getPosition(),
-						city2.getCoordinates().getPosition(), curvature, edge.getColor());
+				if (edge.getColor() == EdgeColor.GRAY)
+				{
+					Polyline underGray = showCurvedPolyline(city1coords, city2coords, EdgeColor.LIGHT_GRAY);
+					underGray.setWidth(20);
+				}
+				line = showCurvedPolyline(city1coords, city2coords, edge.getColor());
 			}
 			else
 			{
+				if (edge.getColor() == EdgeColor.GRAY)
+				{
+					Polyline underGray = showStraightPolyline(city1, city2, EdgeColor.LIGHT_GRAY);
+					underGray.setWidth(20);
+				}
 				line = showStraightPolyline(city1, city2, edge.getColor());
 			}
 
 			//line = showStraightPolyline(city1, city2, edge.getColor()); // just for now
-			line.setTag(edge);
+			line.setTag(edge.getCities());
 			line.setClickable(true);
+			List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));
+			line.setPattern(pattern);
+			line.setWidth(20);
 			lines.add(line);
 		}
 	}
@@ -577,6 +593,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			case RED: return getContext().getResources().getColor(R.color.colorEdgeRed);
 			case GREEN: return getContext().getResources().getColor(R.color.colorEdgeGreen);
 			case GRAY: return getContext().getResources().getColor(R.color.colorEdgeGray);
+			case LIGHT_GRAY: return getContext().getResources().getColor(R.color.colorEdgeLightGray);
 			default:
 				System.out.println("No color found");
 				return 0;
@@ -585,14 +602,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
 	private Polyline showStraightPolyline(City city1, City city2, EdgeColor color)
 	{
-		PolylineOptions polylineOptions = new PolylineOptions()
-				.add(city1.getCoordinates().getPosition(), city2.getCoordinates().getPosition())
+		LatLng city1coords = new LatLng(city1.getLatitude(), city1.getLongitude());
+		LatLng city2coords = new LatLng(city2.getLatitude(), city2.getLongitude());
+		PolylineOptions polylineOptions = new PolylineOptions().add(city1coords, city2coords)
 				.color(pickColor(color));
 		Polyline line = googleMap.addPolyline(polylineOptions);
 		return line;
 	}
 
-	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, double curvature, EdgeColor color) {
+	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, EdgeColor color) {
 
 		int numPoints = 3;
 		double a = SphericalUtil.computeDistanceBetween(p1, p2);
@@ -621,9 +639,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			LatLng point = SphericalUtil.computeOffset(c, distance, averageHeading + Math.toDegrees(time));
 			options.add(point);
 		}
-		List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));
 		Polyline line = googleMap.addPolyline(
-				options.width(10).color(pickColor(color)).pattern(pattern).geodesic(false));
+				options.color(pickColor(color)).geodesic(false));
 		return line;
 	}
 }
