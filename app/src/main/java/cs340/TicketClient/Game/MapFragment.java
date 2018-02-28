@@ -14,16 +14,20 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.SphericalUtil;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -196,7 +200,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	/* Creates all the edges of the board game */
 	private void createEdges()
 	{
-		// TODO: Possibly add id to route as a unique identifier
 		City vancouver = cities.get("Vancouver");
 		City seattle = cities.get("Seattle");
 		City portland = cities.get("Portland");
@@ -235,316 +238,323 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		City miami = cities.get("Miami");
 
 		// Vancouver to Seattle
-		addEdge(vancouver, seattle, EdgeColor.GRAY, 1);
+		addEdge(vancouver, seattle, EdgeColor.GRAY, 1, false);
 
 		// Seattle to Vancouver
-		addEdge(seattle, vancouver, EdgeColor.GRAY, 1);
+		addEdge(seattle, vancouver, EdgeColor.GRAY, 1, true);
 
 		// Seattle to Portland
-		addEdge(seattle, portland, EdgeColor.GRAY, 1);
+		addEdge(seattle, portland, EdgeColor.GRAY, 1, true);
 
 		// Portland to Seattle
-		addEdge(portland, seattle, EdgeColor.GRAY, 1);
+		addEdge(portland, seattle, EdgeColor.GRAY, 1, true);
 
 		// Vancouver to Calgary
-		addEdge(vancouver, calgary, EdgeColor.GRAY, 3);
+		addEdge(vancouver, calgary, EdgeColor.GRAY, 3, false);
 
 		// Seattle to Calgary
-		addEdge(seattle, calgary, EdgeColor.GRAY, 4);
+		addEdge(seattle, calgary, EdgeColor.GRAY, 4, false);
 
 		// Portland to San Francisco
-		addEdge(portland, sanFrancisco, EdgeColor.GREEN, 5);
+		addEdge(portland, sanFrancisco, EdgeColor.GREEN, 5, true);
 
 		// San Francisco to Portland
-		addEdge(sanFrancisco, portland, EdgeColor.PINK, 5);
+		addEdge(sanFrancisco, portland, EdgeColor.PINK, 5, true);
 
 		// San Francisco to Los Angeles
-		addEdge(sanFrancisco, losAngeles, EdgeColor.YELLOW, 3);
+		addEdge(sanFrancisco, losAngeles, EdgeColor.YELLOW, 3, true);
 
 		// Los Angeles to San Francisco
-		addEdge(losAngeles, sanFrancisco, EdgeColor.PINK, 3);
+		addEdge(losAngeles, sanFrancisco, EdgeColor.PINK, 3, true);
 
 		// San Francisco to Salt Lake City
-		addEdge(sanFrancisco, saltLakeCity, EdgeColor.ORANGE, 5);
+		addEdge(sanFrancisco, saltLakeCity, EdgeColor.ORANGE, 5, true);
 
 		// Salt Lake City to San Francisco
-		addEdge(saltLakeCity, sanFrancisco, EdgeColor.WHITE, 5);
+		addEdge(saltLakeCity, sanFrancisco, EdgeColor.WHITE, 5, false);
 
 		// Portland to Salt Lake City
-		addEdge(portland, saltLakeCity, EdgeColor.BLUE, 6);
+		addEdge(portland, saltLakeCity, EdgeColor.BLUE, 6, false);
 
 		// Los Angeles to Las Vegas
-		addEdge(losAngeles, lasVegas, EdgeColor.GRAY, 2);
+		addEdge(losAngeles, lasVegas, EdgeColor.GRAY, 2, false);
 
 		// Los Angeles to Phoenix
-		addEdge(losAngeles, phoenix, EdgeColor.GRAY, 3);
+		addEdge(losAngeles, phoenix, EdgeColor.GRAY, 3, false);
 
 		// Las Vegas to Salt Lake City
-		addEdge(lasVegas, saltLakeCity, EdgeColor.ORANGE, 3);
+		addEdge(lasVegas, saltLakeCity, EdgeColor.ORANGE, 3, false);
 
 		// Calgary to Helena
-		addEdge(calgary, helena, EdgeColor.GRAY, 4);
+		addEdge(calgary, helena, EdgeColor.GRAY, 4, false);
 
 		// Seattle to Helena
-		addEdge(seattle, helena, EdgeColor.YELLOW, 6);
+		addEdge(seattle, helena, EdgeColor.YELLOW, 6, false);
 
 		// Salt Lake City to Helena
-		addEdge(saltLakeCity, helena, EdgeColor.PINK, 3);
+		addEdge(saltLakeCity, helena, EdgeColor.PINK, 3, false);
 
 		// Los Angeles to El Paso
-		addEdge(losAngeles, elPaso, EdgeColor.BLACK, 6);
+		addEdge(losAngeles, elPaso, EdgeColor.BLACK, 6, false);
 
 		// Phoenix to El Paso
-		addEdge(phoenix, elPaso, EdgeColor.GRAY, 3);
+		addEdge(phoenix, elPaso, EdgeColor.GRAY, 3, false);
 
 		// El Paso to Santa Fe
-		addEdge(elPaso, santaFe, EdgeColor.GRAY, 2);
+		addEdge(elPaso, santaFe, EdgeColor.GRAY, 2, false);
 
 		// Phoenix to Santa Fe
-		addEdge(phoenix, sanFrancisco, EdgeColor.GRAY, 3);
+		addEdge(phoenix, sanFrancisco, EdgeColor.GRAY, 3, false);
 
 		// Phoenix to Denver
-		addEdge(phoenix, denver, EdgeColor.WHITE, 5);
+		addEdge(phoenix, denver, EdgeColor.WHITE, 5, false);
 
 		// Santa Fe to Denver
-		addEdge(santaFe, denver, EdgeColor.GRAY, 2);
+		addEdge(santaFe, denver, EdgeColor.GRAY, 2, false);
 
 		// Salt Lake City to Denver
-		addEdge(saltLakeCity, denver, EdgeColor.RED, 3);
+		addEdge(saltLakeCity, denver, EdgeColor.RED, 3, true);
 
 		// Denver to Salt Lake City
-		addEdge(denver, saltLakeCity, EdgeColor.YELLOW, 3);
+		addEdge(denver, saltLakeCity, EdgeColor.YELLOW, 3, false);
 
 		// Denver to Helena
-		addEdge(denver, helena, EdgeColor.GREEN, 4);
+		addEdge(denver, helena, EdgeColor.GREEN, 4, false);
 
 		// Calgary to Winnipeg
-		addEdge(calgary, winnipeg, EdgeColor.WHITE, 6);
+		addEdge(calgary, winnipeg, EdgeColor.WHITE, 6, false);
 
 		// Helena to Winnipeg
-		addEdge(helena, winnipeg, EdgeColor.BLUE, 4);
+		addEdge(helena, winnipeg, EdgeColor.BLUE, 4, false);
 
 		// Winnipeg to Duluth
-		addEdge(winnipeg, duluth, EdgeColor.BLACK, 4);
+		addEdge(winnipeg, duluth, EdgeColor.BLACK, 4, false);
 
 		// Helena to Duluth
-		addEdge(helena, duluth, EdgeColor.ORANGE, 6);
+		addEdge(helena, duluth, EdgeColor.ORANGE, 6, false);
 
 		// Winnipeg to Saul St. Marie
-		addEdge(winnipeg, saultStMarie, EdgeColor.GRAY, 6);
+		addEdge(winnipeg, saultStMarie, EdgeColor.GRAY, 6, false);
 
 		// Duluth to Saul St. Marie
-		addEdge(duluth, saultStMarie, EdgeColor.GRAY, 3);
+		addEdge(duluth, saultStMarie, EdgeColor.GRAY, 3, false);
 
 		// Duluth to Omaha
-		addEdge(duluth, omaha, EdgeColor.GRAY, 2);
+		addEdge(duluth, omaha, EdgeColor.GRAY, 2, true);
 
 		// Omaha to Duluth
-		addEdge(omaha, duluth, EdgeColor.GRAY, 2);
+		addEdge(omaha, duluth, EdgeColor.GRAY, 2, true);
 
 		// Helena to Omaha
-		addEdge(helena, omaha, EdgeColor.RED, 5);
+		addEdge(helena, omaha, EdgeColor.RED, 5, false);
 
 		// Denver to Omaha
-		addEdge(denver, omaha, EdgeColor.PINK, 4);
+		addEdge(denver, omaha, EdgeColor.PINK, 4, false);
 
 		// Omaha to Kansas City
-		addEdge(omaha, kansasCity, EdgeColor.GRAY, 1);
+		addEdge(omaha, kansasCity, EdgeColor.GRAY, 1, true);
 
 		// Kansas City to Omaha
-		addEdge(kansasCity, omaha, EdgeColor.GRAY, 1);
+		addEdge(kansasCity, omaha, EdgeColor.GRAY, 1, true);
 
 		// Denver to Kansas City
-		addEdge(denver, kansasCity, EdgeColor.BLACK, 4);
+		addEdge(denver, kansasCity, EdgeColor.BLACK, 4, true);
 
 		// Kansas City to Denver
-		addEdge(kansasCity, denver, EdgeColor.ORANGE, 4);
+		addEdge(kansasCity, denver, EdgeColor.ORANGE, 4, false);
 
 		// Kansas City to Oklahoma City
-		addEdge(kansasCity, oklahomaCity, EdgeColor.GRAY, 2);
+		addEdge(kansasCity, oklahomaCity, EdgeColor.GRAY, 2, true);
 
 		// Oklahoma City to Kansas City
-		addEdge(oklahomaCity, kansasCity, EdgeColor.GRAY, 2);
+		addEdge(oklahomaCity, kansasCity, EdgeColor.GRAY, 2, true);
 
 		// Denver to Oklahoma City
-		addEdge(denver, oklahomaCity, EdgeColor.RED, 4);
+		addEdge(denver, oklahomaCity, EdgeColor.RED, 4, false);
 
 		// Santa Fe to Oklahoma City
-		addEdge(sanFrancisco, oklahomaCity, EdgeColor.BLUE, 3);
+		addEdge(sanFrancisco, oklahomaCity, EdgeColor.BLUE, 3, false);
 
 		// El Paso to Dallas
-		addEdge(elPaso, dallas, EdgeColor.RED, 4);
+		addEdge(elPaso, dallas, EdgeColor.RED, 4, false);
 
 		// El Paso to Houston
-		addEdge(elPaso, houston, EdgeColor.GREEN, 6);
+		addEdge(elPaso, houston, EdgeColor.GREEN, 6, false);
 
 		// Dallas to Houston
-		addEdge(dallas, houston, EdgeColor.GRAY, 1);
+		addEdge(dallas, houston, EdgeColor.GRAY, 1, true);
 
 		// Houston to Dallas
-		addEdge(houston, dallas, EdgeColor.GRAY, 1);
+		addEdge(houston, dallas, EdgeColor.GRAY, 1, true);
 
 		// Oklahoma City to Dallas
-		addEdge(oklahomaCity, dallas, EdgeColor.GRAY, 2);
+		addEdge(oklahomaCity, dallas, EdgeColor.GRAY, 2, true);
 
 		// Dallas to Oklahoma City
-		addEdge(dallas, oklahomaCity, EdgeColor.GRAY, 2);
+		addEdge(dallas, oklahomaCity, EdgeColor.GRAY, 2, true);
 
 		// Oklahoma City to Little Rock
-		addEdge(oklahomaCity, littleRock, EdgeColor.GRAY, 2);
+		addEdge(oklahomaCity, littleRock, EdgeColor.GRAY, 2, false);
 
 		// Dallas to Little Rock
-		addEdge(dallas, littleRock, EdgeColor.GRAY, 2);
+		addEdge(dallas, littleRock, EdgeColor.GRAY, 2, false);
 
 		// Duluth to Chicago
-		addEdge(duluth, chicago, EdgeColor.RED, 3);
+		addEdge(duluth, chicago, EdgeColor.RED, 3, false);
 
 		// Omaha to Chicago
-		addEdge(omaha, chicago, EdgeColor.BLUE, 4);
+		addEdge(omaha, chicago, EdgeColor.BLUE, 4, false);
 
 		// Kansas City to Saint Louis
-		addEdge(kansasCity, saintLouis, EdgeColor.BLUE, 2);
+		addEdge(kansasCity, saintLouis, EdgeColor.BLUE, 2, true);
 
 		// Saint Louis to Kansas City
-		addEdge(saintLouis, kansasCity, EdgeColor.PINK, 2);
+		addEdge(saintLouis, kansasCity, EdgeColor.PINK, 2, false);
 
 		// Saint Louis to Chicago
-		addEdge(saintLouis, chicago, EdgeColor.GREEN, 2);
+		addEdge(saintLouis, chicago, EdgeColor.GREEN, 2, true);
 
 		// Chicago to Saint Louis
-		addEdge(chicago, saintLouis, EdgeColor.WHITE, 2);
+		addEdge(chicago, saintLouis, EdgeColor.WHITE, 2, true);
 
 		// Saint Louis to Little Rock
-		addEdge(saintLouis, littleRock, EdgeColor.GRAY, 2);
+		addEdge(saintLouis, littleRock, EdgeColor.GRAY, 2, false);
 
 		// Houston to New Orleans
-		addEdge(houston, newOrleans, EdgeColor.GRAY, 2);
+		addEdge(houston, newOrleans, EdgeColor.GRAY, 2, false);
 
 		// Little Rock to New Orleans
-		addEdge(littleRock, newOrleans, EdgeColor.GREEN, 3);
+		addEdge(littleRock, newOrleans, EdgeColor.GREEN, 3, false);
 
 		// Saul St. Marie to Toronto
-		addEdge(saultStMarie, toronto, EdgeColor.GRAY, 2);
+		addEdge(saultStMarie, toronto, EdgeColor.GRAY, 2, false);
 
 		// Duluth to Toronto
-		addEdge(duluth, toronto, EdgeColor.PINK, 6);
+		addEdge(duluth, toronto, EdgeColor.PINK, 6, false);
 
 		// Chicago to Toronto
-		addEdge(chicago, toronto, EdgeColor.WHITE, 4);
+		addEdge(chicago, toronto, EdgeColor.WHITE, 4, false);
 
 		// Toronto to Pittsburgh
-		addEdge(toronto, pittsburgh, EdgeColor.GRAY, 2);
+		addEdge(toronto, pittsburgh, EdgeColor.GRAY, 2, false);
 
 		// Chicago to Pittsburgh
-		addEdge(chicago, pittsburgh, EdgeColor.ORANGE, 3);
+		addEdge(chicago, pittsburgh, EdgeColor.ORANGE, 3, true);
 
 		// Pittsburgh to Chicago
-		addEdge(pittsburgh, chicago, EdgeColor.BLACK, 3);
+		addEdge(pittsburgh, chicago, EdgeColor.BLACK, 3, true);
 
 		// Saint Louis to Pittsburgh
-		addEdge(saintLouis, pittsburgh, EdgeColor.GREEN, 5);
+		addEdge(saintLouis, pittsburgh, EdgeColor.GREEN, 5, false);
 
 		// Saint Louis to Nashville
-		addEdge(saintLouis, nashville, EdgeColor.GRAY, 2);
+		addEdge(saintLouis, nashville, EdgeColor.GRAY, 2, false);
 
 		// Little Rock to Nashville
-		addEdge(littleRock, nashville, EdgeColor.WHITE, 3);
+		addEdge(littleRock, nashville, EdgeColor.WHITE, 3, false);
 
 		// Nashville to Pittsburgh
-		addEdge(nashville, pittsburgh, EdgeColor.YELLOW, 4);
+		addEdge(nashville, pittsburgh, EdgeColor.YELLOW, 4, false);
 
 		// Nashville to Atlanta
-		addEdge(nashville, atlanta, EdgeColor.GRAY, 1);
+		addEdge(nashville, atlanta, EdgeColor.GRAY, 1, false);
 
 		// Atlanta to New Orleans
-		addEdge(atlanta, newOrleans, EdgeColor.YELLOW, 4);
+		addEdge(atlanta, newOrleans, EdgeColor.YELLOW, 4, true);
 
 		// New Orleans to Atlanta
-		addEdge(newOrleans, atlanta, EdgeColor.ORANGE, 4);
+		addEdge(newOrleans, atlanta, EdgeColor.ORANGE, 4, true);
 
 		// New Orleans to Miami
-		addEdge(newOrleans, miami, EdgeColor.RED, 6);
+		addEdge(newOrleans, miami, EdgeColor.RED, 6, false);
 
 		// Atlanta to Miami
-		addEdge(atlanta, miami, EdgeColor.BLUE, 5);
+		addEdge(atlanta, miami, EdgeColor.BLUE, 5, false);
 
 		// Miami to Charleston
-		addEdge(miami, charleston, EdgeColor.PINK, 4);
+		addEdge(miami, charleston, EdgeColor.PINK, 4, false);
 
 		// Atlanta to Charleston
-		addEdge(atlanta, charleston, EdgeColor.GRAY, 2);
+		addEdge(atlanta, charleston, EdgeColor.GRAY, 2, false);
 
 		// Nashville to Raleigh
-		addEdge(nashville, raleigh, EdgeColor.BLACK, 3);
+		addEdge(nashville, raleigh, EdgeColor.BLACK, 3, false);
 
 		// Atlanta to Raleigh
-		addEdge(atlanta, raleigh, EdgeColor.GRAY, 2);
+		addEdge(atlanta, raleigh, EdgeColor.GRAY, 2, true);
 
 		// Raleigh to Atlanta
-		addEdge(raleigh, atlanta, EdgeColor.GRAY, 2);
+		addEdge(raleigh, atlanta, EdgeColor.GRAY, 2, true);
 
 		// Charleston to Raleigh
-		addEdge(charleston, raleigh, EdgeColor.GRAY, 2);
+		addEdge(charleston, raleigh, EdgeColor.GRAY, 2, false);
 
 		// Raleigh to Washington D.C.
-		addEdge(raleigh, washingtonDC, EdgeColor.GRAY, 2);
+		addEdge(raleigh, washingtonDC, EdgeColor.GRAY, 2, true);
 
 		// Washington D.C. Raleigh
-		addEdge(washingtonDC, raleigh, EdgeColor.GRAY, 2);
+		addEdge(washingtonDC, raleigh, EdgeColor.GRAY, 2, true);
 
 		// Washington D.C. to Pittsburgh
-		addEdge(washingtonDC, pittsburgh, EdgeColor.GRAY, 2);
+		addEdge(washingtonDC, pittsburgh, EdgeColor.GRAY, 2, false);
 
 		// Pittsburgh to New York
-		addEdge(pittsburgh, newYork, EdgeColor.WHITE, 2);
+		addEdge(pittsburgh, newYork, EdgeColor.WHITE, 2, true);
 
 		// New York to Pittsburgh
-		addEdge(newYork, pittsburgh, EdgeColor.GREEN, 2);
+		addEdge(newYork, pittsburgh, EdgeColor.GREEN, 2, false);
 
 		// New York to Washington D.C.
-		addEdge(newYork, washingtonDC, EdgeColor.ORANGE, 2);
+		addEdge(newYork, washingtonDC, EdgeColor.ORANGE, 2, true);
 
 		// Washington D.C. to New York
-		addEdge(washingtonDC, newYork, EdgeColor.BLACK, 2);
+		addEdge(washingtonDC, newYork, EdgeColor.BLACK, 2, true);
 
 		// Boston to New York
-		addEdge(boston, newYork, EdgeColor.YELLOW, 2);
+		addEdge(boston, newYork, EdgeColor.YELLOW, 2, true);
 
 		// New York to Boston
-		addEdge(newYork, boston, EdgeColor.RED, 2);
+		addEdge(newYork, boston, EdgeColor.RED, 2, true);
 
 		// Montreal to Boston
-		addEdge(montreal, boston, EdgeColor.GRAY, 2);
+		addEdge(montreal, boston, EdgeColor.GRAY, 2, true);
 
 		// Boston to Montreal
-		addEdge(boston, montreal, EdgeColor.GRAY, 2);
+		addEdge(boston, montreal, EdgeColor.GRAY, 2, true);
 
 		// Saul St. Marie to Montreal
-		addEdge(saultStMarie, montreal, EdgeColor.BLACK, 5);
+		addEdge(saultStMarie, montreal, EdgeColor.BLACK, 5, false);
 
 		// Toronto to Montreal
-		addEdge(toronto, montreal, EdgeColor.GRAY, 3);
+		addEdge(toronto, montreal, EdgeColor.GRAY, 3, false);
 
 		// New York to Montreal
-		addEdge(newYork, montreal, EdgeColor.BLUE, 3);
+		addEdge(newYork, montreal, EdgeColor.BLUE, 3, false);
 	}
 
-	private void addEdge(City city1, City city2, EdgeColor color, int length)
+	private void addEdge(City city1, City city2, EdgeColor color, int length, boolean isDoubleEdge)
 	{
-		Edge edge = new Edge(city1, city2, color, length);
+		Edge edge = new Edge(city1, city2, color, length, isDoubleEdge);
 		edges.add(edge);
 	}
 
 	private void drawEdges()
 	{
+		double curvature = 0.15;
 		for (Edge edge : edges)
 		{
 			City city1 = edge.getFirstCity();
 			City city2 = edge.getSecondCity();
-			PolylineOptions polylineOptions = new PolylineOptions()
-					.add(city1.getCoordinates().getPosition(), city2.getCoordinates().getPosition())
-					.color(pickColor(edge.getColor()));
-			Polyline line = googleMap.addPolyline(polylineOptions);
+			Polyline line;
+			if (edge.isDoubleEdge())
+			{
+				line = showCurvedPolyline(city1.getCoordinates().getPosition(),
+						city2.getCoordinates().getPosition(), curvature, edge.getColor());
+			}
+			else
+			{
+				line = showStraightPolyline(city1, city2, edge.getColor());
+			}
 			line.setTag(edge);
 			lines.add(line);
 		}
@@ -567,5 +577,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 				System.out.println("No color found");
 				return 0;
 		}
+	}
+
+	private Polyline showStraightPolyline(City city1, City city2, EdgeColor color)
+	{
+		PolylineOptions polylineOptions = new PolylineOptions()
+				.add(city1.getCoordinates().getPosition(), city2.getCoordinates().getPosition())
+				.color(pickColor(color));
+		Polyline line = googleMap.addPolyline(polylineOptions);
+		return line;
+	}
+
+	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, double curvature, EdgeColor color) {
+
+		int numPoints = 10;
+		double a = SphericalUtil.computeDistanceBetween(p1, p2);
+		a = a/2; // only need half the distance
+		double b = 75000; // 7.5km
+		double heading = SphericalUtil.computeHeading(p1, p2);
+		heading = Math.toRadians(heading);
+		PolylineOptions options = new PolylineOptions();
+		//options.add(p2);
+		LatLng c = SphericalUtil.interpolate(p1, p2, 0.5);
+		//googleMap.addMarker(new MarkerOptions().position(c).title("center point")); // Just to see center. Debugging only
+
+		for (int i = 0; i <= numPoints; i++)
+		{
+			double time = (2 * i * Math.PI) / (numPoints);
+			double x = (a * Math.cos(time) * Math.cos(heading)) - (b * Math.sin(time) * Math.sin(heading));//a * Math.cos(time);//
+			double y = (a * Math.cos(time) * Math.sin(heading)) + (b * Math.sin(time) * Math.cos(heading));//b * Math.sin(time);//
+			double distance = Math.sqrt(x*x - y*y);
+			LatLng point = SphericalUtil.computeOffset(c, distance, Math.toDegrees(heading));// + Math.toDegrees(time));
+			options.add(point);
+		}
+		List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));
+		Polyline line = googleMap.addPolyline(
+				options.width(10).color(pickColor(color)).pattern(pattern).geodesic(true));
+		return line;
 	}
 }
