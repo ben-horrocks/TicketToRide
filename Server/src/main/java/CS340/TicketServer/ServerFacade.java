@@ -1,5 +1,7 @@
 package CS340.TicketServer;
 
+import java.util.ArrayList;
+
 import common.DataModels.AuthToken;
 import common.DataModels.Game;
 import common.DataModels.GameID;
@@ -221,5 +223,10 @@ public class ServerFacade implements IServer
 
 		Signal signal = new Signal(SignalType.OK, "Populated");
 		return signal;
+	}
+
+	@Override
+	public Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards) {
+		return null;
 	}
 }

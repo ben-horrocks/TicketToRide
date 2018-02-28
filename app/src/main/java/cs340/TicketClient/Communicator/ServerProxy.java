@@ -3,6 +3,7 @@ package cs340.TicketClient.Communicator;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import common.CommandParams;
 import common.DataModels.Signal;
@@ -132,6 +133,11 @@ public class ServerProxy implements IServer
     @Override
     public Signal populate(){
         //empty
+        return null;
+    }
+
+    @Override
+    public Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards) {
         return null;
     }
 }

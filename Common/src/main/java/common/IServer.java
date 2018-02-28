@@ -1,5 +1,7 @@
 package common;
 
+import java.util.ArrayList;
+
 import common.DataModels.*;
 
 public interface IServer
@@ -54,4 +56,12 @@ public interface IServer
 	 * Debug method for pre-populating a server with data
 	 */
 	Signal populate();
+
+	/**
+	 * returns information on what destination cards the player picked and which to return to the deck.
+	 * @param pickedCards list of destination cards the player picked (must be at least 2)
+	 * @param returnCards list of destination cards the player didn't pick (can be 0)
+	 * @return Signal with OK or ERROR status
+	 */
+	Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards);
 }
