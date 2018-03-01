@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import common.CommandParams;
 import common.DataModels.Signal;
@@ -136,7 +137,7 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal returnDestinationCards(ArrayList<DestinationCard> pickedCards, ArrayList<DestinationCard> returnCards) {
+    public Signal returnDestinationCards(GameID id, Username name, List<DestinationCard> pickedCards, List<DestinationCard> returnCards) {
         return null;
     }
 }
