@@ -152,7 +152,7 @@ public class ServerFacade implements IServer
 		ServerGameData serverGameData = database.getOpenGameByID(id);
 		if (!serverGameData.isGameFull()) {
 			//Check if serverGameData contains user
-			if (serverGameData.getPlayers().contains(user)) {
+			if (serverGameData.getUsers().contains(user)) {
 				String errMsg = "Sorry, you have already joined this serverGameData.";
 				return new Signal(SignalType.ERROR, errMsg);
 

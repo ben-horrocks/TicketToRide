@@ -17,7 +17,7 @@ public class GameInfo implements Serializable
         this.id = g.getId();
         this.name = g.getName();
         this.creatorName = g.getCreatorName();
-        this.users = g.getPlayers();
+        this.users = g.getUsers();
     }
 
     public GameInfo(GameID id, String name, String creatorName, Set<User> users) {

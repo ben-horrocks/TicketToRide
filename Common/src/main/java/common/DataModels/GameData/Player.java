@@ -18,9 +18,20 @@ public class Player {
     private int score;
     //private EdgeGraph claimedEdges;
 
+    public Player(User user, PlayerColor color){
+        this.user = user;
+        this.hand = new ArrayList<TrainCard>();
+        this.destinations = new ArrayList<DestinationCard>();
+        this.trainCars = 0;
+        this.color = color;
+        this.score = 0;
+    }
+
     public String getName(){
         return this.user.getName();
     }
+
+    public User getUser() {return  this.user;}
 
     public List<TrainCard> getHand(){
         return this.hand;

@@ -62,7 +62,7 @@ public class ClientProxy implements IClient {
         //create start signal to push to all players in serverGameData
         Signal signal = new Signal(SignalType.START_GAME, serverGameData);
 
-        for (User p : serverGameData.getPlayers()) {
+        for (User p : serverGameData.getUsers()) {
             if(threadList.get(p.getUsername()) != null)
                 threadList.get(p.getUsername()).push(signal);
         }
