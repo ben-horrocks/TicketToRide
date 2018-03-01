@@ -63,5 +63,5 @@ public interface IServer
 	 * @param returnCards list of destination cards the player didn't pick (can be 0)
 	 * @return Signal with OK or ERROR status
 	 */
-	Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards);
+	Signal returnDestinationCards(ArrayList<DestinationCard> pickedCards, ArrayList<DestinationCard> returnCards);
 }

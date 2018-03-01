@@ -136,7 +136,7 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards) {
+    public Signal returnDestinationCards(ArrayList<DestinationCard> pickedCards, ArrayList<DestinationCard> returnCards) {
         return null;
     }
 }

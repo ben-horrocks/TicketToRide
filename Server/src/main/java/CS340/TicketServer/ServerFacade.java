@@ -3,6 +3,7 @@ package CS340.TicketServer;
 import java.util.ArrayList;
 
 import common.DataModels.AuthToken;
+import common.DataModels.DestinationCard;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.Password;
@@ -226,7 +227,7 @@ public class ServerFacade implements IServer
 	}
 
 	@Override
-	public Signal returnDestinationCards(ArrayList<Object> pickedCards, ArrayList<Object> returnCards) {
+	public Signal returnDestinationCards(ArrayList<DestinationCard> pickedCards, ArrayList<DestinationCard> returnCards) {
 		return null;
 	}
 }
