@@ -1,5 +1,6 @@
 package common.DataModels.GameData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.*;
@@ -31,7 +32,16 @@ public class Player {
 
     public void claimedEdge(Edge edge){
         //claimedEdges.add(edge)
-        //TODO comb through the hand and remove the appropriate cards for claiming the edge
+        ArrayList<TrainCard> toRemove = new ArrayList<TrainCard>();
+        for(int i=0; i<edge.getLength(); i++) {
+            for (TrainCard t : hand) {
+                if (t.getType() == edge.getColor()) {
+                    toRemove.add(t);
+                    break;
+                }
+            }
+        }
+        hand.removeAll(toRemove);
         //TODO if the newly claimed edge completed a destination card add points and remove the card
     }
 
