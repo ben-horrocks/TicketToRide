@@ -1,4 +1,4 @@
-package Decks;
+package common.DataModels.GameData.Decks;
 
 import java.util.ArrayList;
 import java.util.List;

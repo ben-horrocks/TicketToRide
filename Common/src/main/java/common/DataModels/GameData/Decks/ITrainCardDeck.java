@@ -1,4 +1,4 @@
-package Decks;
+package common.DataModels.GameData.Decks;
 
 import common.DataModels.TrainCard;
 
