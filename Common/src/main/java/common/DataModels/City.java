@@ -1,10 +1,12 @@
 package common.DataModels;
 
+import java.io.Serializable;
+
 /**
  * Created by Kavika F.
  */
 
-public class City
+public class City implements Serializable
 {
 	private double latitude;
 	private double longitude;

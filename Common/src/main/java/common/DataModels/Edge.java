@@ -1,5 +1,6 @@
 package common.DataModels;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by Kavika F.
  */
 
-public class Edge
+public class Edge implements Serializable
 {
 	private City firstCity;
 	private City secondCity;
