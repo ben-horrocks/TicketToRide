@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.TrainCard;
+import common.DataModels.TrainColor;
 
 public class TrainCardDeck implements ITrainCardDeck
 {
@@ -53,39 +54,39 @@ public class TrainCardDeck implements ITrainCardDeck
     int LOCOMOTIVE_CARD_NUMBER = 14, NORMAL_TRAIN_CARD_NUMBER = 12;
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.pink));
+      cards.add(new TrainCard(TrainColor.PINK));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.white));
+      cards.add(new TrainCard(TrainColor.WHITE));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.blue));
+      cards.add(new TrainCard(TrainColor.BLUE));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.yellow));
+      cards.add(new TrainCard(TrainColor.YELLOW));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.orange));
+      cards.add(new TrainCard(TrainColor.ORANGE));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.black));
+      cards.add(new TrainCard(TrainColor.BLACK));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.red));
+      cards.add(new TrainCard(TrainColor.RED));
     }
     for(int i=0;i<NORMAL_TRAIN_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.green));
+      cards.add(new TrainCard(TrainColor.GREEN));
     }
     for(int i=0;i<LOCOMOTIVE_CARD_NUMBER;i++)
     {
-      cards.add(new TrainCard(TrainCard.TrainCardType.locomotive));
+      cards.add(new TrainCard(TrainColor.GRAY));
     }
     return cards;
   }
