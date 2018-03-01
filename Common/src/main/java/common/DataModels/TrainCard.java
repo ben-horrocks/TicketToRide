@@ -2,20 +2,15 @@ package common.DataModels;
 
 public class TrainCard
 {
-  private TrainCardType type;
+  private TrainColor type;
 
-  public TrainCard(TrainCardType type)
+  public TrainCard(TrainColor type)
   {
     this.type = type;
   }
 
-  public TrainCardType getType()
+  public TrainColor getType()
   {
     return type;
-  }
-
-  public enum TrainCardType
-  {
-    pink, white, blue, yellow, orange, black, red, green, locomotive
   }
 }

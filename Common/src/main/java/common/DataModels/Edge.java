@@ -11,12 +11,12 @@ public class Edge
 {
 	private City firstCity;
 	private City secondCity;
-	private EdgeColor color;
+	private TrainColor color;
 	private int length;
 	private User owner = null;
 	private boolean isDoubleEdge;
 
-	public Edge(City firstCity, City secondCity, EdgeColor color, int length, boolean isDoubleEdge)
+	public Edge(City firstCity, City secondCity, TrainColor color, int length, boolean isDoubleEdge)
 	{
 		this.firstCity = firstCity;
 		this.secondCity = secondCity;
@@ -37,7 +37,7 @@ public class Edge
 		return cities;
 	}
 
-	public EdgeColor getColor() { return color; }
+	public TrainColor getColor() { return color; }
 
 	public int getLength() { return length; }
 
