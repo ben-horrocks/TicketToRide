@@ -2,7 +2,9 @@ package CS340.TicketServer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import common.CommandParams;
 import common.DataModels.AuthToken;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.ServerGameData;
@@ -14,6 +16,7 @@ import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
 import common.IServer;
+import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -229,7 +232,19 @@ public class ServerFacade implements IServer
 
 	@Override
 	public Signal returnDestinationCards(GameID id, Username user, List<DestinationCard> pickedCards, List<DestinationCard> returnCards) {
-
-		return null;
+		//Data setup
+		Database database = Database.SINGLETON;
+		User agent = database.getPlayer(user);
+		ServerGameData game = database.getRunningGameByID(id);
+		//Tell the game to update
+		game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards);
+		//Tell the clients to update
+		Set<User> otherPlayers = game.getUsers();
+		otherPlayers.remove(agent);
+		for(User u: otherPlayers){
+			ClientProxy.getSINGLETON().playerDrewDestinationCards(u.getUsername(), pickedCards.size());
+		}
+		//Tell the sender that the operation was successful
+		return new Signal(SignalType.OK, "Accepted");
 	}
 }

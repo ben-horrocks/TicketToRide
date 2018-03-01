@@ -4,6 +4,9 @@ import java.util.List;
 
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
+import common.DataModels.Signal;
+import common.DataModels.SignalType;
+import common.DataModels.Username;
 import common.IClient;
 import cs340.TicketClient.Lobby.LobbyPresenter;
 
@@ -23,14 +26,21 @@ public class ClientFacade implements IClient
 		return SINGLETON;
 	}
 
-  @Override
-  public void updateGameList(List<GameInfo> gameList) {
-    LobbyPresenter.getInstance().addGames(gameList);
-  }
+	@Override
+  	public Signal updateGameList(List<GameInfo> gameList) {
+    	LobbyPresenter.getInstance().addGames(gameList);
+		return new Signal(SignalType.OK, "Accepted");
+  	}
 
-  @Override
-  public void startGame(GameID id) {
-    LobbyPresenter.getInstance().gameStarted();
-  }
+  	@Override
+  	public Signal startGame(GameID id) {
+    	LobbyPresenter.getInstance().gameStarted();
+		return new Signal(SignalType.OK, "Accepted");
+  	}
+
+	@Override
+	public Signal playerDrewDestinationCards(Username name, int amount) {
+		return new Signal(SignalType.OK, "Accepted");
+	}
 
 }

@@ -3,6 +3,7 @@ package CS340.TicketServer;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import common.CommandParams;
 import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
@@ -45,16 +46,17 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public void updateGameList(List<GameInfo> gameList) {
+    public Signal updateGameList(List<GameInfo> gameList) {
 		ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.UPDATE, gameList);
         for (ClientThread thread : threadList.values()) {
             thread.push(signal);
         }
+        return new Signal(SignalType.OK, "Accepted");
     }
 
     @Override
-    public void startGame(GameID id) {
+    public Signal startGame(GameID id) {
         //get threads for all players & the serverGameData to be started with associated players
         ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         ServerGameData serverGameData = Database.SINGLETON.getRunningGameByID(id);
@@ -66,5 +68,12 @@ public class ClientProxy implements IClient {
             if(threadList.get(p.getUsername()) != null)
                 threadList.get(p.getUsername()).push(signal);
         }
+        return new Signal(SignalType.OK, "Accepted");
+    }
+
+    @Override
+    public Signal playerDrewDestinationCards(Username name, int amount) {
+        //TODO implement sending commands to client.
+        return null;
     }
 }
