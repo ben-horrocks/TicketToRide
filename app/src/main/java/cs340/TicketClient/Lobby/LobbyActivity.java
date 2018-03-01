@@ -53,7 +53,7 @@ public class LobbyActivity extends AppCompatActivity
     //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
     LobbyPresenter.setActivity(this);
     LobbyPresenter.getInstance().getModel()
-            .setUser((User) this.getIntent().getExtras().get("player"));
+            .setUser((User) this.getIntent().getExtras().get("user"));
 
     //VIEW BINDING
     mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
