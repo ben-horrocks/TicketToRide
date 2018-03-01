@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
@@ -62,7 +62,7 @@ public class ClientProxy implements IClient {
         //create start signal to push to all players in game
         Signal signal = new Signal(SignalType.START_GAME, game);
 
-        for (Player p : game.getPlayers()) {
+        for (User p : game.getPlayers()) {
             if(threadList.get(p.getUsername()) != null)
                 threadList.get(p.getUsername()).push(signal);
         }

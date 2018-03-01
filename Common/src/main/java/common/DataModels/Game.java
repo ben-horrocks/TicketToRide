@@ -8,22 +8,22 @@ public class Game implements Serializable
 {
   private static final Integer PLAYERLIMIT = 5;
   private String name;
-  private Player creator;
-  private Set<Player> currentPlayers = new HashSet<>();
+  private User creator;
+  private Set<User> currentUsers = new HashSet<>();
   private GameID id = new GameID();
   private boolean gameStarted = false;
 
-  public Game(Player startingPlayer)
+  public Game(User startingUser)
   {
-    name = startingPlayer.getUsername() + "\'s game";
-    creator = startingPlayer;
-    currentPlayers.add(startingPlayer);
+    name = startingUser.getUsername() + "\'s game";
+    creator = startingUser;
+    currentUsers.add(startingUser);
   }
 
-  public Game(String name, Player startingPlayer){
+  public Game(String name, User startingUser){
     this.name = name;
-    creator = startingPlayer;
-    currentPlayers.add(startingPlayer);
+    creator = startingUser;
+    currentUsers.add(startingUser);
   }
 
   public void startGame() { gameStarted = true; }
@@ -36,16 +36,16 @@ public class Game implements Serializable
 
   public String getCreatorName() {return creator.getName();}
 
-  public Set<Player> getPlayers() {return currentPlayers;}
+  public Set<User> getPlayers() {return currentUsers;}
 
   public boolean isGameStarted() { return gameStarted; }
 
   public void setGameStarted(boolean gameStarted) { this.gameStarted = gameStarted; }
 
-  public void addPlayer(Player player) { currentPlayers.add(player); }
+  public void addPlayer(User user) { currentUsers.add(user); }
 
   public boolean isGameFull()
   {
-    return currentPlayers.size() >= PLAYERLIMIT;
+    return currentUsers.size() >= PLAYERLIMIT;
   }
 }

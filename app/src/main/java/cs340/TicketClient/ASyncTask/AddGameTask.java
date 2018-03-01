@@ -6,8 +6,6 @@ import android.widget.Toast;
 
 import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.Lobby.LobbyActivity;
-import cs340.TicketClient.Lobby.LobbyPresenter;
 
 public class AddGameTask extends AsyncTask<Object, Void, Signal>
 {
@@ -21,8 +19,8 @@ public class AddGameTask extends AsyncTask<Object, Void, Signal>
   protected Signal doInBackground(Object... objects)
   {
     String gamename = (String) objects[0];
-    Player player = (Player) objects[1];
-    return ServerProxy.getInstance().addGame(gamename, player);
+    User user = (User) objects[1];
+    return ServerProxy.getInstance().addGame(gamename, user);
   }
 
   @Override

@@ -14,7 +14,7 @@ public class ClientGameData /*implements IGameData, Serializable*/{
 
     public ClientGameData(ServerGameData game){
         opponents = new ArrayList<Opponent>();
-        for(Player p: game.getPlayers()){
+        for(User p: game.getUsers()){
             opponents.add(new Opponent(p);
         }
         this.gameboard = game.getGameboard();

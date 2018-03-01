@@ -3,16 +3,13 @@ package cs340.TicketClient.Login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import common.DataModels.Player;
+import common.DataModels.User;
 import cs340.TicketClient.Communicator.ClientCommunicator;
 import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.R;
@@ -194,14 +191,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
   }
 
   /**
-   * Creates intent and starts lobby activity for the player
-   * @param player the player that just logged in or registered
+   * Creates intent and starts lobby activity for the user
+   * @param user the user that just logged in or registered
    */
   @Override
-  public void gotoLobby(Player player)
+  public void gotoLobby(User user)
   {
     Intent intent = new Intent(this, LobbyActivity.class);
-    intent.putExtra("player", player);
+    intent.putExtra("user", user);
     startActivity(intent);
   }
 

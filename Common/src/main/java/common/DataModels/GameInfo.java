@@ -9,20 +9,20 @@ public class GameInfo implements Serializable
     private GameID id;
     private String name;
     private String creatorName;
-    private Set<Player> players = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public GameInfo(Game g){
         this.id = g.getId();
         this.name = g.getName();
         this.creatorName = g.getCreatorName();
-        this.players = g.getPlayers();
+        this.users = g.getPlayers();
     }
 
-    public GameInfo(GameID id, String name, String creatorName, Set<Player> players) {
+    public GameInfo(GameID id, String name, String creatorName, Set<User> users) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
-        this.players = players;
+        this.users = users;
     }
 
     public GameID getID(){
@@ -37,18 +37,18 @@ public class GameInfo implements Serializable
         return this.creatorName;
     }
 
-    public Set<Player> getPlayers() {return this.players;}
+    public Set<User> getUsers() {return this.users;}
 
-    public int getPlayerCount(){ return this.players.size(); }
+    public int getPlayerCount(){ return this.users.size(); }
 
     public boolean isFull() {
-        return players.size() < 5;
+        return users.size() < 5;
     }
 
-    public boolean canStart(Player p){
+    public boolean canStart(User p){
         boolean correctPlayer = p.getName().equals(this.getName());
-        boolean enoughPlayers = players.size() > 1;
-        boolean tooManyPlayers = players.size() > 5;
+        boolean enoughPlayers = users.size() > 1;
+        boolean tooManyPlayers = users.size() > 5;
         return correctPlayer && enoughPlayers && !tooManyPlayers;
     }
 }

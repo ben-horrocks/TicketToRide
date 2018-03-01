@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import common.CommandParams;
 import common.DataModels.Signal;
 
-import cs340.TicketClient.ASyncTask.JoinGameTask;
 import common.*;
 import common.DataModels.*;
 
@@ -25,7 +24,7 @@ public class ServerProxy implements IServer
 
     private static final String stringClassName = "java.lang.String";
     private static final String gameIDClassname = "common.DataModels.GameID";
-    private static final String playerClassName = "common.DataModels.Player";
+    private static final String playerClassName = "common.DataModels.User";
 
     /**
      *
@@ -102,10 +101,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal addGame(String gameName, Player player)
+    public Signal addGame(String gameName, User user)
     {
         String[] paramTypes = {stringClassName, playerClassName};
-        Object[] params = {gameName, player};
+        Object[] params = {gameName, user};
         CommandParams newcommand = new CommandParams("addGame", paramTypes, params);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
@@ -116,10 +115,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal joinGame(Player player, GameID id)
+    public Signal joinGame(User user, GameID id)
     {
         String[] paramTypes = {playerClassName, gameIDClassname};
-        Object[] params = {player, id};
+        Object[] params = {user, id};
         CommandParams newcommand = new CommandParams("joinGame", paramTypes, params);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);

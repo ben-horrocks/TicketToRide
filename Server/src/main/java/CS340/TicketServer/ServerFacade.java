@@ -6,7 +6,7 @@ import common.DataModels.AuthToken;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.Password;
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.ScreenName;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
@@ -50,27 +50,27 @@ public class ServerFacade implements IServer
 	 * Returns an error signal if the player has not previously registered
 	 * @param username The username in question
 	 * @param password The password in question
-	 * @return Return a signal with either the Player that logged in or an Error message
+	 * @return Return a signal with either the User that logged in or an Error message
 	 */
 	public Signal login(String username, String password) {
 		Database database = Database.SINGLETON;
 		Username uName = new Username(username);
 		//Password pWord = new Password(password);
 
-		//Check that player is already registered
-		Player player = database.getPlayer(uName);
-		if (player == null) {
+		//Check that user is already registered
+		User user = database.getPlayer(uName);
+		if (user == null) {
 			String errorMsg = "Sorry, you are not registered yet";
 			return new Signal(SignalType.ERROR, errorMsg);
 		}
 		//Check that the provided password matches the profile password
-		if (!player.getPass().getPass().equals(password)) {
+		if (!user.getPass().getPass().equals(password)) {
 			String errorMsg = "Sorry, that's not the correct username or password";
 			return new Signal(SignalType.ERROR, errorMsg);
 		}
 		AuthToken token = new AuthToken();
-		player.setToken(token);
-		return new Signal(SignalType.OK, player);
+		user.setToken(token);
+		return new Signal(SignalType.OK, user);
 	}
 
 	/**
@@ -89,16 +89,16 @@ public class ServerFacade implements IServer
 		Password pWord = new Password(password);
 		ScreenName sName = new ScreenName(screenName);
 
-		//Check that player is already registered
-		Player player = database.getPlayer(uName);
-		if (player == null) {
+		//Check that user is already registered
+		User user = database.getPlayer(uName);
+		if (user == null) {
 
 			AuthToken token = new AuthToken();
-			player = new Player(uName, pWord, sName);
-			player.setToken(token);
-			database.addPlayer(player);
+			user = new User(uName, pWord, sName);
+			user.setToken(token);
+			database.addPlayer(user);
 
-			return new Signal(SignalType.OK, player);
+			return new Signal(SignalType.OK, user);
 		}
 		String errorMsg = "Sorry, this username is already taken";
 		return new Signal(SignalType.ERROR, errorMsg);
@@ -109,11 +109,11 @@ public class ServerFacade implements IServer
 	 * If the name is already the name of a previously created game, it simply appends a number which
 	 * is not taken in the game list and appends it on the end.
 	 * Then it creates a game object to push back to all client listeners.
-	 * @param gameName The name the startingPlayer wants to give the game
-	 * @param startingPlayer The player initializing the game
+	 * @param gameName The name the startingUser wants to give the game
+	 * @param startingUser The player initializing the game
 	 * @return A signal stating that the game was added
 	 */
-	public Signal addGame (String gameName, Player startingPlayer) {
+	public Signal addGame (String gameName, User startingUser) {
 		Database database = Database.SINGLETON;
 
 		Integer increment = 1;
@@ -133,30 +133,30 @@ public class ServerFacade implements IServer
 
 		//Created name that is not in the database.
 		//create new game with new name and starting player
-		Game game = new Game(finalName.toString(), startingPlayer);
+		Game game = new Game(finalName.toString(), startingUser);
 		database.addOpenGame(game);
 		return new Signal(SignalType.OK, game);
 	}
 
 	/**
-	 * API call for player to join an existing game.
-	 * return an updated game entry if the player has successfully joined the game.
+	 * API call for user to join an existing game.
+	 * return an updated game entry if the user has successfully joined the game.
 	 * returns an error signal if the game cannot be joined.
-	 * @param player The player attempting to join the specified game.
+	 * @param user The user attempting to join the specified game.
 	 * @param id The id of the game trying to be joined.
-	 * @return A signal specifying whether the player joined the game or an error occurred.
+	 * @return A signal specifying whether the user joined the game or an error occurred.
 	 */
-	public Signal joinGame(Player player, GameID id) {
+	public Signal joinGame(User user, GameID id) {
 		Database database = Database.SINGLETON;
 		Game game = database.getOpenGameByID(id);
 		if (!game.isGameFull()) {
-			//Check if game contains player
-			if (game.getPlayers().contains(player)) {
+			//Check if game contains user
+			if (game.getPlayers().contains(user)) {
 				String errMsg = "Sorry, you have already joined this game.";
 				return new Signal(SignalType.ERROR, errMsg);
 
 			}
-			game.addPlayer(player);
+			game.addPlayer(user);
 			return new Signal(SignalType.OK, game);
 		}
 		String errMsg = "Sorry, the game you have chosen is already full.";
@@ -200,25 +200,25 @@ public class ServerFacade implements IServer
 
 	@Override
 	public Signal populate(){
-		Player[] players = new Player[5];
+		User[] users = new User[5];
 		for(int i = 1; i <= 5; i++){
 			String name = "Tester" + Integer.toString(i);
 			String pass = "test";
 			Signal s = register(name, pass, name);
-			players[i-1] = (Player)s.getObject();
+			users[i-1] = (User)s.getObject();
 		}
 
-		Signal s = addGame("Game1", players[0]);
+		Signal s = addGame("Game1", users[0]);
 		GameID id = ((Game) s.getObject()).getId();
-		addGame("Game2", players[0]);
-		addGame("Game3", players[1]);
+		addGame("Game2", users[0]);
+		addGame("Game3", users[1]);
 
-		for(Player p: players){
+		for(User p: users){
 			joinGame(p, id);
 		}
 		/*for(int i = 0; i < 2; i++){
 			String name = "Game" + Integer.toString(i+2);
-			addGame(name, players[i]);
+			addGame(name, users[i]);
 		}*/
 
 		Signal signal = new Signal(SignalType.OK, "Populated");

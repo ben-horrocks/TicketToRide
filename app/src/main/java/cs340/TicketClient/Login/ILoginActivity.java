@@ -1,7 +1,7 @@
 package cs340.TicketClient.Login;
 
 
-import common.DataModels.Player;
+import common.DataModels.User;
 
 /**
  * Created by jhens on 2/5/2018.
@@ -13,5 +13,5 @@ public interface ILoginActivity {
     boolean loginReady();
     void setRegister();
     boolean registerReady();
-    void gotoLobby(Player player);
+    void gotoLobby(User user);
 }

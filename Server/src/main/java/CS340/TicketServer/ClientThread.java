@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import common.CommandParams;
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.Signal;
 import common.DataModels.Username;
 import communicators.ServerCommunicator;
@@ -72,9 +72,9 @@ public class ClientThread extends Thread
 								{
 									System.out.println("Result of command.execute() was null");
 								}
-								else if (result.getObject() instanceof Player)
+								else if (result.getObject() instanceof User)
 								{
-									Username username = ((Player) result.getObject()).getUsername();
+									Username username = ((User) result.getObject()).getUsername();
 									socketOwners.add(username);
 									ServerCommunicator.getThreads().put(username, parent);
 								}

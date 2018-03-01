@@ -20,8 +20,6 @@ import android.widget.*;
 import java.util.List;
 
 import common.DataModels.*;
-import cs340.TicketClient.ASyncTask.AddGameTask;
-import cs340.TicketClient.ASyncTask.StartGameTask;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
@@ -55,7 +53,7 @@ public class LobbyActivity extends AppCompatActivity
     //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
     LobbyPresenter.setActivity(this);
     LobbyPresenter.getInstance().getModel()
-            .setPlayer((Player) this.getIntent().getExtras().get("player"));
+            .setUser((User) this.getIntent().getExtras().get("player"));
 
     //VIEW BINDING
     mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
@@ -142,7 +140,7 @@ public class LobbyActivity extends AppCompatActivity
   public void startGame()
   {
     Intent intent = new Intent(this, GameActivity.class);
-    intent.putExtra("player", LobbyPresenter.getInstance().getModel().getPlayer());
+    intent.putExtra("player", LobbyPresenter.getInstance().getModel().getUser());
     startActivity(intent);
   }
 

@@ -13,7 +13,7 @@ public class Edge
 	private City secondCity;
 	private EdgeColor color;
 	private int length;
-	private Player owner = null;
+	private User owner = null;
 	private boolean isDoubleEdge;
 
 	public Edge(City firstCity, City secondCity, EdgeColor color, int length, boolean isDoubleEdge)
@@ -41,9 +41,9 @@ public class Edge
 
 	public int getLength() { return length; }
 
-	public Player getOwner() { return owner; }
+	public User getOwner() { return owner; }
 
-	public void setOwner(Player owner) { this.owner = owner; }
+	public void setOwner(User owner) { this.owner = owner; }
 
 	public boolean isClaimed() { return owner != null; }
 

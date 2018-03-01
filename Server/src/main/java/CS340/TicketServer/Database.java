@@ -8,7 +8,7 @@ import java.util.Map;
 import common.DataModels.Game;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.Username;
 
 public class Database {
@@ -26,7 +26,7 @@ public class Database {
      * auth list is a map from Username to auth token object
      * game list is a map from the game name to a game object
      */
-    private Map<Username, Player> playerList;
+    private Map<Username, User> playerList;
     private Map<GameID, Game> openGameList;
     private Map<GameID, Game> runningGameList;
 
@@ -40,15 +40,15 @@ public class Database {
     }
 
     /**
-     * Add a new player to the database
-     * @param player The player to be added to the database.
-     * @return boolean true if player was successfully added
+     * Add a new user to the database
+     * @param user The user to be added to the database.
+     * @return boolean true if user was successfully added
      * @pre requires that one has previously checked to make sure
      * that the username is not already present in the username list
-     * @post the player will definitely be in the database
+     * @post the user will definitely be in the database
      */
-    public boolean addPlayer(Player player) {
-        playerList.put(player.getUsername(), player);
+    public boolean addPlayer(User user) {
+        playerList.put(user.getUsername(), user);
         return true;
     }
 
@@ -61,7 +61,7 @@ public class Database {
      * @post will return the player if found, null if the
      * player is not present in the database
      */
-    public Player getPlayer(Username name) {
+    public User getPlayer(Username name) {
         if (playerList.containsKey(name)) {
             return playerList.get(name);
         }
@@ -69,34 +69,34 @@ public class Database {
     }
 
     /**
-     * Update a specific player in the database
-     * @param player The player to be updated in the database.
-     * @return true if the player was successfully updated,
-     * false if the player was not found in the database
+     * Update a specific user in the database
+     * @param user The user to be updated in the database.
+     * @return true if the user was successfully updated,
+     * false if the user was not found in the database
      * @pre none (though recommended to check the database
-     * if the player is already present first)
-     * @post will update the player if found and return true,
-     * otherwise returns false if player not found
+     * if the user is already present first)
+     * @post will update the user if found and return true,
+     * otherwise returns false if user not found
      */
-    public boolean updatePlayer(Player player) {
-        if (playerList.containsKey(player.getUsername())) {
-            playerList.put(player.getUsername(), player);
+    public boolean updatePlayer(User user) {
+        if (playerList.containsKey(user.getUsername())) {
+            playerList.put(user.getUsername(), user);
             return true;
         }
         return false;
     }
 
     /**
-     * removes a specified player from the database
-     * removes according to the provided player's username
-     * @param player The player to be deleted from the database.
-     * @return boolean (true if player is found, false if player is not found)
+     * removes a specified user from the database
+     * removes according to the provided user's username
+     * @param user The user to be deleted from the database.
+     * @return boolean (true if user is found, false if user is not found)
      * @pre none (though recommended that you check for presence first)
-     * @post the player will definitely not be in the database
+     * @post the user will definitely not be in the database
      */
-    public boolean deletePlayer(Player player) {
-        if (playerList.containsKey(player.getUsername())) {
-            playerList.remove(player.getUsername());
+    public boolean deletePlayer(User user) {
+        if (playerList.containsKey(user.getUsername())) {
+            playerList.remove(user.getUsername());
             return true;
         }
         return false;
