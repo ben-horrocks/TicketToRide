@@ -19,7 +19,7 @@ import cs340.TicketClient.R;
 
 /**
  * CreateGameDialog
- * Abstract: Android dialog to confirm creation of new game, get Game Name to pass to server & check for valid GameName
+ * Abstract: Android dialog to confirm creation of new game, get ServerGameData Name to pass to server & check for valid GameName
  * Note: We should probably move the paramater checking to the model, probably by getting a class called isValidGameName
  *
  * @domain mNewGameName  EditText  Text field to enter new game name

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import common.DataModels.AuthToken;
 import common.DataModels.DestinationCard;
-import common.DataModels.Game;
+import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.Password;
 import common.DataModels.User;
@@ -120,7 +120,7 @@ public class ServerFacade implements IServer
 		Integer increment = 1;
 		StringBuilder finalName = new StringBuilder(gameName);
 
-		//If a provided game name is already in the database, modify with a numeric symbol in parentheses
+		//If a provided serverGameData name is already in the database, modify with a numeric symbol in parentheses
 		//which is appended to the end of the name
 		String suffix = "";
 		while (database.getOpenGameByName(gameName + suffix) != null) {
@@ -133,10 +133,10 @@ public class ServerFacade implements IServer
 		}
 
 		//Created name that is not in the database.
-		//create new game with new name and starting player
-		Game game = new Game(finalName.toString(), startingUser);
-		database.addOpenGame(game);
-		return new Signal(SignalType.OK, game);
+		//create new serverGameData with new name and starting player
+		ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
+		database.addOpenGame(serverGameData);
+		return new Signal(SignalType.OK, serverGameData);
 	}
 
 	/**
@@ -149,18 +149,18 @@ public class ServerFacade implements IServer
 	 */
 	public Signal joinGame(User user, GameID id) {
 		Database database = Database.SINGLETON;
-		Game game = database.getOpenGameByID(id);
-		if (!game.isGameFull()) {
-			//Check if game contains user
-			if (game.getPlayers().contains(user)) {
-				String errMsg = "Sorry, you have already joined this game.";
+		ServerGameData serverGameData = database.getOpenGameByID(id);
+		if (!serverGameData.isGameFull()) {
+			//Check if serverGameData contains user
+			if (serverGameData.getPlayers().contains(user)) {
+				String errMsg = "Sorry, you have already joined this serverGameData.";
 				return new Signal(SignalType.ERROR, errMsg);
 
 			}
-			game.addPlayer(user);
-			return new Signal(SignalType.OK, game);
+			serverGameData.addPlayer(user);
+			return new Signal(SignalType.OK, serverGameData);
 		}
-		String errMsg = "Sorry, the game you have chosen is already full.";
+		String errMsg = "Sorry, the serverGameData you have chosen is already full.";
 		return new Signal(SignalType.ERROR, errMsg);
 	}
 
@@ -173,24 +173,24 @@ public class ServerFacade implements IServer
 	 */
 	public Signal startGame(GameID id) {
 		Database database = Database.SINGLETON;
-		Game game = database.getOpenGameByID(id);
-		if (game == null) {
-			String errMsg = "Sorry, this game does not exist";
+		ServerGameData serverGameData = database.getOpenGameByID(id);
+		if (serverGameData == null) {
+			String errMsg = "Sorry, this serverGameData does not exist";
 			Signal signal = new Signal(SignalType.ERROR, errMsg);
 			return signal;
 		}
-		if (!game.isGameStarted()) {
-			//start game
-			game.startGame();
-			//remove the game from the list of open games and move to the list of running games
-			database.deleteOpenGame(game);
-			database.addRunningGame(game);
+		if (!serverGameData.isGameStarted()) {
+			//start serverGameData
+			serverGameData.startGame();
+			//remove the serverGameData from the list of open games and move to the list of running games
+			database.deleteOpenGame(serverGameData);
+			database.addRunningGame(serverGameData);
 			//push start notification to all players
-			ClientProxy.getSINGLETON().startGame(game.getId());
+			ClientProxy.getSINGLETON().startGame(serverGameData.getId());
 			//return start signal to player
-			return new Signal(SignalType.OK, game);
+			return new Signal(SignalType.OK, serverGameData);
 		}
-		String errMsg = "Sorry, this game has already started.";
+		String errMsg = "Sorry, this serverGameData has already started.";
 		return new Signal(SignalType.ERROR, errMsg);
 	}
 
@@ -210,7 +210,7 @@ public class ServerFacade implements IServer
 		}
 
 		Signal s = addGame("Game1", users[0]);
-		GameID id = ((Game) s.getObject()).getId();
+		GameID id = ((ServerGameData) s.getObject()).getId();
 		addGame("Game2", users[0]);
 		addGame("Game3", users[1]);
 
@@ -218,7 +218,7 @@ public class ServerFacade implements IServer
 			joinGame(p, id);
 		}
 		/*for(int i = 0; i < 2; i++){
-			String name = "Game" + Integer.toString(i+2);
+			String name = "ServerGameData" + Integer.toString(i+2);
 			addGame(name, users[i]);
 		}*/
 
@@ -228,6 +228,7 @@ public class ServerFacade implements IServer
 
 	@Override
 	public Signal returnDestinationCards(ArrayList<DestinationCard> pickedCards, ArrayList<DestinationCard> returnCards) {
+
 		return null;
 	}
 }

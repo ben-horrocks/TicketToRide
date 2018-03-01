@@ -105,14 +105,14 @@ public class LobbyActivity extends AppCompatActivity
       public void onClick(View view)
       {
         CreateGameDialog dialog = new CreateGameDialog();
-        dialog.show(getFragmentManager(), "New Game");
+        dialog.show(getFragmentManager(), "New ServerGameData");
       }
     });
     //END LISTENERS
   }
 
   /**
-   * Abstract: Callback from presenter to update Game List.
+   * Abstract: Callback from presenter to update ServerGameData List.
    *
    * @pre Server has successfully sent nerw gameList
    * @post The game list will be displayed with the Search filter still applied

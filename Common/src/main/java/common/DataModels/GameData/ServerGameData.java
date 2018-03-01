@@ -1,10 +1,13 @@
-package common.DataModels;
+package common.DataModels.GameData;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Game implements Serializable
+import common.DataModels.GameID;
+import common.DataModels.User;
+
+public class ServerGameData implements Serializable
 {
   private static final Integer PLAYERLIMIT = 5;
   private String name;
@@ -13,14 +16,14 @@ public class Game implements Serializable
   private GameID id = new GameID();
   private boolean gameStarted = false;
 
-  public Game(User startingUser)
+  public ServerGameData(User startingUser)
   {
     name = startingUser.getUsername() + "\'s game";
     creator = startingUser;
     currentUsers.add(startingUser);
   }
 
-  public Game(String name, User startingUser){
+  public ServerGameData(String name, User startingUser){
     this.name = name;
     creator = startingUser;
     currentUsers.add(startingUser);

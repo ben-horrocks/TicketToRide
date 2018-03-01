@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import common.DataModels.GameData.ServerGameData;
+
 public class GameInfo implements Serializable
 {
     private GameID id;
@@ -11,7 +13,7 @@ public class GameInfo implements Serializable
     private String creatorName;
     private Set<User> users = new HashSet<>();
 
-    public GameInfo(Game g){
+    public GameInfo(ServerGameData g){
         this.id = g.getId();
         this.name = g.getName();
         this.creatorName = g.getCreatorName();

@@ -62,7 +62,7 @@ public class LobbyPresenter implements ILobbyPresenter
     }
 
     /**
-     * Gets all the Game info in the LobbyModel, converting it into a List instead of a Map.
+     * Gets all the ServerGameData info in the LobbyModel, converting it into a List instead of a Map.
      * @pre none
      * @post returns a list representing all the GameInfo items in the model.
      * @return The list of GameInfo
