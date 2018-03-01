@@ -1,5 +1,6 @@
 package common.DataModels.GameData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import common.DataModels.*;
  * Created by Vibro on 2/28/2018.
  */
 
-public class Player {
+public class Player implements Serializable{
     private User user;
     private List<TrainCard> hand;
     private List<DestinationCard> destinations;
