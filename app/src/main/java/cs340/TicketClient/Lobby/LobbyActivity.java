@@ -20,8 +20,6 @@ import android.widget.*;
 import java.util.List;
 
 import common.DataModels.*;
-import cs340.TicketClient.ASyncTask.AddGameTask;
-import cs340.TicketClient.ASyncTask.StartGameTask;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
@@ -55,7 +53,7 @@ public class LobbyActivity extends AppCompatActivity
     //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
     LobbyPresenter.setActivity(this);
     LobbyPresenter.getInstance().getModel()
-            .setPlayer((Player) this.getIntent().getExtras().get("player"));
+            .setUser((User) this.getIntent().getExtras().get("user"));
 
     //VIEW BINDING
     mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
@@ -107,14 +105,14 @@ public class LobbyActivity extends AppCompatActivity
       public void onClick(View view)
       {
         CreateGameDialog dialog = new CreateGameDialog();
-        dialog.show(getFragmentManager(), "New Game");
+        dialog.show(getFragmentManager(), "New ServerGameData");
       }
     });
     //END LISTENERS
   }
 
   /**
-   * Abstract: Callback from presenter to update Game List.
+   * Abstract: Callback from presenter to update ServerGameData List.
    *
    * @pre Server has successfully sent nerw gameList
    * @post The game list will be displayed with the Search filter still applied
@@ -142,7 +140,7 @@ public class LobbyActivity extends AppCompatActivity
   public void startGame()
   {
     Intent intent = new Intent(this, GameActivity.class);
-    intent.putExtra("player", LobbyPresenter.getInstance().getModel().getPlayer());
+    intent.putExtra("player", LobbyPresenter.getInstance().getModel().getUser());
     startActivity(intent);
   }
 

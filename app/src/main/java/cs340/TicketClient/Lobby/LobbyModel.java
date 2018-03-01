@@ -1,7 +1,6 @@
 package cs340.TicketClient.Lobby;
 
 import java.util.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import common.DataModels.*;
  * games, create games, and join games.
  * @domain Map<GameID, GameInfo>    games   the set of games that can be displayed
  * GameID   joinedGame    the id of the currently joined game
- * Player   player        the Player object associated with this client
+ * User   user        the User object associated with this client
  */
 public class LobbyModel
 {
@@ -27,9 +26,9 @@ public class LobbyModel
     private GameID joinedGame;
 
     /**
-     * The player object associated with this instance of the client
+     * The user object associated with this instance of the client
      */
-    private Player player;
+    private User user;
 
     /**
      * Default constructor
@@ -162,25 +161,25 @@ public class LobbyModel
     }
 
     /**
-     * Gets the player data object
+     * Gets the user data object
      * @pre none
-     * @post the player will be returned
-     * @return the player associated with the client
+     * @post the user will be returned
+     * @return the user associated with the client
      */
-    public Player getPlayer()
+    public User getUser()
     {
-        return player;
+        return user;
     }
 
     /**
-     * Sets the player associated with the client
+     * Sets the user associated with the client
      * @pre none
-     * @post The player will be stored in the model
-     * @param player The player object from the server
+     * @post The user will be stored in the model
+     * @param user The user object from the server
      */
-    public void setPlayer(Player player)
+    public void setUser(User user)
     {
-        this.player = player;
+        this.user = user;
     }
 
     /**

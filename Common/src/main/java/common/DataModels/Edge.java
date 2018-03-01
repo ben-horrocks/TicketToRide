@@ -12,12 +12,12 @@ public class Edge implements Serializable
 {
 	private City firstCity;
 	private City secondCity;
-	private EdgeColor color;
+	private TrainColor color;
 	private int length;
-	private Player owner = null;
+	private User owner = null;
 	private boolean isDoubleEdge;
 
-	public Edge(City firstCity, City secondCity, EdgeColor color, int length, boolean isDoubleEdge)
+	public Edge(City firstCity, City secondCity, TrainColor color, int length, boolean isDoubleEdge)
 	{
 		this.firstCity = firstCity;
 		this.secondCity = secondCity;
@@ -38,13 +38,13 @@ public class Edge implements Serializable
 		return cities;
 	}
 
-	public EdgeColor getColor() { return color; }
+	public TrainColor getColor() { return color; }
 
 	public int getLength() { return length; }
 
-	public Player getOwner() { return owner; }
+	public User getOwner() { return owner; }
 
-	public void setOwner(Player owner) { this.owner = owner; }
+	public void setOwner(User owner) { this.owner = owner; }
 
 	public boolean isClaimed() { return owner != null; }
 

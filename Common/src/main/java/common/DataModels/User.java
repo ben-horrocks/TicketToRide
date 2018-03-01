@@ -2,7 +2,7 @@ package common.DataModels;
 
 import java.io.Serializable;
 
-public class Player implements Serializable
+public class User implements Serializable
 {
   private int points;
   private Username name;
@@ -10,7 +10,7 @@ public class Player implements Serializable
   private ScreenName screenName;
   private AuthToken token;
 
-  public Player(Username name, Password pass, ScreenName screenName)
+  public User(Username name, Password pass, ScreenName screenName)
   {
     this.points = 0;
     this.name = name;
@@ -82,13 +82,13 @@ public class Player implements Serializable
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		Player player = (Player) o;
+		User user = (User) o;
 
-		if (points != player.points) return false;
-		if (!name.equals(player.name)) return false;
-		if (!pass.equals(player.pass)) return false;
-		if (!screenName.equals(player.screenName)) return false;
-		return token.equals(player.token);
+		if (points != user.points) return false;
+		if (!name.equals(user.name)) return false;
+		if (!pass.equals(user.pass)) return false;
+		if (!screenName.equals(user.screenName)) return false;
+		return token.equals(user.token);
 	}
 
 	@Override

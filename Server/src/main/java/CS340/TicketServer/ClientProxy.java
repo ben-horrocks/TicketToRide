@@ -3,10 +3,10 @@ package CS340.TicketServer;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import common.DataModels.Game;
+import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
@@ -55,14 +55,14 @@ public class ClientProxy implements IClient {
 
     @Override
     public void startGame(GameID id) {
-        //get threads for all players & the game to be started with associated players
+        //get threads for all players & the serverGameData to be started with associated players
         ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
-        Game game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData serverGameData = Database.SINGLETON.getRunningGameByID(id);
         
-        //create start signal to push to all players in game
-        Signal signal = new Signal(SignalType.START_GAME, game);
+        //create start signal to push to all players in serverGameData
+        Signal signal = new Signal(SignalType.START_GAME, serverGameData);
 
-        for (Player p : game.getPlayers()) {
+        for (User p : serverGameData.getUsers()) {
             if(threadList.get(p.getUsername()) != null)
                 threadList.get(p.getUsername()).push(signal);
         }

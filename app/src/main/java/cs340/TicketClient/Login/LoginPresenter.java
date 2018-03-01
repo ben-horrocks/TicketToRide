@@ -1,12 +1,5 @@
 package cs340.TicketClient.Login;
 
-import android.os.AsyncTask;
-import android.widget.Toast;
-
-import common.DataModels.Player;
-import common.DataModels.Signal;
-import cs340.TicketClient.Communicator.ServerProxy;
-
 
 public class LoginPresenter implements ILoginPresenter
 {

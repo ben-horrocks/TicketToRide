@@ -3,14 +3,14 @@ package cs340.TicketClient.Login;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.Signal;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 public class LoginPresenterFacade implements ILoginPresenter {
 
     private static final String stringClassName = "java.lang.String";
-    private static final String playerClassName = "common.DataModels.Player";
+    private static final String playerClassName = "common.DataModels.User";
     private LoginActivity activity;
 
 
@@ -71,7 +71,7 @@ public class LoginPresenterFacade implements ILoginPresenter {
                         Toast.makeText(activity, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
                         break;
                     case playerClassName:
-                        activity.gotoLobby((Player)signal.getObject());
+                        activity.gotoLobby((User)signal.getObject());
                         break;
                     default:
                         Toast.makeText(activity, "Failed Register::Unknown Signal", Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class LoginPresenterFacade implements ILoginPresenter {
                         Toast.makeText(activity, (String)signal.getObject(), Toast.LENGTH_SHORT).show();
                         break;
                     case playerClassName:
-                        activity.gotoLobby((Player)signal.getObject());
+                        activity.gotoLobby((User)signal.getObject());
                         break;
                     default:
                         Toast.makeText(activity, "Failed Login::Unknown Signal", Toast.LENGTH_SHORT).show();

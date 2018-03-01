@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.DataModels.Game;
+import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
-import common.DataModels.Player;
+import common.DataModels.User;
 import common.DataModels.Username;
 
 public class Database {
@@ -26,9 +26,9 @@ public class Database {
      * auth list is a map from Username to auth token object
      * game list is a map from the game name to a game object
      */
-    private Map<Username, Player> playerList;
-    private Map<GameID, Game> openGameList;
-    private Map<GameID, Game> runningGameList;
+    private Map<Username, User> playerList;
+    private Map<GameID, ServerGameData> openGameList;
+    private Map<GameID, ServerGameData> runningGameList;
 
     /**
      * Private constructor for singleton class
@@ -40,15 +40,15 @@ public class Database {
     }
 
     /**
-     * Add a new player to the database
-     * @param player The player to be added to the database.
-     * @return boolean true if player was successfully added
+     * Add a new user to the database
+     * @param user The user to be added to the database.
+     * @return boolean true if user was successfully added
      * @pre requires that one has previously checked to make sure
      * that the username is not already present in the username list
-     * @post the player will definitely be in the database
+     * @post the user will definitely be in the database
      */
-    public boolean addPlayer(Player player) {
-        playerList.put(player.getUsername(), player);
+    public boolean addPlayer(User user) {
+        playerList.put(user.getUsername(), user);
         return true;
     }
 
@@ -61,7 +61,7 @@ public class Database {
      * @post will return the player if found, null if the
      * player is not present in the database
      */
-    public Player getPlayer(Username name) {
+    public User getPlayer(Username name) {
         if (playerList.containsKey(name)) {
             return playerList.get(name);
         }
@@ -69,49 +69,49 @@ public class Database {
     }
 
     /**
-     * Update a specific player in the database
-     * @param player The player to be updated in the database.
-     * @return true if the player was successfully updated,
-     * false if the player was not found in the database
+     * Update a specific user in the database
+     * @param user The user to be updated in the database.
+     * @return true if the user was successfully updated,
+     * false if the user was not found in the database
      * @pre none (though recommended to check the database
-     * if the player is already present first)
-     * @post will update the player if found and return true,
-     * otherwise returns false if player not found
+     * if the user is already present first)
+     * @post will update the user if found and return true,
+     * otherwise returns false if user not found
      */
-    public boolean updatePlayer(Player player) {
-        if (playerList.containsKey(player.getUsername())) {
-            playerList.put(player.getUsername(), player);
+    public boolean updatePlayer(User user) {
+        if (playerList.containsKey(user.getUsername())) {
+            playerList.put(user.getUsername(), user);
             return true;
         }
         return false;
     }
 
     /**
-     * removes a specified player from the database
-     * removes according to the provided player's username
-     * @param player The player to be deleted from the database.
-     * @return boolean (true if player is found, false if player is not found)
+     * removes a specified user from the database
+     * removes according to the provided user's username
+     * @param user The user to be deleted from the database.
+     * @return boolean (true if user is found, false if user is not found)
      * @pre none (though recommended that you check for presence first)
-     * @post the player will definitely not be in the database
+     * @post the user will definitely not be in the database
      */
-    public boolean deletePlayer(Player player) {
-        if (playerList.containsKey(player.getUsername())) {
-            playerList.remove(player.getUsername());
+    public boolean deletePlayer(User user) {
+        if (playerList.containsKey(user.getUsername())) {
+            playerList.remove(user.getUsername());
             return true;
         }
         return false;
     }
 
     /**
-     * Add a new game to the database
-     * @param game The game to be added and marked as "open".
-     * @return boolean true if game was successfully added
+     * Add a new serverGameData to the database
+     * @param serverGameData The serverGameData to be added and marked as "open".
+     * @return boolean true if serverGameData was successfully added
      * @pre requires that one has previously checked to make sure
-     * the game is not already present in the list
-     * @post the game will definitely be in the database
+     * the serverGameData is not already present in the list
+     * @post the serverGameData will definitely be in the database
      */
-    public boolean addOpenGame(Game game) {
-        openGameList.put(game.getId(), game);
+    public boolean addOpenGame(ServerGameData serverGameData) {
+        openGameList.put(serverGameData.getId(), serverGameData);
         return true;
     }
 
@@ -124,7 +124,7 @@ public class Database {
      * @post will return the game if found, null if the
      * game is not present in the database
      */
-    public Game getOpenGameByID(GameID id) {
+    public ServerGameData getOpenGameByID(GameID id) {
         if (openGameList.containsKey(id)) {
             return openGameList.get(id);
         }
@@ -137,8 +137,8 @@ public class Database {
      * @param name The name of the game being queried.
      * @return
      */
-    public Game getOpenGameByName(String name) {
-        for (Map.Entry<GameID, Game> entry : openGameList.entrySet()) {
+    public ServerGameData getOpenGameByName(String name) {
+        for (Map.Entry<GameID, ServerGameData> entry : openGameList.entrySet()) {
             if (entry.getValue().getName().equals(name)) {
                 return entry.getValue();
             }
@@ -162,49 +162,49 @@ public class Database {
     }
 
     /**
-     * Update a specific game in the database
-     * @param game The game to be updated from the list of open games.
-     * @return true if the game was successfully updated,
-     * false if the game was not found in the database
+     * Update a specific serverGameData in the database
+     * @param serverGameData The serverGameData to be updated from the list of open games.
+     * @return true if the serverGameData was successfully updated,
+     * false if the serverGameData was not found in the database
      * @pre none (though recommended to check the database
-     * if the game is already present first)
-     * @post will update the game if found and return true,
-     * otherwise returns false if game not found
+     * if the serverGameData is already present first)
+     * @post will update the serverGameData if found and return true,
+     * otherwise returns false if serverGameData not found
      */
-    public boolean updateOpenGame(Game game) {
-        if (openGameList.containsKey(game.getId().getId())) {
-            openGameList.put(game.getId(), game);
+    public boolean updateOpenGame(ServerGameData serverGameData) {
+        if (openGameList.containsKey(serverGameData.getId().getId())) {
+            openGameList.put(serverGameData.getId(), serverGameData);
             return true;
         }
         return false;
     }
 
     /**
-     * removes a specified game from the database
-     * removes according to the provided game's gameID
-     * @param game The game to be deleted from the list of open games.
-     * @return boolean (true if game is found, false if game is not found)
+     * removes a specified serverGameData from the database
+     * removes according to the provided serverGameData's gameID
+     * @param serverGameData The serverGameData to be deleted from the list of open games.
+     * @return boolean (true if serverGameData is found, false if serverGameData is not found)
      * @pre none (though recommended that you check for presence first)
-     * @post the game will definitely not be in the database
+     * @post the serverGameData will definitely not be in the database
      */
-    public boolean deleteOpenGame(Game game) {
-        if (openGameList.containsKey(game.getId())) {
-            openGameList.remove(game.getId());
+    public boolean deleteOpenGame(ServerGameData serverGameData) {
+        if (openGameList.containsKey(serverGameData.getId())) {
+            openGameList.remove(serverGameData.getId());
             return true;
         }
         return false;
     }
 
     /**
-     * Add a new game to the database
-     * @param game The game to be added to the list of running games.
-     * @return boolean true if game was successfully added
+     * Add a new serverGameData to the database
+     * @param serverGameData The serverGameData to be added to the list of running games.
+     * @return boolean true if serverGameData was successfully added
      * @pre requires that one has previously checked to make sure
-     * the game is not already present in the list
-     * @post the game will definitely be in the database
+     * the serverGameData is not already present in the list
+     * @post the serverGameData will definitely be in the database
      */
-    public boolean addRunningGame(Game game) {
-        runningGameList.put(game.getId(), game);
+    public boolean addRunningGame(ServerGameData serverGameData) {
+        runningGameList.put(serverGameData.getId(), serverGameData);
         return true;
     }
 
@@ -217,7 +217,7 @@ public class Database {
      * @post will return the game if found, null if the
      * game is not present in the database
      */
-    public Game getRunningGameByID(GameID id) {
+    public ServerGameData getRunningGameByID(GameID id) {
         if (runningGameList.containsKey(id)) {
             return runningGameList.get(id);
         }
@@ -230,8 +230,8 @@ public class Database {
      * @param name The name of the game being queried by the list of running games.
      * @return Return the game with the specified name. If not found, return null.
      */
-    public Game getRunningGameByName(String name) {
-        for (Map.Entry<GameID, Game> entry : runningGameList.entrySet()) {
+    public ServerGameData getRunningGameByName(String name) {
+        for (Map.Entry<GameID, ServerGameData> entry : runningGameList.entrySet()) {
             if (entry.getValue().getName().equals(name)) {
                 return entry.getValue();
             }
@@ -255,34 +255,34 @@ public class Database {
     }
 
     /**
-     * Update a specific game in the database
-     * @param game The game to update that is being queried by the list of running games.
-     * @return true if the game was successfully updated,
-     * false if the game was not found in the database
+     * Update a specific serverGameData in the database
+     * @param serverGameData The serverGameData to update that is being queried by the list of running games.
+     * @return true if the serverGameData was successfully updated,
+     * false if the serverGameData was not found in the database
      * @pre none (though recommended to check the database
-     * if the game is already present first)
-     * @post will update the game if found and return true,
-     * otherwise returns false if game not found
+     * if the serverGameData is already present first)
+     * @post will update the serverGameData if found and return true,
+     * otherwise returns false if serverGameData not found
      */
-    public boolean updateRunningGame(Game game) {
-        if (runningGameList.containsKey(game.getId().getId())) {
-            runningGameList.put(game.getId(), game);
+    public boolean updateRunningGame(ServerGameData serverGameData) {
+        if (runningGameList.containsKey(serverGameData.getId().getId())) {
+            runningGameList.put(serverGameData.getId(), serverGameData);
             return true;
         }
         return false;
     }
 
     /**
-     * removes a specified game from the database
-     * removes according to the provided game's gameID
-     * @param game The game to be deleted from the list of running games.
-     * @return boolean (true if game is found, false if game is not found)
+     * removes a specified serverGameData from the database
+     * removes according to the provided serverGameData's gameID
+     * @param serverGameData The serverGameData to be deleted from the list of running games.
+     * @return boolean (true if serverGameData is found, false if serverGameData is not found)
      * @pre none (though recommended that you check for presence first)
-     * @post the game will definitely not be in the database
+     * @post the serverGameData will definitely not be in the database
      */
-    public boolean deleteRunningGame(Game game) {
-        if (runningGameList.containsKey(game.getId())) {
-            runningGameList.remove(game.getId());
+    public boolean deleteRunningGame(ServerGameData serverGameData) {
+        if (runningGameList.containsKey(serverGameData.getId())) {
+            runningGameList.remove(serverGameData.getId());
             return true;
         }
         return false;

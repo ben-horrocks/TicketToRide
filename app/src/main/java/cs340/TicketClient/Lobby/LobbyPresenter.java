@@ -6,11 +6,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import common.DataModels.*;
 import cs340.TicketClient.ASyncTask.*;
-import cs340.TicketClient.Communicator.ServerProxy;
 
 /**
  * Created by Ben_D on 1/29/2018.
@@ -64,7 +62,7 @@ public class LobbyPresenter implements ILobbyPresenter
     }
 
     /**
-     * Gets all the Game info in the LobbyModel, converting it into a List instead of a Map.
+     * Gets all the ServerGameData info in the LobbyModel, converting it into a List instead of a Map.
      * @pre none
      * @post returns a list representing all the GameInfo items in the model.
      * @return The list of GameInfo
@@ -209,14 +207,14 @@ public class LobbyPresenter implements ILobbyPresenter
     public void addGame(String newGame)
     {
         AddGameTask task = new AddGameTask(activity.getBaseContext());
-        task.execute(newGame, model.getPlayer());
+        task.execute(newGame, model.getUser());
     }
 
     @Override
     public void joinGame(GameID id)
     {
         JoinGameTask task = new JoinGameTask(activity.getBaseContext());
-        Object[] obj = {model.getPlayer(), id};
+        Object[] obj = {model.getUser(), id};
         task.execute(obj);
     }
 
@@ -238,14 +236,14 @@ public class LobbyPresenter implements ILobbyPresenter
         activity.startGame();
     }
 
-    public Player getPlayer() {
-        return model.getPlayer();
+    public User getPlayer() {
+        return model.getUser();
     }
 
     public boolean isMyGame(GameID id) {
         try
         {
-            return model.getGame(id).getCreatorName().equals(model.getPlayer().getName());
+            return model.getGame(id).getCreatorName().equals(model.getUser().getName());
         } catch(LobbyModel.GameNotFoundException e)
         {
             Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
@@ -256,7 +254,7 @@ public class LobbyPresenter implements ILobbyPresenter
     public boolean hasJoinedGame(GameID id) {
         try
         {
-            return model.getGame(id).getPlayers().contains(model.getPlayer());
+            return model.getGame(id).getUsers().contains(model.getUser());
         } catch(LobbyModel.GameNotFoundException e)
         {
             Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
