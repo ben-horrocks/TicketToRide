@@ -1,4 +1,4 @@
-package common.DataModels;
+package common.DataModels.GameData;
 
 /**
  * Created by Vibro on 2/28/2018.
@@ -53,7 +53,18 @@ public class ClientGameData /*implements IGameData, Serializable*/{
     }
 
     @Override
-    public void destinationDraw(Sting username, List<DestinationCard>
+    public void destinationDraw(Sting username, List<DestinationCard> drawn){
+        getOpponent(username).addDestinationCards(drawn.size());
+    }
 
+    @Override
+    public void addHistoryItem(GameEvent event){
+        this.history.add(event);
+    }
+
+    @Override
+    public void addChatMessage(Message m){
+        this.chat.add(m);
+    }
     */
 }
