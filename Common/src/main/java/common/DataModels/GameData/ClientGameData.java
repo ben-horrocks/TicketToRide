@@ -6,6 +6,7 @@ package common.DataModels.GameData;
 
 public class ClientGameData /*implements IGameData, Serializable*/{
     /*
+    GameID id;
     List<Opponent> opponents;
     EdgeGraph gameboard;
     List<TrainCard> faceUp;
@@ -13,7 +14,8 @@ public class ClientGameData /*implements IGameData, Serializable*/{
     Chat chat;
 
     public ClientGameData(ServerGameData game){
-        opponents = new ArrayList<Opponent>();
+        this.id = ServerGameData.getID();
+        this.opponents = new ArrayList<Opponent>();
         for(User p: game.getUsers()){
             opponents.add(new Opponent(p);
         }
