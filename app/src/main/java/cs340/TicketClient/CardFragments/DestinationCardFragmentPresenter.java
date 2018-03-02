@@ -1,10 +1,8 @@
-package cs340.TicketClient.Game;
+package cs340.TicketClient.CardFragments;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.SendCardsRequest;
@@ -12,6 +10,7 @@ import common.DataModels.GameID;
 import common.DataModels.Signal;
 import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
+import cs340.TicketClient.Game.GameModel;
 
 /**
  * Created by jhens on 3/1/2018.
