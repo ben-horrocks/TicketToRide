@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import common.CommandParams;
 import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
@@ -75,23 +76,33 @@ public class ClientCommunicator
 					{
 						try
 						{
-							Signal signal = (Signal) messages.take();
+							Object received = messages.take();
+							if (received instanceof Signal)
+							{
+								Signal signal = (Signal) received;
+								if (signal.getSignalType() == SignalType.UPDATE &&
+										signal.getObject() instanceof List)
+								{
+									// Hope that the List of type UPDATE has GameInfo Objects
+									@SuppressWarnings("unchecked")
+									List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
+									ClientFacade.getSingleton().updateGameList(infoList);
+								}else if (signal.getSignalType() == SignalType.START_GAME){
+									ClientFacade c = new ClientFacade();
+									c.startGame(((ServerGameData)signal.getObject()).getId());
+								}
+								else
+								{
+									setSignalFromServer(signal);
+								}
+							}
+							else if (received instanceof CommandParams)
+							{
+								CommandParams params = (CommandParams) received;
+								ClientCommand command = new ClientCommand(params);
+								command.execute();
+							}
 
-							if (signal.getSignalType() == SignalType.UPDATE &&
-									signal.getObject() instanceof List)
-							{
-								// Hope that the List of type UPDATE has GameInfo Objects
-								@SuppressWarnings("unchecked")
-								List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
-								ClientFacade.getSingleton().updateGameList(infoList);
-							}else if (signal.getSignalType() == SignalType.START_GAME){
-								ClientFacade c = new ClientFacade();
-								c.startGame(((ServerGameData)signal.getObject()).getId());
-							}
-							else
-							{
-								setSignalFromServer(signal);
-							}
 						}
 						catch (InterruptedException e)
 						{

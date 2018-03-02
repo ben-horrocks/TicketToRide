@@ -1,5 +1,9 @@
 package cs340.TicketClient.Game;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +18,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,6 +29,7 @@ import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import common.DataModels.EdgeGraph;
 import cs340.TicketClient.R;
 import common.DataModels.City;
 import common.DataModels.Edge;
@@ -46,8 +54,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	private Bundle extras;
 	private GoogleMap googleMap;
 	private Map<String, City> cities = new HashMap<>();
-	private Set<Edge> edges = new HashSet<>();
+	private EdgeGraph edges = new EdgeGraph();
 	private Set<Polyline> lines = new HashSet<>();
+	private IconGenerator mIconGenerator;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -538,12 +547,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	private void addEdge(City city1, City city2, TrainColor color, int length, boolean isDoubleEdge)
 	{
 		Edge edge = new Edge(city1, city2, color, length, isDoubleEdge);
-		edges.add(edge);
+		edges.addEdge(city1, edge);
 	}
 
 	private void drawEdges()
 	{
-		for (Edge edge : edges)
+
+		for (Edge edge : edges.getAllEdges())
 		{
 			City city1 = edge.getFirstCity();
 			LatLng city1coords = new LatLng(city1.getLatitude(), city1.getLongitude());
@@ -570,7 +580,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 				line = showStraightPolyline(city1, city2, edge.getColor());
 			}
 
-			//line = showStraightPolyline(city1, city2, edge.getColor()); // just for now
 			line.setTag(edge.getCities());
 			line.setClickable(true);
 			List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));
