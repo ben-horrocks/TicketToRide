@@ -157,14 +157,14 @@ public class ClientThread extends Thread
 	}
 
 	/**
-	 * This function "pushes" or sends Signal Objects from the Server to the Client.
-	 * @param signal The signal to be sent to the Client.
+	 * This function "pushes" or sends Objects from the Server to the Client.
+	 * @param object The object to be sent to the Client.
 	 */
-	public void push(Signal signal)
+	public void push(Object object)
 	{
 		try
 		{
-			out.writeObject(signal);
+			out.writeObject(object);
 			out.flush();
 			out.reset();
 		}

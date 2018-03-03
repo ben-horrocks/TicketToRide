@@ -10,10 +10,6 @@ import common.DataModels.Username;
 import common.IClient;
 import cs340.TicketClient.Lobby.LobbyPresenter;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class ClientFacade implements IClient
 {
 	private static ClientFacade SINGLETON = null;
