@@ -24,11 +24,14 @@ public class HandFragmentPresenter {
 
     ArrayList<TrainCard> getPlayerTrainCards()
     {
-        return null;
+        ArrayList<TrainCard> cards = null;
+        //TODO get player's train cards from GameModel.ClientGame.Player
+        return cards;
     }
 
     ArrayList<DestinationCard> getPlayerDestinationCards()
     {
+        //TODO get player's destination cards from GameModel.ClientGame.Player
         return null;
     }
 }

@@ -25,11 +25,14 @@ public class DeckFragmentPresenter {
     ArrayList<Drawable> getFaceUpCards()
     {
         ArrayList<TrainCard> faceUp = new ArrayList<>();
+        //TODO get faceup Train Cards from GameModel.CientGame
         ArrayList<Drawable> graphics = new ArrayList<>();
         for (TrainCard t : faceUp)
         {
             switch (t.getType())
             {
+                //TODO add drawable resources to project
+                //TODO add drawable to graphics according to the train type.
                 case RED:
                     break;
                 case BLUE:

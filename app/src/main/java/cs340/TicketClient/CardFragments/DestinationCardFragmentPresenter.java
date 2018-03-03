@@ -16,7 +16,7 @@ import cs340.TicketClient.Game.GameModel;
  * Created by jhens on 3/1/2018.
  */
 
-class DestinationCardFragmentPresenter {
+public class DestinationCardFragmentPresenter {
 
     private GameModel model;
     private DestinationCardFragment fragment;
@@ -30,7 +30,9 @@ class DestinationCardFragmentPresenter {
 
     ArrayList<DestinationCard> getDCards()
     {
-        return null;
+        ArrayList<DestinationCard> cards = null;
+        //TODO get destination cards from GameModel.startGamePacket
+        return cards;
     }
 
     void confirmDestinationCards()
