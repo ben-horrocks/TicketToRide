@@ -23,7 +23,7 @@ public class LobbyModel
     /**
      * The GameID of the currently joined game
      */
-    private List<GameID> joinedGames;
+    private List<GameID> joinedGames = new ArrayList<>();
 
     /**
      * The user object associated with this instance of the client
@@ -43,7 +43,7 @@ public class LobbyModel
      * @post creates a new model instance with the passed in values
      * @param games The map of games to be used in initialization
      */
-    public LobbyModel(Map<GameID, GameInfo> games) { this.games = games; }
+    LobbyModel(Map<GameID, GameInfo> games) { this.games = games; }
 
     /**
      * Adds a game to the game list
@@ -52,7 +52,7 @@ public class LobbyModel
      *
      * @param  game  The game to be added
      */
-    public void addGame(GameInfo game) { games.put(game.getID(), game); }
+    void addGame(GameInfo game) { games.put(game.getID(), game); }
 
     /**
      * Adds a list of games to the game list
@@ -61,7 +61,7 @@ public class LobbyModel
      *
      * @param  games  The games to be added
      */
-    public void addGame(List<GameInfo> games){
+    void addGames(List<GameInfo> games){
         for(GameInfo g: games){
             addGame(g);
         }
@@ -74,7 +74,7 @@ public class LobbyModel
      *
      * @param  id  The id of the game to be removed
      */
-    public void removeGame(GameID id) throws GameNotFoundException{
+    void removeGame(GameID id) throws GameNotFoundException{
         GameInfo g = getGame(id);
         games.remove(g);
     }
@@ -86,7 +86,7 @@ public class LobbyModel
      *
      * @param  id  The id for the game that is being looked for
      */
-    public GameInfo getGame(GameID id) throws GameNotFoundException{
+    GameInfo getGame(GameID id) throws GameNotFoundException{
         if(games.containsKey(id))
             return games.get(id);
         throw new GameNotFoundException(id);
@@ -98,9 +98,7 @@ public class LobbyModel
      *
      * @return The list of games
      */
-    public Collection<GameInfo> getAllGames(){
-        return this.games.values();
-    }
+    Collection<GameInfo> getAllGames() { return this.games.values(); }
 
     /**
      * Returns whether or not a specified game is full (has 5 players)
@@ -137,7 +135,7 @@ public class LobbyModel
      * be null
      * @return The joined game id
      */
-    public List<GameID> getJoinedGames() { return joinedGames; }
+    List<GameID> getJoinedGames() { return joinedGames; }
     /**
      * Sets the value of the currently joined game. Note in the future we may need to join multiple
      * games so this method may be removed in favor of an addJoinedGame() method.

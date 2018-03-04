@@ -154,7 +154,7 @@ public class LobbyPresenter implements ILobbyPresenter
      * @param games The list of GameInfo objects to add to the model
      */
     public void addGames(List<GameInfo> games){
-        model.addGame(games);
+        model.addGames(games);
         updateGameList();
     }
 

@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 
@@ -33,5 +35,41 @@ public class GameActivity extends AppCompatActivity
 			}
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
+		Button handButton = (Button) this.findViewById(R.id.hand_button);
+		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
+		Button drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);
+		Button claimRouteButton = (Button) this.findViewById(R.id.claim_route_button);
+
+		handButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+
+			}
+		});
+
+		destinationCardButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+
+			}
+		});
+
+		drawTrainCardButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+
+			}
+		});
+
+		claimRouteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+
+			}
+		});
 	}
 }

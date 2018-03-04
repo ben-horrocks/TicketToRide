@@ -2,7 +2,8 @@ package cs340.TicketClient.Lobby;
 
 import java.util.List;
 
-import common.DataModels.*;
+import common.DataModels.GameID;
+import common.DataModels.GameInfo;
 
 public interface ILobbyPresenter
 {

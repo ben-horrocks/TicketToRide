@@ -25,12 +25,6 @@ public class DeckFragment extends Fragment {
     Button drawDeck;
     DeckFragmentPresenter presenter;
 
-
-    public DeckFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
