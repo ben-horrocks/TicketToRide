@@ -243,4 +243,9 @@ public class LobbyPresenter implements ILobbyPresenter
         }
         return false;
     }
+
+    void setUser(User user)
+	{
+		model.setUser(user);
+	}
 }

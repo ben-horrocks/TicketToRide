@@ -52,9 +52,13 @@ public class LobbyActivity extends AppCompatActivity
 
     //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
     LobbyPresenter.setActivity(this);
-    LobbyPresenter.getInstance().getModel()
-            .setUser((User) this.getIntent().getExtras().get("user"));
+    Bundle extras = this.getIntent().getExtras();
+    if (extras != null)
+	{
+		User user = (User) extras.get("user");
+		LobbyPresenter.getInstance().setUser(user);
 
+	}
     //VIEW BINDING
     mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
     mClearSearch = (ImageView) this.findViewById(R.id.ClearSearch);

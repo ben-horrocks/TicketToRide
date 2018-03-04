@@ -164,8 +164,8 @@ public class LobbyModel
     /**
      * An exception that occurs when the model tries to access a game that is not found in the games list
      */
-    public class GameNotFoundException extends Exception {
-        public GameNotFoundException(GameID id){
+    class GameNotFoundException extends Exception {
+        GameNotFoundException(GameID id){
             super("No game found with ID: " + id.getId());
         }
     }

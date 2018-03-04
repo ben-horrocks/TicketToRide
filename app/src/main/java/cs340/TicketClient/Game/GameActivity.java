@@ -9,12 +9,15 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import common.DataModels.GameData.Player;
+import common.DataModels.User;
 import cs340.TicketClient.R;
 
 public class GameActivity extends AppCompatActivity
 {
 
 	private GoogleMap mMap;
+	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -31,10 +34,15 @@ public class GameActivity extends AppCompatActivity
 			mapViewFragment = new MapFragment();
 			if (extras != null)
 			{
+				if (extras.get("user") instanceof User)
+				{
+					this.user = (User) extras.get("user");
+				}
 				mapViewFragment.setArguments(extras);
 			}
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
+
 		Button handButton = (Button) this.findViewById(R.id.hand_button);
 		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
 		Button drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);
@@ -44,7 +52,8 @@ public class GameActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-
+				Bundle bundle = new Bundle();
+				//bundle.putBundle("bundle_trainCards", );
 			}
 		});
 

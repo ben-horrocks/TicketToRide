@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import common.DataModels.TrainCard;
 import cs340.TicketClient.R;
 
 
 public class HandFragment extends Fragment {
 
-    RecyclerView destinationCards;
-    RecyclerView trainCards;
+    RecyclerView destinationCardsRecyclerView;
+    RecyclerView trainCardsRecyclerView;
     HandFragmentPresenter presenter;
     TrainCardHandAdapter trainCardHandAdapter;
 
@@ -34,11 +35,16 @@ public class HandFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_hand, container, false);
-        destinationCards = v.findViewById(R.id.destinationCards);
-        trainCards = v.findViewById(R.id.trainCards);
+        destinationCardsRecyclerView = v.findViewById(R.id.destinationCards);
+        trainCardsRecyclerView = v.findViewById(R.id.trainCards);
         presenter = new HandFragmentPresenter(this);
         //TODO construct recyclerView
-		trainCardHandAdapter = new TrainCardHandAdapter(this, )
+		if (getArguments() != null)
+		{
+			//TrainCard[] trainCards =
+			//trainCardHandAdapter = new TrainCardHandAdapter(this, )
+		}
+
 
         return v;
     }
