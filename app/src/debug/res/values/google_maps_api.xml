@@ -1,7 +1,5 @@
 <resources>
     <!--
-    TODO: Before you run your application, you need a Google Maps API key.
-
     To get one, follow this link, follow the directions and press "Create" at the end:
 
     https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=5D:2C:4A:FD:5C:5E:EC:E2:6C:B1:72:96:DA:8A:C9:5E:55:6F:97:9C%3Bcs340.TicketClient.Game

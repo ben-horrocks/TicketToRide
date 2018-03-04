@@ -16,6 +16,7 @@ public class HandFragment extends Fragment {
     RecyclerView destinationCards;
     RecyclerView trainCards;
     HandFragmentPresenter presenter;
+    TrainCardHandAdapter trainCardHandAdapter;
 
 
     public HandFragment() {
@@ -36,12 +37,11 @@ public class HandFragment extends Fragment {
         destinationCards = v.findViewById(R.id.destinationCards);
         trainCards = v.findViewById(R.id.trainCards);
         presenter = new HandFragmentPresenter(this);
-
-        //TODO construct recyclervier
+        //TODO construct recyclerView
+		trainCardHandAdapter = new TrainCardHandAdapter(this, )
 
         return v;
     }
 
-    //TODO create recyclerview adapters and binders
-
+    //TODO create recyclerView adapters and binders
 }

@@ -1,10 +1,3 @@
-/**
- * GameListAdapter.java
- * Author: Ben Horrocks
- * Date of Last Commit: 11 February, 2018
- * Notes: Need to thoroughly test
- */
-
 package cs340.TicketClient.Lobby;
 
 import android.graphics.Color;
