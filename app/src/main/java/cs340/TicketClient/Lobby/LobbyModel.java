@@ -23,7 +23,7 @@ public class LobbyModel
     /**
      * The GameID of the currently joined game
      */
-    private GameID joinedGame;
+    private List<GameID> joinedGames;
 
     /**
      * The user object associated with this instance of the client
@@ -35,9 +35,7 @@ public class LobbyModel
      * @pre none
      * @post creates a new model instance with an empty list of games
      */
-    public LobbyModel(){
-        games = new HashMap<GameID, GameInfo>();
-    }
+    public LobbyModel() { games = new HashMap<>(); }
 
     /**
      * Constructor for creating a new model with initialized games
@@ -45,9 +43,7 @@ public class LobbyModel
      * @post creates a new model instance with the passed in values
      * @param games The map of games to be used in initialization
      */
-    public LobbyModel(Map<GameID, GameInfo> games) {
-        this.games = games;
-    }
+    public LobbyModel(Map<GameID, GameInfo> games) { this.games = games; }
 
     /**
      * Adds a game to the game list
@@ -56,9 +52,7 @@ public class LobbyModel
      *
      * @param  game  The game to be added
      */
-    public void addGame(GameInfo game){
-        games.put(game.getID(), game);
-    }
+    public void addGame(GameInfo game) { games.put(game.getID(), game); }
 
     /**
      * Adds a list of games to the game list
@@ -128,7 +122,7 @@ public class LobbyModel
      * @param games The new list of GameInfo
      */
     public void setGames(List<GameInfo> games) {
-        HashMap<GameID, GameInfo> newGames  = new HashMap<GameID, GameInfo>();
+        HashMap<GameID, GameInfo> newGames  = new HashMap<>();
         for(GameInfo g: games){
             newGames.put(g.getID(), g);
         }
@@ -143,11 +137,7 @@ public class LobbyModel
      * be null
      * @return The joined game id
      */
-    public GameID getJoinedGame()
-    {
-        return joinedGame;
-    }
-
+    public List<GameID> getJoinedGames() { return joinedGames; }
     /**
      * Sets the value of the currently joined game. Note in the future we may need to join multiple
      * games so this method may be removed in favor of an addJoinedGame() method.
@@ -155,10 +145,7 @@ public class LobbyModel
      * @post the GameID for joined game will be the same as the passed in value
      * @param joinedGame the game id of the game to set as the joined game
      */
-    public void setJoinedGame(GameID joinedGame)
-    {
-        this.joinedGame = joinedGame;
-    }
+    public void addJoinedGame(GameID joinedGame) { this.joinedGames.add(joinedGame); }
 
     /**
      * Gets the user data object
@@ -166,10 +153,7 @@ public class LobbyModel
      * @post the user will be returned
      * @return the user associated with the client
      */
-    public User getUser()
-    {
-        return user;
-    }
+    public User getUser() { return user; }
 
     /**
      * Sets the user associated with the client
@@ -177,10 +161,7 @@ public class LobbyModel
      * @post The user will be stored in the model
      * @param user The user object from the server
      */
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
+    public void setUser(User user) { this.user = user; }
 
     /**
      * An exception that occurs when the model tries to access a game that is not found in the games list

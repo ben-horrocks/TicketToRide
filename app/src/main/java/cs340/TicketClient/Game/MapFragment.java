@@ -1,9 +1,5 @@
 package cs340.TicketClient.Game;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,8 +14,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,7 +23,6 @@ import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
-import com.google.maps.android.ui.IconGenerator;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,7 +49,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	private Map<String, City> cities = new HashMap<>();
 	private EdgeGraph edges = new EdgeGraph();
 	private Set<Polyline> lines = new HashSet<>();
-	private IconGenerator mIconGenerator;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -316,7 +308,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(elPaso, santaFe, TrainColor.GRAY, 2, false);
 
 		// Phoenix to Santa Fe
-		addEdge(phoenix, sanFrancisco, TrainColor.GRAY, 3, false);
+		addEdge(phoenix, santaFe, TrainColor.GRAY, 3, false);
 
 		// Phoenix to Denver
 		addEdge(phoenix, denver, TrainColor.WHITE, 5, false);
@@ -385,7 +377,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(denver, oklahomaCity, TrainColor.RED, 4, false);
 
 		// Santa Fe to Oklahoma City
-		addEdge(sanFrancisco, oklahomaCity, TrainColor.BLUE, 3, false);
+		addEdge(santaFe, oklahomaCity, TrainColor.BLUE, 3, false);
 
 		// El Paso to Dallas
 		addEdge(elPaso, dallas, TrainColor.RED, 4, false);
@@ -516,6 +508,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		// New York to Pittsburgh
 		addEdge(newYork, pittsburgh, TrainColor.GREEN, 2, true);
 
+		// Pittsburgh to Raleigh
+		addEdge(pittsburgh, raleigh, TrainColor.GRAY, 2, false);
+
 		// New York to Washington D.C.
 		addEdge(newYork, washingtonDC, TrainColor.ORANGE, 2, true);
 
@@ -582,7 +577,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
 			line.setTag(edge.getCities());
 			line.setClickable(true);
-			List<PatternItem> pattern = Arrays.<PatternItem>asList(new Dash(30), new Gap(20));
+			List<PatternItem> pattern = Arrays.asList(new Dash(30), new Gap(20));
 			line.setPattern(pattern);
 			line.setWidth(20);
 			lines.add(line);

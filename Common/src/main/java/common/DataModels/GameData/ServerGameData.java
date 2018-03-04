@@ -105,7 +105,7 @@ public class ServerGameData implements Serializable
 
   private Player getPlayer(String name){
     for(Player p: players){
-      if(p.getName() == name)
+      if(p.getName().equals(name))
         return p;
     }
     return null;

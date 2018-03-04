@@ -10,10 +10,6 @@ import java.util.List;
 import common.DataModels.*;
 import cs340.TicketClient.ASyncTask.*;
 
-/**
- * Created by Ben_D on 1/29/2018.
- */
-
 public class LobbyPresenter implements ILobbyPresenter
 {
     private static final String TAG = "LOBBY";
@@ -27,9 +23,9 @@ public class LobbyPresenter implements ILobbyPresenter
      * @pre activity must be active
      * @post the singleton object will be initialized with an empty model and a reference to the
      * activity that initialized it.
-     * @param activity
+     * @param activity The activity to set for the presenter
      */
-    public static void setActivity(LobbyActivity activity){
+    static void setActivity(LobbyActivity activity){
         singleton = new LobbyPresenter(activity);
     }
 
@@ -39,13 +35,9 @@ public class LobbyPresenter implements ILobbyPresenter
      * @post the singleton reference will be returned
      * @return the singleton
      */
-    public static LobbyPresenter getInstance() {
-        return singleton;
-    }
+    public static LobbyPresenter getInstance() { return singleton; }
 
-    public LobbyPresenter(){
-        this(null);
-    }
+    private LobbyPresenter(){ this(null); }
 
     /**
      * The bare-minimum constructor that stores a reference to the activity that initialized it
@@ -68,21 +60,16 @@ public class LobbyPresenter implements ILobbyPresenter
      * @return The list of GameInfo
      */
     public List<GameInfo> getAllGames(){
-        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
-        for (GameInfo g: model.getAllGames()){
-            list.add(g);
-        }
+        ArrayList<GameInfo> list = new ArrayList<>();
+        list.addAll(model.getAllGames());
         return list;
     }
 
     /**
-     * //TODO Documentation
-     * @return
+     * Returns the gameIDs of the current games the player has joined.
+     * @return A List of GameIDs.
      */
-    public GameID getJoinedGameID()
-    {
-        return model.getJoinedGame();
-    }
+    public List<GameID> getJoinedGameID() { return model.getJoinedGames(); }
 
     /**
      * Searches through the model for games containing the filter in their game names and returns
@@ -96,8 +83,8 @@ public class LobbyPresenter implements ILobbyPresenter
      * @return The list of games containing the filter phrase
      */
     public List<GameInfo> searchGames(String filter){
-        ArrayList<GameInfo> list = new ArrayList<GameInfo>();
-        if(filter == null || filter == "") {
+        ArrayList<GameInfo> list = new ArrayList<>();
+        if(filter == null || filter.equals("")) {
             return getAllGames();
         } else {
             for (GameInfo g : model.getAllGames()) {
@@ -198,10 +185,7 @@ public class LobbyPresenter implements ILobbyPresenter
         return false;
     }
 
-    public LobbyModel getModel()
-    {
-        return model;
-    }
+    LobbyModel getModel() { return model; }
 
     @Override
     public void addGame(String newGame)
@@ -236,11 +220,9 @@ public class LobbyPresenter implements ILobbyPresenter
         activity.startGame();
     }
 
-    public User getPlayer() {
-        return model.getUser();
-    }
+    User getPlayer() { return model.getUser(); }
 
-    public boolean isMyGame(GameID id) {
+    boolean isMyGame(GameID id) {
         try
         {
             return model.getGame(id).getCreatorName().equals(model.getUser().getName());
@@ -251,7 +233,7 @@ public class LobbyPresenter implements ILobbyPresenter
         return false;
     }
 
-    public boolean hasJoinedGame(GameID id) {
+    boolean hasJoinedGame(GameID id) {
         try
         {
             return model.getGame(id).getUsers().contains(model.getUser());
