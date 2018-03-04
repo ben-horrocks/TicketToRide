@@ -17,7 +17,6 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
-        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/hand_button"
@@ -52,5 +51,16 @@
             android:layout_weight="1"
             tools:ignore="ButtonStyle"/>
     </LinearLayout>
+
+    <fragment
+        android:id="@+id/hand_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+    <fragment
+        android:id="@+id/turn_action_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
+            android:contentDescription="First Train Card"
             android:id="@+id/trainCard1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -23,6 +24,7 @@
             android:layout_width="10dp"
             android:layout_height="match_parent" />
         <ImageView
+            android:contentDescription="Second Train Card"
             android:id="@+id/trainCard2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -30,6 +32,7 @@
             android:layout_width="10dp"
             android:layout_height="match_parent" />
         <ImageView
+            android:contentDescription="Third Train Card"
             android:id="@+id/trainCard3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -37,6 +40,7 @@
             android:layout_width="10dp"
             android:layout_height="match_parent" />
         <ImageView
+            android:contentDescription="Fourth Train Card"
             android:id="@+id/trainCard4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -44,6 +48,7 @@
             android:layout_width="10dp"
             android:layout_height="match_parent" />
         <ImageView
+            android:contentDescription="Fifth Train Card"
             android:id="@+id/trainCard5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

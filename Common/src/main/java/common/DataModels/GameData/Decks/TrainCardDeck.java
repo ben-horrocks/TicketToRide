@@ -9,8 +9,8 @@ import common.DataModels.TrainColor;
 public class TrainCardDeck implements ITrainCardDeck
 {
 
-  List<TrainCard> faceUpCards;
-  List<TrainCard> deck;
+  private List<TrainCard> faceUpCards;
+  private List<TrainCard> deck;
 
   public TrainCardDeck()
   {

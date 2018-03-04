@@ -2,7 +2,8 @@ package cs340.TicketClient.Lobby;
 
 import java.util.List;
 
-import common.DataModels.*;
+import common.DataModels.GameID;
+import common.DataModels.GameInfo;
 
 public interface ILobbyPresenter
 {
@@ -13,7 +14,7 @@ public interface ILobbyPresenter
    * @param id The game to be queried
    * @return true if the game has between 2 and 5 players, inclusive and false otherwise
    */
-  public boolean canStartGame(GameID id);
+  boolean canStartGame(GameID id);
 
   /**
    * Gets a list of all the games in the model
@@ -21,7 +22,7 @@ public interface ILobbyPresenter
    * @post The values of all the games will be returned
    * @return A list of all games in the model, if the list is empty it will return an empty list
    */
-  public List<GameInfo> getAllGames();
+  List<GameInfo> getAllGames();
 
   /**
    * Gets a list of all the games that have the search term in thier names
@@ -30,10 +31,10 @@ public interface ILobbyPresenter
    * @param search The phrase to be searched for
    * @return a List of all games with the search term in their names
    */
-  public List<GameInfo> searchGames(String search);
+  List<GameInfo> searchGames(String search);
 
-  public void addGame(String newgame);
-  public void joinGame(GameID id);
-  public void startGame(GameID id);
+  void addGame(String newgame);
+  void joinGame(GameID id);
+  void startGame(GameID id);
 
 }

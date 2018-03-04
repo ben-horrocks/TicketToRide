@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/confirmButton"
-        android:text="confirm selection"
+        android:text="@string/confirm_selection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
@@ -21,7 +21,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/card1View"
-                android:text="city1 -> city2"
+                android:text="@string/city1_city2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <CheckBox
@@ -38,7 +38,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/card2View"
-                android:text="   city1 -> city2"
+                android:text="@string/city1_city2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <CheckBox
@@ -55,7 +55,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/card3View"
-                android:text="   city1 -> city2"
+                android:text="@string/city1_city2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <CheckBox
