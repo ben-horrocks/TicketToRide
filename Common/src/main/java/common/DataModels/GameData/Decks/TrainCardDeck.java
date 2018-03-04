@@ -16,6 +16,10 @@ public class TrainCardDeck implements ITrainCardDeck
   {
     deck = addTrainCards();
     shuffle();
+    for(int x=0;x<5;x++)
+    {
+      faceUpCards.add(x, drawFaceDown());
+    }
   }
   @Override
   public TrainCard drawFaceUp(int index)
@@ -38,8 +42,7 @@ public class TrainCardDeck implements ITrainCardDeck
   public void shuffle()
   {
     List<TrainCard> newdeck = new ArrayList<>();
-    int decksize = deck.size();
-    for(int i=0; i<decksize; i++)
+    while(deck.size()>0)
     {
       int randomcard = (int) (Math.random()) % deck.size();
       newdeck.add(deck.get(randomcard));
