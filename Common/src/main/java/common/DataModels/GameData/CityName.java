@@ -1,9 +1,5 @@
 package common.DataModels.GameData;
 
-/**
- * Created by Ben_D on 3/3/2018.
- */
-
 public class CityName
 {
 

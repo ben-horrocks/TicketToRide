@@ -44,6 +44,12 @@ public class EdgeGraph implements Serializable
 		}
 	}
 
+	public void addEdge(Edge edge)
+	{
+		City city = edge.getFirstCity();
+		addEdge(city, edge);
+	}
+
 	public boolean hasEdge(Edge edge)
 	{
 		City city = edge.getFirstCity();

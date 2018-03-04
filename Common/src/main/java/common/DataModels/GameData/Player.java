@@ -10,18 +10,17 @@ public class Player implements Serializable{
     private User user;
     private List<TrainCard> hand;
     private List<DestinationCard> destinations;
-    private int trainCars;
     private PlayerColor color;
     private int score;
-    //private EdgeGraph claimedEdges;
+    private EdgeGraph claimedEdges;
 
-    public Player(User user, PlayerColor color){
+    public Player(User user, PlayerColor color) {
         this.user = user;
         this.hand = new ArrayList<>();
         this.destinations = new ArrayList<>();
-        this.trainCars = 0;
         this.color = color;
         this.score = 0;
+        this.claimedEdges = new EdgeGraph();
     }
 
     public String getName() { return this.user.getName(); }
@@ -32,8 +31,8 @@ public class Player implements Serializable{
 
     public void drewTrainCards(List<TrainCard> cards) { this.hand.addAll(cards); }
 
-    public void claimedEdge(Edge edge){
-        //claimedEdges.add(edge)
+    public void claimedEdge(Edge edge) {
+        claimedEdges.addEdge(edge);
         ArrayList<TrainCard> toRemove = new ArrayList<>();
         for(int i=0; i<edge.getLength(); i++) {
             for (TrainCard t : hand) {
@@ -58,8 +57,8 @@ public class Player implements Serializable{
     public int getScore() { return this.score; }
 
     public void addPoints(int points) { this.score += points; }
-    /*
-    public EdgeGraph getClaimedEdges(){
-        return this.claimedEdges;
-    }*/
+
+    public EdgeGraph getClaimedEdges() { return this.claimedEdges; }
+
+    public int getNumberTrainCards() { return hand.size(); }
 }

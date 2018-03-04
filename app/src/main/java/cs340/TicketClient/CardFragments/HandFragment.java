@@ -41,6 +41,8 @@ public class HandFragment extends Fragment {
         //TODO construct recyclerView
 		if (getArguments() != null)
 		{
+			Bundle bundle = getArguments();
+
 			//TrainCard[] trainCards =
 			//trainCardHandAdapter = new TrainCardHandAdapter(this, )
 		}
