@@ -4,24 +4,15 @@ import java.io.Serializable;
 
 public class Username implements Serializable
 {
-  private String name;
-  public Username(String name)
-  {
-    this.name = name;
-  }
+	private String name;
 
-  public static boolean isValidUserName(String name)
-  {
-    return !name.contains(" ");
-  }
+	public Username(String name) { this.name = name; }
 
-  public String getName() {
-    return name;
-  }
+	public static boolean isValidUserName(String name) { return !name.contains(" "); }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public String getName() { return name; }
+
+	public void setName(String name) { this.name = name; }
 
 	@Override
 	public boolean equals(Object o)
@@ -35,14 +26,8 @@ public class Username implements Serializable
 	}
 
 	@Override
-	public int hashCode()
-	{
-		return name.hashCode();
-	}
+	public int hashCode() { return name.hashCode(); }
 
 	@Override
-	public String toString()
-	{
-		return name;
-	}
+	public String toString() { return name; }
 }
