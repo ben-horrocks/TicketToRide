@@ -2,10 +2,6 @@ package common.DataModels;
 
 import java.io.Serializable;
 
-/**
- * Created by Kavika F.
- */
-
 public class City implements Serializable
 {
 	private double latitude;
@@ -49,5 +45,11 @@ public class City implements Serializable
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		result = 31 * result + cityName.hashCode();
 		return result;
+	}
+
+	@Override
+	public String toString()
+	{
+		return cityName + ": (" + latitude + ", " + longitude + ")";
 	}
 }

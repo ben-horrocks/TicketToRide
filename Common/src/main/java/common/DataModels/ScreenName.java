@@ -6,25 +6,13 @@ public class ScreenName implements Serializable
 {
   private String name;
 
-  public ScreenName(String name)
-  {
-    this.name = name;
-  }
+  public ScreenName(String name) { this.name = name; }
 
-  public String getName()
-  {
-    return name;
-  }
+  public String getName() { return name; }
 
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+  public void setName(String name) { this.name = name; }
 
-  public static boolean isValidScreenName(String name)
-  {
-    return !name.contains(" ");
-  }
+  public static boolean isValidScreenName(String name) { return !name.contains(" "); }
 
   @Override
   public boolean equals(Object o) {
@@ -40,4 +28,11 @@ public class ScreenName implements Serializable
   public int hashCode() {
     return getName() != null ? getName().hashCode() : 0;
   }
+
+  @Override
+  public String toString()
+  {
+  	return name;
+  }
+
 }

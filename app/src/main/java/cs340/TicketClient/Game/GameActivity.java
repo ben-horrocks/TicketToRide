@@ -53,7 +53,6 @@ public class GameActivity extends AppCompatActivity
 			public void onClick(View v)
 			{
 				Bundle bundle = new Bundle();
-				//bundle.putBundle("bundle_trainCards", );
 			}
 		});
 

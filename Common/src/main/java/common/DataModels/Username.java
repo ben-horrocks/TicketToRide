@@ -39,4 +39,10 @@ public class Username implements Serializable
 	{
 		return name.hashCode();
 	}
+
+	@Override
+	public String toString()
+	{
+		return name;
+	}
 }

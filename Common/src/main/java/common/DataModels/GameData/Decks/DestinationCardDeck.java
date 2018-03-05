@@ -3,7 +3,6 @@ package common.DataModels.GameData.Decks;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.City;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.CityName;
 
@@ -11,7 +10,7 @@ public class DestinationCardDeck implements IDestinationCardDeck
 {
   private List<DestinationCard> deck;
   public DestinationCardDeck() {
-    this.deck = addDestinationCards();
+    initializeDestinationDeck();
     shuffle();
   }
 
@@ -35,7 +34,7 @@ public class DestinationCardDeck implements IDestinationCardDeck
     this.deck = newdeck;
   }
 
-  private List<DestinationCard> addDestinationCards()
+  private void initializeDestinationDeck()
   {
     List<DestinationCard> newDeck = new ArrayList<>();
     newDeck.add(new DestinationCard(CityName.LOS_ANGELES, CityName.NEW_YORK_CITY, 21));
@@ -68,6 +67,6 @@ public class DestinationCardDeck implements IDestinationCardDeck
     newDeck.add(new DestinationCard(CityName.MONTREAL, CityName.NEW_ORLEANS, 13));
     newDeck.add(new DestinationCard(CityName.SAULT_ST_MARIE, CityName.OKLAHOMA_CITY, 9));
     newDeck.add(new DestinationCard(CityName.SEATTLE, CityName.LOS_ANGELES, 9));
-    return newDeck;
+    deck = newDeck;
   }
 }

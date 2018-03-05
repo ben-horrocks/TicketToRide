@@ -11,28 +11,28 @@ import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import cs340.TicketClient.R;
 
-public class TrainCardHandAdapter extends RecyclerView.Adapter<TrainCardHandAdapter.TrainCardHandViewHolder>
+public class HandTrainCardAdapter extends RecyclerView.Adapter<HandTrainCardAdapter.HandTrainCardViewHolder>
 {
 	private TrainCard[] mTrainCards = new TrainCard[0];
 	private LayoutInflater mInflater;
 
-	TrainCardHandAdapter(Context context, TrainCard[] trainCards)
+	HandTrainCardAdapter(Context context, TrainCard[] trainCards)
 	{
-		this.mInflater = LayoutInflater.from(context);
+		mInflater = LayoutInflater.from(context);
 		mTrainCards = trainCards;
 	}
 
 	// inflates the cell layout from xml when needed
 	@Override
-	public TrainCardHandViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+	public HandTrainCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{
 		View view = mInflater.inflate(R.layout.hand_recyclerview_item, parent, false);
-		return new TrainCardHandViewHolder(view);
+		return new HandTrainCardViewHolder(view);
 	}
 
 	// binds the data to the imageView in each cell
 	@Override
-	public void onBindViewHolder(TrainCardHandViewHolder holder, int position)
+	public void onBindViewHolder(HandTrainCardViewHolder holder, int position)
 	{
 		TrainCard trainCard = mTrainCards[position];
 		holder.myImageView.setImageResource(getTrainCardImage(trainCard.getType()));
@@ -62,11 +62,11 @@ public class TrainCardHandAdapter extends RecyclerView.Adapter<TrainCardHandAdap
 		return mTrainCards.length;
 	}
 
-	class TrainCardHandViewHolder extends RecyclerView.ViewHolder
+	class HandTrainCardViewHolder extends RecyclerView.ViewHolder
 	{
 		ImageView myImageView;
 
-		TrainCardHandViewHolder(View itemView)
+		HandTrainCardViewHolder(View itemView)
 		{
 			super(itemView);
 			myImageView = (ImageView) itemView.findViewById(R.id.hand_traincard_image);

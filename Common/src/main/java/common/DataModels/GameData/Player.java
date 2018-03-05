@@ -46,6 +46,24 @@ public class Player implements Serializable{
         //TODO if the newly claimed edge completed a destination card add points and remove the card
     }
 
+    private boolean canClaimEdge(Edge edge)
+	{
+		return numCardsOfColor(edge.getColor()) >= edge.getLength();
+	}
+
+	private int numCardsOfColor(TrainColor color)
+	{
+		int sum = 0;
+		for (TrainCard t : hand)
+		{
+			if (t.getType() == color)
+			{
+				sum++;
+			}
+		}
+		return sum;
+	}
+
     public List<DestinationCard> getDestinationCards() { return this.destinations; }
 
     public void drewDestinationCards(List<DestinationCard> cards){

@@ -8,14 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by Kavika F.
- */
-
 public class EdgeGraph implements Serializable
 {
-	// Only default constructor
-
 	private Map<City, List<Edge>> graph = new HashMap<>();
 
 	public Map<City, List<Edge>> getGraph() { return graph; }
@@ -82,4 +76,23 @@ public class EdgeGraph implements Serializable
 
 	@Override
 	public int hashCode() { return graph != null ? graph.hashCode() : 0; }
+
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		Set<City> cities = graph.keySet();
+		for (City city : cities)
+		{
+			String beginning = "Edges starting at: " + city.getCityName();
+			sb.append(beginning);
+			List<Edge> edges = graph.get(city);
+			for (Edge edge : edges)
+			{
+				// This could get very long. May want to cut down eventually.
+				sb.append(edge.toString());
+			}
+		}
+		return sb.toString();
+	}
 }

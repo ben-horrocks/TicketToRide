@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import common.DataModels.TrainCard;
 import cs340.TicketClient.R;
 
 
@@ -17,7 +16,7 @@ public class HandFragment extends Fragment {
     RecyclerView destinationCardsRecyclerView;
     RecyclerView trainCardsRecyclerView;
     HandFragmentPresenter presenter;
-    TrainCardHandAdapter trainCardHandAdapter;
+    HandTrainCardAdapter handTrainCardAdapter;
 
 
     public HandFragment() {
@@ -44,7 +43,7 @@ public class HandFragment extends Fragment {
 			Bundle bundle = getArguments();
 
 			//TrainCard[] trainCards =
-			//trainCardHandAdapter = new TrainCardHandAdapter(this, )
+			//handTrainCardAdapter = new HandTrainCardAdapter(this, )
 		}
 
 
