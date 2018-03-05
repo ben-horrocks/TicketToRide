@@ -53,7 +53,7 @@ public class ServerGameData implements Serializable
 
   public String getName() { return name; }
 
-  public String getCreatorName() { return creator.getName(); }
+  public String getCreatorName() { return creator.getStringUserName(); }
 
   public Set<User> getUsers() {
     HashSet<User> users = new HashSet<>();
@@ -101,7 +101,7 @@ public class ServerGameData implements Serializable
 
   private Player getPlayer(User user){
     for(Player p: players){
-      if(p.getUser().getName().equals(user.getName()))
+      if(p.getUser().getStringUserName().equals(user.getStringUserName()))
         return p;
     }
     return null;

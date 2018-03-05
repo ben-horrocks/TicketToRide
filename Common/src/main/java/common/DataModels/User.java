@@ -4,40 +4,28 @@ import java.io.Serializable;
 
 public class User implements Serializable
 {
-	private int points;
-	private Username name;
+	private Username username;
 	private Password pass;
 	private ScreenName screenName;
 	private AuthToken token;
 
-	public User(Username name, Password pass, ScreenName screenName)
+	public User(Username username, Password pass, ScreenName screenName)
 	{
-		this.points = 0;
-		this.name = name;
+		this.username = username;
 		this.pass = pass;
 		this.screenName = screenName;
 		this.token = new AuthToken();
 	}
 
-	public int getPoints() { return points; }
+	public Username getUsername() { return username; }
 
-	public void setPoints(int points) { this.points = points; }
+	public String getStringUserName() {return username.getName(); }
 
-	public void incrementPoints(int newpoints) { this.points += points; }
-
-	public Username getUsername() { return name; }
-
-	public String getName() {return name.getName(); }
-
-	public void setName(Username name) { this.name = name; }
+	public void setName(Username username) { this.username = username; }
 
 	public Password getPass() { return pass; }
 
-	public void setPass(Password pass) { this.pass = pass; }
-
 	public ScreenName getScreenName() { return screenName; }
-
-	public void setScreenName(ScreenName screenName) { this.screenName = screenName; }
 
 	public AuthToken getToken() { return token; }
 
@@ -51,8 +39,7 @@ public class User implements Serializable
 
 		User user = (User) o;
 
-		if (points != user.points) return false;
-		if (!name.equals(user.name)) return false;
+		if (!username.equals(user.username)) return false;
 		if (!pass.equals(user.pass)) return false;
 		return screenName.equals(user.screenName);
 		// if authToken is used in equals method, then no 2 users
@@ -62,8 +49,8 @@ public class User implements Serializable
 	@Override
 	public int hashCode()
 	{
-		int result = points;
-		result = 31 * result + name.hashCode();
+		int result = username.getName().length();
+		result = 31 * result + username.hashCode();
 		result = 31 * result + pass.hashCode();
 		result = 31 * result + screenName.hashCode();
 		result = 31 * result + token.hashCode();
@@ -73,6 +60,6 @@ public class User implements Serializable
 	@Override
 	public String toString()
 	{
-		return "Username: " + name.toString();
+		return "Username: " + username.toString();
 	}
 }

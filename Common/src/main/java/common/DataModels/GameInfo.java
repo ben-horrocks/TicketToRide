@@ -48,7 +48,7 @@ public class GameInfo implements Serializable
     }
 
     public boolean canStart(User p){
-        boolean correctPlayer = p.getName().equals(this.getName());
+        boolean correctPlayer = p.getStringUserName().equals(this.getName());
         boolean enoughPlayers = users.size() > 1;
         boolean tooManyPlayers = users.size() > 5;
         return correctPlayer && enoughPlayers && !tooManyPlayers;

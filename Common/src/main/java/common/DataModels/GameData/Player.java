@@ -23,7 +23,7 @@ public class Player implements Serializable{
         this.claimedEdges = new EdgeGraph();
     }
 
-    public String getName() { return this.user.getName(); }
+    public String getName() { return this.user.getStringUserName(); }
 
     public User getUser() {return  this.user;}
 

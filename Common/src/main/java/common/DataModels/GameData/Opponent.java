@@ -20,7 +20,7 @@ public class Opponent {
         this.claimedEdges = new EdgeGraph();
     }
 
-    String getName() { return user.getName(); }
+    String getName() { return user.getStringUserName(); }
 
     public int getNumberHandCards() { return numberHandCards; }
 
