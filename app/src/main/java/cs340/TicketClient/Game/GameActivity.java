@@ -24,6 +24,7 @@ public class GameActivity extends AppCompatActivity
 
 	private GoogleMap mMap;
 	private User user;
+	private GamePresenter presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -107,8 +108,7 @@ public class GameActivity extends AppCompatActivity
 				this.startActivity(j);
 				break;
 			case R.id.test_btn:
-				//TODO: run tests here
-
+				presenter.test();
 		}
 
 		return super.onOptionsItemSelected(item);

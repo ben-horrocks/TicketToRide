@@ -18,7 +18,7 @@ public class GamePresenter
 
 	void claimRoute(TrainColor color, int number) throws InsufficientCardsException
 	{
-
+		// TODO: implement
 	}
 
 	public List<ChatItem> getChatMessages() {
@@ -35,5 +35,10 @@ public class GamePresenter
 
 	public void setPlayHistory(List<HistoryItem> playHistory) {
 		model.setPlayHistory(playHistory);
+	}
+
+	void test()
+	{
+
 	}
 }
