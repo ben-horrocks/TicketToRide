@@ -77,6 +77,12 @@ public class TrainCardDeck implements ITrainCardDeck
     return faceUpCards;
   }
 
+  @Override
+  public int getDeckSize()
+  {
+    return deck.size();
+  }
+
   private void addDiscardToDeck()
   {
     while(discard.size() > 0)

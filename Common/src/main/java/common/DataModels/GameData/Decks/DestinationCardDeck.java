@@ -55,6 +55,12 @@ public class DestinationCardDeck implements IDestinationCardDeck
     }
   }
 
+  @Override
+  public int getDeckSize()
+  {
+    return deck.size();
+  }
+
   private void initializeDestinationDeck()
   {
     List<DestinationCard> newDeck = new ArrayList<>();
