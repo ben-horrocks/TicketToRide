@@ -31,4 +31,8 @@ public class HistoryItem {
     public void setAction(String action) {
         this.action = action;
     }
+
+    public String getPlayerName() {
+        return mPlayer.getName();
+    }
 }

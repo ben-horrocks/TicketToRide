@@ -31,4 +31,8 @@ public class ChatItem {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getPlayerName() {
+        return mPlayer.getName();
+    }
 }

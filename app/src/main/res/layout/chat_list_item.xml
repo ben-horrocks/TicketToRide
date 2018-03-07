@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/person_slot">
+                android:id="@+id/chat_slot">
 
     <TextView
         android:id="@+id/chat_player"
@@ -16,7 +16,7 @@
         android:layout_height="40dp"
         />
     <TextView
-        android:id="@+id/chat_text"
+        android:id="@+id/chat_message"
         android:text="Chat Message"
         android:textSize="12sp"
         android:layout_width="wrap_content"

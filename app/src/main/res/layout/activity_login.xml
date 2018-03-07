@@ -18,11 +18,13 @@
         android:id="@+id/ipAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="10.0.2.2"
         android:hint="IP Address"/>
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Tester1"
         android:hint="@string/username"
    />
     <EditText
@@ -30,12 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:text="test"
         android:hint="@string/password"
     />
     <EditText
         android:id="@+id/screen_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Tester1"
         android:hint="@string/screen_name"
         />
 </LinearLayout>

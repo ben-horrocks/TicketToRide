@@ -17,6 +17,7 @@
             android:textAlignment="center"/>
 
         <ImageButton
+            android:id="@+id/chat_close_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_close_black_24dp"/>
@@ -24,7 +25,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/history_recycler_field"
+        android:id="@+id/chat_recycler_field"
         android:layout_width="match_parent"
         android:layout_height="373dp"
         android:scrollbars="vertical"/>
