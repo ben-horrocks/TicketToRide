@@ -1,8 +1,15 @@
+/**
+ * DestinationDeck.java
+ * Author: Ben Horrocks
+ * Last Commit: 4 March, 2018
+ * Notes: Model to store DestinationCardDeck
+ */
 package common.DataModels.GameData.Decks;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import common.DataModels.City;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.CityName;
 
@@ -17,8 +24,13 @@ public class DestinationCardDeck implements IDestinationCardDeck
   @Override
   public List<DestinationCard> draw()
   {
-  	//TODO: implement draw
-    return null;
+    List<DestinationCard> drawnCards = new ArrayList<>();
+    for(int x=0;x<3;x++)
+    {
+      drawnCards.add(deck.get(0));
+      deck.remove(0);
+    }
+    return drawnCards;
   }
 
   @Override
@@ -34,7 +46,16 @@ public class DestinationCardDeck implements IDestinationCardDeck
     this.deck = newdeck;
   }
 
-  private void initializeDestinationDeck()
+  @Override
+  public void putBackInDeck(List<DestinationCard> cards)
+  {
+    for(DestinationCard card : cards)
+    {
+      deck.add(card);
+    }
+  }
+
+  private void addDestinationCards()
   {
     List<DestinationCard> newDeck = new ArrayList<>();
     newDeck.add(new DestinationCard(CityName.LOS_ANGELES, CityName.NEW_YORK_CITY, 21));

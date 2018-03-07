@@ -1,3 +1,9 @@
+/**
+ * DestinationCard.java
+ * Author: Ben Horrocks
+ * Last Commit: 4 March, 2018
+ * Notes: Object to store Destination Card
+ */
 package common.DataModels;
 
 public class DestinationCard
