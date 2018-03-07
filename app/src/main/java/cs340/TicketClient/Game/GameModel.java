@@ -1,49 +1,52 @@
 package cs340.TicketClient.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
 import common.DataModels.EdgeGraph;
+import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 
 public class GameModel
 {
-	List<Opponent> opponents;
-	EdgeGraph gameBoard;
-	List<TrainCard> faceUp;
-	// History history;
-	List<HistoryItem> playHistory;
-	// Chat chat;
-	List<ChatItem> chatMessages;
+	ClientGameData gameData;
+	GameModel singleton;
+	ArrayList<DestinationCard> initialDCards;
 
-	boolean isValidDesinationCard(DestinationCard destinationCard)
+	public GameModel getInstance()
 	{
-		// TODO: implement isValidDestinationCard
-		return false;
+		if (singleton == null)
+			singleton = new GameModel();
+		return singleton;
 	}
 
-	boolean canDrawCard(TrainCard trainCard)
+	private GameModel()
 	{
-		// TODO: implement canDrawCard
-		return false;
+
 	}
 
-	public List<HistoryItem> getPlayHistory() {
-		return playHistory;
+	public void setGameData(ClientGameData gameData) {
+		this.gameData = gameData;
 	}
 
-	public void setPlayHistory(List<HistoryItem> playHistory) {
-		this.playHistory = playHistory;
+	public ClientGameData getGameData() {
+		return gameData;
 	}
 
-	public List<ChatItem> getChatMessages() {
-		return chatMessages;
+	public void setInitialDCards(ArrayList<DestinationCard> initialDCards) {
+		this.initialDCards = initialDCards;
 	}
 
-	public void setChatMessages(List<ChatItem> chatMessages) {
-		this.chatMessages = chatMessages;
+	public ArrayList<DestinationCard> getInitialDCards() {
+		return initialDCards;
+	}
+
+	public void clearDCards()
+	{
+		initialDCards = null;
 	}
 }
