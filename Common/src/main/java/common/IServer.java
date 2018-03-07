@@ -68,7 +68,7 @@ public interface IServer
 
 	Signal send(GameID id, ChatItem item);
 
-	Signal drawFaceUp(GameID id, Username user, TrainCard card);
+	Signal drawFaceUp(GameID id, Username user, int index);
 
 	Signal drawDeck(GameID id, Username user);
 

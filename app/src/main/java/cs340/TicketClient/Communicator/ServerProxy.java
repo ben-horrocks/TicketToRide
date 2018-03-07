@@ -167,7 +167,7 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal drawFaceUp(GameID id, Username user, TrainCard card) {
+    public Signal drawFaceUp(GameID id, Username user, int cardIndex) {
         return null;
     }
 

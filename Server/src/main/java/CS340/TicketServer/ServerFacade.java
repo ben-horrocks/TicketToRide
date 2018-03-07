@@ -250,26 +250,52 @@ public class ServerFacade implements IServer
 
 	@Override
 	public Signal send(GameID id, ChatItem item) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		return null;
 	}
 
 	@Override
-	public Signal drawFaceUp(GameID id, Username user, TrainCard card) {
-		return null;
+	public Signal drawFaceUp(GameID id, Username user, int index) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		TrainCard card = game.faceUpDraw(index);
+		Set<User> otherusers = game.getUsers();
+		otherusers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherusers)
+		{
+			//get user thread and send playerDrewFaceUp to ClientProxy
+		}
+		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
 	public Signal drawDestinationCards(GameID id, Username user) {
-		return null;
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		List<DestinationCard> card = game.destinationDraw();
+		Set<User> otherusers = game.getUsers();
+		otherusers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherusers)
+		{
+			//get user thread and send playerDrewDestinationCards to ClientProxy
+		}
+		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
 	public Signal drawDeck(GameID id, Username user) {
-		return null;
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		TrainCard card = game.drawFromTrainDeck();
+		Set<User> otherusers = game.getUsers();
+		otherusers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherusers)
+		{
+			//get user thread and send playerDrewTrainDeck to ClientProxy
+		}
+		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
 	public Signal claimEdge(GameID id, Username user, Edge edge) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		return null;
 	}
 }
