@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class User implements Serializable
 {
 	private Username username;
-	private Password pass;
+	private Password password;
 	private ScreenName screenName;
 	private AuthToken token;
 
 	public User(Username username, Password pass, ScreenName screenName)
 	{
 		this.username = username;
-		this.pass = pass;
+		this.password = pass;
 		this.screenName = screenName;
 		this.token = new AuthToken();
 	}
@@ -23,7 +23,7 @@ public class User implements Serializable
 
 	public void setName(Username username) { this.username = username; }
 
-	public Password getPass() { return pass; }
+	public Password getPassword() { return password; }
 
 	public ScreenName getScreenName() { return screenName; }
 
@@ -40,7 +40,7 @@ public class User implements Serializable
 		User user = (User) o;
 
 		if (!username.equals(user.username)) return false;
-		if (!pass.equals(user.pass)) return false;
+		if (!password.equals(user.password)) return false;
 		return screenName.equals(user.screenName);
 		// if authToken is used in equals method, then no 2 users
 		// with all the same data can be equal.
@@ -51,7 +51,7 @@ public class User implements Serializable
 	{
 		int result = username.getName().length();
 		result = 31 * result + username.hashCode();
-		result = 31 * result + pass.hashCode();
+		result = 31 * result + password.hashCode();
 		result = 31 * result + screenName.hashCode();
 		result = 31 * result + token.hashCode();
 		return result;

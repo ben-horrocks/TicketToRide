@@ -1,10 +1,8 @@
 package CS340.TicketServer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import common.CommandParams;
 import common.DataModels.AuthToken;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.ServerGameData;
@@ -16,7 +14,6 @@ import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
 import common.IServer;
-import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -69,7 +66,7 @@ public class ServerFacade implements IServer
 			return new Signal(SignalType.ERROR, errorMsg);
 		}
 		//Check that the provided password matches the profile password
-		if (!user.getPass().getPass().equals(password)) {
+		if (!user.getPassword().getPass().equals(password)) {
 			String errorMsg = "Sorry, that's not the correct username or password";
 			return new Signal(SignalType.ERROR, errorMsg);
 		}
