@@ -1,29 +1,44 @@
 package common.DataModels.GameData;
 
-/**
- * Created by Vibro on 2/28/2018.
- */
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ClientGameData /*implements IGameData, Serializable*/{
-    /*
-    GameID id;
-    List<Opponent> opponents;
-    EdgeGraph gameboard;
-    List<TrainCard> faceUp;
-    History history;
-    Chat chat;
+import common.DataModels.ChatItem;
+import common.DataModels.DestinationCard;
+import common.DataModels.Edge;
+import common.DataModels.EdgeGraph;
+import common.DataModels.GameID;
+import common.DataModels.HistoryItem;
+import common.DataModels.TrainCard;
+import common.DataModels.Username;
+
+public class ClientGameData implements IGameData, Serializable
+{
+
+    private GameID id;
+	private List<Opponent> opponents;
+	private EdgeGraph gameboard;
+	private List<TrainCard> faceUp;
+	private List<HistoryItem> history;
+	private List<ChatItem> chat;
 
     public ClientGameData(ServerGameData game){
         this.id = ServerGameData.getID();
         this.opponents = new ArrayList<Opponent>();
-        for(User p: game.getUsers()){
-            opponents.add(new Opponent(p);
+        for(Player p: game.getPlayers()){
+            opponents.add(new Opponent(p));
         }
         this.gameboard = game.getGameboard();
         this.faceUp = game.getFaceUp();
         this.history = game.getHistory();
         this.chat = new Chat();
     }
+
+    public void edgeClaimed(Edge edge)
+	{
+
+	}
 
     private Opponent getOpponent(String username){
         for(Opponent o: opponents){
@@ -34,14 +49,14 @@ public class ClientGameData /*implements IGameData, Serializable*/{
     }
 
     @Override
-    public void deckDraw(String username, List<TrainCard> drawn) {
+    public void deckDraw(Username username, List<TrainCard> drawn) {
         Opponent o = getOpponent(username);
         if(o != null)
             o.addTrainCards(drawn.size();
     }
 
     @Override
-    public void faceUpDraw(String username, List<TrainCard> drawn, List<TrainCard> replacements){
+    public void faceUpDraw(Username username, List<TrainCard> drawn, List<TrainCard> replacements){
     ArrayList<int> toRemove = new ArrayList<int>();
         for(int i=0; i<drawn.size(); i++){
             for(int j=0; j<faceUp.size(); j++){
@@ -55,18 +70,18 @@ public class ClientGameData /*implements IGameData, Serializable*/{
     }
 
     @Override
-    public void destinationDraw(Sting username, List<DestinationCard> drawn){
+    public void destinationDraw(Username username, List<DestinationCard> drawn){
         getOpponent(username).addDestinationCards(drawn.size());
     }
 
     @Override
-    public void addHistoryItem(GameEvent event){
+    public void addHistoryItem(HistoryItem event){
         this.history.add(event);
     }
 
     @Override
-    public void addChatMessage(Message m){
+    public void addChatMessage(ChatItem m){
         this.chat.add(m);
     }
-    */
+
 }

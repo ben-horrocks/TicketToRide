@@ -20,6 +20,16 @@ public class Opponent {
         this.claimedEdges = new EdgeGraph();
     }
 
+    public Opponent(Player player)
+	{
+		this.user = player.getUser();
+		this.numberHandCards = 0;
+		this.numberDestinationCards = 0;
+		this.color = player.getColor();
+		this.score = 0;
+		this.claimedEdges = new EdgeGraph();
+	}
+
     String getName() { return user.getStringUserName(); }
 
     public int getNumberHandCards() { return numberHandCards; }

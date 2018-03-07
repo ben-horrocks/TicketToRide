@@ -16,7 +16,6 @@ public class UserTest
 	@Before
 	public void setUp()
 	{
-		// TODO: setup and flesh out tests
 		Username username = new Username("username");
 		Password password = new Password("password");
 		ScreenName screenName = new ScreenName("screenName");

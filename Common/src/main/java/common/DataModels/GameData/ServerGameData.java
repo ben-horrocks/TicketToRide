@@ -6,16 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
 import common.DataModels.Edge;
 import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.Decks.DestinationCardDeck;
 import common.DataModels.GameData.Decks.TrainCardDeck;
 import common.DataModels.GameID;
+import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 
-public class ServerGameData implements Serializable
+public class ServerGameData implements IGameData, Serializable
 {
   private static final Integer PLAYER_LIMIT = 5;
   private String name;
@@ -27,8 +29,8 @@ public class ServerGameData implements Serializable
   private EdgeGraph gameBoard;
   private TrainCardDeck deck;
   private DestinationCardDeck destinations;
-  //private History history
-  //private Chat chat
+  private List<HistoryItem> history;
+  private List<ChatItem> chat;
 
   public ServerGameData(User startingUser)
   {
@@ -105,6 +107,11 @@ public class ServerGameData implements Serializable
         return p;
     }
     return null;
+  }
+
+  public List<Player> getPlayers()
+  {
+  	return players;
   }
 
   private PlayerColor getNextColor(){
