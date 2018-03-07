@@ -16,6 +16,8 @@ public class GamePresenter
 
 	class InsufficientCardsException extends Exception {}
 
+
+
 	GamePresenter(GameActivity gameActivity)
 	{
 		this.activity = gameActivity;
