@@ -26,7 +26,7 @@ public class ClientGameData implements IGameData, Serializable
 
     public ClientGameData(ServerGameData game, Username username){
         this.id = game.getId();
-        this.opponents = new ArrayList<Opponent>();
+        this.opponents = new ArrayList<>();
         for(Player p: game.getPlayers()){
         	if (p.getUser().getUsername().equals(username))
 			{
@@ -45,16 +45,28 @@ public class ClientGameData implements IGameData, Serializable
 
     public void edgeClaimed(Edge edge)
 	{
-
+		// TODO: implement
 	}
 
-    private Opponent getOpponent(Username username){
-        for(Opponent o: opponents){
+    private Opponent getOpponent(Username username)
+	{
+    	for(Opponent o: opponents)
+    	{
             if(o.getUsername().equals(username))
                 return o;
         }
-        return null;
+        return null; // NOTE: may return null, thus throwing NullPointerException
     }
+
+    private boolean opponentExists(Username username)
+	{
+		for (Opponent o: opponents)
+		{
+			if(o.getUsername().equals(username))
+				return true;
+		}
+		return false;
+	}
 
     @Override
     public void deckDraw(Username username, List<TrainCard> drawn) {
@@ -70,8 +82,6 @@ public class ClientGameData implements IGameData, Serializable
             for(int j=0; j<faceUp.size(); j++){
                 if(faceUp.get(j).getType() == drawn.get(i).getType()){
                     faceUp.remove(j);
-                    getOpponent(username).addHandCard(1);
-                    faceUp.add(replacements.get(i));
                 }
             }
         }
