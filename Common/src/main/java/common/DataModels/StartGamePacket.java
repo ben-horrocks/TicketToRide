@@ -3,28 +3,29 @@ package common.DataModels;
 import java.io.Serializable;
 import java.util.List;
 
+import common.DataModels.GameData.ClientGameData;
+
 public class StartGamePacket implements Serializable{
 
     private List<Object> initialDestinationCards;
-    private List<Object> initialTrainCards;
-    private Object clientGameObject;
+    private ClientGameData clientGameData;
 
-    public StartGamePacket(List<Object> initialDestinationCards, List<Object> initialTrainCards, Object clientGameObject)
+    public StartGamePacket(List<Object> initialDestinationCards, List<Object> initialTrainCards, ClientGameData clientGameData)
     {
         this.initialDestinationCards = initialDestinationCards;
-        this.initialTrainCards = initialTrainCards;
-        this.clientGameObject = clientGameObject;
+        this.clientGameData = clientGameData;
     }
 
     public List<Object> getInitialDestinationCards() {
         return initialDestinationCards;
     }
 
-    public List<Object> getInitialTrainCards() {
-        return initialTrainCards;
+    public ClientGameData getClientGameData() {
+        return clientGameData;
     }
 
-    public Object getClientGameObject() {
-        return clientGameObject;
+    public Username getUser()
+    {
+        return clientGameData.getPlayer().getUser().getUsername();
     }
 }

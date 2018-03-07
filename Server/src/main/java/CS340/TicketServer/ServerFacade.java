@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Set;
 
 import common.DataModels.AuthToken;
+import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
+import common.DataModels.Edge;
 import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.Password;
+import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.ScreenName;
 import common.DataModels.Signal;
@@ -243,5 +246,30 @@ public class ServerFacade implements IServer
 		}
 		//Tell the sender that the operation was successful
 		return new Signal(SignalType.OK, "Accepted");
+	}
+
+	@Override
+	public Signal send(ChatItem item) {
+		return null;
+	}
+
+	@Override
+	public Signal drawFaceUp(Username user, TrainCard card) {
+		return null;
+	}
+
+	@Override
+	public Signal drawDestinationCards(Username user) {
+		return null;
+	}
+
+	@Override
+	public Signal drawDeck(Username user) {
+		return null;
+	}
+
+	@Override
+	public Signal claimEdge(Username user, Edge edge) {
+		return null;
 	}
 }

@@ -65,4 +65,15 @@ public interface IServer
 	 * @return Signal with OK or ERROR status
 	 */
 	Signal returnDestinationCards(GameID id, Username name, List<DestinationCard> pickedCards, List<DestinationCard> returnCards);
+
+	Signal send(ChatItem item);
+
+	Signal drawFaceUp(Username user, TrainCard card);
+
+	Signal drawDeck(Username user);
+
+	Signal drawDestinationCards(Username user);
+
+	Signal claimEdge(Username user, Edge edge);
+
 }
