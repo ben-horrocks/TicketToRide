@@ -21,7 +21,7 @@ public class GamePresenter
 	GamePresenter(GameActivity gameActivity)
 	{
 		this.activity = gameActivity;
-		model = new GameModel();
+		model = GameModel.getInstance();
 	}
 
 	void claimRoute(TrainColor color, int number) throws InsufficientCardsException

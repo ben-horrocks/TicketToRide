@@ -139,8 +139,16 @@ public class ServerFacade implements IServer
 		//Created name that is not in the database.
 		//create new serverGameData with new name and starting player
 		ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
-		database.addOpenGame(serverGameData);
-		return new Signal(SignalType.OK, serverGameData);
+		boolean openGameAdded = database.addOpenGame(serverGameData);
+		if (openGameAdded)
+		{
+			return new Signal(SignalType.OK, serverGameData);
+		}
+		else
+		{
+			String errorMessage = "Game " + finalName.toString() + " not addedp to open game.";
+			return new Signal(SignalType.ERROR, errorMessage);
+		}
 	}
 
 	/**
@@ -187,12 +195,20 @@ public class ServerFacade implements IServer
 			//start serverGameData
 			serverGameData.startGame();
 			//remove the serverGameData from the list of open games and move to the list of running games
-			database.deleteOpenGame(serverGameData);
-			database.addRunningGame(serverGameData);
-			//push start notification to all players
-			ClientProxy.getSINGLETON().startGame(serverGameData.getId());
-			//return start signal to player
-			return new Signal(SignalType.OK, serverGameData);
+			boolean gameDeleted = database.deleteOpenGame(serverGameData);
+			if (gameDeleted)
+			{
+				database.addRunningGame(serverGameData);
+				//push start notification to all players
+				ClientProxy.getSINGLETON().startGame(serverGameData.getId());
+				//return start signal to player
+				return new Signal(SignalType.OK, serverGameData);
+			}
+			else
+			{
+				String errorMessage = "Game " + serverGameData.getId() + " not deleted.";
+				return new Signal(SignalType.ERROR, errorMessage);
+			}
 		}
 		String errMsg = "Sorry, this serverGameData has already started.";
 		return new Signal(SignalType.ERROR, errMsg);

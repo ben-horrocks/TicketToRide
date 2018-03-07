@@ -13,9 +13,9 @@ import common.DataModels.TrainCard;
 
 public class GameModel
 {
-	ClientGameData gameData;
-	static GameModel singleton;
-	ArrayList<DestinationCard> initialDCards;
+	private ClientGameData gameData;
+	private static GameModel singleton;
+	private ArrayList<DestinationCard> initialDCards;
 
 	public static GameModel getInstance()
 	{
