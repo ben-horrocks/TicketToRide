@@ -31,7 +31,7 @@ public class DestinationCardFragmentPresenter {
     ArrayList<DestinationCard> getDCards()
     {
         ArrayList<DestinationCard> cards = null;
-        //TODO get destination cards from GameModel.startGamePacket
+
         return cards;
     }
 

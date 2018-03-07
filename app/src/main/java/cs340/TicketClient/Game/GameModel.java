@@ -14,10 +14,10 @@ import common.DataModels.TrainCard;
 public class GameModel
 {
 	ClientGameData gameData;
-	GameModel singleton;
+	static GameModel singleton;
 	ArrayList<DestinationCard> initialDCards;
 
-	public GameModel getInstance()
+	public static GameModel getInstance()
 	{
 		if (singleton == null)
 			singleton = new GameModel();
