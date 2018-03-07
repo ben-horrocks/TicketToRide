@@ -3,15 +3,11 @@ package common.DataModels;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by jhens on 2/28/2018.
- */
-
 public class StartGamePacket implements Serializable{
 
-    List<Object> initialDestinationCards;
-    List<Object> initialTrainCards;
-    Object clientGameObject;
+    private List<Object> initialDestinationCards;
+    private List<Object> initialTrainCards;
+    private Object clientGameObject;
 
     public StartGamePacket(List<Object> initialDestinationCards, List<Object> initialTrainCards, Object clientGameObject)
     {
