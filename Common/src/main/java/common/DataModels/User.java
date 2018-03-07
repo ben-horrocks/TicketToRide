@@ -4,77 +4,32 @@ import java.io.Serializable;
 
 public class User implements Serializable
 {
-  private int points;
-  private Username name;
-  private Password pass;
-  private ScreenName screenName;
-  private AuthToken token;
+	private Username username;
+	private Password password;
+	private ScreenName screenName;
+	private AuthToken token;
 
-  public User(Username name, Password pass, ScreenName screenName)
-  {
-    this.points = 0;
-    this.name = name;
-    this.pass = pass;
-    this.screenName = screenName;
-    this.token = new AuthToken();
-  }
+	public User(Username username, Password pass, ScreenName screenName)
+	{
+		this.username = username;
+		this.password = pass;
+		this.screenName = screenName;
+		this.token = new AuthToken();
+	}
 
-  public int getPoints()
-  {
-    return points;
-  }
+	public Username getUsername() { return username; }
 
-  public void setPoints(int points)
-  {
-    this.points = points;
-  }
+	public String getStringUserName() {return username.getName(); }
 
-  public void incrementPoints(int newpoints)
-  {
-    this.points += points;
-  }
+	public void setName(Username username) { this.username = username; }
 
-  public Username getUsername()
-  {
-    return name;
-  }
+	public Password getPassword() { return password; }
 
-  public String getName() {return name.getName(); }
+	public ScreenName getScreenName() { return screenName; }
 
-  public void setName(Username name)
-  {
-    this.name = name;
-  }
+	public AuthToken getToken() { return token; }
 
-  public Password getPass()
-  {
-    return pass;
-  }
-
-  public void setPass(Password pass)
-  {
-    this.pass = pass;
-  }
-
-  public ScreenName getScreenName()
-  {
-    return screenName;
-  }
-
-  public void setScreenName(ScreenName screenName)
-  {
-    this.screenName = screenName;
-  }
-
-  public AuthToken getToken()
-  {
-    return token;
-  }
-
-  public void setToken(AuthToken token)
-  {
-    this.token = token;
-  }
+	public void setToken(AuthToken token) { this.token = token; }
 
 	@Override
 	public boolean equals(Object o)
@@ -84,21 +39,27 @@ public class User implements Serializable
 
 		User user = (User) o;
 
-		if (points != user.points) return false;
-		if (!name.equals(user.name)) return false;
-		if (!pass.equals(user.pass)) return false;
-		if (!screenName.equals(user.screenName)) return false;
-		return token.equals(user.token);
+		if (!username.equals(user.username)) return false;
+		if (!password.equals(user.password)) return false;
+		return screenName.equals(user.screenName);
+		// if authToken is used in equals method, then no 2 users
+		// with all the same data can be equal.
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int result = points;
-		result = 31 * result + name.hashCode();
-		result = 31 * result + pass.hashCode();
+		int result = username.getName().length();
+		result = 31 * result + username.hashCode();
+		result = 31 * result + password.hashCode();
 		result = 31 * result + screenName.hashCode();
 		result = 31 * result + token.hashCode();
 		return result;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Username: " + username.toString();
 	}
 }

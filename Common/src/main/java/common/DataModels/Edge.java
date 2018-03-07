@@ -76,4 +76,12 @@ public class Edge implements Serializable
 		result = 31 * result + (isDoubleEdge ? 1 : 0);
 		return result;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Owner: " + owner + "\n" +
+				"From " + firstCity.getCityName() + " to " + secondCity.getCityName() + "\n" +
+				"Length: " + length + ". Color: " + color;
+	}
 }

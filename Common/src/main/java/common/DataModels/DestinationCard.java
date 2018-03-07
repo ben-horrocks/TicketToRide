@@ -17,18 +17,12 @@ public class DestinationCard
     this.pointValue = points;
   }
 
-  public String getCity1()
-  {
-    return city1;
-  }
+  public String getCity1() { return city1; }
 
-  public String getCity2()
-  {
-    return city2;
-  }
+  public String getCity2() { return city2; }
 
-  public int getPointValue()
-  {
-    return pointValue;
-  }
+  public int getPointValue() { return pointValue; }
+
+  @Override
+  public String toString() { return city1 + " to " + city2; }
 }

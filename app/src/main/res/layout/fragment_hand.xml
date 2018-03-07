@@ -1,33 +1,40 @@
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
-    <TextView
-        android:text="Destination Cards"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <LinearLayout
+        android:id="@+id/destinationCard_hand_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="Destination Cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/destinationCards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </android.support.v7.widget.RecyclerView>
+            android:orientation="horizontal"/>
 
     </LinearLayout>
-    <TextView
-        android:text="Train Cards"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
     <LinearLayout
+        android:id="@+id/trainCard_hand_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_below="@id/destinationCard_hand_layout"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="Train Cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/trainCards"
             android:layout_width="wrap_content"
@@ -38,4 +45,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

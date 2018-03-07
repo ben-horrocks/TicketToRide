@@ -144,7 +144,7 @@ public class LobbyActivity extends AppCompatActivity
   public void startGame()
   {
     Intent intent = new Intent(this, GameActivity.class);
-    intent.putExtra("player", LobbyPresenter.getInstance().getModel().getUser());
+    intent.putExtra("user", LobbyPresenter.getInstance().getModel().getUser());
     startActivity(intent);
   }
 

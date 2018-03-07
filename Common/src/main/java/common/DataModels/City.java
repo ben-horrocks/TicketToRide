@@ -47,4 +47,10 @@ public class City implements Serializable
 		result = 31 * result + cityName.hashCode();
 		return result;
 	}
+
+	@Override
+	public String toString()
+	{
+		return cityName + ": (" + latitude + ", " + longitude + ")";
+	}
 }

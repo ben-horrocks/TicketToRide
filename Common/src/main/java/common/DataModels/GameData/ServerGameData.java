@@ -8,6 +8,7 @@ import java.util.Set;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.Edge;
+import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.Decks.DestinationCardDeck;
 import common.DataModels.GameData.Decks.TrainCardDeck;
 import common.DataModels.GameID;
@@ -16,14 +17,14 @@ import common.DataModels.User;
 
 public class ServerGameData implements Serializable
 {
-  private static final Integer PLAYERLIMIT = 5;
+  private static final Integer PLAYER_LIMIT = 5;
   private String name;
   private User creator;
   private List<Player> players;
   private GameID id = new GameID();
   private boolean gameStarted = false;
 
-  //private EdgeGraph gameboard
+  private EdgeGraph gameBoard;
   private TrainCardDeck deck;
   private DestinationCardDeck destinations;
   //private History history
@@ -33,64 +34,51 @@ public class ServerGameData implements Serializable
   {
     this.name = startingUser.getUsername() + "\'s game";
     this.creator = startingUser;
-    this.players = new ArrayList<Player>();
+    this.players = new ArrayList<>();
     this.players.add(new Player(startingUser, getNextColor()));
   }
 
   public ServerGameData(String name, User startingUser){
     this.name = name;
     creator = startingUser;
-    this.players = new ArrayList<Player>();
+    this.players = new ArrayList<>();
     this.players.add(new Player(startingUser, getNextColor()));
   }
 
-  public void startGame() {
-    gameStarted = true;
-  }
+  public void startGame() { gameStarted = true; }
 
-  public GameID getId() {
-    return id;
-  }
+  public GameID getId() { return id; }
 
-  public void setId(GameID id) {
-    this.id = id;
-  }
+  public void setId(GameID id) { this.id = id; }
 
-  public String getName(){
-    return name;
-  }
+  public String getName() { return name; }
 
-  public String getCreatorName() {
-    return creator.getName();
-  }
+  public String getCreatorName() { return creator.getStringUserName(); }
 
   public Set<User> getUsers() {
-    HashSet<User> users = new HashSet<User>();
+    HashSet<User> users = new HashSet<>();
     for(Player p: players){
       users.add(p.getUser());
     }
     return users;
   }
 
-  public boolean isGameStarted() {
-    return gameStarted;
-  }
+  public boolean isGameStarted() { return gameStarted; }
 
   public void addPlayer(User user) {
-    players.add(new Player(user, getNextColor()));
+  	Player player = new Player(user, getNextColor());
+    players.add(player);
   }
 
-  public boolean isGameFull()
-  {
-    return players.size() >= PLAYERLIMIT;
-  }
+  public boolean isGameFull() { return players.size() >= PLAYER_LIMIT; }
 
   public void edgeClaimed(Edge edge){
     User owner = edge.getOwner();
     getPlayer(owner).claimedEdge(edge);
-    //TODO update gameboard with the modified edge
+    //TODO update gameBoard with the modified edge
   }
 
+  //TODO: documentation - what is this doing?
   public void playerDrewTrainCard(String username, List<TrainCard> drawn){
     getPlayer(username).drewTrainCards(drawn);
   }
@@ -113,7 +101,7 @@ public class ServerGameData implements Serializable
 
   private Player getPlayer(User user){
     for(Player p: players){
-      if(p.getUser().getName().equals(user.getName()))
+      if(p.getUser().getStringUserName().equals(user.getStringUserName()))
         return p;
     }
     return null;

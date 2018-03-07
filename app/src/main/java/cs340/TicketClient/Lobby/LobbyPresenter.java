@@ -225,7 +225,7 @@ public class LobbyPresenter implements ILobbyPresenter
     boolean isMyGame(GameID id) {
         try
         {
-            return model.getGame(id).getCreatorName().equals(model.getUser().getName());
+            return model.getGame(id).getCreatorName().equals(model.getUser().getStringUserName());
         } catch(LobbyModel.GameNotFoundException e)
         {
             Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();

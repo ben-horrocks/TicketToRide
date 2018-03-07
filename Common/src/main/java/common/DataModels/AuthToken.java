@@ -16,25 +16,13 @@ public class AuthToken implements Serializable
     this.generationTime = System.currentTimeMillis();
   }
 
-  public static boolean isValidToken(String token)
-  {
-    return validTokens.contains(token);
-  }
+  public static boolean isValidToken(String token) { return validTokens.contains(token); }
 
-  public static TimerTask generateTimeout(String authToken)
-  {
-    return new Timeout(authToken);
-  }
+  public static TimerTask generateTimeout(String authToken) { return new Timeout(authToken); }
 
-  public String getToken()
-  {
-    return token;
-  }
+  public String getToken() { return token; }
 
-  public void setToken(String token)
-  {
-    this.token = token;
-  }
+  public void setToken(String token) { this.token = token; }
 
   private String generateNewToken()
   {
@@ -71,16 +59,10 @@ public class AuthToken implements Serializable
   {
     private final String authToken;
 
-    Timeout(String authToken)
-    {
-      this.authToken = authToken;
-    }
+    Timeout(String authToken) { this.authToken = authToken; }
 
     @Override
-    public void run()
-    {
-      validTokens.remove(this.authToken);
-    }
+    public void run() { validTokens.remove(this.authToken); }
   }
 
 }
