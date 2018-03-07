@@ -1,3 +1,9 @@
+/**
+ * TrainCardDeck.java
+ * Author: Ben Horrocks
+ * Last Commit: 4 March, 2018
+ * Notes: Model to store Train Card eck and face up cards
+ */
 package common.DataModels.GameData.Decks;
 
 import java.util.ArrayList;
@@ -11,7 +17,7 @@ public class TrainCardDeck implements ITrainCardDeck
 
   private List<TrainCard> faceUpCards;
   private List<TrainCard> deck;
-
+  private List<TrainCard> discard;
   public TrainCardDeck()
   {
     deck = addTrainCards();
@@ -35,6 +41,11 @@ public class TrainCardDeck implements ITrainCardDeck
   {
     TrainCard card = deck.get(0);
     deck.remove(0);
+    if(deck.size() == 0)
+    {
+      addDiscardToDeck();
+      shuffle();
+    }
     return card;
   }
 
@@ -49,6 +60,24 @@ public class TrainCardDeck implements ITrainCardDeck
       deck.remove(randomcard);
     }
     this.deck = newdeck;
+  }
+
+  @Override
+  public void DiscardCards(List<TrainCard> cards)
+  {
+    for(TrainCard card : cards)
+    {
+      discard.add(card);
+    }
+  }
+
+  private void addDiscardToDeck()
+  {
+    while(discard.size() > 0)
+    {
+      deck.add(discard.get(0));
+      discard.remove(0);
+    }
   }
 
   private List<TrainCard> addTrainCards()

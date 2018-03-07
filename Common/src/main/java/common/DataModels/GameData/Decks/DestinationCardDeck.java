@@ -1,3 +1,9 @@
+/**
+ * DestinationDeck.java
+ * Author: Ben Horrocks
+ * Last Commit: 4 March, 2018
+ * Notes: Model to store DestinationCardDeck
+ */
 package common.DataModels.GameData.Decks;
 
 import java.util.ArrayList;
@@ -18,7 +24,13 @@ public class DestinationCardDeck implements IDestinationCardDeck
   @Override
   public List<DestinationCard> draw()
   {
-    return null;
+    List<DestinationCard> drawnCards = new ArrayList<>();
+    for(int x=0;x<3;x++)
+    {
+      drawnCards.add(deck.get(0));
+      deck.remove(0);
+    }
+    return drawnCards;
   }
 
   @Override
@@ -32,6 +44,15 @@ public class DestinationCardDeck implements IDestinationCardDeck
       deck.remove(randomcard);
     }
     this.deck = newdeck;
+  }
+
+  @Override
+  public void putBackInDeck(List<DestinationCard> cards)
+  {
+    for(DestinationCard card : cards)
+    {
+      deck.add(card);
+    }
   }
 
   private List<DestinationCard> addDestinationCards()

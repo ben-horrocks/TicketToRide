@@ -1,8 +1,11 @@
+/**
+ * CityName.java
+ * Author: Ben Horrocks
+ * Last Commit: 4 March, 2018
+ * Notes: A Class to store all the City Name Strings
+ */
 package common.DataModels.GameData;
 
-/**
- * Created by Ben_D on 3/3/2018.
- */
 
 public class CityName
 {
