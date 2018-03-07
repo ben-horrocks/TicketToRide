@@ -18,7 +18,7 @@ import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
 
-public class ServerGameData implements IGameData, Serializable
+public class ServerGameData
 {
 	private static final Integer PLAYER_LIMIT = 5;
 	private String name;
@@ -39,6 +39,8 @@ public class ServerGameData implements IGameData, Serializable
 		this.creator = startingUser;
 		this.players = new ArrayList<>();
 		this.players.add(new Player(startingUser, getNextColor()));
+		this.deck = new TrainCardDeck();
+		this.destinations = new DestinationCardDeck();
 	}
 
 	public ServerGameData(String name, User startingUser)
@@ -47,6 +49,8 @@ public class ServerGameData implements IGameData, Serializable
 		creator = startingUser;
 		this.players = new ArrayList<>();
 		this.players.add(new Player(startingUser, getNextColor()));
+		this.deck = new TrainCardDeck();
+		this.destinations = new DestinationCardDeck();
 	}
 
 	public void startGame() { gameStarted = true; }
@@ -76,8 +80,7 @@ public class ServerGameData implements IGameData, Serializable
 
 	public List<TrainCard> getFaceUpCards()
 	{
-		// TODO: implement getting faceUp cards
-		return new ArrayList<>();
+		return deck.getFaceUpCards();
 	}
 
 	public List<HistoryItem> getHistory()

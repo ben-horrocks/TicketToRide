@@ -66,14 +66,14 @@ public interface IServer
 	 */
 	Signal returnDestinationCards(GameID id, Username name, List<DestinationCard> pickedCards, List<DestinationCard> returnCards);
 
-	Signal send(ChatItem item);
+	Signal send(GameID id, ChatItem item);
 
-	Signal drawFaceUp(Username user, TrainCard card);
+	Signal drawFaceUp(GameID id, Username user, TrainCard card);
 
-	Signal drawDeck(Username user);
+	Signal drawDeck(GameID id, Username user);
 
-	Signal drawDestinationCards(Username user);
+	Signal drawDestinationCards(GameID id, Username user);
 
-	Signal claimEdge(Username user, Edge edge);
+	Signal claimEdge(GameID id, Username user, Edge edge);
 
 }
