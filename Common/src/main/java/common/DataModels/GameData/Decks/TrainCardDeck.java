@@ -71,6 +71,12 @@ public class TrainCardDeck implements ITrainCardDeck
     }
   }
 
+  @Override
+  public List<TrainCard> getFaceUpCards()
+  {
+    return faceUpCards;
+  }
+
   private void addDiscardToDeck()
   {
     while(discard.size() > 0)

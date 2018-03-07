@@ -10,4 +10,5 @@ public interface ITrainCardDeck
   TrainCard drawFaceDown();
   void shuffle();
   void DiscardCards(List<TrainCard> cards);
+  List<TrainCard> getFaceUpCards();
 }
