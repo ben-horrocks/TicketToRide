@@ -55,7 +55,7 @@ public class DestinationCardDeck implements IDestinationCardDeck
     }
   }
 
-  private void addDestinationCards()
+  private void initializeDestinationDeck()
   {
     List<DestinationCard> newDeck = new ArrayList<>();
     newDeck.add(new DestinationCard(CityName.LOS_ANGELES, CityName.NEW_YORK_CITY, 21));

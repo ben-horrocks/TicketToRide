@@ -2,7 +2,7 @@
  * TrainCardDeck.java
  * Author: Ben Horrocks
  * Last Commit: 4 March, 2018
- * Notes: Model to store Train Card eck and face up cards
+ * Notes: Model to store Train Card deck and face up cards
  */
 package common.DataModels.GameData.Decks;
 
