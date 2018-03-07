@@ -32,6 +32,8 @@ public class Opponent {
 
     String getName() { return user.getStringUserName(); }
 
+    Username getUsername() { return user.getUsername(); }
+
     public int getNumberHandCards() { return numberHandCards; }
 
     public void addHandCard(int amount){ this.numberHandCards += amount; }
@@ -40,7 +42,7 @@ public class Opponent {
 
     public int getDestinationCardCount() { return this.numberDestinationCards; }
 
-    public void addDestinationCard(int amount) { this.numberDestinationCards += amount; }
+    public void addDestinationCards(int amount) { this.numberDestinationCards += amount; }
 
     public void removeDestinationCard(int amount) { this.numberDestinationCards -= amount; }
 

@@ -16,116 +16,176 @@ import common.DataModels.GameID;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
+import common.DataModels.Username;
 
 public class ServerGameData implements IGameData, Serializable
 {
-  private static final Integer PLAYER_LIMIT = 5;
-  private String name;
-  private User creator;
-  private List<Player> players;
-  private GameID id = new GameID();
-  private boolean gameStarted = false;
+	private static final Integer PLAYER_LIMIT = 5;
+	private String name;
+	private User creator;
+	private List<Player> players;
+	private GameID id = new GameID();
+	private boolean gameStarted = false;
 
-  private EdgeGraph gameBoard;
-  private TrainCardDeck deck;
-  private DestinationCardDeck destinations;
-  private List<HistoryItem> history;
-  private List<ChatItem> chat;
+	private EdgeGraph gameBoard;
+	private TrainCardDeck deck;
+	private DestinationCardDeck destinations;
+	private List<HistoryItem> history;
+	private List<ChatItem> chat;
 
-  public ServerGameData(User startingUser)
-  {
-    this.name = startingUser.getUsername() + "\'s game";
-    this.creator = startingUser;
-    this.players = new ArrayList<>();
-    this.players.add(new Player(startingUser, getNextColor()));
-  }
+	public ServerGameData(User startingUser)
+	{
+		this.name = startingUser.getUsername() + "\'s game";
+		this.creator = startingUser;
+		this.players = new ArrayList<>();
+		this.players.add(new Player(startingUser, getNextColor()));
+	}
 
-  public ServerGameData(String name, User startingUser){
-    this.name = name;
-    creator = startingUser;
-    this.players = new ArrayList<>();
-    this.players.add(new Player(startingUser, getNextColor()));
-  }
+	public ServerGameData(String name, User startingUser)
+	{
+		this.name = name;
+		creator = startingUser;
+		this.players = new ArrayList<>();
+		this.players.add(new Player(startingUser, getNextColor()));
+	}
 
-  public void startGame() { gameStarted = true; }
+	public void startGame() { gameStarted = true; }
 
-  public GameID getId() { return id; }
+	public GameID getId() { return id; }
 
-  public void setId(GameID id) { this.id = id; }
+	public void setId(GameID id) { this.id = id; }
 
-  public String getName() { return name; }
+	public String getName() { return name; }
 
-  public String getCreatorName() { return creator.getStringUserName(); }
+	public String getCreatorName() { return creator.getStringUserName(); }
 
-  public Set<User> getUsers() {
-    HashSet<User> users = new HashSet<>();
-    for(Player p: players){
-      users.add(p.getUser());
-    }
-    return users;
-  }
+	public Set<User> getUsers()
+	{
+		HashSet<User> users = new HashSet<>();
+		for (Player p : players)
+		{
+			users.add(p.getUser());
+		}
+		return users;
+	}
 
-  public boolean isGameStarted() { return gameStarted; }
+	public EdgeGraph getGameBoard()
+	{
+		return gameBoard;
+	}
 
-  public void addPlayer(User user) {
-  	Player player = new Player(user, getNextColor());
-    players.add(player);
-  }
+	public List<TrainCard> getFaceUpCards()
+	{
+		// TODO: implement getting faceUp cards
+		return new ArrayList<>();
+	}
 
-  public boolean isGameFull() { return players.size() >= PLAYER_LIMIT; }
+	public List<HistoryItem> getHistory()
+	{
+		return history;
+	}
 
-  public void edgeClaimed(Edge edge){
-    User owner = edge.getOwner();
-    getPlayer(owner).claimedEdge(edge);
-    //TODO update gameBoard with the modified edge
-  }
+	@Override
+	public void deckDraw(Username username, List<TrainCard> drawn)
+	{
+		//TODO: implement
+	}
 
-  //TODO: documentation - what is this doing?
-  public void playerDrewTrainCard(String username, List<TrainCard> drawn){
-    getPlayer(username).drewTrainCards(drawn);
-  }
+	@Override
+	public void faceUpDraw(Username username, List<TrainCard> drawn, List<TrainCard> replacements)
+	{
+		//TODO: implement
+	}
 
-  public void playerDrewDestinationCard(String username, List<DestinationCard> drawn, List<DestinationCard> returned){
-    getPlayer(username).drewDestinationCards(drawn);
-    //TODO implement returning cards to the destination deck -> talk to Ben
-  }
+	@Override
+	public void destinationDraw(Username username, List<DestinationCard> drawn)
+	{
+		//TODO: implement
+	}
 
-  //TODO public void addHistoryItem(GameEvent event){}
-  //TODO public void addChatMessage(Message message){}
+	@Override
+	public void edgeClaimed(Edge edge)
+	{
+		User owner = edge.getOwner();
+		getPlayer(owner).claimedEdge(edge);
+		//TODO update gameBoard with the modified edge
+	}
 
-  private Player getPlayer(String name){
-    for(Player p: players){
-      if(p.getName().equals(name))
-        return p;
-    }
-    return null;
-  }
+	@Override
+	public void addHistoryItem(HistoryItem event)
+	{
+		//TODO: implement
+	}
 
-  private Player getPlayer(User user){
-    for(Player p: players){
-      if(p.getUser().getStringUserName().equals(user.getStringUserName()))
-        return p;
-    }
-    return null;
-  }
+	@Override
+	public void addChatMessage(ChatItem message)
+	{
+		//TODO: implement
+	}
 
-  public List<Player> getPlayers()
-  {
-  	return players;
-  }
+	public boolean isGameStarted() { return gameStarted; }
 
-  private PlayerColor getNextColor(){
-    switch(players.size()){
-      case 0:
-        return PlayerColor.BLACK;
-      case 1:
-        return PlayerColor.BLUE;
-      case 2:
-        return PlayerColor.GREEN;
-      case 3:
-        return PlayerColor.RED;
-      default:
-        return PlayerColor.YELLOW;
-    }
-  }
+	public void addPlayer(User user)
+	{
+		Player player = new Player(user, getNextColor());
+		players.add(player);
+	}
+
+	public boolean isGameFull() { return players.size() >= PLAYER_LIMIT; }
+
+
+	//TODO: documentation - what is this doing?
+	public void playerDrewTrainCard(String username, List<TrainCard> drawn)
+	{
+		getPlayer(username).drewTrainCards(drawn);
+	}
+
+	public void playerDrewDestinationCard(String username, List<DestinationCard> drawn, List<DestinationCard> returned)
+	{
+		getPlayer(username).drewDestinationCards(drawn);
+		//TODO implement returning cards to the destination deck -> talk to Ben
+	}
+
+
+	private Player getPlayer(String name)
+	{
+		for (Player p : players)
+		{
+			if (p.getName().equals(name))
+				return p;
+		}
+		return null;
+	}
+
+	private Player getPlayer(User user)
+	{
+		for (Player p : players)
+		{
+			if (p.getUser().getStringUserName().equals(user.getStringUserName()))
+				return p;
+		}
+		return null;
+	}
+
+	public List<Player> getPlayers()
+	{
+		return players;
+	}
+
+	private PlayerColor getNextColor()
+	{
+		switch (players.size())
+		{
+			case 0:
+				return PlayerColor.BLACK;
+			case 1:
+				return PlayerColor.BLUE;
+			case 2:
+				return PlayerColor.GREEN;
+			case 3:
+				return PlayerColor.RED;
+			default:
+				return PlayerColor.YELLOW;
+		}
+	}
 }
