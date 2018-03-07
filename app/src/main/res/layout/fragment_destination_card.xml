@@ -64,6 +64,11 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:id="@+id/"
+        android:text="Cards Left in DDeck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     </LinearLayout>

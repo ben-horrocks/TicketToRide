@@ -52,9 +52,9 @@ public class DestinationCardFragment extends Fragment {
         presenter = new DestinationCardFragmentPresenter(this);
 
         dCards = presenter.getDCards();
-        String path1 = dCards.get(0).getCity1().getCityName() + " -> " + dCards.get(0).getCity2().getCityName();
-        String path2 = dCards.get(1).getCity1().getCityName() + " -> " + dCards.get(1).getCity2().getCityName();
-        String path3 = dCards.get(2).getCity1().getCityName() + " -> " + dCards.get(2).getCity2().getCityName();
+        String path1 = dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2()+ "\n Points: " + dCards.get(0).getPointValue();
+        String path2 = dCards.get(1).getCity1()+ " -> " + dCards.get(1).getCity2()+ "\n Points: " + dCards.get(1).getPointValue();
+        String path3 = dCards.get(2).getCity1()+ " -> " + dCards.get(2).getCity2()+ "\n Points: " + dCards.get(2).getPointValue();
 
         card1View.setText(path1);
         card2View.setText(path2);

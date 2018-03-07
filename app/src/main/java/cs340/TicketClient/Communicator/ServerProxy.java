@@ -150,5 +150,30 @@ public class ServerProxy implements IServer
         }
         return null;
     }
+
+    @Override
+    public Signal send(ChatItem item) {
+        return null;
+    }
+
+    @Override
+    public Signal drawDeck(Username user) {
+        return null;
+    }
+
+    @Override
+    public Signal drawDestinationCards(Username user) {
+        return null;
+    }
+
+    @Override
+    public Signal drawFaceUp(Username user, TrainCard card) {
+        return null;
+    }
+
+    @Override
+    public Signal claimEdge(Username user, Edge edge) {
+        return null;
+    }
 }
     
