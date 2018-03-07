@@ -18,7 +18,7 @@ import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
 
-public class ServerGameData implements IGameData, Serializable
+public class ServerGameData
 {
 	private static final Integer PLAYER_LIMIT = 5;
 	private String name;
@@ -39,6 +39,8 @@ public class ServerGameData implements IGameData, Serializable
 		this.creator = startingUser;
 		this.players = new ArrayList<>();
 		this.players.add(new Player(startingUser, getNextColor()));
+		this.deck = new TrainCardDeck();
+		this.destinations = new DestinationCardDeck();
 	}
 
 	public ServerGameData(String name, User startingUser)
@@ -47,6 +49,8 @@ public class ServerGameData implements IGameData, Serializable
 		creator = startingUser;
 		this.players = new ArrayList<>();
 		this.players.add(new Player(startingUser, getNextColor()));
+		this.deck = new TrainCardDeck();
+		this.destinations = new DestinationCardDeck();
 	}
 
 	public void startGame() { gameStarted = true; }
@@ -76,8 +80,7 @@ public class ServerGameData implements IGameData, Serializable
 
 	public List<TrainCard> getFaceUpCards()
 	{
-		// TODO: implement getting faceUp cards
-		return new ArrayList<>();
+		return deck.getFaceUpCards();
 	}
 
 	public List<HistoryItem> getHistory()
@@ -85,25 +88,21 @@ public class ServerGameData implements IGameData, Serializable
 		return history;
 	}
 
-	@Override
-	public void deckDraw(Username username, List<TrainCard> drawn)
+	public TrainCard drawFromTrainDeck()
 	{
-		//TODO: implement
+	  return deck.drawFaceDown();
 	}
 
-	@Override
-	public void faceUpDraw(Username username, List<TrainCard> drawn, List<TrainCard> replacements)
+	public TrainCard faceUpDraw(int index)
 	{
-		//TODO: implement
+	  return deck.drawFaceUp(index);
 	}
 
-	@Override
-	public void destinationDraw(Username username, List<DestinationCard> drawn)
+	public List<DestinationCard> destinationDraw()
 	{
-		//TODO: implement
+	  return destinations.draw();
 	}
 
-	@Override
 	public void edgeClaimed(Edge edge)
 	{
 		User owner = edge.getOwner();
@@ -111,13 +110,11 @@ public class ServerGameData implements IGameData, Serializable
 		//TODO update gameBoard with the modified edge
 	}
 
-	@Override
 	public void addHistoryItem(HistoryItem event)
 	{
 		//TODO: implement
 	}
 
-	@Override
 	public void addChatMessage(ChatItem message)
 	{
 		//TODO: implement
