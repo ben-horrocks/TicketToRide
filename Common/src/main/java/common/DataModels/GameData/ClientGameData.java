@@ -3,6 +3,7 @@ package common.DataModels.GameData;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
@@ -23,6 +24,7 @@ public class ClientGameData implements IGameData, Serializable
 	private List<TrainCard> faceUp;
 	private List<HistoryItem> history;
 	private List<ChatItem> chat;
+	private Queue<Player> turnQueue;
 
     public ClientGameData(ServerGameData game, Username username){
         this.id = game.getId();
@@ -41,35 +43,22 @@ public class ClientGameData implements IGameData, Serializable
         this.faceUp = game.getFaceUpCards();
         this.history = game.getHistory();
         this.chat = new ArrayList<>();
+        this.turnQueue = game.getTurnQueue();
     }
 
-    public List<TrainCard> getFaceUp() {
-        return faceUp;
-    }
+    public List<TrainCard> getFaceUp() { return faceUp; }
 
-    public GameID getId() {
-        return id;
-    }
+    public GameID getId() { return id; }
 
-    public List<Opponent> getOpponents() {
-        return opponents;
-    }
+    public List<Opponent> getOpponents() { return opponents; }
 
-    public List<ChatItem> getChat() {
-        return chat;
-    }
+    public List<ChatItem> getChat() { return chat; }
 
-    public List<HistoryItem> getHistory() {
-        return history;
-    }
+    public List<HistoryItem> getHistory() { return history; }
 
-    public Player getPlayer() {
-        return player;
-    }
+    public Player getPlayer() { return player; }
 
-    public EdgeGraph getGameboard() {
-        return gameboard;
-    }
+    public EdgeGraph getGameboard() { return gameboard; }
 
     public void edgeClaimed(Edge edge)
 	{
@@ -86,14 +75,9 @@ public class ClientGameData implements IGameData, Serializable
         return null; // NOTE: may return null, thus throwing NullPointerException
     }
 
-    private boolean opponentExists(Username username)
+    public boolean isMyTurn()
 	{
-		for (Opponent o: opponents)
-		{
-			if(o.getUsername().equals(username))
-				return true;
-		}
-		return false;
+		return player.equals(turnQueue.peek());
 	}
 
     @Override
@@ -116,18 +100,14 @@ public class ClientGameData implements IGameData, Serializable
     }
 
     @Override
-    public void destinationDraw(Username username, List<DestinationCard> drawn){
+    public void destinationDraw(Username username, List<DestinationCard> drawn) {
         getOpponent(username).addDestinationCards(drawn.size());
     }
 
     @Override
-    public void addHistoryItem(HistoryItem event){
-        this.history.add(event);
-    }
+    public void addHistoryItem(HistoryItem event) { this.history.add(event); }
 
     @Override
-    public void addChatMessage(ChatItem m){
-        this.chat.add(m);
-    }
+    public void addChatMessage(ChatItem m) { this.chat.add(m); }
 
 }

@@ -20,7 +20,6 @@ import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.User;
-import common.DataModels.Username;
 
 public class ServerGameData implements Serializable
 {
@@ -28,7 +27,7 @@ public class ServerGameData implements Serializable
 	private String name;
 	private User creator;
 	private List<Player> players;
-	private Queue<Player> turnList;
+	private Queue<Player> turnQueue;
 	private GameID id = new GameID();
 	private boolean gameStarted = false;
 
@@ -60,15 +59,17 @@ public class ServerGameData implements Serializable
 		createEdges();
 	}
 
-	private void createTurnList()
+	private void createTurnQueue()
 	{
-		turnList = new ArrayBlockingQueue<>(players.size());
-		turnList.addAll(players);
+		turnQueue = new ArrayBlockingQueue<>(players.size());
+		turnQueue.addAll(players);
 	}
+
+	public Queue<Player> getTurnQueue() { return turnQueue; }
 
 	public void startGame()
 	{
-		createTurnList();
+		createTurnQueue();
 		gameStarted = true;
 	}
 

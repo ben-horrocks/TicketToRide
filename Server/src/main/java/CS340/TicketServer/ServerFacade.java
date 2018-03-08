@@ -150,7 +150,7 @@ public class ServerFacade implements IServer
 		}
 		else
 		{
-			String errorMessage = "Game " + finalName.toString() + " not addedp to open game.";
+			String errorMessage = "Game " + finalName.toString() + " not added to open game.";
 			return new Signal(SignalType.ERROR, errorMessage);
 		}
 	}
@@ -290,7 +290,7 @@ public class ServerFacade implements IServer
 		for(User u: otherPlayers){
 			ClientProxy.getSINGLETON().playerDrewDestinationCards(u.getUsername(), pickedCards.size());
 		}
-		//Tell the sender that the operation was successful
+		// Tell the sender that the operation was successful
 		return new Signal(SignalType.OK, "Accepted");
 	}
 
@@ -308,7 +308,7 @@ public class ServerFacade implements IServer
 		otherusers.remove(Database.SINGLETON.getPlayer(user));
 		for(User u : otherusers)
 		{
-			//get user thread and send playerDrewFaceUp to ClientProxy
+			//TODO: get user thread and send playerDrewFaceUp to ClientProxy
 		}
 		return new Signal(SignalType.OK, card);
 	}
@@ -321,7 +321,7 @@ public class ServerFacade implements IServer
 		otherusers.remove(Database.SINGLETON.getPlayer(user));
 		for(User u : otherusers)
 		{
-			//get user thread and send playerDrewDestinationCards to ClientProxy
+			//TODO: get user thread and send playerDrewDestinationCards to ClientProxy
 		}
 		return new Signal(SignalType.OK, card);
 	}
@@ -334,7 +334,7 @@ public class ServerFacade implements IServer
 		otherusers.remove(Database.SINGLETON.getPlayer(user));
 		for(User u : otherusers)
 		{
-			//get user thread and send playerDrewTrainDeck to ClientProxy
+			//TODO: get user thread and send playerDrewTrainDeck to ClientProxy
 		}
 		return new Signal(SignalType.OK, card);
 	}

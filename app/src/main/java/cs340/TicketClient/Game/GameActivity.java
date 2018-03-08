@@ -40,8 +40,7 @@ public class GameActivity extends AppCompatActivity
 			if (extras.get("packet") instanceof StartGamePacket)
 			{
 				StartGamePacket packet = (StartGamePacket) extras.get("packet");
-				GameModel.getInstance().setGameData(packet.getClientGameData());
-				GameModel.getInstance().setInitialDCards((ArrayList< DestinationCard>)packet.getInitialDestinationCards());
+				presenter.fillModel(packet);
 			}
 		}
 		FragmentManager fm = this.getSupportFragmentManager();

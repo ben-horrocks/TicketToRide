@@ -46,19 +46,11 @@ public class GameModel
 		this.initialDCards = initialDCards;
 	}
 
-	public ArrayList<DestinationCard> getInitialDCards() {
-		return initialDCards;
-	}
+	public ArrayList<DestinationCard> getInitialDCards() { return initialDCards; }
 
-	public void clearDCards()
-	{
-		initialDCards = null;
-	}
+	public void clearDCards() { initialDCards = null; }
 
-	public List<ChatItem> getChatMessages()
-	{
-		return gameData.getChat();
-	}
+	public List<ChatItem> getChatMessages() { return gameData.getChat(); }
 
 	public void setChatMessages(List<ChatItem> chats)
 	{
@@ -71,10 +63,7 @@ public class GameModel
 		}
 	}
 
-	public List<HistoryItem> getPlayHistory()
-	{
-		return gameData.getHistory();
-	}
+	public List<HistoryItem> getPlayHistory() { return gameData.getHistory(); }
 
 	public void setPlayHistory(List<HistoryItem> history)
 	{
@@ -87,9 +76,7 @@ public class GameModel
 		}
 	}
 
-	public Player getPlayer() {
-		return gameData.getPlayer();
-	}
+	public Player getPlayer() { return gameData.getPlayer(); }
 
 	public GameID getGameID() { return gameData.getId(); }
 }
