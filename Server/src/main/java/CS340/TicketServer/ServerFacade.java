@@ -224,9 +224,13 @@ public class ServerFacade implements IServer
 					//create ClientGameData
 					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
 					//create the packet
-					StartGamePacket packet = new StartGamePacket(destCards.get(u.getUsername()));
+					StartGamePacket packet = new StartGamePacket(
+							destCards.get(u.getUsername()),
+							hands.get(u.getUsername()),
+							gameData);
+					Signal s = ClientProxy.getSINGLETON().startGame(packet);
+					//TODO: Error Checking
 				}
-				ClientProxy.getSINGLETON().startGame();
 				//return start signal to player
 				return new Signal(SignalType.OK, serverGameData);
 			}
