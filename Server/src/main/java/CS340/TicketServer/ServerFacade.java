@@ -200,6 +200,7 @@ public class ServerFacade implements IServer
 			{
 				database.addRunningGame(serverGameData);
 				//push start notification to all players
+				//TODO send serverGameData obj instead of GameId
 				ClientProxy.getSINGLETON().startGame(serverGameData.getId());
 				//return start signal to player
 				return new Signal(SignalType.OK, serverGameData);

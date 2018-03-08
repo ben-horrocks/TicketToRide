@@ -56,7 +56,8 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal startGame(GameID id) {
+    public Signal startGame(GameID id/*should be ServerGameData*/) {
+        //TODO with list of players in game && ServerGameData, create packet for each player
         //get threads for all players & the serverGameData to be started with associated players
         ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         ServerGameData serverGameData = Database.SINGLETON.getRunningGameByID(id);
