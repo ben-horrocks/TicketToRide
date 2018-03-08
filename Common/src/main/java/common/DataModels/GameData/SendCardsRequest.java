@@ -1,12 +1,13 @@
 package common.DataModels.GameData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.GameID;
 import common.DataModels.Username;
 
-public class SendCardsRequest {
+public class SendCardsRequest implements Serializable {
 
     private GameID id;
     private Username user;

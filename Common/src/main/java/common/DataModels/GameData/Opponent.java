@@ -1,8 +1,10 @@
 package common.DataModels.GameData;
 
+import java.io.Serializable;
+
 import common.DataModels.*;
 
-public class Opponent {
+public class Opponent implements Serializable{
     private User user;
     private int numberHandCards;
     private int numberDestinationCards;

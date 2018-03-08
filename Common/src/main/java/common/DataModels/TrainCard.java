@@ -1,6 +1,8 @@
 package common.DataModels;
 
-public class TrainCard
+import java.io.Serializable;
+
+public class TrainCard implements Serializable
 {
   private TrainColor type;
 
