@@ -8,6 +8,7 @@ import common.DataModels.DestinationCard;
 import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.Opponent;
+import common.DataModels.GameData.Player;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 
@@ -74,5 +75,9 @@ public class GameModel
 		{
 			gameData.addHistoryItem(event);
 		}
+	}
+
+	public Player getPlayer() {
+		return gameData.getPlayer();
 	}
 }
