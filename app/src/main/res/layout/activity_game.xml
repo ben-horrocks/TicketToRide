@@ -8,18 +8,24 @@
     android:id="@+id/fragment_map"
     android:name="com.google.android.gms.maps.MapFragment">
 
-    <Button
-        android:id="@+id/hand_button"
+    <LinearLayout
+        android:id="@+id/hand_button_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/hand"/>
+        android:layout_alignParentTop="true">
+        <Button
+            android:id="@+id/hand_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hand"/>
+    </LinearLayout>
+
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hand_button"
+        android:layout_below="@id/hand_button_holder"
         android:layout_above="@id/move_bar"
         />
 

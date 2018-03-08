@@ -58,13 +58,10 @@ public class GamePresenter
 			@Override
 			public void run()
 			{
-
-				/*
 				displayPlayerColors();
 				displayPlayerTurnOrder();
 				displayPlayerHand();
 				displayOpponentHandSizes();
-				*/
 			}
 		});
 	}
