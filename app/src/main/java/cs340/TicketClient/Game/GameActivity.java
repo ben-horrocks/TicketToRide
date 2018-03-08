@@ -61,6 +61,8 @@ public class GameActivity extends AppCompatActivity
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
 
+
+
 		Button handButton = (Button) this.findViewById(R.id.hand_button);
 		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
 		Button drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);

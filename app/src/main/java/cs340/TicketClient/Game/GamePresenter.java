@@ -54,14 +54,18 @@ public class GamePresenter
 
 	void test()
 	{
+
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run()
 			{
+
+				/*
 				displayPlayerColors();
 				displayPlayerTurnOrder();
 				displayPlayerHand();
 				displayOpponentHandSizes();
+				*/
 			}
 		});
 	}
