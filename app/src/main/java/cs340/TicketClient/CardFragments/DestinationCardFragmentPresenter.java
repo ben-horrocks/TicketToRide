@@ -54,7 +54,6 @@ public class DestinationCardFragmentPresenter {
             returned.add(fragment.dCards.get(2));
         GameID id = model.getGameID();
         Username user = model.getPlayer().getUser().getUsername();
-        GameModel.getInstance().getPlayer().getDestinationCards().addAll(selected);
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
         task.execute(request);
