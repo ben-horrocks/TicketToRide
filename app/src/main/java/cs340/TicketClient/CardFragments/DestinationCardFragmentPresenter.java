@@ -55,7 +55,7 @@ public class DestinationCardFragmentPresenter {
         task.execute(request);
     }
 
-    class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>
+    private static class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>
     {
     	DestinationCardFragmentPresenter presenter;
 

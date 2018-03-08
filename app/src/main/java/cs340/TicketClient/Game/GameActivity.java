@@ -30,6 +30,7 @@ import common.DataModels.Username;
 import cs340.TicketClient.CardFragments.DestinationCardFragment;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
+import cs340.TicketClient.GameMenu.PlayerFragment;
 import cs340.TicketClient.R;
 
 public class GameActivity extends AppCompatActivity
@@ -143,6 +144,10 @@ public class GameActivity extends AppCompatActivity
 			case R.id.hist_btn:
 				fragment = new HistoryFragment();
 				//fm.beginTransaction().add(R.id.game_menu_fragment, fragment).commit();
+				break;
+			case R.id.player_btn:
+				fragment = new PlayerFragment();
+				fm.beginTransaction().add(R.id.fragment_map, fragment).commit();
 				break;
 			case R.id.test_btn:
 				presenter.test();

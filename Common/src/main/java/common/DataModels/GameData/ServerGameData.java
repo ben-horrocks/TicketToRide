@@ -162,7 +162,6 @@ public class ServerGameData implements Serializable
 		//TODO implement returning cards to the destination deck -> talk to Ben
 	}
 
-
 	private Player getPlayer(String name)
 	{
 		for (Player p : players)

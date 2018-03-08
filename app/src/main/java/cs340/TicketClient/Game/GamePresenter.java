@@ -1,21 +1,16 @@
 package cs340.TicketClient.Game;
 
-import android.app.Activity;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
 import common.DataModels.ChatItem;
-import common.DataModels.DestinationCard;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
-import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
@@ -43,6 +38,7 @@ public class GamePresenter
 	void claimRoute(TrainColor color, int number) throws InsufficientCardsException
 	{
 		// TODO: implement
+
 	}
 
 	public List<ChatItem> getChatMessages() { return model.getChatMessages(); }
