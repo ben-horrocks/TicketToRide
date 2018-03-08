@@ -49,4 +49,30 @@ public class GameModel
 	{
 		initialDCards = null;
 	}
+
+	public List<ChatItem> getChatMessages()
+	{
+		return gameData.getChatMessages();
+	}
+
+	public void setChatMessages(List<ChatItem> chats)
+	{
+		for(ChatItem item : chats)
+		{
+			gameData.addChatMessage(item);
+		}
+	}
+
+	public List<HistoryItem> getPlayHistory()
+	{
+		return gameData.getHistory();
+	}
+
+	public void setPlayHistory(List<HistoryItem> history)
+	{
+		for (HistoryItem event : history)
+		{
+			gameData.addHistoryItem(event);
+		}
+	}
 }
