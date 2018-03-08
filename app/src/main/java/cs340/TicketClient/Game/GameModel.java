@@ -37,7 +37,12 @@ public class GameModel
 		this.initialDCards = initialDCards;
 	}
 
-	public HandDestinationCards getInitialDCards() { return initialDCards; }
+	public HandDestinationCards getInitialDCards()
+	{
+		HandDestinationCards cards = initialDCards;
+		this.clearDCards();
+		return cards;
+	}
 
 	public void clearDCards() { initialDCards = null; }
 

@@ -3,6 +3,8 @@ package cs340.TicketClient.CardFragments;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 
+import java.util.ArrayList;
+
 import common.DataModels.GameData.SendCardsRequest;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
@@ -27,8 +29,10 @@ public class DestinationCardFragmentPresenter {
     HandDestinationCards getDCards()
     {
         HandDestinationCards cards = null;
-        cards = model.getInitialDCards();
-        model.clearDCards();
+        if (GameModel.getInstance().getInitialDCards() != null) {
+            cards = model.getInitialDCards();
+            model.clearDCards();
+        }
         return cards;
     }
 
@@ -50,6 +54,7 @@ public class DestinationCardFragmentPresenter {
             returned.add(fragment.dCards.get(2));
         GameID id = model.getGameID();
         Username user = model.getPlayer().getUser().getUsername();
+        GameModel.getInstance().getPlayer().getDestinationCards().addAll(selected);
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
         task.execute(request);
