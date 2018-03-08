@@ -25,11 +25,11 @@ public class Opponent implements Serializable{
     public Opponent(Player player)
 	{
 		this.user = player.getUser();
-		this.numberHandCards = 0;
-		this.numberDestinationCards = 0;
+		this.numberHandCards = player.getNumberTrainCards();
+		this.numberDestinationCards = player.getDestinationCards().size();
 		this.color = player.getColor();
-		this.score = 0;
-		this.claimedEdges = new EdgeGraph();
+		this.score = player.getScore();
+		this.claimedEdges = player.getClaimedEdges();
 	}
 
     String getName() { return user.getStringUserName(); }
