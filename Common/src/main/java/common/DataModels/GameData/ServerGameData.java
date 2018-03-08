@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
@@ -24,6 +26,7 @@ public class ServerGameData
 	private String name;
 	private User creator;
 	private List<Player> players;
+	private Queue<Player> turnList;
 	private GameID id = new GameID();
 	private boolean gameStarted = false;
 
@@ -53,7 +56,17 @@ public class ServerGameData
 		this.destinations = new DestinationCardDeck();
 	}
 
-	public void startGame() { gameStarted = true; }
+	private void createTurnList()
+	{
+		turnList = new ArrayBlockingQueue<>(players.size());
+		turnList.addAll(players);
+	}
+
+	public void startGame()
+	{
+		createTurnList();
+		gameStarted = true;
+	}
 
 	public GameID getId() { return id; }
 
