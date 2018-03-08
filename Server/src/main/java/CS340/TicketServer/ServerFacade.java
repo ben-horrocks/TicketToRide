@@ -208,7 +208,7 @@ public class ServerFacade implements IServer
 				HashMap<Username, List<DestinationCard>> destCards = new HashMap<>();
 				for (User p : serverGameData.getUsers()) {
 					//drawing the players hand
-					ArrayList<TrainCard> hand = new ArrayList<TrainCard>();
+					ArrayList<TrainCard> hand = new ArrayList<>();
 					for(int i = 0; i<4 ; i++) {
 						hand.add(serverGameData.drawFromTrainDeck());
 					}

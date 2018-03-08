@@ -23,13 +23,8 @@ public class StartGamePacket implements Serializable{
 
     public List<DestinationCard> getInitialDestinationCards() { return initialDestinationCards; }
 
-    public ClientGameData getClientGameData() {
-        return clientGameData;
-    }
+    public ClientGameData getClientGameData() { return clientGameData; }
 
-    public Username getUser()
-    {
-        return clientGameData.getPlayer().getUser().getUsername();
-    }
+    public Username getUser() { return clientGameData.getPlayer().getUser().getUsername(); }
     public List<TrainCard> getInitialTrainCards() { return initialTrainCards; }
 }

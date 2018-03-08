@@ -12,10 +12,6 @@ import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
-/**
- * Created by jhens on 3/1/2018.
- */
-
 public class DestinationCardFragmentPresenter {
 
     private GameModel model = GameModel.getInstance();
@@ -57,8 +53,6 @@ public class DestinationCardFragmentPresenter {
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask();
         task.execute(request);
-        return;
-
     }
 
     class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>

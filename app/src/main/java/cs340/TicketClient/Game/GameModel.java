@@ -5,14 +5,11 @@ import java.util.List;
 
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
-import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
 import common.DataModels.HistoryItem;
-import common.DataModels.TrainCard;
-import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.ChatPresenter;
 import cs340.TicketClient.GameMenu.HistoryPresenter;
 
@@ -29,18 +26,11 @@ public class GameModel
 		return singleton;
 	}
 
-	private GameModel()
-	{
+	private GameModel() {}
 
-	}
+	public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
 
-	public void setGameData(ClientGameData gameData) {
-		this.gameData = gameData;
-	}
-
-	public ClientGameData getGameData() {
-		return gameData;
-	}
+	public ClientGameData getGameData() { return gameData; }
 
 	public void setInitialDCards(ArrayList<DestinationCard> initialDCards) {
 		this.initialDCards = initialDCards;
@@ -78,5 +68,11 @@ public class GameModel
 
 	public Player getPlayer() { return gameData.getPlayer(); }
 
+	public List<Opponent> getOpponents() { return gameData.getOpponents(); }
+
 	public GameID getGameID() { return gameData.getId(); }
+
+	public Player whoseTurn() { return gameData.whoseTurn(); }
+
+	public boolean isMyTurn() { return whoseTurn().equals(getPlayer()); }
 }

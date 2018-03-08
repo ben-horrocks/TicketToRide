@@ -75,10 +75,12 @@ public class ClientGameData implements IGameData, Serializable
         return null; // NOTE: may return null, thus throwing NullPointerException
     }
 
-    public boolean isMyTurn()
+    public Player whoseTurn()
 	{
-		return player.equals(turnQueue.peek());
+		return turnQueue.peek();
 	}
+
+	public Queue<Player> getTurnQueue() { return turnQueue; }
 
     @Override
     public void deckDraw(Username username, List<TrainCard> drawn) {

@@ -1,6 +1,6 @@
 package common.DataModels.GameData;
 
-enum PlayerColor {
+public enum PlayerColor {
     BLACK,
     BLUE,
     GREEN,

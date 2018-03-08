@@ -34,7 +34,7 @@ public class Opponent implements Serializable{
 
     String getName() { return user.getStringUserName(); }
 
-    Username getUsername() { return user.getUsername(); }
+    public Username getUsername() { return user.getUsername(); }
 
     public int getNumberHandCards() { return numberHandCards; }
 
