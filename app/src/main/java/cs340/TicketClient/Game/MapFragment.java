@@ -48,7 +48,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 	private Bundle extras;
 	private GoogleMap googleMap;
 	private Map<String, City> cities = new HashMap<>();
-	private EdgeGraph edges = new EdgeGraph();
+	private EdgeGraph edges = GameModel.getInstance().getGameData().getGameboard();
 	private Set<Polyline> lines = new HashSet<>();
 
 	@Override
@@ -100,7 +100,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unitedStates.getCenter(), 3));
 		makeCityMarkers();
 		drawMarkers();
-		createEdges();
+		//createEdges();
 		drawEdges();
 	}
 
