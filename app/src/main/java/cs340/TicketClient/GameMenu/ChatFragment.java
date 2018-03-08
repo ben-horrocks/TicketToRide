@@ -1,4 +1,4 @@
-package cs340.TicketClient.MenuFragments;
+package cs340.TicketClient.GameMenu;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -14,13 +14,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import common.DataModels.ChatItem;
+import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
 /**
  * Created by Carter on 3/6/18.
  */
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends android.support.v4.app.Fragment {
 
     private Button mCloseButton;
     private RecyclerView mChatRecyclerView;
@@ -47,8 +48,7 @@ public class ChatFragment extends Fragment {
         });
 
         //-- RECYCLER --
-        //TODO: GET FROM THE MODEL
-        ArrayList<ChatItem> chatList = new ArrayList<>();
+        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
         mChatRecyclerView = (RecyclerView) getActivity().findViewById(R.id.chat_recycler_field);

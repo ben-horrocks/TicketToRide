@@ -9,6 +9,7 @@ import java.util.List;
 
 import common.DataModels.*;
 import cs340.TicketClient.ASyncTask.*;
+import cs340.TicketClient.Game.GameModel;
 
 public class LobbyPresenter implements ILobbyPresenter
 {
@@ -215,9 +216,9 @@ public class LobbyPresenter implements ILobbyPresenter
 
     }
 
-    public void gameStarted()
+    public void gameStarted(StartGamePacket packet)
     {
-        activity.startGame();
+        activity.startGame(packet);
     }
 
     User getPlayer() { return model.getUser(); }

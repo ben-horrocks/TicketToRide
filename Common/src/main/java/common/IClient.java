@@ -5,6 +5,7 @@ import java.util.List;
 import common.DataModels.GameID;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
+import common.DataModels.StartGamePacket;
 import common.DataModels.Username;
 
 public interface IClient {
@@ -20,7 +21,7 @@ public interface IClient {
      * game id
      * @param id a particular game id is provided to identify which game has been started
      */
-    Signal startGame(GameID id);
+    Signal startGame(StartGamePacket packet);
 
     /**
      * A function call for all clients to update the amount of destination cards of an opponent

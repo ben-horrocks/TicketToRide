@@ -1,6 +1,5 @@
 package cs340.TicketClient.Game;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +12,14 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.ArrayList;
+
+import common.DataModels.DestinationCard;
 import common.DataModels.GameData.Player;
+import common.DataModels.StartGamePacket;
 import common.DataModels.User;
-import cs340.TicketClient.MenuFragments.ChatFragment;
-import cs340.TicketClient.MenuFragments.HistoryFragment;
+import cs340.TicketClient.GameMenu.ChatFragment;
+import cs340.TicketClient.GameMenu.HistoryFragment;
 import cs340.TicketClient.R;
 
 public class GameActivity extends AppCompatActivity
@@ -41,9 +44,11 @@ public class GameActivity extends AppCompatActivity
 			mapViewFragment = new MapFragment();
 			if (extras != null)
 			{
-				if (extras.get("user") instanceof User)
+				if (extras.get("packet") instanceof StartGamePacket)
 				{
-					this.user = (User) extras.get("user");
+					StartGamePacket packet = (StartGamePacket) extras.get("packet");
+					GameModel.getInstance().setGameData(packet.getClientGameData());
+					GameModel.getInstance().setInitialDCards((ArrayList< DestinationCard>)packet.getInitialDestinationCards());
 				}
 				mapViewFragment.setArguments(extras);
 			}
@@ -98,14 +103,17 @@ public class GameActivity extends AppCompatActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
+		FragmentManager fm = getSupportFragmentManager();
+		Fragment fragment;
+
 		switch(item.getItemId()) {
 			case R.id.chat_btn:
-				Intent i = new Intent(this, ChatFragment.class);
-				this.startActivity(i);
+				fragment = new ChatFragment();
+				fm.beginTransaction().add(R.id.side_menu_fragment, fragment).commit();
 				break;
 			case R.id.hist_btn:
-				Intent j = new Intent(this, HistoryFragment.class);
-				this.startActivity(j);
+				fragment = new HistoryFragment();
+				fm.beginTransaction().add(R.id.side_menu_fragment, fragment).commit();
 				break;
 			case R.id.test_btn:
 				presenter.test();
