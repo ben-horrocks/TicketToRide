@@ -43,7 +43,8 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.beginTransaction().detach(getParentFragment()).commit();
             }
         });
 
@@ -64,6 +65,26 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         mHistoryRecyclerView.setAdapter(mHistoryAdapter);
 
         return v;
+    }
+
+    public void updateHistoryList() {
+
+        //-- RECYCLER --
+        //Get list from the model
+        ArrayList<HistoryItem> historyList = (ArrayList) GameModel.getInstance().getPlayHistory();
+
+        //Instantiate View
+        mHistoryRecyclerView = (RecyclerView) getActivity().findViewById(R.id.history_recycler_field);
+
+        //Setup layout Manager
+        mHistoryLayoutManager = new LinearLayoutManager(getActivity());
+        ((LinearLayoutManager) mHistoryLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
+        mHistoryRecyclerView.setLayoutManager(mHistoryLayoutManager);
+
+        //Populate Recycler
+        mHistoryAdapter = new HistoryFragment.HistoryAdapter(historyList);
+        mHistoryRecyclerView.setAdapter(mHistoryAdapter);
+
     }
 
     public class HistoryAdapter extends RecyclerView.Adapter<HistoryFragment.HistoryAdapter.Holder> {

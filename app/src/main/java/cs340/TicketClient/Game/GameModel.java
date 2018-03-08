@@ -12,6 +12,9 @@ import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
+import cs340.TicketClient.GameMenu.ChatFragment;
+import cs340.TicketClient.GameMenu.ChatPresenter;
+import cs340.TicketClient.GameMenu.HistoryPresenter;
 
 public class GameModel
 {
@@ -62,6 +65,9 @@ public class GameModel
 		for(ChatItem item : chats)
 		{
 			gameData.addChatMessage(item);
+			if (ChatPresenter.getSINGLETON() != null) {
+				ChatPresenter.getSINGLETON().updateChatList();
+			}
 		}
 	}
 
@@ -75,6 +81,9 @@ public class GameModel
 		for (HistoryItem event : history)
 		{
 			gameData.addHistoryItem(event);
+			if (HistoryPresenter.getSINGLETON() != null) {
+				HistoryPresenter.getSINGLETON().updateHistoryList();
+			}
 		}
 	}
 

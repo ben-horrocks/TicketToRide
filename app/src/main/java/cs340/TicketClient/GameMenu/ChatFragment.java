@@ -1,6 +1,7 @@
 package cs340.TicketClient.GameMenu;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import common.DataModels.ChatItem;
 import cs340.TicketClient.Game.GameModel;
@@ -23,10 +25,14 @@ import cs340.TicketClient.R;
 
 public class ChatFragment extends android.support.v4.app.Fragment {
 
+    private ChatPresenter mChatPresenter;
+
     private Button mCloseButton;
     private RecyclerView mChatRecyclerView;
     private RecyclerView.Adapter mChatAdapter;
     private RecyclerView.LayoutManager mChatLayoutManager;
+    private TextView mChatInputText;
+    private Button mSendButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,16 +44,33 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
 
+        //Setup and store ChatPresenter
+        mChatPresenter = ChatPresenter.getSINGLETON(this);
+
         //-- CLOSE BUTTON --
         mCloseButton = (Button) getActivity().findViewById(R.id.history_close_btn);
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: close the fragment
+               android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+               fm.beginTransaction().detach(getParentFragment()).commit();
+            }
+        });
+
+        //-- SEND BUTTON --
+        mChatInputText = (TextView) getActivity().findViewById(R.id.chat_text_input);
+        mSendButton = (Button) getActivity().findViewById(R.id.chat_send_button);
+        mSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mChatInputText.getText().length() != 0) {
+                    mChatPresenter.sendChatMessage(mChatInputText.getText().toString());
+                }
             }
         });
 
         //-- RECYCLER --
+        //Get messages from the Game model
         ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
@@ -63,6 +86,26 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         mChatRecyclerView.setAdapter(mChatAdapter);
 
         return v;
+    }
+
+    public void updateChatList() {
+
+        //-- RECYCLER --
+        //Get messages from the Game model
+        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getPlayHistory();
+
+        //Instantiate View
+        mChatRecyclerView = (RecyclerView) getActivity().findViewById(R.id.chat_recycler_field);
+
+        //Setup layout Manager
+        mChatLayoutManager = new LinearLayoutManager(getActivity());
+        ((LinearLayoutManager) mChatLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
+        mChatRecyclerView.setLayoutManager(mChatLayoutManager);
+
+        //Populate Recycler
+        mChatAdapter = new ChatAdapter(chatList);
+        mChatRecyclerView.setAdapter(mChatAdapter);
+
     }
 
     public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {

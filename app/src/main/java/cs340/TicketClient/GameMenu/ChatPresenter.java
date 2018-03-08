@@ -12,10 +12,23 @@ import cs340.TicketClient.Game.GameModel;
 
 public class ChatPresenter {
 
+    private static ChatPresenter SINGLETON;
+
     ChatFragment fragment;
     GameModel model;
 
-    public ChatPresenter(ChatFragment fragment) {
+    public static ChatPresenter getSINGLETON(ChatFragment fragment) {
+        if (SINGLETON == null) {
+            SINGLETON = new ChatPresenter(fragment);
+        }
+        return SINGLETON;
+    }
+
+    public static ChatPresenter getSINGLETON() {
+        return SINGLETON;
+    }
+
+    private ChatPresenter(ChatFragment fragment) {
         this.fragment = fragment;
         this.model = GameModel.getInstance();
     }
@@ -28,6 +41,8 @@ public class ChatPresenter {
     }
 
     public void updateChatList() {
-
+        if (fragment != null) {
+            fragment.updateChatList();
+        }
     }
 }
