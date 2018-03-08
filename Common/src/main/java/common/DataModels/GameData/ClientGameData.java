@@ -43,6 +43,34 @@ public class ClientGameData implements IGameData, Serializable
         this.chat = new ArrayList<>();
     }
 
+    public List<TrainCard> getFaceUp() {
+        return faceUp;
+    }
+
+    public GameID getId() {
+        return id;
+    }
+
+    public List<Opponent> getOpponents() {
+        return opponents;
+    }
+
+    public List<ChatItem> getChat() {
+        return chat;
+    }
+
+    public List<HistoryItem> getHistory() {
+        return history;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public EdgeGraph getGameboard() {
+        return gameboard;
+    }
+
     public void edgeClaimed(Edge edge)
 	{
 		// TODO: implement

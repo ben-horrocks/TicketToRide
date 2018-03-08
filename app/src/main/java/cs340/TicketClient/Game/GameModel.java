@@ -52,7 +52,7 @@ public class GameModel
 
 	public List<ChatItem> getChatMessages()
 	{
-		return gameData.getChatMessages();
+		return gameData.getChat();
 	}
 
 	public void setChatMessages(List<ChatItem> chats)
