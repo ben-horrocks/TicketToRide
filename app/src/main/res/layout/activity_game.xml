@@ -64,7 +64,7 @@
         android:layout_alignParentBottom="true"/>
 
     <fragment
-        android:id="@+id/side_menu_fragment"
+        android:id="@+id/game_menu_fragment"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_alignParentBottom="true"/>

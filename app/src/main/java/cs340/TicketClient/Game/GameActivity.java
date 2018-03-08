@@ -109,11 +109,11 @@ public class GameActivity extends AppCompatActivity
 		switch(item.getItemId()) {
 			case R.id.chat_btn:
 				fragment = new ChatFragment();
-				fm.beginTransaction().add(R.id.side_menu_fragment, fragment).commit();
+				fm.beginTransaction().add(R.id.game_menu_fragment, fragment).commit();
 				break;
 			case R.id.hist_btn:
 				fragment = new HistoryFragment();
-				fm.beginTransaction().add(R.id.side_menu_fragment, fragment).commit();
+				fm.beginTransaction().add(R.id.game_menu_fragment, fragment).commit();
 				break;
 			case R.id.test_btn:
 				presenter.test();
