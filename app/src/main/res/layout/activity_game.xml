@@ -51,17 +51,5 @@
             android:layout_weight="1"
             tools:ignore="ButtonStyle"/>
     </LinearLayout>
-
-    <android.support.v4.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignParentBottom="true">
-
-        <fragment
-            android:id="@+id/turn_fragment_holder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </android.support.v4.widget.DrawerLayout>
-
+    
 </RelativeLayout>
