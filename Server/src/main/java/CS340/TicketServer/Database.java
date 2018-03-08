@@ -47,7 +47,7 @@ public class Database {
      * that the username is not already present in the username list
      * @post the user will definitely be in the database
      */
-    public boolean addPlayer(User user) {
+    boolean addPlayer(User user) {
         playerList.put(user.getUsername(), user);
         return true;
     }
@@ -110,7 +110,7 @@ public class Database {
      * the serverGameData is not already present in the list
      * @post the serverGameData will definitely be in the database
      */
-    public boolean addOpenGame(ServerGameData serverGameData) {
+    boolean addOpenGame(ServerGameData serverGameData) {
         openGameList.put(serverGameData.getId(), serverGameData);
         return true;
     }
@@ -124,7 +124,7 @@ public class Database {
      * @post will return the game if found, null if the
      * game is not present in the database
      */
-    public ServerGameData getOpenGameByID(GameID id) {
+    ServerGameData getOpenGameByID(GameID id) {
         if (openGameList.containsKey(id)) {
             return openGameList.get(id);
         }
@@ -135,9 +135,9 @@ public class Database {
      * Get a specific game from the database according
      * to the game's associated game name
      * @param name The name of the game being queried.
-     * @return
+     * @return Return the ServerGameData related to the game name. Return null if not found.
      */
-    public ServerGameData getOpenGameByName(String name) {
+    ServerGameData getOpenGameByName(String name) {
         for (Map.Entry<GameID, ServerGameData> entry : openGameList.entrySet()) {
             if (entry.getValue().getName().equals(name)) {
                 return entry.getValue();
@@ -152,7 +152,7 @@ public class Database {
      * @pre none
      * @post none
      */
-    public List<GameInfo> getAllOpenGames() {
+    List<GameInfo> getAllOpenGames() {
         List<GameInfo> gameSet = new ArrayList<>();
         for (GameID id : openGameList.keySet()) {
             GameInfo info = new GameInfo(openGameList.get(id));
@@ -187,7 +187,7 @@ public class Database {
      * @pre none (though recommended that you check for presence first)
      * @post the serverGameData will definitely not be in the database
      */
-    public boolean deleteOpenGame(ServerGameData serverGameData) {
+    boolean deleteOpenGame(ServerGameData serverGameData) {
         if (openGameList.containsKey(serverGameData.getId())) {
             openGameList.remove(serverGameData.getId());
             return true;
@@ -198,14 +198,12 @@ public class Database {
     /**
      * Add a new serverGameData to the database
      * @param serverGameData The serverGameData to be added to the list of running games.
-     * @return boolean true if serverGameData was successfully added
      * @pre requires that one has previously checked to make sure
      * the serverGameData is not already present in the list
      * @post the serverGameData will definitely be in the database
      */
-    public boolean addRunningGame(ServerGameData serverGameData) {
+    void addRunningGame(ServerGameData serverGameData) {
         runningGameList.put(serverGameData.getId(), serverGameData);
-        return true;
     }
 
     /**
@@ -217,7 +215,7 @@ public class Database {
      * @post will return the game if found, null if the
      * game is not present in the database
      */
-    public ServerGameData getRunningGameByID(GameID id) {
+    ServerGameData getRunningGameByID(GameID id) {
         if (runningGameList.containsKey(id)) {
             return runningGameList.get(id);
         }

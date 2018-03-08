@@ -16,26 +16,26 @@ public class GamePresenter
 
 	class InsufficientCardsException extends Exception {}
 
+
+
+	GamePresenter(GameActivity gameActivity)
+	{
+		this.activity = gameActivity;
+		model = GameModel.getInstance();
+	}
+
 	void claimRoute(TrainColor color, int number) throws InsufficientCardsException
 	{
 		// TODO: implement
 	}
 
-	public List<ChatItem> getChatMessages() {
-		return model.getChatMessages();
-	}
+	public List<ChatItem> getChatMessages() { return model.getChatMessages(); }
 
-	public void setChatMessages(List<ChatItem> chatMessages) {
-		model.setChatMessages(chatMessages);
-	}
+	public void setChatMessages(List<ChatItem> chatMessages) { model.setChatMessages(chatMessages); }
 
-	public List<HistoryItem> getPlayHistory() {
-		return model.getPlayHistory();
-	}
+	public List<HistoryItem> getPlayHistory() { return model.getPlayHistory(); }
 
-	public void setPlayHistory(List<HistoryItem> playHistory) {
-		model.setPlayHistory(playHistory);
-	}
+	public void setPlayHistory(List<HistoryItem> playHistory) { model.setPlayHistory(playHistory); }
 
 	void test()
 	{

@@ -152,27 +152,27 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal send(ChatItem item) {
+    public Signal send(GameID id, ChatItem item) {
         return null;
     }
 
     @Override
-    public Signal drawDeck(Username user) {
+    public Signal drawDeck(GameID id, Username user) {
         return null;
     }
 
     @Override
-    public Signal drawDestinationCards(Username user) {
+    public Signal drawDestinationCards(GameID id, Username user) {
         return null;
     }
 
     @Override
-    public Signal drawFaceUp(Username user, TrainCard card) {
+    public Signal drawFaceUp(GameID id, Username user, int cardIndex) {
         return null;
     }
 
     @Override
-    public Signal claimEdge(Username user, Edge edge) {
+    public Signal claimEdge(GameID id, Username user, Edge edge) {
         return null;
     }
 }

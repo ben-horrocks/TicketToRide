@@ -1,8 +1,116 @@
 package cs340.TicketClient.MenuFragments;
 
+import android.app.Fragment;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import common.DataModels.HistoryItem;
+import cs340.TicketClient.R;
+
 /**
  * Created by Carter on 3/6/18.
  */
 
-public class HistoryFragment {
+public class HistoryFragment extends Fragment {
+
+    private Button mCloseButton;
+    private RecyclerView mHistoryRecyclerView;
+    private RecyclerView.Adapter mHistoryAdapter;
+    private RecyclerView.LayoutManager mHistoryLayoutManager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_history, container, false);
+
+        //-- CLOSE BUTTON --
+        mCloseButton = (Button) getActivity().findViewById(R.id.history_close_btn);
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: close the fragment
+            }
+        });
+
+        //-- RECYCLER --
+        //TODO: GET FROM THE MODEL
+        ArrayList<HistoryItem> historyList = new ArrayList<>();
+
+        //Instantiate View
+        mHistoryRecyclerView = (RecyclerView) getActivity().findViewById(R.id.history_recycler_field);
+
+        //Setup layout Manager
+        mHistoryLayoutManager = new LinearLayoutManager(getActivity());
+        ((LinearLayoutManager) mHistoryLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
+        mHistoryRecyclerView.setLayoutManager(mHistoryLayoutManager);
+
+        //Populate Recycler
+        mHistoryAdapter = new HistoryFragment.HistoryAdapter(historyList);
+        mHistoryRecyclerView.setAdapter(mHistoryAdapter);
+
+        return v;
+    }
+
+    public class HistoryAdapter extends RecyclerView.Adapter<HistoryFragment.HistoryAdapter.Holder> {
+
+        private ArrayList<HistoryItem> mHistoryList;
+
+        public class Holder extends RecyclerView.ViewHolder {
+
+            private RelativeLayout mHistorySlot;
+            private TextView mDisplayName;
+            private TextView mAction;
+
+            public Holder(View itemView) {
+                super(itemView);
+                mHistorySlot = (RelativeLayout) itemView.findViewById(R.id.history_slot);
+                mDisplayName = (TextView) itemView.findViewById(R.id.history_player);
+                mAction = (TextView) itemView.findViewById(R.id.history_text);
+            }
+        }
+
+        public HistoryAdapter(ArrayList<HistoryItem> historyList) { this.mHistoryList = historyList; }
+
+        @Override
+        public HistoryFragment.HistoryAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+            // create a new view
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_list_item, parent, false);
+            HistoryFragment.HistoryAdapter.Holder h = new HistoryFragment.HistoryAdapter.Holder(v);
+            return h;
+        }
+
+        @Override
+        public void onBindViewHolder(HistoryFragment.HistoryAdapter.Holder holder, int position) {
+            if (mHistoryList != null && !mHistoryList.isEmpty()) {
+                HistoryItem item =  mHistoryList.get(position);
+                holder.mDisplayName.setText(item.getPlayerName());
+                holder.mAction.setText(item.getAction());
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            if (mHistoryList != null) {
+                return mHistoryList.size();
+            }
+            return 0;
+        }
+    }
+
 }

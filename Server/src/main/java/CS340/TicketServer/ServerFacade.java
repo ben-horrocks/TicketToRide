@@ -139,8 +139,16 @@ public class ServerFacade implements IServer
 		//Created name that is not in the database.
 		//create new serverGameData with new name and starting player
 		ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
-		database.addOpenGame(serverGameData);
-		return new Signal(SignalType.OK, serverGameData);
+		boolean openGameAdded = database.addOpenGame(serverGameData);
+		if (openGameAdded)
+		{
+			return new Signal(SignalType.OK, serverGameData);
+		}
+		else
+		{
+			String errorMessage = "Game " + finalName.toString() + " not addedp to open game.";
+			return new Signal(SignalType.ERROR, errorMessage);
+		}
 	}
 
 	/**
@@ -187,12 +195,20 @@ public class ServerFacade implements IServer
 			//start serverGameData
 			serverGameData.startGame();
 			//remove the serverGameData from the list of open games and move to the list of running games
-			database.deleteOpenGame(serverGameData);
-			database.addRunningGame(serverGameData);
-			//push start notification to all players
-			ClientProxy.getSINGLETON().startGame(serverGameData.getId());
-			//return start signal to player
-			return new Signal(SignalType.OK, serverGameData);
+			boolean gameDeleted = database.deleteOpenGame(serverGameData);
+			if (gameDeleted)
+			{
+				database.addRunningGame(serverGameData);
+				//push start notification to all players
+				ClientProxy.getSINGLETON().startGame(serverGameData.getId());
+				//return start signal to player
+				return new Signal(SignalType.OK, serverGameData);
+			}
+			else
+			{
+				String errorMessage = "Game " + serverGameData.getId() + " not deleted.";
+				return new Signal(SignalType.ERROR, errorMessage);
+			}
 		}
 		String errMsg = "Sorry, this serverGameData has already started.";
 		return new Signal(SignalType.ERROR, errMsg);
@@ -249,27 +265,53 @@ public class ServerFacade implements IServer
 	}
 
 	@Override
-	public Signal send(ChatItem item) {
+	public Signal send(GameID id, ChatItem item) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		return null;
 	}
 
 	@Override
-	public Signal drawFaceUp(Username user, TrainCard card) {
-		return null;
+	public Signal drawFaceUp(GameID id, Username user, int index) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		TrainCard card = game.faceUpDraw(index);
+		Set<User> otherusers = game.getUsers();
+		otherusers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherusers)
+		{
+			//get user thread and send playerDrewFaceUp to ClientProxy
+		}
+		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
-	public Signal drawDestinationCards(Username user) {
-		return null;
+	public Signal drawDestinationCards(GameID id, Username user) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		List<DestinationCard> card = game.destinationDraw();
+		Set<User> otherusers = game.getUsers();
+		otherusers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherusers)
+		{
+			//get user thread and send playerDrewDestinationCards to ClientProxy
+		}
+		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
-	public Signal drawDeck(Username user) {
-		return null;
+	public Signal drawDeck(GameID id, Username user) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		TrainCard card = game.drawFromTrainDeck();
+		Set<User> otherusers = game.getUsers();
+		otherusers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherusers)
+		{
+			//get user thread and send playerDrewTrainDeck to ClientProxy
+		}
+		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
-	public Signal claimEdge(Username user, Edge edge) {
+	public Signal claimEdge(GameID id, Username user, Edge edge) {
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		return null;
 	}
 }
