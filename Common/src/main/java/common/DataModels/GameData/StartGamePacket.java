@@ -5,23 +5,24 @@ import java.util.List;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.ClientGameData;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.TrainCard;
 import common.DataModels.Username;
 
 public class StartGamePacket implements Serializable{
 
-    private List<DestinationCard> initialDestinationCards;
+    private HandDestinationCards initialDestinationCards;
     private List<TrainCard> initialTrainCards;
     private ClientGameData clientGameData;
 
-    public StartGamePacket(List<DestinationCard> initialDestinationCards, List<TrainCard> initialTrainCards, ClientGameData clientGameData)
+    public StartGamePacket(HandDestinationCards initialDestinationCards, List<TrainCard> initialTrainCards, ClientGameData clientGameData)
     {
         this.initialDestinationCards = initialDestinationCards;
         this.initialTrainCards = initialTrainCards;
         this.clientGameData = clientGameData;
     }
 
-    public List<DestinationCard> getInitialDestinationCards() { return initialDestinationCards; }
+    public HandDestinationCards getInitialDestinationCards() { return initialDestinationCards; }
 
     public ClientGameData getClientGameData() { return clientGameData; }
 

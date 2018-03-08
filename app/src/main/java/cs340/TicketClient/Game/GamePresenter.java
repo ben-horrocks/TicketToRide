@@ -13,6 +13,7 @@ import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
@@ -36,7 +37,7 @@ public class GamePresenter
 	void fillModel(StartGamePacket packet)
 	{
 		model.setGameData(packet.getClientGameData());
-		model.setInitialDCards((ArrayList< DestinationCard>)packet.getInitialDestinationCards());
+		model.setInitialDCards(packet.getInitialDestinationCards());
 	}
 
 	void claimRoute(TrainColor color, int number) throws InsufficientCardsException
@@ -51,6 +52,8 @@ public class GamePresenter
 	public List<HistoryItem> getPlayHistory() { return model.getPlayHistory(); }
 
 	public void setPlayHistory(List<HistoryItem> playHistory) { model.setPlayHistory(playHistory); }
+
+	public HandDestinationCards getDestinationCards() { return model.getInitialDCards(); }
 
 	void test()
 	{

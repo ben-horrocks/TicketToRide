@@ -25,6 +25,7 @@ import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
+import cs340.TicketClient.CardFragments.DestinationCardFragment;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
 import cs340.TicketClient.R;
@@ -61,7 +62,16 @@ public class GameActivity extends AppCompatActivity
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
 
-
+		// Start the game off by having the player pick their destination cards
+		Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
+		if (destinationViewFragment == null)
+		{
+			Bundle toDestinationVF = new Bundle();
+			toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
+			destinationViewFragment = new DestinationCardFragment();
+			destinationViewFragment.setArguments(toDestinationVF);
+			fm.beginTransaction().add(R.id.turn_fragment_holder, destinationViewFragment).commit();
+		}
 
 		Button handButton = (Button) this.findViewById(R.id.hand_button);
 		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);

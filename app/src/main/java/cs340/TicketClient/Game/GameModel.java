@@ -9,6 +9,7 @@ import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
 import cs340.TicketClient.GameMenu.ChatPresenter;
 import cs340.TicketClient.GameMenu.HistoryPresenter;
@@ -17,7 +18,7 @@ public class GameModel
 {
 	private ClientGameData gameData;
 	private static GameModel singleton;
-	private ArrayList<DestinationCard> initialDCards;
+	private HandDestinationCards initialDCards;
 
 	public static GameModel getInstance()
 	{
@@ -32,11 +33,11 @@ public class GameModel
 
 	public ClientGameData getGameData() { return gameData; }
 
-	public void setInitialDCards(ArrayList<DestinationCard> initialDCards) {
+	public void setInitialDCards(HandDestinationCards initialDCards) {
 		this.initialDCards = initialDCards;
 	}
 
-	public ArrayList<DestinationCard> getInitialDCards() { return initialDCards; }
+	public HandDestinationCards getInitialDCards() { return initialDCards; }
 
 	public void clearDCards() { initialDCards = null; }
 

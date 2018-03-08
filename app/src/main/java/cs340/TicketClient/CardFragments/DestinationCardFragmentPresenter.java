@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.SendCardsRequest;
 import common.DataModels.GameID;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.Signal;
 import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
@@ -24,9 +25,9 @@ public class DestinationCardFragmentPresenter {
     }
 
 
-    ArrayList<DestinationCard> getDCards()
+    HandDestinationCards getDCards()
     {
-        ArrayList<DestinationCard> cards = null;
+        HandDestinationCards cards = null;
         cards = model.getInitialDCards();
         model.clearDCards();
         return cards;

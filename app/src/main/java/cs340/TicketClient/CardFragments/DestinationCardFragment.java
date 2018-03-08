@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import common.DataModels.DestinationCard;
+import common.DataModels.HandDestinationCards;
 import cs340.TicketClient.R;
 
 public class DestinationCardFragment extends Fragment {
@@ -23,7 +24,7 @@ public class DestinationCardFragment extends Fragment {
     CheckBox card2Check;
     CheckBox card3Check;
     Button confirmCards;
-    ArrayList<DestinationCard> dCards;
+    HandDestinationCards dCards;
     DestinationCardFragmentPresenter presenter;
 
     public DestinationCardFragment() {
@@ -50,6 +51,12 @@ public class DestinationCardFragment extends Fragment {
         confirmCards = view.findViewById(R.id.confirmButton);
         toggleButton();
         presenter = new DestinationCardFragmentPresenter(this);
+
+        Bundle extras = getArguments();
+        if (extras.get("cards") != null)
+		{
+			dCards = (HandDestinationCards)extras.get("cards");
+		}
 
         dCards = presenter.getDCards();
         String path1 = dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2()+ "\n Points: " + dCards.get(0).getPointValue();
