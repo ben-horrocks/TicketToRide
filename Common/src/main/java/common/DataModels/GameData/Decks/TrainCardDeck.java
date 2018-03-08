@@ -20,6 +20,8 @@ public class TrainCardDeck implements ITrainCardDeck
   private List<TrainCard> discard;
   public TrainCardDeck()
   {
+    faceUpCards = new ArrayList<>();
+    discard = new ArrayList<>();
     deck = addTrainCards();
     shuffle();
     for(int x=0;x<5;x++)
