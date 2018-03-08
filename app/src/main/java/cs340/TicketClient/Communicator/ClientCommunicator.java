@@ -40,10 +40,7 @@ public class ClientCommunicator
 	private Signal signalFromServer = null;
 	private static String SERVER_HOST = "localhost";
 
-	public static void setSERVER_HOST(String ip)
-	{
-		SERVER_HOST = ip;
-	}
+	public static void setSERVER_HOST(String ip) { SERVER_HOST = ip; }
 
 	private Signal getSignalFromServer() { return signalFromServer; }
 

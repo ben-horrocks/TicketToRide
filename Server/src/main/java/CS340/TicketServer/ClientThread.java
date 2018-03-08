@@ -27,6 +27,11 @@ public class ClientThread extends Thread
 	private Socket clientSocket;
 	private Set<Username> socketOwners = new HashSet<>();
 	private boolean close = false;
+	private Signal signalFromClient = null;
+
+	private Signal getSignalFromClient() { return signalFromClient; }
+
+	private void setSignalFromClient(Signal signalFromClient) { this.signalFromClient = signalFromClient; }
 
 	private void setClose(boolean close) { this.close = close; }
 
@@ -79,6 +84,11 @@ public class ClientThread extends Thread
 									ServerCommunicator.getThreads().put(username, parent);
 								}
 							}
+							else if (message instanceof Signal)
+							{
+								result = (Signal) message;
+								setSignalFromClient(result);
+							}
 							else
 							{
 								return;
@@ -87,7 +97,9 @@ public class ClientThread extends Thread
 						}
 						catch (InterruptedException e)
 						{
-							System.out.println("InterruptedException when receiving in ClientThread: " + e);
+							System.out.println(e + " when receiving in ClientThread");
+							closeThread();
+							break;
 						}
 					}
 				}
@@ -182,6 +194,18 @@ public class ClientThread extends Thread
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	public Object send(Object object) throws IOException
+	{
+		Signal result = null;
+		push(object);
+		while (result == null)
+		{
+			result = getSignalFromClient();
+		}
+		setSignalFromClient(null);
+		return result;
 	}
 
 	private void closeThread()

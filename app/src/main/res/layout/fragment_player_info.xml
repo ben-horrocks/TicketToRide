@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/fragment_player_info">
+
+    <TextView
+        android:id="@+id/drawer_player_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PlayerName"/>
+
+    <TextView
+        android:id="@+id/drawer_player_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Color"/>
+
+    <TextView
+        android:id="@+id/drawer_player_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Points"/>
+
+    <TextView
+        android:id="@+id/drawer_player_turnQueue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TurnQueue"/>
+
+    <Button
+        android:id="@+id/"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

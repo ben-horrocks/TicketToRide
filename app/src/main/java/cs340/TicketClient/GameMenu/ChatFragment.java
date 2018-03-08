@@ -1,7 +1,5 @@
 package cs340.TicketClient.GameMenu;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import common.DataModels.ChatItem;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
-
-/**
- * Created by Carter on 3/6/18.
- */
 
 public class ChatFragment extends android.support.v4.app.Fragment {
 
