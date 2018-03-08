@@ -35,22 +35,21 @@ public class GameActivity extends AppCompatActivity
 		setContentView(R.layout.activity_game);
 		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
 		Bundle extras = getIntent().getExtras();
-
+		if (extras != null)
+		{
+			if (extras.get("packet") instanceof StartGamePacket)
+			{
+				StartGamePacket packet = (StartGamePacket) extras.get("packet");
+				GameModel.getInstance().setGameData(packet.getClientGameData());
+				GameModel.getInstance().setInitialDCards((ArrayList< DestinationCard>)packet.getInitialDestinationCards());
+			}
+		}
 		FragmentManager fm = this.getSupportFragmentManager();
 		Fragment mapViewFragment = fm.findFragmentById(R.id.fragment_map);
 		if (mapViewFragment == null)
 		{
 			mapViewFragment = new MapFragment();
-			if (extras != null)
-			{
-				if (extras.get("packet") instanceof StartGamePacket)
-				{
-					StartGamePacket packet = (StartGamePacket) extras.get("packet");
-					GameModel.getInstance().setGameData(packet.getClientGameData());
-					GameModel.getInstance().setInitialDCards((ArrayList< DestinationCard>)packet.getInitialDestinationCards());
-				}
-				mapViewFragment.setArguments(extras);
-			}
+			mapViewFragment.setArguments(extras);
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
 
