@@ -1,10 +1,8 @@
 package cs340.TicketClient.CardFragments;
 
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 
-import java.util.ArrayList;
-
-import common.DataModels.DestinationCard;
 import common.DataModels.GameData.SendCardsRequest;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
@@ -53,12 +51,16 @@ public class DestinationCardFragmentPresenter {
         GameID id = model.getGameID();
         Username user = model.getPlayer().getUser().getUsername();
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
-        SendCardsTask task = new SendCardsTask();
+        SendCardsTask task = new SendCardsTask(this);
         task.execute(request);
     }
 
     class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>
     {
+    	DestinationCardFragmentPresenter presenter;
+
+    	SendCardsTask(DestinationCardFragmentPresenter presenter) { this.presenter = presenter; }
+
         @Override
         protected Signal doInBackground(SendCardsRequest[] obj) {
             SendCardsRequest request = obj[0];
@@ -70,7 +72,8 @@ public class DestinationCardFragmentPresenter {
             super.onPostExecute(signal);
             if (signal.getSignalType() == SignalType.OK)
 			{
-
+				FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
+				fm.popBackStack();
 			}
         }
     }

@@ -115,6 +115,12 @@ public class GameActivity extends AppCompatActivity
 		});
 	}
 
+	public void closeCurrentFragment()
+	{
+		FragmentManager fm = this.getSupportFragmentManager();
+		fm.popBackStack();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
