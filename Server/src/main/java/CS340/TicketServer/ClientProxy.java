@@ -60,7 +60,7 @@ public class ClientProxy implements IClient {
     public Signal startGame(StartGamePacket packet) {
         //Get the recipient for the packet and find their thread
         Username packetRecipient = packet.getUser();
-        String[] paramTypes = {"common.GameData.StartGamePacket"};
+        String[] paramTypes = {"common.DataModels.GameData.StartGamePacket"};
         Object[] params = {packet};
         CommandParams newcommand = new CommandParams("startGame", paramTypes, params);
         try {
