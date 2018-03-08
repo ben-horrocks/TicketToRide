@@ -7,7 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 
+import common.DataModels.DestinationCard;
+import common.DataModels.TrainCard;
+import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
 
@@ -37,6 +41,10 @@ public class HandFragment extends Fragment {
         destinationCardsRecyclerView = v.findViewById(R.id.destinationCards);
         trainCardsRecyclerView = v.findViewById(R.id.trainCards);
         presenter = new HandFragmentPresenter(this);
+        TrainCard trainCards [] = (TrainCard[]) GameModel.getInstance().getGameData().getPlayer().getHand().toArray();
+        DestinationCard destinationCard[] = (DestinationCard[]) GameModel.getInstance().getGameData().getPlayer().getDestinationCards().toArray();
+        HandTrainCardAdapter trainCardAdapter = new HandTrainCardAdapter(this.getContext(), trainCards);
+        HandDestCardAdapter destCardAdapter = new HandDestCardAdapter(this.getContext(), destinationCard);
         //TODO construct recyclerView
 		if (getArguments() != null)
 		{
