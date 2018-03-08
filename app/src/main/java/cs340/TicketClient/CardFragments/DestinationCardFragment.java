@@ -89,8 +89,6 @@ public class DestinationCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 presenter.confirmDestinationCards();
-                //TODO close fragment
-
             }
         });
         return view;
