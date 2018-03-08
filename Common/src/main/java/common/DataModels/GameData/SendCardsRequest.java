@@ -5,16 +5,17 @@ import java.util.ArrayList;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.GameID;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.Username;
 
 public class SendCardsRequest implements Serializable {
 
     private GameID id;
     private Username user;
-    private ArrayList<DestinationCard> selected;
-    private ArrayList<DestinationCard> returned;
+    private HandDestinationCards selected;
+    private HandDestinationCards returned;
 
-    public SendCardsRequest(GameID id, Username user, ArrayList<DestinationCard> selected, ArrayList<DestinationCard> returned)
+    public SendCardsRequest(GameID id, Username user, HandDestinationCards selected, HandDestinationCards returned)
     {
         this.id = id;
         this.user = user;
@@ -22,9 +23,9 @@ public class SendCardsRequest implements Serializable {
         this.returned = returned;
     }
 
-    public ArrayList<DestinationCard> getReturned() { return returned; }
+    public HandDestinationCards getReturned() { return returned; }
 
-    public ArrayList<DestinationCard> getSelected() { return selected; }
+    public HandDestinationCards getSelected() { return selected; }
 
     public GameID getId() { return id; }
 

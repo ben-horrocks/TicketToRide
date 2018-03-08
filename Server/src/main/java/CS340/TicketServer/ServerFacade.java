@@ -278,7 +278,7 @@ public class ServerFacade implements IServer
 	}
 
 	@Override
-	public Signal returnDestinationCards(GameID id, Username user, List<DestinationCard> pickedCards, List<DestinationCard> returnCards) {
+	public Signal returnDestinationCards(GameID id, Username user, HandDestinationCards pickedCards, HandDestinationCards returnCards) {
 		//Data setup
 		Database database = Database.SINGLETON;
 		User agent = database.getPlayer(user);

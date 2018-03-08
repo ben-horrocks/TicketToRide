@@ -9,18 +9,19 @@ import common.DataModels.GameData.SendCardsRequest;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.Signal;
+import common.DataModels.SignalType;
 import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
 public class DestinationCardFragmentPresenter {
 
-    private GameModel model = GameModel.getInstance();
+    private GameModel model;
     private DestinationCardFragment fragment;
 
     DestinationCardFragmentPresenter(DestinationCardFragment fragment)
     {
-        this.model = null;
+    	model = GameModel.getInstance();
         this.fragment = fragment;
     }
 
@@ -35,8 +36,8 @@ public class DestinationCardFragmentPresenter {
 
     void confirmDestinationCards()
     {
-        ArrayList<DestinationCard> selected = new ArrayList<>();
-        ArrayList<DestinationCard> returned = new ArrayList<>();
+        HandDestinationCards selected = new HandDestinationCards();
+        HandDestinationCards returned = new HandDestinationCards();
         if(fragment.card1Check.isChecked())
             selected.add(fragment.dCards.get(0));
         else
@@ -49,8 +50,8 @@ public class DestinationCardFragmentPresenter {
             selected.add(fragment.dCards.get(2));
         else
             returned.add(fragment.dCards.get(2));
-        GameID id = null;
-        Username user = null;
+        GameID id = model.getGameID();
+        Username user = model.getPlayer().getUser().getUsername();
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask();
         task.execute(request);
@@ -67,6 +68,10 @@ public class DestinationCardFragmentPresenter {
         @Override
         protected void onPostExecute(Signal signal) {
             super.onPostExecute(signal);
+            if (signal.getSignalType() == SignalType.OK)
+			{
+
+			}
         }
     }
 }

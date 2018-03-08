@@ -9,7 +9,7 @@ import common.DataModels.*;
 public class Player implements Serializable{
     private User user;
     private List<TrainCard> hand;
-    private List<DestinationCard> destinations;
+    private HandDestinationCards destinations;
     private PlayerColor color;
     private int score;
     private EdgeGraph claimedEdges;
@@ -17,7 +17,7 @@ public class Player implements Serializable{
     public Player(User user, PlayerColor color) {
         this.user = user;
         this.hand = new ArrayList<>();
-        this.destinations = new ArrayList<>();
+        this.destinations = new HandDestinationCards();
         this.color = color;
         this.score = 0;
         this.claimedEdges = new EdgeGraph();
@@ -64,9 +64,9 @@ public class Player implements Serializable{
 		return sum;
 	}
 
-    public List<DestinationCard> getDestinationCards() { return this.destinations; }
+    public HandDestinationCards getDestinationCards() { return this.destinations; }
 
-    public void drewDestinationCards(List<DestinationCard> cards){
+    public void drewDestinationCards(HandDestinationCards cards){
         this.destinations.addAll(cards);
     }
 

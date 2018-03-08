@@ -16,6 +16,7 @@ import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.Decks.DestinationCardDeck;
 import common.DataModels.GameData.Decks.TrainCardDeck;
 import common.DataModels.GameID;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
@@ -155,7 +156,7 @@ public class ServerGameData implements Serializable
 		getPlayer(username).drewTrainCards(drawn);
 	}
 
-	public void playerDrewDestinationCard(String username, List<DestinationCard> drawn, List<DestinationCard> returned)
+	public void playerDrewDestinationCard(String username, HandDestinationCards drawn, HandDestinationCards returned)
 	{
 		getPlayer(username).drewDestinationCards(drawn);
 		//TODO implement returning cards to the destination deck -> talk to Ben

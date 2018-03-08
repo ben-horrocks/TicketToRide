@@ -1,8 +1,10 @@
 package cs340.TicketClient.Game;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,7 +72,9 @@ public class GameActivity extends AppCompatActivity
 			toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
 			destinationViewFragment = new DestinationCardFragment();
 			destinationViewFragment.setArguments(toDestinationVF);
-			fm.beginTransaction().add(R.id.turn_fragment_holder, destinationViewFragment).commit();
+			// Set the destination fragment and set the transition
+			fm.beginTransaction().add(R.id.fragment_map, destinationViewFragment)
+			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 		}
 
 		Button handButton = (Button) this.findViewById(R.id.hand_button);

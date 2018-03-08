@@ -63,7 +63,7 @@ public interface IServer
 	 * @param returnCards list of destination cards the player didn't pick (can be 0)
 	 * @return Signal with OK or ERROR status
 	 */
-	Signal returnDestinationCards(GameID id, Username name, List<DestinationCard> pickedCards, List<DestinationCard> returnCards);
+	Signal returnDestinationCards(GameID id, Username name, HandDestinationCards pickedCards, HandDestinationCards returnCards);
 
 	Signal send(GameID id, ChatItem item);
 

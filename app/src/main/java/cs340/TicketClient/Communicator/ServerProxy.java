@@ -27,6 +27,7 @@ public class ServerProxy implements IServer
     private static final String gameIDClassname = "common.DataModels.GameID";
     private static final String playerClassName = "common.DataModels.User";
     private static final String usernameClassName = "common.DataModels.Username";
+    private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
 
     /**
      *
@@ -138,8 +139,8 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal returnDestinationCards(GameID id, Username name, List<DestinationCard> pickedCards, List<DestinationCard> returnCards) {
-        String[] paramTypes = {gameIDClassname, usernameClassName, "java.util.List<DestinationCard>", "java.util.List<DestinationCard"};
+    public Signal returnDestinationCards(GameID id, Username name, HandDestinationCards pickedCards, HandDestinationCards returnCards) {
+        String[] paramTypes = {gameIDClassname, usernameClassName, handDestinationCardsClassName, handDestinationCardsClassName};
         Object[] params = {id, name, pickedCards, returnCards};
         CommandParams commandParams = new CommandParams("returnDestinationCards", paramTypes, params);
         try {

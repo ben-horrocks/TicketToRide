@@ -9,9 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import common.DataModels.DestinationCard;
 import common.DataModels.HandDestinationCards;
 import cs340.TicketClient.R;
 
@@ -93,6 +90,7 @@ public class DestinationCardFragment extends Fragment {
             public void onClick(View view) {
                 presenter.confirmDestinationCards();
                 //TODO close fragment
+
             }
         });
         return view;
