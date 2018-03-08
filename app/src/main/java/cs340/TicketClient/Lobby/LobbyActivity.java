@@ -20,6 +20,7 @@ import android.widget.*;
 import java.util.List;
 
 import common.DataModels.*;
+import common.DataModels.GameData.StartGamePacket;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
@@ -141,10 +142,10 @@ public class LobbyActivity extends AppCompatActivity
    * @pre User has successfully started a game
    * @post GameActivity will be inflated and started, player info will be stored in "player" extra in intent.
    */
-  public void startGame()
+  public void startGame(StartGamePacket packet)
   {
     Intent intent = new Intent(this, GameActivity.class);
-    intent.putExtra("user", LobbyPresenter.getInstance().getModel().getUser());
+    intent.putExtra("packet", packet);
     startActivity(intent);
   }
 

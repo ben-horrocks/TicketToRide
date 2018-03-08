@@ -89,7 +89,7 @@ public class ClientCommunicator
 									ClientFacade.getSingleton().updateGameList(infoList);
 								}else if (signal.getSignalType() == SignalType.START_GAME){
 									ClientFacade c = new ClientFacade();
-									c.startGame(((ServerGameData)signal.getObject()).getId());
+									//c.startGame(((ServerGameData)signal.getObject()).getId());
 								}
 								else
 								{

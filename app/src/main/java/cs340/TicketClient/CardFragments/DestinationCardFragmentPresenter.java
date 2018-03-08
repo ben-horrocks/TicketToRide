@@ -18,7 +18,7 @@ import cs340.TicketClient.Game.GameModel;
 
 public class DestinationCardFragmentPresenter {
 
-    private GameModel model;
+    private GameModel model = GameModel.getInstance();
     private DestinationCardFragment fragment;
 
     DestinationCardFragmentPresenter(DestinationCardFragment fragment)
@@ -31,7 +31,8 @@ public class DestinationCardFragmentPresenter {
     ArrayList<DestinationCard> getDCards()
     {
         ArrayList<DestinationCard> cards = null;
-
+        cards = model.getInitialDCards();
+        model.clearDCards();
         return cards;
     }
 

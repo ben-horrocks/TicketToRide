@@ -6,6 +6,7 @@
  */
 package common.DataModels.GameData.Decks;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import common.DataModels.City;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.CityName;
 
-public class DestinationCardDeck implements IDestinationCardDeck
+public class DestinationCardDeck implements IDestinationCardDeck, Serializable
 {
   private List<DestinationCard> deck;
   public DestinationCardDeck() {

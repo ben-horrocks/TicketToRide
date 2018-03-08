@@ -6,13 +6,14 @@
  */
 package common.DataModels.GameData.Decks;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 
-public class TrainCardDeck implements ITrainCardDeck
+public class TrainCardDeck implements ITrainCardDeck, Serializable
 {
 
   private List<TrainCard> faceUpCards;
@@ -20,6 +21,8 @@ public class TrainCardDeck implements ITrainCardDeck
   private List<TrainCard> discard;
   public TrainCardDeck()
   {
+    faceUpCards = new ArrayList<>();
+    discard = new ArrayList<>();
     deck = addTrainCards();
     shuffle();
     for(int x=0;x<5;x++)

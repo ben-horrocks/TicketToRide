@@ -1,12 +1,14 @@
 package common.DataModels;
 
+import java.io.Serializable;
+
 import common.DataModels.GameData.Player;
 
 /**
  * Created by Carter on 3/6/18.
  */
 
-public class ChatItem {
+public class ChatItem implements Serializable{
 
     private Player mPlayer;
     private String message;

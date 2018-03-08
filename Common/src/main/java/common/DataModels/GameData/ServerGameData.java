@@ -20,7 +20,7 @@ import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
 
-public class ServerGameData
+public class ServerGameData implements Serializable
 {
 	private static final Integer PLAYER_LIMIT = 5;
 	private String name;

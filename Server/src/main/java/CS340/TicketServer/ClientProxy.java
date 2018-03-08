@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import common.CommandParams;
-import common.DataModels.GameData.ServerGameData;
-import common.DataModels.GameID;
 import common.DataModels.GameInfo;
-import common.DataModels.User;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
@@ -56,17 +54,17 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal startGame(GameID id) {
-        //get threads for all players & the serverGameData to be started with associated players
-        ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
-        ServerGameData serverGameData = Database.SINGLETON.getRunningGameByID(id);
-        
-        //create start signal to push to all players in serverGameData
-        Signal signal = new Signal(SignalType.START_GAME, serverGameData);
-
-        for (User p : serverGameData.getUsers()) {
-            if(threadList.get(p.getUsername()) != null)
-                threadList.get(p.getUsername()).push(signal);
+    public Signal startGame(StartGamePacket packet) {
+        //Get the recipient for the packet and find their thread
+        Username packetRecipient = packet.getUser();
+        String[] paramTypes = {"common.DataModels.GameData.StartGamePacket"};
+        Object[] params = {packet};
+        CommandParams newcommand = new CommandParams("startGame", paramTypes, params);
+        try {
+            ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
+            threadList.get(packetRecipient).push(newcommand);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return new Signal(SignalType.OK, "Accepted");
     }

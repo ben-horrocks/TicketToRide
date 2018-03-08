@@ -6,7 +6,9 @@
  */
 package common.DataModels;
 
-public class DestinationCard
+import java.io.Serializable;
+
+public class DestinationCard implements Serializable
 {
   private String city1, city2;
   private int pointValue;

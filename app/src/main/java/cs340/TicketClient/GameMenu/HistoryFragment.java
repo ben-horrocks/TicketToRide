@@ -1,12 +1,10 @@
-package cs340.TicketClient.MenuFragments;
+package cs340.TicketClient.GameMenu;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,13 +14,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import common.DataModels.HistoryItem;
+import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
 /**
  * Created by Carter on 3/6/18.
  */
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends android.support.v4.app.Fragment {
 
     private Button mCloseButton;
     private RecyclerView mHistoryRecyclerView;
@@ -44,13 +43,13 @@ public class HistoryFragment extends Fragment {
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: close the fragment
+
             }
         });
 
         //-- RECYCLER --
-        //TODO: GET FROM THE MODEL
-        ArrayList<HistoryItem> historyList = new ArrayList<>();
+        //Get list from the model
+        ArrayList<HistoryItem> historyList = (ArrayList) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
         mHistoryRecyclerView = (RecyclerView) getActivity().findViewById(R.id.history_recycler_field);

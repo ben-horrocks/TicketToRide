@@ -2,10 +2,10 @@ package cs340.TicketClient.Communicator;
 
 import java.util.List;
 
-import common.DataModels.GameID;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.Username;
 import common.IClient;
 import cs340.TicketClient.Lobby.LobbyPresenter;
@@ -29,8 +29,8 @@ public class ClientFacade implements IClient
   	}
 
   	@Override
-  	public Signal startGame(GameID id) {
-    	LobbyPresenter.getInstance().gameStarted();
+  	public Signal startGame(StartGamePacket packet) {
+    	LobbyPresenter.getInstance().gameStarted(packet);
 		return new Signal(SignalType.OK, "Accepted");
   	}
 

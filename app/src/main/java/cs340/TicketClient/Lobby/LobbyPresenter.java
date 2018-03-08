@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import common.DataModels.*;
+import common.DataModels.GameData.StartGamePacket;
 import cs340.TicketClient.ASyncTask.*;
 
 public class LobbyPresenter implements ILobbyPresenter
@@ -215,9 +216,9 @@ public class LobbyPresenter implements ILobbyPresenter
 
     }
 
-    public void gameStarted()
+    public void gameStarted(StartGamePacket packet)
     {
-        activity.startGame();
+        activity.startGame(packet);
     }
 
     User getPlayer() { return model.getUser(); }

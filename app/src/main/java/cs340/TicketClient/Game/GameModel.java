@@ -8,6 +8,8 @@ import common.DataModels.DestinationCard;
 import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.Opponent;
+import common.DataModels.GameData.Player;
+import common.DataModels.GameID;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 
@@ -49,4 +51,36 @@ public class GameModel
 	{
 		initialDCards = null;
 	}
+
+	public List<ChatItem> getChatMessages()
+	{
+		return gameData.getChat();
+	}
+
+	public void setChatMessages(List<ChatItem> chats)
+	{
+		for(ChatItem item : chats)
+		{
+			gameData.addChatMessage(item);
+		}
+	}
+
+	public List<HistoryItem> getPlayHistory()
+	{
+		return gameData.getHistory();
+	}
+
+	public void setPlayHistory(List<HistoryItem> history)
+	{
+		for (HistoryItem event : history)
+		{
+			gameData.addHistoryItem(event);
+		}
+	}
+
+	public Player getPlayer() {
+		return gameData.getPlayer();
+	}
+
+	public GameID getGameID() { return gameData.getId(); }
 }

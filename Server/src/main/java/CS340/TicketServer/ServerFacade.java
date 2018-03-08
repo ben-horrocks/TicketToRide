@@ -1,5 +1,7 @@
 package CS340.TicketServer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -7,9 +9,11 @@ import common.DataModels.AuthToken;
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
 import common.DataModels.Edge;
+import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.Password;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.ScreenName;
@@ -199,8 +203,34 @@ public class ServerFacade implements IServer
 			if (gameDeleted)
 			{
 				database.addRunningGame(serverGameData);
-				//push start notification to all players
-				ClientProxy.getSINGLETON().startGame(serverGameData.getId());
+				//Initialize player hands
+				HashMap<Username, List<TrainCard>> hands = new HashMap<>();
+				HashMap<Username, List<DestinationCard>> destCards = new HashMap<>();
+				for (User p : serverGameData.getUsers()) {
+					//drawing the players hand
+					ArrayList<TrainCard> hand = new ArrayList<TrainCard>();
+					for(int i = 0; i<4 ; i++) {
+						hand.add(serverGameData.drawFromTrainDeck());
+					}
+					serverGameData.playerDrewTrainCard(p.getStringUserName(), hand);
+					hands.put(p.getUsername(), hand);
+					//drawing players initial destination cards
+					List<DestinationCard> dest = serverGameData.destinationDraw();
+					destCards.put(p.getUsername(), dest);
+				}
+
+				//Update all the players
+				for (User u: serverGameData.getUsers()){
+					//create ClientGameData
+					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
+					//create the packet
+					StartGamePacket packet = new StartGamePacket(
+							destCards.get(u.getUsername()),
+							hands.get(u.getUsername()),
+							gameData);
+					Signal s = ClientProxy.getSINGLETON().startGame(packet);
+					//TODO: Error Checking
+				}
 				//return start signal to player
 				return new Signal(SignalType.OK, serverGameData);
 			}
