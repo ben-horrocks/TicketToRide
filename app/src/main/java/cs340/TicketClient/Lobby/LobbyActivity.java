@@ -20,6 +20,7 @@ import android.widget.*;
 import java.util.List;
 
 import common.DataModels.*;
+import common.DataModels.GameData.StartGamePacket;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 

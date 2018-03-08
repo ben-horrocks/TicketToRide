@@ -15,8 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import java.util.ArrayList;
 
 import common.DataModels.DestinationCard;
-import common.DataModels.GameData.Player;
-import common.DataModels.StartGamePacket;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.User;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;

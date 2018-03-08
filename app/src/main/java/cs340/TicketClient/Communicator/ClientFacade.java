@@ -2,11 +2,10 @@ package cs340.TicketClient.Communicator;
 
 import java.util.List;
 
-import common.DataModels.GameID;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
-import common.DataModels.StartGamePacket;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.Username;
 import common.IClient;
 import cs340.TicketClient.Lobby.LobbyPresenter;

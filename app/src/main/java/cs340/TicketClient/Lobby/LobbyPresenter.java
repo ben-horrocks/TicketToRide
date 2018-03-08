@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import common.DataModels.*;
+import common.DataModels.GameData.StartGamePacket;
 import cs340.TicketClient.ASyncTask.*;
-import cs340.TicketClient.Game.GameModel;
 
 public class LobbyPresenter implements ILobbyPresenter
 {

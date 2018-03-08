@@ -2,10 +2,9 @@ package common;
 
 import java.util.List;
 
-import common.DataModels.GameID;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
-import common.DataModels.StartGamePacket;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.Username;
 
 public interface IClient {

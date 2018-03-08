@@ -1,9 +1,12 @@
-package common.DataModels;
+package common.DataModels.GameData;
 
 import java.io.Serializable;
 import java.util.List;
 
+import common.DataModels.DestinationCard;
 import common.DataModels.GameData.ClientGameData;
+import common.DataModels.TrainCard;
+import common.DataModels.Username;
 
 public class StartGamePacket implements Serializable{
 

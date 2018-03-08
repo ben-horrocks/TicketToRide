@@ -13,7 +13,7 @@ import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.Password;
-import common.DataModels.StartGamePacket;
+import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.ScreenName;
