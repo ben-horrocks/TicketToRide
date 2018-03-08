@@ -12,6 +12,11 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.ArrayList;
+
+import common.DataModels.DestinationCard;
+import common.DataModels.GameData.Player;
+import common.DataModels.StartGamePacket;
 import common.DataModels.User;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
@@ -39,9 +44,11 @@ public class GameActivity extends AppCompatActivity
 			mapViewFragment = new MapFragment();
 			if (extras != null)
 			{
-				if (extras.get("user") instanceof User)
+				if (extras.get("packet") instanceof StartGamePacket)
 				{
-					this.user = (User) extras.get("user");
+					StartGamePacket packet = (StartGamePacket) extras.get("packet");
+					GameModel.getInstance().setGameData(packet.getClientGameData());
+					GameModel.getInstance().setInitialDCards((ArrayList< DestinationCard>)packet.getInitialDestinationCards());
 				}
 				mapViewFragment.setArguments(extras);
 			}
