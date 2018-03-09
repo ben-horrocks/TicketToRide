@@ -14,7 +14,11 @@
         android:text="@string/confirm_selection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <LinearLayout
+        android:isScrollContainer="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -67,6 +71,7 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
     <TextView
         android:id="@+id/DestinationDeckSize"
         android:text="Cards Left in DDeck"

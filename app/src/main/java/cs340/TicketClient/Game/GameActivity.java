@@ -147,7 +147,7 @@ public class GameActivity extends AppCompatActivity
 				break;
 			case R.id.player_btn:
 				fragment = new PlayerFragment();
-				fm.beginTransaction().add(R.id.fragment_map, fragment).commit();
+				fm.beginTransaction().add(R.id.fragment_map, fragment).addToBackStack(null).commit();
 				break;
 			case R.id.test_btn:
 				presenter.test();

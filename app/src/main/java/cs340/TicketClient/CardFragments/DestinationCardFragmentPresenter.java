@@ -3,6 +3,8 @@ package cs340.TicketClient.CardFragments;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 
+import java.util.ArrayList;
+
 import common.DataModels.GameData.SendCardsRequest;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
@@ -27,8 +29,10 @@ public class DestinationCardFragmentPresenter {
     HandDestinationCards getDCards()
     {
         HandDestinationCards cards = null;
-        cards = model.getInitialDCards();
-        model.clearDCards();
+        if (GameModel.getInstance().getInitialDCards() != null) {
+            cards = model.getInitialDCards();
+            model.clearDCards();
+        }
         return cards;
     }
 
