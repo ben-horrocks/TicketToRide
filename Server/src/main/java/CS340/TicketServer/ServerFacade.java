@@ -1,7 +1,5 @@
 package CS340.TicketServer;
 
-import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +22,7 @@ import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
 import common.IServer;
+import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -307,6 +306,10 @@ public class ServerFacade implements IServer
 	public Signal send(GameID id, ChatItem item) {
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		game.addChatMessage(item);
+		for (Username username : ServerCommunicator.getThreads().keySet())
+		{
+			ClientProxy.getSINGLETON().addChatItem(username, item);
+		}
 		return new Signal(SignalType.OK, "Message added to chat successfully");
 	}
 
