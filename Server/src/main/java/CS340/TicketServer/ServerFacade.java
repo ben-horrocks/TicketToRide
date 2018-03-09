@@ -235,7 +235,7 @@ public class ServerFacade implements IServer
 					//TODO: Error Checking
 				}
 				//return start signal to player
-				return new Signal(SignalType.OK, serverGameData);
+				return new Signal(SignalType.OK, "Accepted");
 			}
 			else
 			{
