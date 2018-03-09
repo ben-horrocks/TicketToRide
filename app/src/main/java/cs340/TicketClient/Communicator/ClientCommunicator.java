@@ -74,6 +74,7 @@ public class ClientCommunicator
 						try
 						{
 							Object received = messages.take();
+							messages.remove(received);
 							if (received instanceof Signal)
 							{
 								Signal signal = (Signal) received;
@@ -205,6 +206,7 @@ public class ClientCommunicator
 	 */
 	public Object send(Object object) throws IOException
 	{
+		setSignalFromServer(null);
 		Signal result = null;
 		server.write(object);
 		while (result == null)

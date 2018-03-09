@@ -79,7 +79,7 @@ public class ClientFacade implements IClient
 	public Signal opponentDrewDeckCard(Username name) {
 		ArrayList<Opponent> opponents = (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
 		for (Opponent op : opponents) {
-			if (op.getUsername().toString().equals(name.toString())) {
+			if (!op.getUsername().toString().equals(name.toString())) {
 				op.incrementTrainCards(1);
 				return new Signal(SignalType.OK, "Opponent's traincards incremented");
 			}

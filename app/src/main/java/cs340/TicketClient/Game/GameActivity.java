@@ -69,6 +69,8 @@ public class GameActivity extends AppCompatActivity
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
 
+
+
 		// Start the game off by having the player pick their destination cards
 		Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
 		if (destinationViewFragment == null)
@@ -143,17 +145,10 @@ public class GameActivity extends AppCompatActivity
 						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 				break;
 			case R.id.draw_destination_button:
-				Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
-				Bundle toDestinationVF = new Bundle();
 				HandDestinationCards cards = presenter.getDestinationCards();
 				if (cards == null)
 					return;
-				toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
-				destinationViewFragment = new DestinationCardFragment();
-				destinationViewFragment.setArguments(toDestinationVF);
-				// Set the destination fragment and set the transition
-				fm.beginTransaction().add(R.id.fragment_map, destinationViewFragment)
-						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+				startDestinationFragement(cards);
 				break;
 		}
 	}
@@ -169,6 +164,22 @@ public class GameActivity extends AppCompatActivity
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu_list, menu);
 		return true;
+	}
+
+	public FragmentManager getFM()
+	{
+		return fm;
+	}
+
+	public void startDestinationFragement(HandDestinationCards cards)
+	{
+		Fragment destinationCardFragment = fm.findFragmentById(R.id.fragment_destination_card);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("cards", cards);
+		destinationCardFragment = new DestinationCardFragment();
+		destinationCardFragment.setArguments(bundle);
+		fm.beginTransaction().add(R.id.fragment_map, destinationCardFragment)
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 	}
 
 	@Override

@@ -1,10 +1,7 @@
 package cs340.TicketClient.Game;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +140,7 @@ public class GamePresenter
 		activity.displayOpponentHandSize(opponents);
 	}
 
+
 	private void updatePlayerPoints()
 	{
 		model.getPlayer().addPoints(250);
@@ -168,10 +166,7 @@ public class GamePresenter
 		protected void onPostExecute(Signal signal)
 		{
 			super.onPostExecute(signal);
-			FragmentManager manager = activity.getFragmentManager();
-			Fragment fragment = manager.findFragmentById(R.id.fragment_destination_card);
-			manager.beginTransaction().add(R.id.fragment_map, fragment)
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+			activity.startDestinationFragement((HandDestinationCards)signal.getObject());
 		}
 	}
 }
