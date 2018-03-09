@@ -104,8 +104,8 @@ public class ClientProxy implements IClient {
     @Override
     public Signal addChatItem(Username name, ChatItem item) {
         String methodName = "addChatItem";
-        String[] paramTypes = {ChatItem.class.getName()};
-        Object[] params = {item};
+        String[] paramTypes = {Username.class.getName(), ChatItem.class.getName()};
+        Object[] params = {name, item};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
 
