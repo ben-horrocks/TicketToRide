@@ -223,6 +223,7 @@ public class ServerFacade implements IServer
 				}
 
 				//Update all the players
+				System.out.println("Entering StartGame Alert Loop");
 				for (User u: serverGameData.getUsers()){
 					//create ClientGameData
 					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
@@ -234,6 +235,7 @@ public class ServerFacade implements IServer
 					Signal s = ClientProxy.getSINGLETON().startGame(packet);
 					//TODO: Error Checking
 				}
+				System.out.println("Exiting StartGame Alert Loop");
 				//return start signal to player
 				return new Signal(SignalType.OK, "Accepted");
 			}

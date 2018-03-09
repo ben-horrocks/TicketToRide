@@ -118,6 +118,7 @@ public class ClientProxy implements IClient {
     }
 
     private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes, Object[] params){
+        System.out.println("Sending \"" + methodName + "\" command to: " + client.getName());
         CommandParams command = new CommandParams(methodName, paramTypes, params);
         try {
             ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
