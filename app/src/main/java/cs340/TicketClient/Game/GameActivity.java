@@ -40,6 +40,10 @@ public class GameActivity extends AppCompatActivity
 	private GoogleMap mMap;
 	private User user;
 	private GamePresenter presenter;
+	Button handButton;
+	Button destinationCardButton;
+	Button drawTrainCardButton;
+	Button claimRouteButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -79,10 +83,10 @@ public class GameActivity extends AppCompatActivity
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 		}
 
-		Button handButton = (Button) this.findViewById(R.id.hand_button);
-		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
-		Button drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);
-		Button claimRouteButton = (Button) this.findViewById(R.id.claim_route_button);
+		handButton = (Button) this.findViewById(R.id.hand_button);
+		destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
+		drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);
+		claimRouteButton = (Button) this.findViewById(R.id.claim_route_button);
 
 		handButton.setOnClickListener(new View.OnClickListener() {
 			@Override
