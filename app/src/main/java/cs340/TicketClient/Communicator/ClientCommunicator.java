@@ -95,10 +95,12 @@ public class ClientCommunicator
 							}
 							else if (received instanceof CommandParams)
 							{
+								System.out.println("Signal received on client side");
 								CommandParams params = (CommandParams) received;
 								ClientCommand command = new ClientCommand(params);
 								Signal result = (Signal) command.execute();
 								server.write(result);
+								System.out.println("Signal sent to server");
 							}
 
 						}

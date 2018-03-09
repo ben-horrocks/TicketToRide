@@ -223,8 +223,10 @@ public class ServerFacade implements IServer
 				}
 
 				//Update all the players
+				int numLoops = 0;
 				for (User u: serverGameData.getUsers())
 				{
+					numLoops++;
 					//create ClientGameData
 					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
 					//create the packet
@@ -233,9 +235,11 @@ public class ServerFacade implements IServer
 							hands.get(u.getUsername()),
 							gameData);
 					Signal s = ClientProxy.getSINGLETON().startGame(packet);
+					System.out.println(s.getSignalType().name());
 					//TODO: Error Checking
 				}
 				//return start signal to player
+				int finalLoops = numLoops;
 				return new Signal(SignalType.OK, "Accepted");
 			}
 			else
