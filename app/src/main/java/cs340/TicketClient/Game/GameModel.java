@@ -1,10 +1,8 @@
 package cs340.TicketClient.Game;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.ChatItem;
-import common.DataModels.DestinationCard;
 import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;

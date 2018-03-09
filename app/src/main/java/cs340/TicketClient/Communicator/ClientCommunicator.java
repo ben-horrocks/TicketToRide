@@ -97,7 +97,8 @@ public class ClientCommunicator
 							{
 								CommandParams params = (CommandParams) received;
 								ClientCommand command = new ClientCommand(params);
-								command.execute();
+								Signal result = (Signal) command.execute();
+								server.write(result);
 							}
 
 						}
