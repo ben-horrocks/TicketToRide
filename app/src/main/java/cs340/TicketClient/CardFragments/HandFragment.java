@@ -3,6 +3,7 @@ package cs340.TicketClient.CardFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,15 +46,14 @@ public class HandFragment extends Fragment {
         DestinationCard destinationCard[] = (DestinationCard[]) GameModel.getInstance().getGameData().getPlayer().getDestinationCards().toArray();
         HandTrainCardAdapter trainCardAdapter = new HandTrainCardAdapter(this.getContext(), trainCards);
         HandDestCardAdapter destCardAdapter = new HandDestCardAdapter(this.getContext(), destinationCard);
-        //TODO construct recyclerView
-		if (getArguments() != null)
-		{
-			Bundle bundle = getArguments();
-
-			//TrainCard[] trainCards =
-			//handTrainCardAdapter = new HandTrainCardAdapter(this, )
-		}
-
+        LinearLayoutManager trainCardManaager = new LinearLayoutManager(getActivity());
+        trainCardManaager.setOrientation(LinearLayoutManager.VERTICAL);
+        trainCardsRecyclerView.setLayoutManager(trainCardManaager);
+        trainCardsRecyclerView.setAdapter(trainCardAdapter);
+        LinearLayoutManager destCardManager = new LinearLayoutManager(getActivity());
+        destCardManager.setOrientation(LinearLayoutManager.VERTICAL);
+        destinationCardsRecyclerView.setLayoutManager(destCardManager);
+        destinationCardsRecyclerView.setAdapter(destCardAdapter);
 
         return v;
     }
