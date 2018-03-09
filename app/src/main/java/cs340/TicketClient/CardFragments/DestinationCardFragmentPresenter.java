@@ -59,7 +59,7 @@ public class DestinationCardFragmentPresenter {
         Username user = model.getPlayer().getUser().getUsername();
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
-        task.execute(request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
         fm.beginTransaction().remove(fragment).commit();
     }
