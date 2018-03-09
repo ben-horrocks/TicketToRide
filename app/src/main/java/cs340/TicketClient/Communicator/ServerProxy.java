@@ -28,6 +28,8 @@ public class ServerProxy implements IServer
     private static final String playerClassName = "common.DataModels.User";
     private static final String usernameClassName = "common.DataModels.Username";
     private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
+    private static final String chatItemClassName = "common.DataModels.ChatItem";
+    private static final String edgeClassName = "common.DataModels.Edge";
 
     /**
      *
@@ -154,27 +156,72 @@ public class ServerProxy implements IServer
 
     @Override
     public Signal send(GameID id, ChatItem item) {
-        return null;
+        String[] paramTypes = {gameIDClassname, chatItemClassName};
+        Object[] params = {id, item};
+        CommandParams commandParams = new CommandParams("send", paramTypes, params);
+        try {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
     }
 
     @Override
     public Signal drawDeck(GameID id, Username user) {
-        return null;
+        String[] paramTypes = {gameIDClassname, usernameClassName};
+        Object[] params = {id, user};
+        CommandParams commandParams = new CommandParams("drawDeck", paramTypes, params);
+        try {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
     }
 
     @Override
     public Signal drawDestinationCards(GameID id, Username user) {
-        return null;
+        String[] paramTypes = {gameIDClassname, usernameClassName};
+        Object[] params = {id, user};
+        CommandParams commandParams = new CommandParams("drawDestinationCards", paramTypes, params);
+        try {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
     }
 
     @Override
     public Signal drawFaceUp(GameID id, Username user, int cardIndex) {
-        return null;
+        String[] paramTypes = {gameIDClassname, usernameClassName, "int"};
+        Object[] params = {id, user, cardIndex};
+        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        try {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
     }
 
     @Override
     public Signal claimEdge(GameID id, Username user, Edge edge) {
-        return null;
+        String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName};
+        Object[] params = {id, user, edge};
+        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        try {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
     }
 }
     
