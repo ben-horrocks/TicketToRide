@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/history_slot">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingBottom="15dp"
+              android:id="@+id/chat_slot">
 
-    <TextView
-        android:id="@+id/history_player"
-        android:text="Player Screen Name"
-        android:textAllCaps="true"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        />
-    <TextView
-        android:id="@+id/history_text"
-        android:text="History description"
-        android:textSize="12sp"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10px"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/history_player"
-        android:layout_alignBaseline="@+id/history_player"/>
+<TextView
+    android:id="@+id/history_player"
+    android:text="Player Screen Name"
+    android:textAllCaps="true"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:layout_marginTop="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    />
+<TextView
+    android:id="@+id/history_divider"
+    android:text=" : "
+    android:textSize="12sp"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10px"
+    android:layout_marginTop="10dp"/>
+<TextView
+    android:id="@+id/history_text"
+    android:text="History description"
+    android:textSize="12sp"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10px"
+    android:layout_marginTop="10dp"/>
 
-</RelativeLayout>
+</LinearLayout>
