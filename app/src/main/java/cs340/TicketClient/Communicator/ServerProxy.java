@@ -144,7 +144,8 @@ public class ServerProxy implements IServer
         Object[] params = {id, name, pickedCards, returnCards};
         CommandParams commandParams = new CommandParams("returnDestinationCards", paramTypes, params);
         try {
-            return (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
         } catch (Exception e)
         {
            return new Signal(SignalType.ERROR, e.getMessage());
