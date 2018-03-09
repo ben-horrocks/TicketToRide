@@ -2,9 +2,14 @@ package common;
 
 import java.util.List;
 
+import common.DataModels.ChatItem;
+import common.DataModels.DestinationCard;
 import common.DataModels.GameInfo;
+import common.DataModels.HandDestinationCards;
+import common.DataModels.HistoryItem;
 import common.DataModels.Signal;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.TrainCard;
 import common.DataModels.Username;
 
 public interface IClient {
@@ -27,5 +32,15 @@ public interface IClient {
      * @param name the username for the opponent who drew the card(s)
      * @param amount the amount of cards drawn
      */
-    Signal playerDrewDestinationCards(Username name, int amount);
+    Signal opponentDrewDestinationCards(Username name, int amount);
+
+    Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement);
+
+    Signal opponentDrewDeckCard(Username name);
+
+    Signal playerDrewDestinationCards(Username name, HandDestinationCards cards);
+
+    Signal addChatItem(Username name, ChatItem item);
+
+    Signal addHistoryItem(Username name, HistoryItem item);
 }

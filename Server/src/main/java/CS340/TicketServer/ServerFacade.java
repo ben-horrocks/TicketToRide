@@ -1,5 +1,7 @@
 package CS340.TicketServer;
 
+import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -286,10 +288,11 @@ public class ServerFacade implements IServer
 		//Tell the game to update
 		game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards);
 		//Tell the clients to update
+		ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards);
 		Set<User> otherPlayers = game.getUsers();
 		otherPlayers.remove(agent);
 		for(User u: otherPlayers){
-			ClientProxy.getSINGLETON().playerDrewDestinationCards(u.getUsername(), pickedCards.size());
+			ClientProxy.getSINGLETON().opponentDrewDestinationCards(u.getUsername(), pickedCards.size());
 		}
 		// Tell the sender that the operation was successful
 		return new Signal(SignalType.OK, "Accepted");
@@ -303,46 +306,74 @@ public class ServerFacade implements IServer
 
 	@Override
 	public Signal drawFaceUp(GameID id, Username user, int index) {
+		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		//Update GameData
 		TrainCard card = game.faceUpDraw(index);
+		//Alert Clients
 		Set<User> otherusers = game.getUsers();
 		otherusers.remove(Database.SINGLETON.getPlayer(user));
 		for(User u : otherusers)
 		{
-			//TODO: get user thread and send playerDrewFaceUp to ClientProxy
+			ClientProxy.getSINGLETON().opponentDrewFaceUpCard(u.getUsername(), index, card);
 		}
+		//Give the card to the requester
 		return new Signal(SignalType.OK, card);
 	}
 
 	@Override
 	public Signal drawDestinationCards(GameID id, Username user) {
+		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-		List<DestinationCard> card = game.destinationDraw();
-		Set<User> otherusers = game.getUsers();
-		otherusers.remove(Database.SINGLETON.getPlayer(user));
-		for(User u : otherusers)
-		{
-			//TODO: get user thread and send playerDrewDestinationCards to ClientProxy
-		}
-		return new Signal(SignalType.OK, card);
+		//Update GameData
+		List<DestinationCard> cards = game.destinationDraw();
+		HandDestinationCards hand = new HandDestinationCards(cards);
+		//Give the Cards to the requester
+		return new Signal(SignalType.OK, hand);
 	}
 
 	@Override
 	public Signal drawDeck(GameID id, Username user) {
+		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+		//Update GameData
 		TrainCard card = game.drawFromTrainDeck();
+		//Alert Opponents
 		Set<User> otherusers = game.getUsers();
 		otherusers.remove(Database.SINGLETON.getPlayer(user));
 		for(User u : otherusers)
 		{
-			//TODO: get user thread and send playerDrewTrainDeck to ClientProxy
+			ClientProxy.getSINGLETON().opponentDrewDeckCard(u.getUsername());
 		}
+		//Give the card to the requester
 		return new Signal(SignalType.OK, card);
 	}
 
+	/**
+	 * Updates the server info for a specified Game, User and Edge. Also alerts the other players
+	 * of the change
+	 *
+	 * @pre The Edge passed in has already been validated (Player had the appropriate number of
+	 * 		cards to be able to claim the edge) and the edge has already been modified to have the
+	 * 		specified player as it's owner.
+	 *
+	 * @param id
+	 * @param user
+	 * @param edge
+	 * @return
+	 */
 	@Override
 	public Signal claimEdge(GameID id, Username user, Edge edge) {
+		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-		return null;
+		//Update GameData
+		game.edgeClaimed(edge);
+		//Alert Opponents
+		Set<User> opponents = game.getUsers();
+		opponents.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : opponents){
+			//TODO ClientProxy.getSINGLETON().opponentClaimedEdge(user, edge);
+		}
+		return new Signal(SignalType.OK, edge);
 	}
 }
