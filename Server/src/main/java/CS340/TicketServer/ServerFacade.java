@@ -223,7 +223,8 @@ public class ServerFacade implements IServer
 				}
 
 				//Update all the players
-				for (User u: serverGameData.getUsers()){
+				for (User u: serverGameData.getUsers())
+				{
 					//create ClientGameData
 					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
 					//create the packet
