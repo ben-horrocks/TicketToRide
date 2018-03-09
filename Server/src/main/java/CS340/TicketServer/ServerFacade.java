@@ -308,9 +308,9 @@ public class ServerFacade implements IServer
 	public Signal send(GameID id, ChatItem item) {
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		game.addChatMessage(item);
-		for (Username username : ServerCommunicator.getThreads().keySet())
+		for (User user : game.getUsers())
 		{
-			ClientProxy.getSINGLETON().addChatItem(username, item);
+			ClientProxy.getSINGLETON().addChatItem(user.getUsername(), item);
 		}
 		return new Signal(SignalType.OK, "Message added to chat successfully");
 	}
