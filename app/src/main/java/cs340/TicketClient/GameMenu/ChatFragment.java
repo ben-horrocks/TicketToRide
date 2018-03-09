@@ -1,5 +1,6 @@
 package cs340.TicketClient.GameMenu;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,7 +26,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
     private RecyclerView mChatRecyclerView;
     private RecyclerView.Adapter mChatAdapter;
     private RecyclerView.LayoutManager mChatLayoutManager;
-    private TextView mChatInputText;
+    private EditText mChatInputText;
     private Button mSendButton;
 
     @Override
@@ -37,22 +39,15 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
 
+        //Set background color to white
+        v.setBackgroundColor(Color.WHITE);
+
         //Setup and store ChatPresenter
         mChatPresenter = ChatPresenter.getSINGLETON(this);
 
-        //-- CLOSE BUTTON --
-        mCloseButton = (Button) getActivity().findViewById(R.id.history_close_btn);
-        mCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-               fm.beginTransaction().detach(getParentFragment()).commit();
-            }
-        });
-
         //-- SEND BUTTON --
-        mChatInputText = (TextView) getActivity().findViewById(R.id.chat_text_input);
-        mSendButton = (Button) getActivity().findViewById(R.id.chat_send_button);
+        mChatInputText = (EditText) v.findViewById(R.id.chat_text_input);
+        mSendButton = (Button) v.findViewById(R.id.chat_send_button);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +62,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
-        mChatRecyclerView = (RecyclerView) getActivity().findViewById(R.id.chat_recycler_field);
+        mChatRecyclerView = (RecyclerView) v.findViewById(R.id.chat_recycler_field);
 
         //Setup layout Manager
         mChatLayoutManager = new LinearLayoutManager(getActivity());
@@ -85,10 +80,10 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
         //-- RECYCLER --
         //Get messages from the Game model
-        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getPlayHistory();
+        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
 
         //Instantiate View
-        mChatRecyclerView = (RecyclerView) getActivity().findViewById(R.id.chat_recycler_field);
+        mChatRecyclerView = (RecyclerView) getView().findViewById(R.id.chat_recycler_field);
 
         //Setup layout Manager
         mChatLayoutManager = new LinearLayoutManager(getActivity());

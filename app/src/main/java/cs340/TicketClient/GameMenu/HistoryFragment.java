@@ -38,16 +38,6 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
-        //-- CLOSE BUTTON --
-        mCloseButton = (Button) getActivity().findViewById(R.id.history_close_btn);
-        mCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().detach(getParentFragment()).commit();
-            }
-        });
-
         //-- RECYCLER --
         //Get list from the model
         ArrayList<HistoryItem> historyList = (ArrayList) GameModel.getInstance().getPlayHistory();
