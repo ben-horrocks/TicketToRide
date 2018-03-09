@@ -21,6 +21,7 @@ import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.User;
+import common.DataModels.Username;
 
 public class ServerGameData implements Serializable
 {
@@ -28,7 +29,7 @@ public class ServerGameData implements Serializable
 	private String name;
 	private User creator;
 	private List<Player> players;
-	private Queue<Player> turnQueue;
+	private TurnQueue turnQueue;
 	private GameID id = new GameID();
 	private boolean gameStarted = false;
 
@@ -62,11 +63,11 @@ public class ServerGameData implements Serializable
 
 	private void createTurnQueue()
 	{
-		turnQueue = new ArrayBlockingQueue<>(players.size());
-		turnQueue.addAll(players);
+
+		turnQueue = new TurnQueue(getUserNames());
 	}
 
-	public Queue<Player> getTurnQueue() { return turnQueue; }
+	public TurnQueue getTurnQueue() { return turnQueue; }
 
 	public void startGame()
 	{
@@ -90,6 +91,16 @@ public class ServerGameData implements Serializable
 			users.add(p.getUser());
 		}
 		return users;
+	}
+
+	public Set<Username> getUserNames()
+	{
+		HashSet<Username> usernames = new HashSet<>();
+		for (Player p: players)
+		{
+			usernames.add(p.getUser().getUsername());
+		}
+		return usernames;
 	}
 
 	public EdgeGraph getGameBoard()

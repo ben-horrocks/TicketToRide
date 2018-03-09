@@ -33,16 +33,20 @@ public class PlayerFragment extends Fragment
 
 		v.setBackgroundColor(Color.WHITE);
 		mPlayerName = (TextView) v.findViewById(R.id.drawer_player_name);
-		mPlayerName.setText(presenter.getPlayerName());
+		String text = "Name: " + presenter.getPlayerName();
+		mPlayerName.setText(text);
 
 		mPlayerColor = (TextView) v.findViewById(R.id.drawer_player_color);
-		mPlayerColor.setText(presenter.getPlayerColor());
+		text = "Color: " + presenter.getPlayerColor();
+		mPlayerColor.setText(text);
 
 		mPlayerScore = (TextView) v.findViewById(R.id.drawer_player_points);
-		mPlayerScore.setText(presenter.getPlayerPoints());
+		text = "Score: " + presenter.getPlayerPoints();
+		mPlayerScore.setText(text);
 
 		mTurnQueue = (TextView) v.findViewById(R.id.drawer_player_turnQueue);
-		mTurnQueue.setText(presenter.getTurnQueue());
+		text = "Turn Queue: " + presenter.getTurnQueue();
+		mTurnQueue.setText(text);
 
 		mExitButton = (Button) v.findViewById(R.id.drawer_player_exit_button);
 		mExitButton.setOnClickListener(new View.OnClickListener() {

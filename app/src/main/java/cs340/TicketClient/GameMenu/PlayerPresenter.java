@@ -4,6 +4,8 @@ package cs340.TicketClient.GameMenu;
 import java.util.Queue;
 
 import common.DataModels.GameData.Player;
+import common.DataModels.GameData.TurnQueue;
+import common.DataModels.Username;
 import cs340.TicketClient.Game.GameModel;
 
 public class PlayerPresenter
@@ -64,12 +66,17 @@ public class PlayerPresenter
 
 	public String getTurnQueue()
 	{
-		Queue<Player> queue = model.getGameData().getTurnQueue();
+		TurnQueue queue = model.getGameData().getTurnQueue();
+		Username[] usernames = queue.toArray();
 		StringBuilder sb = new StringBuilder();
-		for (Player p : queue)
+		int position = 1;
+		for (Username username : usernames)
 		{
-			sb.append(p.getUser().getStringUserName());
+			sb.append(String.valueOf(position));
+			sb.append(": ");
+			sb.append(username.toString());
 			sb.append("\n");
+			position++;
 		}
 		return sb.toString();
 	}

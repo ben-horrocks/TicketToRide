@@ -18,7 +18,7 @@
         android:id="@+id/ipAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="10.0.2.2"
+        android:text="10.24.196.156"
         android:hint="IP Address"/>
     <EditText
         android:id="@+id/username"

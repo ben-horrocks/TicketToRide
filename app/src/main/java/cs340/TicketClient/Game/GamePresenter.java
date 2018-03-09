@@ -1,19 +1,29 @@
 package cs340.TicketClient.Game;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
 import common.DataModels.ChatItem;
+import common.DataModels.DestDrawRequest;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.GameData.TurnQueue;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
+import common.DataModels.Signal;
+import common.DataModels.SignalType;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
+import cs340.TicketClient.CardFragments.DestinationCardFragment;
+import cs340.TicketClient.Communicator.ServerProxy;
+import cs340.TicketClient.R;
 
 public class GamePresenter
 {
@@ -49,7 +59,21 @@ public class GamePresenter
 
 	public void setPlayHistory(List<HistoryItem> playHistory) { model.setPlayHistory(playHistory); }
 
-	public HandDestinationCards getDestinationCards() { return model.getInitialDCards(); }
+	public HandDestinationCards getDestinationCards() {
+		if (model.getInitialDCards() != null)
+		{
+			HandDestinationCards cards = model.getInitialDCards();
+			GameModel.getInstance().clearDCards();
+			return cards;
+		}
+		else
+		{
+			DestDrawRequest request = new DestDrawRequest(GameModel.getInstance().getGameID(), GameModel.getInstance().getPlayer().getUser().getUsername());
+			DrawDestinationTask task = new DrawDestinationTask(activity);
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+			return null;
+		}
+	}
 
 	void test()
 	{
@@ -58,10 +82,15 @@ public class GamePresenter
 			@Override
 			public void run()
 			{
+				// Display setup information. Can be found in Players tab.
 				displayPlayerColors();
 				displayPlayerTurnOrder();
 				displayPlayerHand();
 				displayOpponentHandSizes();
+
+				// Update player info
+				updatePlayerPoints();
+
 			}
 		});
 	}
@@ -89,9 +118,9 @@ public class GamePresenter
 	 */
 	private void displayPlayerTurnOrder()
 	{
-		Queue<Player> queue = model.getGameData().getTurnQueue();
-		Player[] players = queue.toArray(new Player[queue.size()]);
-		activity.displayPlayerOrder(players);
+		TurnQueue queue = model.getGameData().getTurnQueue();
+		Username[] usernames = queue.toArray();
+		activity.displayPlayerOrder(usernames);
 	}
 
 	/**
@@ -110,5 +139,35 @@ public class GamePresenter
 	{
 		List<Opponent> opponents = model.getOpponents();
 		activity.displayOpponentHandSize(opponents);
+	}
+
+
+	private void updatePlayerPoints()
+	{
+		model.getPlayer().addPoints(250);
+	}
+
+	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
+	{
+		GameActivity activity;
+
+		DrawDestinationTask(GameActivity activity)
+		{
+			this.activity = activity;
+		}
+
+		@Override
+		protected Signal doInBackground(DestDrawRequest... destDrawRequests)
+		{
+			Signal s = ServerProxy.getInstance().drawDestinationCards(destDrawRequests[0].getId(), destDrawRequests[0].getUser());
+			return s;
+		}
+
+		@Override
+		protected void onPostExecute(Signal signal)
+		{
+			super.onPostExecute(signal);
+			activity.startDestinationFragement((HandDestinationCards)signal.getObject());
+		}
 	}
 }

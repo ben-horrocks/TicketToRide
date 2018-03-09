@@ -74,6 +74,7 @@ public class ClientCommunicator
 						try
 						{
 							Object received = messages.take();
+							messages.remove(received);
 							if (received instanceof Signal)
 							{
 								Signal signal = (Signal) received;
@@ -95,9 +96,12 @@ public class ClientCommunicator
 							}
 							else if (received instanceof CommandParams)
 							{
+								System.out.println("Signal received on client side");
 								CommandParams params = (CommandParams) received;
 								ClientCommand command = new ClientCommand(params);
-								command.execute();
+								Signal result = (Signal) command.execute();
+								server.write(result);
+								System.out.println("Signal sent to server");
 							}
 
 						}
@@ -202,6 +206,7 @@ public class ClientCommunicator
 	 */
 	public Object send(Object object) throws IOException
 	{
+		setSignalFromServer(null);
 		Signal result = null;
 		server.write(object);
 		while (result == null)

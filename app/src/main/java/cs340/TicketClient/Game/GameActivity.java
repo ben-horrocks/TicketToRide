@@ -23,12 +23,15 @@ import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
 import cs340.TicketClient.CardFragments.DeckFragment;
 import cs340.TicketClient.CardFragments.DestinationCardFragment;
+import cs340.TicketClient.CardFragments.HandFragment;
+import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
 import cs340.TicketClient.GameMenu.PlayerFragment;
@@ -40,6 +43,7 @@ public class GameActivity extends AppCompatActivity
 	private GoogleMap mMap;
 	private User user;
 	private GamePresenter presenter;
+	final FragmentManager fm = this.getSupportFragmentManager();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -57,7 +61,6 @@ public class GameActivity extends AppCompatActivity
 				presenter.fillModel(packet);
 			}
 		}
-		final FragmentManager fm = this.getSupportFragmentManager();
 		Fragment mapViewFragment = fm.findFragmentById(R.id.fragment_map);
 		if (mapViewFragment == null)
 		{
@@ -65,6 +68,8 @@ public class GameActivity extends AppCompatActivity
 			mapViewFragment.setArguments(extras);
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
+
+
 
 		// Start the game off by having the player pick their destination cards
 		Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
@@ -119,6 +124,33 @@ public class GameActivity extends AppCompatActivity
 
 			}
 		});
+
+
+	}
+
+	public 	void onClick(View v)
+	{
+		switch(v.getId())
+		{
+			case R.id.hand_button:
+				Fragment handFragment;
+				handFragment = new HandFragment();
+				fm.beginTransaction().add(R.id.fragment_map, handFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+				break;
+			case R.id.draw_trainCar_button:
+				Fragment drawCardFragment = fm.findFragmentById(R.id.fragment_deck);
+				drawCardFragment = new DeckFragment();
+				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+				break;
+			case R.id.draw_destination_button:
+				HandDestinationCards cards = presenter.getDestinationCards();
+				if (cards == null)
+					return;
+				startDestinationFragement(cards);
+				break;
+		}
 	}
 
 	public void closeCurrentFragment()
@@ -134,6 +166,22 @@ public class GameActivity extends AppCompatActivity
 		return true;
 	}
 
+	public FragmentManager getFM()
+	{
+		return fm;
+	}
+
+	public void startDestinationFragement(HandDestinationCards cards)
+	{
+		Fragment destinationCardFragment = fm.findFragmentById(R.id.fragment_destination_card);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("cards", cards);
+		destinationCardFragment = new DestinationCardFragment();
+		destinationCardFragment.setArguments(bundle);
+		fm.beginTransaction().add(R.id.fragment_map, destinationCardFragment)
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -144,11 +192,11 @@ public class GameActivity extends AppCompatActivity
 		{
 			case R.id.chat_btn:
 				fragment = new ChatFragment();
-				//fm.beginTransaction().add(R.id.game_menu_fragment, fragment).commit();
+				fm.beginTransaction().add(R.id.fragment_map, fragment).addToBackStack(null).commit();
 				break;
 			case R.id.hist_btn:
 				fragment = new HistoryFragment();
-				//fm.beginTransaction().add(R.id.game_menu_fragment, fragment).commit();
+				fm.beginTransaction().add(R.id.fragment_map, fragment).addToBackStack(null).commit();
 				break;
 			case R.id.player_btn:
 				fragment = new PlayerFragment();
@@ -194,16 +242,16 @@ public class GameActivity extends AppCompatActivity
 
 	/**
 	 * Display the order in which turns will be taken. Mainly for testing.
-	 * @param players The players in a collection sorted by their queue order.
+	 * @param usernames The userNames in a collection sorted by their queue order.
 	 */
-	void displayPlayerOrder(Player[] players)
+	void displayPlayerOrder(Username[] usernames)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("Player Turn Order\n");
-		for (int i = 0; i < players.length; i++)
+		for (int i = 0; i < usernames.length; i++)
 		{
 			int turn = i + 1;
-			String line = turn + ": " + players[i].getUser().getStringUserName() + "\n";
+			String line = turn + ": " + usernames[i].toString() + "\n";
 			sb.append(line);
 		}
 		makeLargerToast(sb.toString());

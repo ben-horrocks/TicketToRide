@@ -15,6 +15,7 @@
         android:layout_alignParentTop="true">
         <Button
             android:id="@+id/hand_button"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/hand"/>
@@ -37,6 +38,7 @@
 
         <Button
             android:id="@+id/draw_destination_button"
+            android:onClick="onClick"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/draw_destination_card"
@@ -44,6 +46,7 @@
             tools:ignore="ButtonStyle"/>
         <Button
             android:id="@+id/draw_trainCar_button"
+            android:onClick="onClick"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/draw_train_card"
@@ -52,6 +55,7 @@
         <Button
             android:id="@+id/claim_route_button"
             android:layout_width="wrap_content"
+            android:onClick="onClick"
             android:layout_height="match_parent"
             android:text="@string/claim_route"
             android:layout_weight="1"

@@ -62,7 +62,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal startGame(StartGamePacket packet) {
         //Get the recipient for the packet and find their thread
-        Username packetRecipient = packet.getUser();
+		Username packetRecipient = packet.getUser();
         String methodName = "startGame";
         String[] paramTypes = {StartGamePacket.class.getName()};
         Object[] params = {packet};
@@ -104,8 +104,8 @@ public class ClientProxy implements IClient {
     @Override
     public Signal addChatItem(Username name, ChatItem item) {
         String methodName = "addChatItem";
-        String[] paramTypes = {ChatItem.class.getName()};
-        Object[] params = {item};
+        String[] paramTypes = {Username.class.getName(), ChatItem.class.getName()};
+        Object[] params = {name, item};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
 
@@ -122,7 +122,9 @@ public class ClientProxy implements IClient {
         CommandParams command = new CommandParams(methodName, paramTypes, params);
         try {
             ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
-            return (Signal) threadList.get(client).send(command);
+            threadList.get(client).push(command);
+            Signal signal = new Signal(SignalType.OK, "Dummy Signal");
+            return signal;
         } catch (Exception e) {
             e.printStackTrace();
             return new Signal(SignalType.ERROR, "An error occurred when sending a \""

@@ -9,6 +9,7 @@ package common.DataModels.GameData.Decks;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
@@ -56,11 +57,12 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
   public void shuffle()
   {
     List<TrainCard> newdeck = new ArrayList<>();
+    Random rand = new Random();
     while(deck.size()>0)
     {
-      int randomcard = (int) (Math.random()) % deck.size();
+      int randomcard = rand.nextInt(deck.size());
       newdeck.add(deck.get(randomcard));
-      deck.remove(randomcard);
+		deck.remove(randomcard);
     }
     this.deck = newdeck;
   }

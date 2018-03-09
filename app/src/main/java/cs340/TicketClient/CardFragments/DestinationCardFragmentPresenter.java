@@ -3,6 +3,7 @@ package cs340.TicketClient.CardFragments;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import common.DataModels.GameData.SendCardsRequest;
@@ -13,6 +14,8 @@ import common.DataModels.SignalType;
 import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
+
+import static common.DataModels.SignalType.OK;
 
 public class DestinationCardFragmentPresenter {
 
@@ -56,7 +59,9 @@ public class DestinationCardFragmentPresenter {
         Username user = model.getPlayer().getUser().getUsername();
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
-        task.execute(request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+        FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
+        fm.beginTransaction().remove(fragment).commit();
     }
 
     private static class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>
@@ -74,11 +79,17 @@ public class DestinationCardFragmentPresenter {
         @Override
         protected void onPostExecute(Signal signal) {
             super.onPostExecute(signal);
-            if (signal.getSignalType() == SignalType.OK)
+            if (signal.getSignalType() == OK)
 			{
 				FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
 				fm.popBackStack();
 			}
+			else
+            {
+                System.out.printf("back info back from return destination cards");
+                FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+            }
         }
     }
 }

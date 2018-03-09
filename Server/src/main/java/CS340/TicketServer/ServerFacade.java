@@ -1,7 +1,5 @@
 package CS340.TicketServer;
 
-import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +22,7 @@ import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
 import common.IServer;
+import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -224,7 +223,10 @@ public class ServerFacade implements IServer
 
 				//Update all the players
 				System.out.println("Entering StartGame Alert Loop");
-				for (User u: serverGameData.getUsers()){
+				int numLoops = 0;
+				for (User u: serverGameData.getUsers())
+				{
+					numLoops++;
 					//create ClientGameData
 					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
 					//create the packet
@@ -233,10 +235,12 @@ public class ServerFacade implements IServer
 							hands.get(u.getUsername()),
 							gameData);
 					Signal s = ClientProxy.getSINGLETON().startGame(packet);
+					System.out.println(s.getSignalType().name());
 					//TODO: Error Checking
 				}
 				System.out.println("Exiting StartGame Alert Loop");
 				//return start signal to player
+				int finalLoops = numLoops;
 				return new Signal(SignalType.OK, "Accepted");
 			}
 			else
@@ -303,7 +307,12 @@ public class ServerFacade implements IServer
 	@Override
 	public Signal send(GameID id, ChatItem item) {
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-		return null;
+		game.addChatMessage(item);
+		for (Username username : ServerCommunicator.getThreads().keySet())
+		{
+			ClientProxy.getSINGLETON().addChatItem(username, item);
+		}
+		return new Signal(SignalType.OK, "Message added to chat successfully");
 	}
 
 	@Override
