@@ -55,7 +55,6 @@ public class GameModel
 	public HandDestinationCards getInitialDCards()
 	{
 		HandDestinationCards cards = initialDCards;
-		this.clearDCards();
 		return cards;
 	}
 

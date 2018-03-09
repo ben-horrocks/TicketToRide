@@ -23,12 +23,14 @@ import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
 import cs340.TicketClient.CardFragments.DeckFragment;
 import cs340.TicketClient.CardFragments.DestinationCardFragment;
+import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
 import cs340.TicketClient.GameMenu.PlayerFragment;
@@ -40,6 +42,7 @@ public class GameActivity extends AppCompatActivity
 	private GoogleMap mMap;
 	private User user;
 	private GamePresenter presenter;
+	final FragmentManager fm = this.getSupportFragmentManager();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -57,7 +60,6 @@ public class GameActivity extends AppCompatActivity
 				presenter.fillModel(packet);
 			}
 		}
-		final FragmentManager fm = this.getSupportFragmentManager();
 		Fragment mapViewFragment = fm.findFragmentById(R.id.fragment_map);
 		if (mapViewFragment == null)
 		{
@@ -119,6 +121,33 @@ public class GameActivity extends AppCompatActivity
 
 			}
 		});
+
+
+	}
+
+	public 	void onClick(View v)
+	{
+		switch(v.getId())
+		{
+			case R.id.hand_button:
+				break;
+			case R.id.draw_trainCar_button:
+				Fragment drawCardFragment = fm.findFragmentById(R.id.fragment_deck);
+				drawCardFragment = new DeckFragment();
+				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+				break;
+			case R.id.draw_destination_button:
+				Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
+				Bundle toDestinationVF = new Bundle();
+				toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
+				destinationViewFragment = new DestinationCardFragment();
+				destinationViewFragment.setArguments(toDestinationVF);
+				// Set the destination fragment and set the transition
+				fm.beginTransaction().add(R.id.fragment_map, destinationViewFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+				break;
+		}
 	}
 
 	public void closeCurrentFragment()

@@ -11,9 +11,12 @@ import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
+import common.DataModels.Signal;
+import common.DataModels.SignalType;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
+import cs340.TicketClient.Communicator.ServerProxy;
 
 public class GamePresenter
 {
@@ -49,7 +52,24 @@ public class GamePresenter
 
 	public void setPlayHistory(List<HistoryItem> playHistory) { model.setPlayHistory(playHistory); }
 
-	public HandDestinationCards getDestinationCards() { return model.getInitialDCards(); }
+	public HandDestinationCards getDestinationCards() {
+		if (model.getInitialDCards() != null)
+		{
+			HandDestinationCards cards = model.getInitialDCards();
+			GameModel.getInstance().clearDCards();
+			return cards;
+		}
+		else
+		{
+			Signal s = ServerProxy.getInstance().drawDestinationCards(GameModel.getInstance().getGameID(), GameModel.getInstance().getPlayer().getUser().getUsername());
+			if (s.getSignalType() == SignalType.OK)
+			{
+				return (HandDestinationCards) s.getObject();
+			}
+			else
+				return null;
+		}
+	}
 
 	void test()
 	{
