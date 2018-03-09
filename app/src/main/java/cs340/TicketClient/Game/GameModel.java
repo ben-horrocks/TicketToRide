@@ -42,6 +42,16 @@ public class GameModel
 	{
 		gameData.getFaceUp().set(index, replacement);
 	}
+
+	public void addChatItem(ChatItem item)
+	{
+		gameData.getChat().add(item);
+	}
+
+	public void addHistoryItem(HistoryItem item)
+	{
+		gameData.getHistory().add(item);
+	}
 	public HandDestinationCards getInitialDCards()
 	{
 		HandDestinationCards cards = initialDCards;

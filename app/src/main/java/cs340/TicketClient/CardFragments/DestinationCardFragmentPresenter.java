@@ -59,25 +59,9 @@ public class DestinationCardFragmentPresenter {
         Username user = model.getPlayer().getUser().getUsername();
         SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
-        Signal signal = ServerProxy.getInstance().returnDestinationCards(id, user, selected, returned);
-        if (signal == null)
-        {
-            System.out.printf("back info back from return destination cards");
-            FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
-            fm.beginTransaction().remove(fragment).commit();
-        }
-        else if (signal.getSignalType() == OK)
-        {
-            FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
-            fm.popBackStack();
-        }
-        else
-        {
-            System.out.printf("back info back from return destination cards");
-            FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
-            fm.popBackStack();
-        }
-        //task.execute(request);
+        task.execute(request);
+        FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
+        fm.beginTransaction().remove(fragment).commit();
     }
 
     private static class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>

@@ -67,31 +67,60 @@ public class ClientFacade implements IClient
 				}
 			}
 			GameModel.getInstance().replaceFaceUp(index, replacement);
+			return new Signal(SignalType.OK, "FaceUp card replaced successfully");
 		}
 		catch(Exception e)
 		{
 			return new Signal(SignalType.ERROR, e.getMessage());
 		}
-		return new Signal(SignalType.OK, "FaceUp card replaced successfully");
 	}
 
 	@Override
 	public Signal opponentDrewDeckCard(Username name) {
-		return new Signal(SignalType.ERROR, "Unimplemented method");
+		ArrayList<Opponent> opponents = (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
+		for (Opponent op : opponents) {
+			if (op.getUsername().toString().equals(name.toString())) {
+				op.incrementTrainCards(1);
+				return new Signal(SignalType.OK, "Opponent's traincards incremented");
+			}
+		}
+		return new Signal(SignalType.ERROR, "Opponent not found");
 	}
 
 	@Override
 	public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards) {
-		return new Signal(SignalType.ERROR, "Unimplemented method");
+		try {
+			GameModel.getInstance().getPlayer().getDestinationCards().addAll(cards);
+			return new Signal(SignalType.OK, "Destination Cards added sucessfully");
+		}
+		catch (Exception e) {
+			return new Signal(SignalType.ERROR, e.getMessage());
+		}
 	}
 
 	@Override
 	public Signal addChatItem(Username name, ChatItem item) {
-		return new Signal(SignalType.ERROR, "Unimplemented method");
+		try
+		{
+			GameModel.getInstance().addChatItem(item);
+			return new Signal(SignalType.OK, "Chat Updated");
+		}
+		catch (Exception e)
+		{
+			return new Signal(SignalType.ERROR, e.getMessage());
+		}
 	}
 
 	@Override
 	public Signal addHistoryItem(Username name, HistoryItem item) {
-		return new Signal(SignalType.ERROR, "Unimplemented method");
+		try
+		{
+			GameModel.getInstance().addHistoryItem(item);
+			return new Signal(SignalType.OK, "history Updated");
+		}
+		catch (Exception e)
+		{
+			return new Signal(SignalType.ERROR, e.getMessage());
+		}
 	}
 }
