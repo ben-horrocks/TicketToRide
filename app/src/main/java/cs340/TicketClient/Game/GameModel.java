@@ -11,6 +11,7 @@ import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
+import common.DataModels.TrainCard;
 import cs340.TicketClient.GameMenu.ChatPresenter;
 import cs340.TicketClient.GameMenu.HistoryPresenter;
 
@@ -37,6 +38,10 @@ public class GameModel
 		this.initialDCards = initialDCards;
 	}
 
+	public void replaceFaceUp(int index, TrainCard replacement)
+	{
+		gameData.getFaceUp().set(index, replacement);
+	}
 	public HandDestinationCards getInitialDCards()
 	{
 		HandDestinationCards cards = initialDCards;

@@ -64,7 +64,7 @@ public class DestinationCardFragmentPresenter {
         {
             System.out.printf("back info back from return destination cards");
             FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
-            fm.popBackStack();
+            fm.beginTransaction().remove(fragment).commit();
         }
         else if (signal.getSignalType() == OK)
         {

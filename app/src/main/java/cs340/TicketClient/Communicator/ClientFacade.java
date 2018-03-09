@@ -1,9 +1,11 @@
 package cs340.TicketClient.Communicator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
+import common.DataModels.GameData.Opponent;
 import common.DataModels.GameInfo;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
@@ -13,6 +15,7 @@ import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.TrainCard;
 import common.DataModels.Username;
 import common.IClient;
+import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.Lobby.LobbyPresenter;
 
 public class ClientFacade implements IClient
@@ -41,12 +44,35 @@ public class ClientFacade implements IClient
 
 	@Override
 	public Signal opponentDrewDestinationCards(Username name, int amount) {
-		return new Signal(SignalType.ERROR, "Unimplemented method");
+		ArrayList<Opponent> oppenents = (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
+		for (Opponent op : oppenents)
+		{
+			if (op.getUsername().toString().equals(name.toString()))
+			{
+				op.incrementDestinationCards(amount);
+				return new Signal(SignalType.OK, "Added to Opponent Dcard count correctly");
+			}
+		}
+		return new Signal(SignalType.ERROR, "Opponent not found");
 	}
 
 	@Override
 	public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement) {
-		return new Signal(SignalType.ERROR, "Unimplemented method");
+		ArrayList<Opponent> opponents = (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
+		try {
+			for (Opponent op : opponents) {
+				if (op.getUsername().toString().equals(name.toString())) {
+					op.incrementTrainCards(1);
+					break;
+				}
+			}
+			GameModel.getInstance().replaceFaceUp(index, replacement);
+		}
+		catch(Exception e)
+		{
+			return new Signal(SignalType.ERROR, e.getMessage());
+		}
+		return new Signal(SignalType.OK, "FaceUp card replaced successfully");
 	}
 
 	@Override
