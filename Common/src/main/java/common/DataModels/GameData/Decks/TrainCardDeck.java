@@ -60,7 +60,7 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
     {
       int randomcard = (int) (Math.random()) % deck.size();
       newdeck.add(deck.get(randomcard));
-      deck.remove(randomcard);
+		deck.remove(randomcard);
     }
     this.deck = newdeck;
   }

@@ -66,10 +66,14 @@ public class PlayerPresenter
 	{
 		Queue<Player> queue = model.getGameData().getTurnQueue();
 		StringBuilder sb = new StringBuilder();
+		int position = 1;
 		for (Player p : queue)
 		{
+			sb.append(String.valueOf(position));
+			sb.append(": ");
 			sb.append(p.getUser().getStringUserName());
 			sb.append("\n");
+			position++;
 		}
 		return sb.toString();
 	}

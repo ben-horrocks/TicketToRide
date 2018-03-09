@@ -78,10 +78,15 @@ public class GamePresenter
 			@Override
 			public void run()
 			{
+				// Display setup information. Can be found in Players tab.
 				displayPlayerColors();
 				displayPlayerTurnOrder();
 				displayPlayerHand();
 				displayOpponentHandSizes();
+
+				// Update player info
+				updatePlayerPoints();
+
 			}
 		});
 	}
@@ -130,5 +135,10 @@ public class GamePresenter
 	{
 		List<Opponent> opponents = model.getOpponents();
 		activity.displayOpponentHandSize(opponents);
+	}
+
+	private void updatePlayerPoints()
+	{
+		model.getPlayer().addPoints(250);
 	}
 }
