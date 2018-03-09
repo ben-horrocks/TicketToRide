@@ -2,10 +2,15 @@ package cs340.TicketClient.Communicator;
 
 import java.util.List;
 
+import common.DataModels.ChatItem;
+import common.DataModels.DestinationCard;
 import common.DataModels.GameInfo;
+import common.DataModels.HandDestinationCards;
+import common.DataModels.HistoryItem;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.TrainCard;
 import common.DataModels.Username;
 import common.IClient;
 import cs340.TicketClient.Lobby.LobbyPresenter;
@@ -35,8 +40,32 @@ public class ClientFacade implements IClient
   	}
 
 	@Override
-	public Signal playerDrewDestinationCards(Username name, int amount) {
-		return new Signal(SignalType.OK, "Accepted");
+	public Signal opponentDrewDestinationCards(Username name, int amount) {
+		return new Signal(SignalType.ERROR, "Unimplemented method");
 	}
 
+	@Override
+	public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement) {
+		return new Signal(SignalType.ERROR, "Unimplemented method");
+	}
+
+	@Override
+	public Signal opponentDrewDeckCard(Username name) {
+		return new Signal(SignalType.ERROR, "Unimplemented method");
+	}
+
+	@Override
+	public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards) {
+		return new Signal(SignalType.ERROR, "Unimplemented method");
+	}
+
+	@Override
+	public Signal addChatItem(Username name, ChatItem item) {
+		return new Signal(SignalType.ERROR, "Unimplemented method");
+	}
+
+	@Override
+	public Signal addHistoryItem(Username name, HistoryItem item) {
+		return new Signal(SignalType.ERROR, "Unimplemented method");
+	}
 }
