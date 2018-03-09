@@ -121,7 +121,8 @@ public class ClientProxy implements IClient {
         CommandParams command = new CommandParams(methodName, paramTypes, params);
         try {
             ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
-            Signal signal = (Signal) threadList.get(client).send(command);
+            threadList.get(client).push(command);
+            Signal signal = new Signal(SignalType.OK, "Dummy Signal");
             return signal;
         } catch (Exception e) {
             e.printStackTrace();

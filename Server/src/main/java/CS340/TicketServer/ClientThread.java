@@ -176,7 +176,6 @@ public class ClientThread extends Thread
 	{
 		try
 		{
-
 			out.writeObject(object);
 			out.flush();
 			out.reset();
