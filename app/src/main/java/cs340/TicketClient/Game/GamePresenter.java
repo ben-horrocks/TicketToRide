@@ -1,10 +1,17 @@
 package cs340.TicketClient.Game;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.AsyncTask;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
 import common.DataModels.ChatItem;
+import common.DataModels.DestDrawRequest;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
@@ -16,7 +23,9 @@ import common.DataModels.SignalType;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
+import cs340.TicketClient.CardFragments.DestinationCardFragment;
 import cs340.TicketClient.Communicator.ServerProxy;
+import cs340.TicketClient.R;
 
 public class GamePresenter
 {
@@ -61,13 +70,10 @@ public class GamePresenter
 		}
 		else
 		{
-			Signal s = ServerProxy.getInstance().drawDestinationCards(GameModel.getInstance().getGameID(), GameModel.getInstance().getPlayer().getUser().getUsername());
-			if (s.getSignalType() == SignalType.OK)
-			{
-				return (HandDestinationCards) s.getObject();
-			}
-			else
-				return null;
+			DestDrawRequest request = new DestDrawRequest(GameModel.getInstance().getGameID(), GameModel.getInstance().getPlayer().getUser().getUsername());
+			DrawDestinationTask task = new DrawDestinationTask(activity);
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+			return null;
 		}
 	}
 
@@ -130,5 +136,29 @@ public class GamePresenter
 	{
 		List<Opponent> opponents = model.getOpponents();
 		activity.displayOpponentHandSize(opponents);
+	}
+
+
+	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
+	{
+		GameActivity activity;
+		DrawDestinationTask(GameActivity activity)
+		{
+			this.activity = activity;
+		}
+		@Override
+		protected Signal doInBackground(DestDrawRequest... destDrawRequests) {
+			Signal s = ServerProxy.getInstance().drawDestinationCards(destDrawRequests[0].getId(), destDrawRequests[0].getUser());
+			return s;
+		}
+
+		@Override
+		protected void onPostExecute(Signal signal) {
+			super.onPostExecute(signal);
+			FragmentManager manager = activity.getFragmentManager();
+			Fragment fragment = manager.findFragmentById(R.id.fragment_destination_card);
+			manager.beginTransaction().add(R.id.fragment_map, fragment)
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+		}
 	}
 }

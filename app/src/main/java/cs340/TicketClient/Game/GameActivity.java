@@ -140,6 +140,9 @@ public class GameActivity extends AppCompatActivity
 			case R.id.draw_destination_button:
 				Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
 				Bundle toDestinationVF = new Bundle();
+				HandDestinationCards cards = presenter.getDestinationCards();
+				if (cards == null)
+					return;
 				toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
 				destinationViewFragment = new DestinationCardFragment();
 				destinationViewFragment.setArguments(toDestinationVF);
