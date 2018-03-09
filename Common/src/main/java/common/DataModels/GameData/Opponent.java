@@ -22,6 +22,16 @@ public class Opponent implements Serializable{
         this.claimedEdges = new EdgeGraph();
     }
 
+    public void incrementDestinationCards(int number)
+    {
+        numberDestinationCards += number;
+    }
+
+    public void incrementTrainCards(int number)
+    {
+        numberHandCards += number;
+    }
+
     public Opponent(Player player)
 	{
 		this.user = player.getUser();

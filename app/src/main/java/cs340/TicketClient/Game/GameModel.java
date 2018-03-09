@@ -9,6 +9,7 @@ import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
+import common.DataModels.TrainCard;
 import cs340.TicketClient.GameMenu.ChatPresenter;
 import cs340.TicketClient.GameMenu.HistoryPresenter;
 
@@ -35,7 +36,26 @@ public class GameModel
 		this.initialDCards = initialDCards;
 	}
 
-	public HandDestinationCards getInitialDCards() { return initialDCards; }
+	public void replaceFaceUp(int index, TrainCard replacement)
+	{
+		gameData.getFaceUp().set(index, replacement);
+	}
+
+	public void addChatItem(ChatItem item)
+	{
+		gameData.getChat().add(item);
+	}
+
+	public void addHistoryItem(HistoryItem item)
+	{
+		gameData.getHistory().add(item);
+	}
+	public HandDestinationCards getInitialDCards()
+	{
+		HandDestinationCards cards = initialDCards;
+		this.clearDCards();
+		return cards;
+	}
 
 	public void clearDCards() { initialDCards = null; }
 

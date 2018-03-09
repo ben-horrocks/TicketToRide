@@ -55,7 +55,7 @@ public class DestinationCardFragment extends Fragment {
 			dCards = (HandDestinationCards)extras.get("cards");
 		}
 
-        dCards = presenter.getDCards();
+        //dCards = presenter.getDCards();
         String path1 = dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2()+ "\n Points: " + dCards.get(0).getPointValue();
         String path2 = dCards.get(1).getCity1()+ " -> " + dCards.get(1).getCity2()+ "\n Points: " + dCards.get(1).getPointValue();
         String path3 = dCards.get(2).getCity1()+ " -> " + dCards.get(2).getCity2()+ "\n Points: " + dCards.get(2).getPointValue();
@@ -89,8 +89,6 @@ public class DestinationCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 presenter.confirmDestinationCards();
-                //TODO close fragment
-
             }
         });
         return view;

@@ -147,9 +147,8 @@ public class ServerProxy implements IServer
             return (Signal) ClientCommunicator.getSingleton().send(commandParams);
         } catch (Exception e)
         {
-            e.printStackTrace();
+           return new Signal(SignalType.ERROR, e.getMessage());
         }
-        return null;
     }
 
     @Override

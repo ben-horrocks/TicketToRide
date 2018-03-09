@@ -43,12 +43,12 @@ public class DeckFragment extends Fragment {
         drawDeck = v.findViewById(R.id.drawButton);
         presenter = new DeckFragmentPresenter(this);
 
-        ArrayList<Drawable> trainTypes = presenter.getFaceUpCards();
-        tCard1.setImageDrawable(trainTypes.get(0));
-        tCard2.setImageDrawable(trainTypes.get(1));
-        tCard3.setImageDrawable(trainTypes.get(2));
-        tCard4.setImageDrawable(trainTypes.get(3));
-        tCard5.setImageDrawable(trainTypes.get(4));
+        ArrayList<Integer> trainTypes = presenter.getFaceUpCards();
+        tCard1.setImageResource(trainTypes.get(0));
+        tCard2.setImageResource(trainTypes.get(1));
+        tCard3.setImageResource(trainTypes.get(2));
+        tCard4.setImageResource(trainTypes.get(3));
+        tCard5.setImageResource(trainTypes.get(4));
         return v;
     }
 }
