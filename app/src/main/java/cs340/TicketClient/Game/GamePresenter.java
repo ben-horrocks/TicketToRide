@@ -13,6 +13,7 @@ import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.GameData.TurnQueue;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.Signal;
@@ -117,9 +118,9 @@ public class GamePresenter
 	 */
 	private void displayPlayerTurnOrder()
 	{
-		Queue<Player> queue = model.getGameData().getTurnQueue();
-		Player[] players = queue.toArray(new Player[queue.size()]);
-		activity.displayPlayerOrder(players);
+		TurnQueue queue = model.getGameData().getTurnQueue();
+		Username[] usernames = queue.toArray();
+		activity.displayPlayerOrder(usernames);
 	}
 
 	/**

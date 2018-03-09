@@ -10,6 +10,7 @@ import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
+import common.DataModels.Username;
 import cs340.TicketClient.GameMenu.ChatPresenter;
 import cs340.TicketClient.GameMenu.HistoryPresenter;
 
@@ -92,7 +93,7 @@ public class GameModel
 
 	public GameID getGameID() { return gameData.getId(); }
 
-	public Player whoseTurn() { return gameData.whoseTurn(); }
+	public Username whoseTurn() { return gameData.whoseTurn(); }
 
-	public boolean isMyTurn() { return whoseTurn().equals(getPlayer()); }
+	public boolean isMyTurn() { return whoseTurn().equals(getPlayer().getUser().getUsername()); }
 }

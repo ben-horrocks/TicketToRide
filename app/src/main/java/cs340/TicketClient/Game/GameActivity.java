@@ -133,7 +133,7 @@ public class GameActivity extends AppCompatActivity
 		switch(v.getId())
 		{
 			case R.id.hand_button:
-				Fragment handFragment = fm.findFragmentById(R.id.fragment_hand);
+				Fragment handFragment;
 				handFragment = new HandFragment();
 				fm.beginTransaction().add(R.id.fragment_map, handFragment)
 						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
@@ -242,16 +242,16 @@ public class GameActivity extends AppCompatActivity
 
 	/**
 	 * Display the order in which turns will be taken. Mainly for testing.
-	 * @param players The players in a collection sorted by their queue order.
+	 * @param usernames The userNames in a collection sorted by their queue order.
 	 */
-	void displayPlayerOrder(Player[] players)
+	void displayPlayerOrder(Username[] usernames)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("Player Turn Order\n");
-		for (int i = 0; i < players.length; i++)
+		for (int i = 0; i < usernames.length; i++)
 		{
 			int turn = i + 1;
-			String line = turn + ": " + players[i].getUser().getStringUserName() + "\n";
+			String line = turn + ": " + usernames[i].toString() + "\n";
 			sb.append(line);
 		}
 		makeLargerToast(sb.toString());

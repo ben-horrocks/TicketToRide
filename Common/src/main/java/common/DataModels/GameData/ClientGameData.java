@@ -12,6 +12,7 @@ import common.DataModels.EdgeGraph;
 import common.DataModels.GameID;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
+import common.DataModels.User;
 import common.DataModels.Username;
 
 public class ClientGameData implements IGameData, Serializable
@@ -24,7 +25,7 @@ public class ClientGameData implements IGameData, Serializable
 	private List<TrainCard> faceUp;
 	private List<HistoryItem> history;
 	private List<ChatItem> chat;
-	private Queue<Player> turnQueue;
+	private TurnQueue turnQueue;
 
     public ClientGameData(ServerGameData game, Username username){
         this.id = game.getId();
@@ -75,12 +76,9 @@ public class ClientGameData implements IGameData, Serializable
         return null; // NOTE: may return null, thus throwing NullPointerException
     }
 
-    public Player whoseTurn()
-	{
-		return turnQueue.peek();
-	}
+    public Username whoseTurn() { return turnQueue.peek(); }
 
-	public Queue<Player> getTurnQueue() { return turnQueue; }
+	public TurnQueue getTurnQueue() { return turnQueue; }
 
     @Override
     public void deckDraw(Username username, List<TrainCard> drawn) {
