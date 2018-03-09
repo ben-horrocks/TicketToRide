@@ -14,7 +14,8 @@
             android:layout_height="match_parent"
             android:text="@string/chat_title"
             android:textAlignment="center"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:textAllCaps="true"/>
 
     </LinearLayout>
 
@@ -28,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="end"
         android:paddingLeft="15dp">
 
         <EditText
@@ -36,7 +36,9 @@
             android:layout_width="250dp"
             android:layout_height="match_parent"
             android:hint="@string/chat_hint"
-            android:background="#ebebeb"/>
+            android:background="#ebebeb"
+            android:imeOptions="actionSend|flagNoEnterAction"
+            android:inputType="textShortMessage|textAutoCorrect|textAutoComplete|textMultiLine"/>
 
         <Button
             android:id="@+id/chat_send_button"

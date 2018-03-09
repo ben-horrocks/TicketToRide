@@ -1,6 +1,7 @@
 package cs340.TicketClient.GameMenu;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,12 +39,15 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
+        //Set background color to white
+        v.setBackgroundColor(Color.WHITE);
+
         //-- RECYCLER --
         //Get list from the model
         ArrayList<HistoryItem> historyList = (ArrayList) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
-        mHistoryRecyclerView = (RecyclerView) getActivity().findViewById(R.id.history_recycler_field);
+        mHistoryRecyclerView = (RecyclerView) v.findViewById(R.id.history_recycler_field);
 
         //Setup layout Manager
         mHistoryLayoutManager = new LinearLayoutManager(getActivity());
