@@ -30,6 +30,7 @@ import common.DataModels.User;
 import common.DataModels.Username;
 import cs340.TicketClient.CardFragments.DeckFragment;
 import cs340.TicketClient.CardFragments.DestinationCardFragment;
+import cs340.TicketClient.CardFragments.HandFragment;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
@@ -130,6 +131,10 @@ public class GameActivity extends AppCompatActivity
 		switch(v.getId())
 		{
 			case R.id.hand_button:
+				Fragment handFragment = fm.findFragmentById(R.id.fragment_hand);
+				handFragment = new HandFragment();
+				fm.beginTransaction().add(R.id.fragment_map, handFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 				break;
 			case R.id.draw_trainCar_button:
 				Fragment drawCardFragment = fm.findFragmentById(R.id.fragment_deck);
