@@ -27,6 +27,7 @@ import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
+import cs340.TicketClient.CardFragments.DeckFragment;
 import cs340.TicketClient.CardFragments.DestinationCardFragment;
 import cs340.TicketClient.GameMenu.ChatFragment;
 import cs340.TicketClient.GameMenu.HistoryFragment;
@@ -56,7 +57,7 @@ public class GameActivity extends AppCompatActivity
 				presenter.fillModel(packet);
 			}
 		}
-		FragmentManager fm = this.getSupportFragmentManager();
+		final FragmentManager fm = this.getSupportFragmentManager();
 		Fragment mapViewFragment = fm.findFragmentById(R.id.fragment_map);
 		if (mapViewFragment == null)
 		{
@@ -103,6 +104,10 @@ public class GameActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
+				Fragment drawCardFragment = fm.findFragmentById(R.id.fragment_deck);
+				drawCardFragment = new DeckFragment();
+				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 
 			}
 		});
