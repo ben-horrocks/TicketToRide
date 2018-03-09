@@ -17,12 +17,6 @@
             android:textAlignment="center"
             android:textAllCaps="true"/>
 
-        <ImageButton
-            android:id="@+id/history_close_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_close_black_24dp"/>
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

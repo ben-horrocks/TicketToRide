@@ -44,11 +44,17 @@ public class GameModel
 	public void addChatItem(ChatItem item)
 	{
 		gameData.getChat().add(item);
+		if (ChatPresenter.getSINGLETON() != null) {
+			ChatPresenter.getSINGLETON().updateChatList();
+		}
 	}
 
 	public void addHistoryItem(HistoryItem item)
 	{
 		gameData.getHistory().add(item);
+		if (HistoryPresenter.getSINGLETON() != null) {
+			HistoryPresenter.getSINGLETON().updateHistoryList();
+		}
 	}
 	public HandDestinationCards getInitialDCards()
 	{
@@ -65,9 +71,7 @@ public class GameModel
 		for(ChatItem item : chats)
 		{
 			gameData.addChatMessage(item);
-			if (ChatPresenter.getSINGLETON() != null) {
-				ChatPresenter.getSINGLETON().updateChatList();
-			}
+
 		}
 	}
 
@@ -78,9 +82,7 @@ public class GameModel
 		for (HistoryItem event : history)
 		{
 			gameData.addHistoryItem(event);
-			if (HistoryPresenter.getSINGLETON() != null) {
-				HistoryPresenter.getSINGLETON().updateHistoryList();
-			}
+
 		}
 	}
 
