@@ -18,7 +18,11 @@ public class TurnQueue implements Serializable
 	// Constructors
 	public TurnQueue(ArrayBlockingQueue<Username> queue) { this.queue = queue; }
 
-	public TurnQueue(Collection<Username> collection) { queue.addAll(collection); }
+	public TurnQueue(Collection<Username> collection) 
+	{
+		queue = new ArrayBlockingQueue<Username>(collection.size());
+		queue.addAll(collection);
+	}
 
 	public TurnQueue(Username[] usernames) { this(Arrays.asList(usernames)); }
 
@@ -39,4 +43,6 @@ public class TurnQueue implements Serializable
 			System.out.println("Error in turn queue: queue.poll returned null.");
 		}
 	}
+
+	public int size() { return queue.size(); }
 }
