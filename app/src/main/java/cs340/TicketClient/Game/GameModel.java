@@ -29,6 +29,10 @@ public class GameModel
 
 	private GameModel() {}
 
+	public void decrementDestinationCount(int count)
+	{
+		gameData.decDestinationCardsLeft(count);
+	}
 	public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
 
 	public ClientGameData getGameData() { return gameData; }

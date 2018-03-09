@@ -26,6 +26,7 @@ public class ClientGameData implements IGameData, Serializable
 	private List<HistoryItem> history;
 	private List<ChatItem> chat;
 	private TurnQueue turnQueue;
+	private int destinationCardsLeft;
 
     public ClientGameData(ServerGameData game, Username username){
         this.id = game.getId();
@@ -45,6 +46,16 @@ public class ClientGameData implements IGameData, Serializable
         this.history = game.getHistory();
         this.chat = new ArrayList<>();
         this.turnQueue = game.getTurnQueue();
+        destinationCardsLeft = 30;
+    }
+
+    public int getDestinationCardsLeft() {
+        return destinationCardsLeft;
+    }
+
+    public void decDestinationCardsLeft(int count)
+    {
+        destinationCardsLeft -= count;
     }
 
     public List<TrainCard> getFaceUp() { return faceUp; }

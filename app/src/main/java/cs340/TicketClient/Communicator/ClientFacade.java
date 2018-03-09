@@ -50,6 +50,7 @@ public class ClientFacade implements IClient
 			if (op.getUsername().toString().equals(name.toString()))
 			{
 				op.incrementDestinationCards(amount);
+				GameModel.getInstance().decrementDestinationCount(amount);
 				return new Signal(SignalType.OK, "Added to Opponent Dcard count correctly");
 			}
 		}

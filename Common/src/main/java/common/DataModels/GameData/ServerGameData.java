@@ -71,7 +71,7 @@ public class ServerGameData implements Serializable
 
 	public void startGame()
 	{
-		createTurnQueue();
+//		createTurnQueue();
 		gameStarted = true;
 	}
 

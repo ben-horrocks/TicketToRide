@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import common.DataModels.HandDestinationCards;
+import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
 public class DestinationCardFragment extends Fragment {
@@ -63,6 +64,11 @@ public class DestinationCardFragment extends Fragment {
         card1View.setText(path1);
         card2View.setText(path2);
         card3View.setText(path3);
+
+        String s = "There are " + GameModel.getInstance().getGameData().getDestinationCardsLeft() + " Destination Cards left";
+        TextView destinationCardsLeft = view.findViewById(R.id.DestinationDeckSize);
+        destinationCardsLeft.setText(s);
+
 
         card1Check.setOnClickListener(new View.OnClickListener() {
             @Override
