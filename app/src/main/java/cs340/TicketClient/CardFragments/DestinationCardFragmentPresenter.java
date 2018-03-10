@@ -17,7 +17,7 @@ import cs340.TicketClient.Game.GameModel;
 
 import static common.DataModels.SignalType.OK;
 
-public class DestinationCardFragmentPresenter {
+public class DestinationCardFragmentPresenter implements IDestinationCardFragmentPresenter{
 
     private GameModel model;
     private DestinationCardFragment fragment;
@@ -29,7 +29,7 @@ public class DestinationCardFragmentPresenter {
     }
 
 
-    HandDestinationCards getDCards()
+    public HandDestinationCards getDCards()
     {
         HandDestinationCards cards = null;
         if (GameModel.getInstance().getInitialDCards() != null) {
@@ -39,7 +39,7 @@ public class DestinationCardFragmentPresenter {
         return cards;
     }
 
-    void confirmDestinationCards()
+    public void confirmDestinationCards()
     {
         HandDestinationCards selected = new HandDestinationCards();
         HandDestinationCards returned = new HandDestinationCards();

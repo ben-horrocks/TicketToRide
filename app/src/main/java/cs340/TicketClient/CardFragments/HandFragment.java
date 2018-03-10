@@ -43,8 +43,8 @@ public class HandFragment extends Fragment {
         destinationCardsRecyclerView = v.findViewById(R.id.destinationCards);
         trainCardsRecyclerView = v.findViewById(R.id.trainCards);
         presenter = new HandFragmentPresenter(this);
-        TrainCard trainCards [] = (TrainCard[]) GameModel.getInstance().getGameData().getPlayer().getHand().toArray();
-        DestinationCard destinationCard[] = (DestinationCard[]) GameModel.getInstance().getGameData().getPlayer().getDestinationCards().toArray();
+        DestinationCard destinationCard[] = presenter.getPlayerDestinationCards().toArray();
+        TrainCard trainCards [] = (TrainCard[]) presenter.getPlayerTrainCards().toArray();
         destinationCardsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         trainCardsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         destCardAdapter = new HandDestCardAdapter(getActivity(), destinationCard);
