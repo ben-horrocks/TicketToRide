@@ -3,8 +3,6 @@ package cs340.TicketClient.Communicator;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import common.CommandParams;
 import common.DataModels.Signal;
@@ -23,13 +21,13 @@ public class ServerProxy implements IServer
         return singleton;
     }
 
-    private static final String stringClassName = "java.lang.String";
-    private static final String gameIDClassname = "common.DataModels.GameID";
-    private static final String playerClassName = "common.DataModels.User";
-    private static final String usernameClassName = "common.DataModels.Username";
+    private static final String stringClassName = String.class.getName();
+    private static final String gameIDClassname = GameID.class.getName();
+    private static final String playerClassName = User.class.getName();
+    private static final String usernameClassName = Username.class.getName();
     private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
-    private static final String chatItemClassName = "common.DataModels.ChatItem";
-    private static final String edgeClassName = "common.DataModels.Edge";
+    private static final String chatItemClassName = ChatItem.class.getName();
+    private static final String edgeClassName = Edge.class.getName();
 
     /**
      *

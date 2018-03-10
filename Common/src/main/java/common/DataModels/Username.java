@@ -2,10 +2,17 @@ package common.DataModels;
 
 import java.io.Serializable;
 
+/**
+ * The username of a user.
+ */
 public class Username implements Serializable
 {
 	private String name;
 
+	/**
+	 *
+	 * @param name
+	 */
 	public Username(String name) { this.name = name; }
 
 	public static boolean isValidUserName(String name) { return !name.contains(" "); }

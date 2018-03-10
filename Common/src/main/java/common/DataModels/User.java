@@ -2,6 +2,9 @@ package common.DataModels;
 
 import java.io.Serializable;
 
+/**
+ * A user in the game. A user has a username, password, screenName, and authorization token.
+ */
 public class User implements Serializable
 {
 	private Username username;
@@ -9,6 +12,13 @@ public class User implements Serializable
 	private ScreenName screenName;
 	private AuthToken token;
 
+	/**
+	 * @pre All parameters are non-null.
+	 * @post Will create a user with provided Username, Password, ScreenName and a new authorization token.
+	 * @param username The username for this user.
+	 * @param pass The password for this user.
+	 * @param screenName The screenName for this user.
+	 */
 	public User(Username username, Password pass, ScreenName screenName)
 	{
 		this.username = username;
@@ -58,8 +68,5 @@ public class User implements Serializable
 	}
 
 	@Override
-	public String toString()
-	{
-		return "Username: " + username.toString();
-	}
+	public String toString() { return "Username: " + username.toString(); }
 }

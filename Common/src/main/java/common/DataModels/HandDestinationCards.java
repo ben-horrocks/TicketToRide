@@ -35,5 +35,9 @@ public class HandDestinationCards implements Serializable
 
 	public DestinationCard[] toArray() { return destinationCards.toArray(new DestinationCard[size()]); }
 
+	public boolean remove(DestinationCard card) { return destinationCards.remove(card); }
+
+	public boolean removeAll(Collection<DestinationCard> collection) { return destinationCards.removeAll(collection); }
+
 	public int size() { return destinationCards.size(); }
 }

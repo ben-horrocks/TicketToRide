@@ -17,10 +17,6 @@ import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
 
-/**
- * Created by Kavika F.
- */
-
 public class ClientCommunicator
 {
 	/**
