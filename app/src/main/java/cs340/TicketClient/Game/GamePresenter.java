@@ -78,7 +78,7 @@ public class GamePresenter
 
 	void test()
 	{
-
+		//TODO call make choices for all the chagnes FROM THE MODEL.(Observer/observable)
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run()
