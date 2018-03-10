@@ -131,7 +131,8 @@ public class ClientThread extends Thread
 						try
 						{
 							Object object = in.readObject();
-							messages.put(object);
+							if(object != null)
+								messages.put(object);
 						}
 						catch (IOException e)
 						{
