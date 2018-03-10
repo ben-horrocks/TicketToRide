@@ -211,7 +211,6 @@ public class ClientCommunicator
 			server.read.start();
 			receiver.start();
 		}
-		setSignalFromServer(null);
 		Signal result = null;
 		server.write(object);
 		while (result == null)
