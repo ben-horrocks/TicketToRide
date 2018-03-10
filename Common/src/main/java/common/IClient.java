@@ -23,7 +23,7 @@ public interface IClient {
     /**
      * A function call for only the clients that have joined the particular game of the provided
      * game id
-     * @param id a particular game id is provided to identify which game has been started
+     * @param packet The packet holding all necessary information for a client to start a game.
      */
     Signal startGame(StartGamePacket packet);
 

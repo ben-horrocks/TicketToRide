@@ -3,7 +3,7 @@ package common;
 import java.io.Serializable;
 
 /**
- *
+ * The parameters for a Command object.
  */
 public class CommandParams implements Serializable
 {
@@ -11,6 +11,13 @@ public class CommandParams implements Serializable
 	private String[] parameterTypeNames;
 	private Object[] parameters;
 
+	/**
+	 * @pre Parameters cannot be null. Arrays can have null objects in them, though.
+	 * @post A valid CommandParams object.
+	 * @param methodName The name of the method wanting to be made.
+	 * @param parameterTypeNames The name of the types for the parameters.
+	 * @param parameters The parameters for the method.
+	 */
 	public CommandParams(String methodName, String[] parameterTypeNames, Object[] parameters)
 	{
 		this.methodName = methodName;

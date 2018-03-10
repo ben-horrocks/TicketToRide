@@ -10,8 +10,8 @@ public class Username implements Serializable
 	private String name;
 
 	/**
-	 *
-	 * @param name
+	 * @pre name must be non-null.
+	 * @param name The username.
 	 */
 	public Username(String name) { this.name = name; }
 
