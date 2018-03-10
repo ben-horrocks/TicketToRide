@@ -50,6 +50,7 @@ public class HandTrainCardAdapter extends RecyclerView.Adapter<HandTrainCardAdap
 			case RED: return R.drawable.traincard_red;
 			case WHITE: return R.drawable.traincard_white;
 			case YELLOW: return R.drawable.traincard_yellow;
+			case GRAY: return R.drawable.traincard_locomotive;
 			case LOCOMOTIVE: return R.drawable.traincard_locomotive;
 			default: System.out.println("No TrainCardImage for that Color");
 				return 0;
