@@ -1,67 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:id="@+id/fragment_player_info">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/fragment_player_relative_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentLeft="true">
+        android:orientation="horizontal"
+        >
 
-        <TextView
-            android:id="@+id/drawer_player_name"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PlayerName"/>
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true">
 
-        <TextView
-            android:id="@+id/drawer_player_color"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/drawer_player_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PlayerName"/>
+
+            <TextView
+                android:id="@+id/drawer_player_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Color"/>
+
+            <TextView
+                android:id="@+id/drawer_player_points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Points"/>
+
+            <TextView
+                android:id="@+id/drawer_player_train_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TrainCards"/>
+
+            <TextView
+                android:id="@+id/drawer_player_destination_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DestinationCards"/>
+
+            <TextView
+                android:id="@+id/drawer_player_turnQueue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TurnQueue"/>
+
+            <TextView
+                android:id="@+id/drawer_player_opponent_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OpponentInfo"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/drawer_player_exit_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color"/>
+            android:layout_alignParentRight="true"
+            android:text="Exit"/>
 
-        <TextView
-            android:id="@+id/drawer_player_points"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Points"/>
-
-        <TextView
-            android:id="@+id/drawer_player_train_cards"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TrainCards"/>
-
-        <TextView
-            android:id="@+id/drawer_player_destination_cards"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DestinationCards"/>
-
-        <TextView
-            android:id="@+id/drawer_player_turnQueue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TurnQueue"/>
-
-        <TextView
-            android:id="@+id/drawer_player_opponent_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="OpponentInfo"/>
-
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/drawer_player_exit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="Exit"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
