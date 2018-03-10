@@ -52,18 +52,30 @@ public class PlayerPresenter
 	}
 	*/
 
+	/**
+	 * The player's username.
+	 * @return The string representation of the player's username.
+	 */
 	String getPlayerName()
 	{
 		String name = player.getUser().getStringUserName();
 		return name;
 	}
 
+	/**
+	 * Convert a color into a string.
+	 * @return The string representation of the player's color.
+	 */
 	String getPlayerColor()
 	{
 		String color = player.getColor().name();
 		return color;
 	}
 
+	/**
+	 * Converts player points to a string.
+	 * @return The string representation of the player's score.
+	 */
 	String getPlayerPoints()
 	{
 		int points = player.getScore();
@@ -71,6 +83,10 @@ public class PlayerPresenter
 		return sPoints;
 	}
 
+	/**
+	 * Retrieves and parses the order in which players take turns.
+	 * @return The string representation of the turn queue.
+	 */
 	String getTurnQueue()
 	{
 		TurnQueue queue = model.getGameData().getTurnQueue();
@@ -88,6 +104,10 @@ public class PlayerPresenter
 		return sb.toString();
 	}
 
+	/**
+	 * Retrieves and parses info about the player's train cards.
+	 * @return The string representation of the player's train cards.
+	 */
 	String getTrainCards()
 	{
 		StringBuilder sb = new StringBuilder();
@@ -101,6 +121,10 @@ public class PlayerPresenter
 		return sb.toString();
 	}
 
+	/**
+	 * Retrieves and parses info about the player's destination cards.
+	 * @return The string representation of the player's destination cards.
+	 */
 	String getDestinationCards()
 	{
 		StringBuilder sb = new StringBuilder();
@@ -114,6 +138,10 @@ public class PlayerPresenter
 		return sb.toString();
 	}
 
+	/**
+	 * Retrieves and parses info on the opponents.
+	 * @return A string representation of all opponents.
+	 */
 	String getOpponentInfo()
 	{
 		List<Opponent> opponents = model.getOpponents();
