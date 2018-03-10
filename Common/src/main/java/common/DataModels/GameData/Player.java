@@ -8,7 +8,7 @@ import common.DataModels.*;
 
 public class Player implements Serializable{
     private User user;
-    private List<TrainCard> hand;
+    private HandTrainCards hand;
     private HandDestinationCards destinations;
     private PlayerColor color;
     private int score;
@@ -16,7 +16,7 @@ public class Player implements Serializable{
 
     public Player(User user, PlayerColor color) {
         this.user = user;
-        this.hand = new ArrayList<>();
+        this.hand = new HandTrainCards();
         this.destinations = new HandDestinationCards();
         this.color = color;
         this.score = 0;
@@ -27,22 +27,22 @@ public class Player implements Serializable{
 
     public User getUser() {return  this.user;}
 
-    public List<TrainCard> getHand() { return this.hand; }
+    public HandTrainCards getHand() { return this.hand; }
 
-    public void drewTrainCards(List<TrainCard> cards) { this.hand.addAll(cards); }
+    public void drewTrainCards(HandTrainCards cards) { this.hand.addAll(cards); }
 
     public void claimedEdge(Edge edge) {
         claimedEdges.addEdge(edge);
         ArrayList<TrainCard> toRemove = new ArrayList<>();
         for(int i=0; i<edge.getLength(); i++) {
-            for (TrainCard t : hand) {
+            for (TrainCard t : hand.getTrainCards()) {
                 if (t.getType() == edge.getColor()) {
                     toRemove.add(t);
                     break;
                 }
             }
         }
-        hand.removeAll(toRemove);
+        hand.getTrainCards().removeAll(toRemove);
         //TODO if the newly claimed edge completed a destination card add points and remove the card
     }
 
@@ -54,7 +54,7 @@ public class Player implements Serializable{
 	private int numCardsOfColor(TrainColor color)
 	{
 		int sum = 0;
-		for (TrainCard t : hand)
+		for (TrainCard t : hand.getTrainCards())
 		{
 			if (t.getType() == color)
 			{

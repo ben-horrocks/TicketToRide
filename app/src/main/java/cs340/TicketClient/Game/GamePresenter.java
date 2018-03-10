@@ -15,6 +15,7 @@ import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.GameData.TurnQueue;
 import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
@@ -128,7 +129,7 @@ public class GamePresenter
 	 */
 	private void displayPlayerHand()
 	{
-		List<TrainCard> trainCards = model.getPlayer().getHand();
+		HandTrainCards trainCards = model.getPlayer().getHand();
 		activity.displayPlayerTrainCards(trainCards);
 	}
 

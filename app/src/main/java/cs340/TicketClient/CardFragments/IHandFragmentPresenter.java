@@ -3,6 +3,7 @@ package cs340.TicketClient.CardFragments;
 import java.util.ArrayList;
 
 import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
 import common.DataModels.TrainCard;
 
 /**
@@ -11,7 +12,7 @@ import common.DataModels.TrainCard;
 
 public interface IHandFragmentPresenter {
 
-    public ArrayList<TrainCard> getPlayerTrainCards();
+    public HandTrainCards getPlayerTrainCards();
 
     public HandDestinationCards getPlayerDestinationCards();
 }

@@ -15,6 +15,7 @@ import common.DataModels.GameData.Decks.DestinationCardDeck;
 import common.DataModels.GameData.Decks.TrainCardDeck;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
@@ -159,7 +160,7 @@ public class ServerGameData implements Serializable
 
 
 	//TODO: documentation - what is this doing?
-	public void playerDrewTrainCard(String username, List<TrainCard> drawn)
+	public void playerDrewTrainCard(String username, HandTrainCards drawn)
 	{
 		getPlayer(username).drewTrainCards(drawn);
 	}

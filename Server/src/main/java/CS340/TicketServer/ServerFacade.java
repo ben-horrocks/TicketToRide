@@ -13,6 +13,7 @@ import common.DataModels.GameData.ClientGameData;
 import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
 import common.DataModels.Password;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.TrainCard;
@@ -206,7 +207,7 @@ public class ServerFacade implements IServer
 			{
 				database.addRunningGame(serverGameData);
 				//Initialize player hands
-				HashMap<Username, List<TrainCard>> hands = new HashMap<>();
+				HashMap<Username, HandTrainCards> hands = new HashMap<>();
 				HashMap<Username, HandDestinationCards> destCards = new HashMap<>();
 				for (User p : serverGameData.getUsers()) {
 					//drawing the players hand
@@ -214,8 +215,9 @@ public class ServerFacade implements IServer
 					for(int i = 0; i<4 ; i++) {
 						hand.add(serverGameData.drawFromTrainDeck());
 					}
-					serverGameData.playerDrewTrainCard(p.getStringUserName(), hand);
-					hands.put(p.getUsername(), hand);
+
+					serverGameData.playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
+					hands.put(p.getUsername(), new HandTrainCards(hand));
 					//drawing players initial destination cards
 					List<DestinationCard> dest = serverGameData.destinationDraw();
 					destCards.put(p.getUsername(), new HandDestinationCards(dest));

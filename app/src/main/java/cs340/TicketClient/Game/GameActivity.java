@@ -24,6 +24,7 @@ import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
 import common.DataModels.ScreenName;
 import common.DataModels.TrainCard;
 import common.DataModels.User;
@@ -261,7 +262,7 @@ public class GameActivity extends AppCompatActivity
 	 * Display the current player's hand of train cards. Mainly for testing.
 	 * @param playerHand The list of train cards to display.
 	 */
-	void displayPlayerTrainCards(List<TrainCard> playerHand)
+	void displayPlayerTrainCards(HandTrainCards playerHand)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("Player Hand\n");

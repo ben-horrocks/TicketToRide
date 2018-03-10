@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
 import common.DataModels.TrainCard;
 import cs340.TicketClient.Game.GameModel;
 
@@ -19,9 +20,9 @@ public class HandFragmentPresenter implements IHandFragmentPresenter {
         model = null;
     }
 
-    public ArrayList<TrainCard> getPlayerTrainCards()
+    public HandTrainCards getPlayerTrainCards()
     {
-        return (ArrayList<TrainCard>) GameModel.getInstance().getPlayer().getHand();
+        return GameModel.getInstance().getPlayer().getHand();
     }
 
     public HandDestinationCards getPlayerDestinationCards()

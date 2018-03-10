@@ -28,7 +28,7 @@ public class HandDestCardAdapter extends RecyclerView.Adapter<HandDestCardAdapte
 	@Override
 	public HandDCViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{
-		View view = mInflater.inflate(R.layout.hand_recyclerview_item, parent, false);
+		View view = mInflater.inflate(R.layout.destination_recyclerview_item, parent, false);
 		return new HandDCViewHolder(view);
 	}
 
@@ -36,6 +36,7 @@ public class HandDestCardAdapter extends RecyclerView.Adapter<HandDestCardAdapte
 	public void onBindViewHolder(HandDCViewHolder holder, int position)
 	{
 		DestinationCard destinationCard = mDestinationCards[position];
+		String s =  destinationCard.toString();
 		holder.mTextView.setText(destinationCard.toString());
 	}
 
