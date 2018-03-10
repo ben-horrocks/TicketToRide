@@ -12,7 +12,7 @@ import cs340.TicketClient.R;
  * Created by jhens on 3/1/2018.
  */
 
-public class DeckFragmentPresenter {
+public class DeckFragmentPresenter implements IDeckFragmentPresenter {
 
     private DeckFragment fragment;
     private GameModel model;
@@ -23,10 +23,10 @@ public class DeckFragmentPresenter {
         this.model = null;
     }
 
-    ArrayList<Integer> getFaceUpCards()
+    @Override
+    public ArrayList<Integer> getFaceUpCards()
     {
-        ArrayList<TrainCard> faceUp = new ArrayList<>();
-        faceUp = (ArrayList<TrainCard>)GameModel.getInstance().getGameData().getFaceUp();
+        ArrayList<TrainCard> faceUp = (ArrayList<TrainCard>)GameModel.getInstance().getGameData().getFaceUp();
         ArrayList<Integer> graphics = new ArrayList<>();
         for (TrainCard t : faceUp)
         {

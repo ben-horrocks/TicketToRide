@@ -4,10 +4,11 @@ package cs340.TicketClient.CardFragments;
 import java.util.ArrayList;
 
 import common.DataModels.DestinationCard;
+import common.DataModels.HandDestinationCards;
 import common.DataModels.TrainCard;
 import cs340.TicketClient.Game.GameModel;
 
-public class HandFragmentPresenter {
+public class HandFragmentPresenter implements IHandFragmentPresenter {
 
     private HandFragment fragment;
     private GameModel model;
@@ -18,16 +19,13 @@ public class HandFragmentPresenter {
         model = null;
     }
 
-    ArrayList<TrainCard> getPlayerTrainCards()
+    public ArrayList<TrainCard> getPlayerTrainCards()
     {
-        ArrayList<TrainCard> cards = null;
-        //TODO get player's train cards from GameModel.ClientGame.Player
-        return cards;
+        return (ArrayList<TrainCard>) GameModel.getInstance().getPlayer().getHand();
     }
 
-    ArrayList<DestinationCard> getPlayerDestinationCards()
+    public HandDestinationCards getPlayerDestinationCards()
     {
-        //TODO get player's destination cards from GameModel.ClientGame.Player
-        return null;
+        return GameModel.getInstance().getGameData().getPlayer().getDestinationCards();
     }
 }
