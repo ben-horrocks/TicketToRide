@@ -222,6 +222,7 @@ public class ServerFacade implements IServer
 				}
 
 				//Update all the players
+				System.out.println("Entering StartGame Alert Loop");
 				int numLoops = 0;
 				for (User u: serverGameData.getUsers())
 				{
@@ -237,6 +238,7 @@ public class ServerFacade implements IServer
 					System.out.println(s.getSignalType().name());
 					//TODO: Error Checking
 				}
+				System.out.println("Exiting StartGame Alert Loop");
 				//return start signal to player
 				int finalLoops = numLoops;
 				return new Signal(SignalType.OK, "Accepted");
@@ -303,12 +305,12 @@ public class ServerFacade implements IServer
 	}
 
 	@Override
-	public Signal send(GameID id, ChatItem item) {
+	public Signal sendChat(GameID id, ChatItem item) {
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		game.addChatMessage(item);
-		for (Username username : ServerCommunicator.getThreads().keySet())
+		for (User user : game.getUsers())
 		{
-			ClientProxy.getSINGLETON().addChatItem(username, item);
+			ClientProxy.getSINGLETON().addChatItem(user.getUsername(), item);
 		}
 		return new Signal(SignalType.OK, "Message added to chat successfully");
 	}

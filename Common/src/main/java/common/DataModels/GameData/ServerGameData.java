@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import common.DataModels.ChatItem;
 import common.DataModels.City;
@@ -63,7 +61,6 @@ public class ServerGameData implements Serializable
 
 	private void createTurnQueue()
 	{
-
 		turnQueue = new TurnQueue(getUserNames());
 	}
 

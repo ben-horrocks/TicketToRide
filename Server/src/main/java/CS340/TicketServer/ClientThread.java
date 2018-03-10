@@ -72,6 +72,8 @@ public class ClientThread extends Thread
 							{
 								CommandParams commandParams = (CommandParams) message;
 								ServerCommand serverCommand = new ServerCommand(commandParams);
+								System.out.println("Recieved \"" + commandParams.getMethodName()
+									+ "\" command");
 								result = (Signal) serverCommand.execute();
 								if (result == null)
 								{

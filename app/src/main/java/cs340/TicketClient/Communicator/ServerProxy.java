@@ -155,10 +155,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal send(GameID id, ChatItem item) {
+    public Signal sendChat(GameID id, ChatItem item) {
         String[] paramTypes = {gameIDClassname, chatItemClassName};
         Object[] params = {id, item};
-        CommandParams commandParams = new CommandParams("send", paramTypes, params);
+        CommandParams commandParams = new CommandParams("sendChat", paramTypes, params);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;

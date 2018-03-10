@@ -65,7 +65,7 @@ public interface IServer
 	 */
 	Signal returnDestinationCards(GameID id, Username name, HandDestinationCards pickedCards, HandDestinationCards returnCards);
 
-	Signal send(GameID id, ChatItem item);
+	Signal sendChat(GameID id, ChatItem item);
 
 	Signal drawFaceUp(GameID id, Username user, int index);
 
