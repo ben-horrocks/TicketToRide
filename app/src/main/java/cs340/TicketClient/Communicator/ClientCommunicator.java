@@ -4,8 +4,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -27,7 +29,7 @@ public class ClientCommunicator
 	private static ClientCommunicator SINGLETON = null;
 	public static ClientCommunicator getSingleton()
 	{
-		if(SINGLETON == null)
+		if(SINGLETON == null || !SINGLETON.socket.isConnected())
 		{
 			SINGLETON = new ClientCommunicator();
 		}
@@ -56,7 +58,8 @@ public class ClientCommunicator
 	{
 		try
 		{
-			socket = new Socket(SERVER_HOST, 8080);
+			socket = new Socket();
+			socket.connect(new InetSocketAddress(SERVER_HOST, 8080), 5000);
 			messages = new LinkedBlockingQueue<>();
 			server = new ConnectionToServer(socket);
 
@@ -106,8 +109,7 @@ public class ClientCommunicator
 							}
 
 						}
-						catch (InterruptedException e)
-						{
+						catch (InterruptedException e) {
 							System.out.println("InterruptedException when receiving data from server: " + e);
 						}
 					}
@@ -115,6 +117,9 @@ public class ClientCommunicator
 			};
 
 			receiver.setDaemon(true);
+		}
+		catch (SocketTimeoutException e){
+			System.out.print("SocketTimeoutException: No Server found at: " + SERVER_HOST);
 		}
 		catch (IOException e)
 		{
@@ -208,20 +213,26 @@ public class ClientCommunicator
 	 */
 	public Object send(Object object) throws IOException
 	{
-		if (server.read.getState() == Thread.State.NEW)
+		if (socket.isConnected())
 		{
-			server.read.start();
-			receiver.start();
+			if (server.read.getState() == Thread.State.NEW)
+			{
+				server.read.start();
+				receiver.start();
+			}
+			Signal result = null;
+			server.write(object);
+			while (result == null)
+			{
+				result = getSignalFromServer();
+			}
+			setSignalFromServer(null);
+			return result;
 		}
-		Signal result = null;
-		server.write(object);
-		while (result == null)
+		else
 		{
-			result = getSignalFromServer();
+			return new Signal(SignalType.ERROR, "Not connected to server.");
 		}
-		setSignalFromServer(null);
-		return result;
-
 	}
 
 	/**
