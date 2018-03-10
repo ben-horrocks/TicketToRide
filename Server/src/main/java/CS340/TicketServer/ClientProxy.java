@@ -49,7 +49,16 @@ public class ClientProxy implements IClient {
         return clientProxy;
     }
 
-    @Override
+    /* The String literals for the class paths for classes. */
+    private static final String startGamePacketClassName = StartGamePacket.class.getName();
+	private static final String userNameClassName = Username.class.getName();
+	private static final String intClassName = int.class.getName();
+	private static final String trainCardClassName = TrainCard.class.getName();
+	private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
+	private static final String chatItemClassName = ChatItem.class.getName();
+	private static final String historyItemClassName = HistoryItem.class.getName();
+
+	@Override
     public Signal updateGameList(List<GameInfo> gameList) {
 		ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.UPDATE, gameList);
@@ -64,7 +73,7 @@ public class ClientProxy implements IClient {
         //Get the recipient for the packet and find their thread
 		Username packetRecipient = packet.getUser();
         String methodName = "startGame";
-        String[] paramTypes = {StartGamePacket.class.getName()};
+        String[] paramTypes = {startGamePacketClassName};
         Object[] params = {packet};
         return sendCommandToClient(packetRecipient, methodName, paramTypes, params);
     }
@@ -72,7 +81,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount) {
         String methodName = "opponentDrewDestinationCards";
-        String[] paramTypes = {Username.class.getName(), int.class.getName()};
+        String[] paramTypes = {userNameClassName, intClassName};
         Object[] params = {name, amount};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
@@ -80,7 +89,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement) {
         String methodName = "opponentDrewFaceUpCard";
-        String[] paramTypes = {Username.class.getName(), int.class.getName(), TrainCard.class.getName()};
+        String[] paramTypes = {userNameClassName, intClassName, trainCardClassName};
         Object[] params = {name, index, replacement};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
@@ -88,7 +97,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal opponentDrewDeckCard(Username name) {
         String methodName = "opponentDrewDeckCard";
-        String[] paramTypes = {Username.class.getName()};
+        String[] paramTypes = {userNameClassName};
         Object[] params = {name};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
@@ -96,7 +105,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards) {
         String methodName = "playerDrewDestinationCards";
-        String[] paramTypes = {Username.class.getName(), HandDestinationCards.class.getName()};
+        String[] paramTypes = {userNameClassName, handDestinationCardsClassName};
         Object[] params = {name, cards};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
@@ -104,7 +113,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal addChatItem(Username name, ChatItem item) {
         String methodName = "addChatItem";
-        String[] paramTypes = {Username.class.getName(), ChatItem.class.getName()};
+        String[] paramTypes = {userNameClassName, chatItemClassName};
         Object[] params = {name, item};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
@@ -112,7 +121,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal addHistoryItem(Username name, HistoryItem item) {
         String methodName = "addHistoryItem";
-        String[] paramTypes = {HistoryItem.class.getName()};
+        String[] paramTypes = {historyItemClassName};
         Object[] params = {item};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
