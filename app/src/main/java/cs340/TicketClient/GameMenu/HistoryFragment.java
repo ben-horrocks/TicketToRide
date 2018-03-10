@@ -113,7 +113,7 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         public void onBindViewHolder(HistoryFragment.HistoryAdapter.Holder holder, int position) {
             if (mHistoryList != null && !mHistoryList.isEmpty()) {
                 HistoryItem item =  mHistoryList.get(position);
-                holder.mDisplayName.setText(item.getPlayerName());
+                //holder.mDisplayName.setText(item.getPlayerName());
                 holder.mAction.setText(item.getAction());
             }
         }

@@ -393,12 +393,12 @@ public class ServerFacade implements IServer
 	}
 
 	public void reportCommand(CommandParams cmd){
-		//Data Setup
+		//Make the History Item
 		HistoryItem item = new HistoryItem(cmd);
-		ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
-		Set<User> players = game.getUsers();
 		//Report the command (if applicable)
 		if(item.shouldReport()) {
+			ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
+			Set<User> players = game.getUsers();
 			for (User u : players) {
 				ClientProxy.getSINGLETON().addHistoryItem(u.getUsername(), item);
 			}
