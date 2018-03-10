@@ -3,6 +3,7 @@ package cs340.TicketClient.GameMenu;
 import common.DataModels.ChatItem;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
+import cs340.TicketClient.ASyncTask.SendChatTask;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
@@ -37,7 +38,8 @@ public class ChatPresenter {
         Player player = model.getPlayer();
         GameID id = model.getGameID();
         ChatItem chatItem = new ChatItem(player, message);
-        ServerProxy.getInstance().sendChat(id, chatItem);
+        SendChatTask task = new SendChatTask(fragment.getContext());
+        task.execute(id, chatItem);
     }
 
     public void updateChatList() {
