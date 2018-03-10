@@ -100,7 +100,7 @@ public class GamePresenter
 
 				//Update Decks Info
 				updateVisibleAndInvisibleCardsInTrainCardDeck();
-				updateNumOfCardsInDestinationDeck();
+				updateNumOfCardsInDestinationDeck(3);
 
 				//Update Game Info
 				AddClaimedRoute();
@@ -183,20 +183,23 @@ public class GamePresenter
 
 	}
 
-	private void updateNumOfCardsInDestinationDeck() {
-
+	private void updateNumOfCardsInDestinationDeck(int number) {
+			model.updateDDeckCount(number);
 	}
 
 	private void AddClaimedRoute() {
+		//TODO all of this function
 
 	}
 
 	private void AddChatMessages() {
-
+		ChatItem chatItem = new ChatItem(model.getPlayer(), "Test button");
+		model.updateChat(chatItem);
 	}
 
 	private void AddGameHistoryEntries() {
-
+		HistoryItem historyItem = new HistoryItem(model.getPlayer(), "Is Testing");
+		model.updateHistory(historyItem);
 	}
 
 	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>

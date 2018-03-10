@@ -124,4 +124,16 @@ public class GameModel
 	{
 		getOpponents().get(0).addDestinationCards(number);
 	}
+	public void updateDDeckCount(int number)
+	{
+		gameData.decDestinationCardsLeft(-number);
+	}
+	public void updateChat(ChatItem item)
+	{
+		gameData.addChatMessage(item);
+	}
+	public void updateHistory(HistoryItem item)
+	{
+		gameData.addHistoryItem(item);
+	}
 }
