@@ -33,6 +33,7 @@ public class GameModel
 	{
 		gameData.decDestinationCardsLeft(count);
 	}
+
 	public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
 
 	public ClientGameData getGameData() { return gameData; }
@@ -100,4 +101,27 @@ public class GameModel
 	public Username whoseTurn() { return gameData.whoseTurn(); }
 
 	public boolean isMyTurn() { return whoseTurn().equals(getPlayer().getUser().getUsername()); }
+
+	public void addPoints(int number)
+	{
+		getPlayer().addPoints(number);
+	}
+
+	public void removeTrainCard()
+	{
+		getPlayer().getDestinationCards().remove(0);
+	}
+	public void removeDestCard()
+	{
+		getPlayer().getDestinationCards().remove(0);
+	}
+
+	public void addTrainToOpponant(int number)
+	{
+		getOpponents().get(0).addHandCard(number);
+	}
+	public void addDestToOpponant(int number)
+	{
+		getOpponents().get(0).addDestinationCards(number);
+	}
 }

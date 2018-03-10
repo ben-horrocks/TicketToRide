@@ -90,14 +90,13 @@ public class GamePresenter
 				displayOpponentHandSizes();
 
 				// Update player info
-				updatePlayerPoints();
+				updatePlayerPoints(25);
 				addRemoveTrainCardsOfPlayer();
 				addRemoveDestinationCardsOfPlayer();
 
 				//Update Other Player Info
-				updateTrainCardsOfOtherPlayers();
-				updateTrainCarsOfotherPlayers();
-				updateDestinationCardsOfOtherPlayers();
+				updateTrainCardsOfOtherPlayers(-1);
+				updateDestinationCardsOfOtherPlayers(2);
 
 				//Update Decks Info
 				updateVisibleAndInvisibleCardsInTrainCardDeck();
@@ -158,30 +157,26 @@ public class GamePresenter
 	}
 
 
-	private void updatePlayerPoints()
+	private void updatePlayerPoints(int number)
 	{
-		model.getPlayer().addPoints(250);
+		model.addPoints(number);
 	}
 
 	private void addRemoveTrainCardsOfPlayer() {
-		TrainCard card = model.getPlayer().getHand().get(0);
-		model.getPlayer().getHand().getTrainCards().remove(0);
+		model.removeTrainCard();
 	}
 
 	private void addRemoveDestinationCardsOfPlayer() {
-
+		model.removeDestCard();
 	}
 
-	private void updateTrainCardsOfOtherPlayers() {
+	private void updateTrainCardsOfOtherPlayers(int number) {
+
+		model.addTrainToOpponant(number);
 
 	}
-
-	private void updateTrainCarsOfotherPlayers() {
-
-	}
-
-	private void updateDestinationCardsOfOtherPlayers() {
-
+	private void updateDestinationCardsOfOtherPlayers(int number) {
+		model.addDestToOpponant(number);
 	}
 
 	private void updateVisibleAndInvisibleCardsInTrainCardDeck() {
