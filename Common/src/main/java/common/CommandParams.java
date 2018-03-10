@@ -2,6 +2,9 @@ package common;
 
 import java.io.Serializable;
 
+/**
+ *
+ */
 public class CommandParams implements Serializable
 {
 	private String methodName;
