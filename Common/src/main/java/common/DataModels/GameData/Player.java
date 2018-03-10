@@ -32,17 +32,20 @@ public class Player implements Serializable{
     public void drewTrainCards(List<TrainCard> cards) { this.hand.addAll(cards); }
 
     public void claimedEdge(Edge edge) {
-        claimedEdges.addEdge(edge);
-        ArrayList<TrainCard> toRemove = new ArrayList<>();
-        for(int i=0; i<edge.getLength(); i++) {
-            for (TrainCard t : hand) {
-                if (t.getType() == edge.getColor()) {
-                    toRemove.add(t);
-                    break;
+        if (canClaimEdge(edge)) {
+            claimedEdges.addEdge(edge);
+            ArrayList<TrainCard> toRemove = new ArrayList<>();
+            for(int i=0; i<edge.getLength(); i++) {
+                for (TrainCard t : hand) {
+                    if (t.getType() == edge.getColor()) {
+                        toRemove.add(t);
+                        break;
+                    }
                 }
             }
+            hand.removeAll(toRemove);
         }
-        hand.removeAll(toRemove);
+
         //TODO if the newly claimed edge completed a destination card add points and remove the card
     }
 
