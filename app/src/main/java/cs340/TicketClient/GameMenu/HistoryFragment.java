@@ -1,6 +1,5 @@
 package cs340.TicketClient.GameMenu;
 
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,9 +17,6 @@ import common.DataModels.HistoryItem;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
-/**
- * Created by Carter on 3/6/18.
- */
 
 public class HistoryFragment extends android.support.v4.app.Fragment {
 

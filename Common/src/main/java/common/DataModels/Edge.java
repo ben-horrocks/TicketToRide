@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Kavika F.
+ * A route between two cities.
  */
-
 public class Edge implements Serializable
 {
 	private City firstCity;
@@ -17,6 +16,15 @@ public class Edge implements Serializable
 	private User owner = null;
 	private boolean isDoubleEdge;
 
+	/**
+	 * @pre All parameters must be non-null.
+	 * @post A valid Edge object.
+	 * @param firstCity The "starting" city.
+	 * @param secondCity The "destination" city.
+	 * @param color The color of the edge.
+	 * @param length The distance between the two cities (as defined by the game).
+	 * @param isDoubleEdge Whether or not there is another edge between the same cities.
+	 */
 	public Edge(City firstCity, City secondCity, TrainColor color, int length, boolean isDoubleEdge)
 	{
 		this.firstCity = firstCity;

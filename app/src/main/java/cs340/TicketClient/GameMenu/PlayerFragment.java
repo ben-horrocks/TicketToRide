@@ -18,7 +18,10 @@ public class PlayerFragment extends Fragment
 	private TextView mPlayerName;
 	private TextView mPlayerColor;
 	private TextView mPlayerScore;
+	private TextView mPlayerTrainCards;
+	private TextView mPlayerDestinationCards;
 	private TextView mTurnQueue;
+	private TextView mOpponentInfo;
 	private Button mExitButton;
 
 	@Override
@@ -44,9 +47,21 @@ public class PlayerFragment extends Fragment
 		text = "Score: " + presenter.getPlayerPoints();
 		mPlayerScore.setText(text);
 
+		mPlayerTrainCards = (TextView) v.findViewById(R.id.drawer_player_train_cards);
+		text = presenter.getTrainCards();
+		mPlayerTrainCards.setText(text);
+
+		mPlayerDestinationCards = (TextView) v.findViewById(R.id.drawer_player_destination_cards);
+		text = presenter.getDestinationCards();
+		mPlayerDestinationCards.setText(text);
+
 		mTurnQueue = (TextView) v.findViewById(R.id.drawer_player_turnQueue);
-		text = "Turn Queue: " + presenter.getTurnQueue();
+		text = "Turn Queue: \n" + presenter.getTurnQueue();
 		mTurnQueue.setText(text);
+
+		mOpponentInfo = (TextView) v.findViewById(R.id.drawer_player_opponent_info);
+		text = "Opponent Information: \n" + presenter.getOpponentInfo();
+		mOpponentInfo.setText(text);
 
 		mExitButton = (Button) v.findViewById(R.id.drawer_player_exit_button);
 		mExitButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +72,8 @@ public class PlayerFragment extends Fragment
 				fm.popBackStack();
 			}
 		});
+
+
 
 		return v;
 	}

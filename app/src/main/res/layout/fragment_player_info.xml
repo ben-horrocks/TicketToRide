@@ -31,10 +31,28 @@
             android:text="Points"/>
 
         <TextView
+            android:id="@+id/drawer_player_train_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TrainCards"/>
+
+        <TextView
+            android:id="@+id/drawer_player_destination_cards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DestinationCards"/>
+
+        <TextView
             android:id="@+id/drawer_player_turnQueue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TurnQueue"/>
+
+        <TextView
+            android:id="@+id/drawer_player_opponent_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpponentInfo"/>
 
     </LinearLayout>
 

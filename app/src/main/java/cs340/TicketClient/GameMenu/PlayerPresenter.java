@@ -1,10 +1,17 @@
 package cs340.TicketClient.GameMenu;
 
 
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
+import common.DataModels.DestinationCard;
+import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.TurnQueue;
+import common.DataModels.HandDestinationCards;
+import common.DataModels.HandTrainCards;
+import common.DataModels.TrainColor;
 import common.DataModels.Username;
 import cs340.TicketClient.Game.GameModel;
 
@@ -45,26 +52,26 @@ public class PlayerPresenter
 	}
 	*/
 
-	public String getPlayerName()
+	String getPlayerName()
 	{
 		String name = player.getUser().getStringUserName();
 		return name;
 	}
 
-	public String getPlayerColor()
+	String getPlayerColor()
 	{
 		String color = player.getColor().name();
 		return color;
 	}
 
-	public String getPlayerPoints()
+	String getPlayerPoints()
 	{
 		int points = player.getScore();
 		String sPoints = String.valueOf(points);
 		return sPoints;
 	}
 
-	public String getTurnQueue()
+	String getTurnQueue()
 	{
 		TurnQueue queue = model.getGameData().getTurnQueue();
 		Username[] usernames = queue.toArray();
@@ -77,6 +84,53 @@ public class PlayerPresenter
 			sb.append(username.toString());
 			sb.append("\n");
 			position++;
+		}
+		return sb.toString();
+	}
+
+	String getTrainCards()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Train Cards: \n");
+		Map<TrainColor, Integer> handColorCounts = player.getHand().getColorCounts();
+		for (TrainColor color : handColorCounts.keySet())
+		{
+			String text = "\t" + color + ": " + handColorCounts.get(color) + "\n";
+			sb.append(text);
+		}
+		return sb.toString();
+	}
+
+	String getDestinationCards()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Destination Cards: \n");
+		for (DestinationCard card : player.getDestinationCards().getDestinationCards())
+		{
+			String text = "\t" + card.getCity1() + " to " + card.getCity2() +
+					": " + card.getPointValue() + "\n";
+			sb.append(text);
+		}
+		return sb.toString();
+	}
+
+	String getOpponentInfo()
+	{
+		List<Opponent> opponents = model.getOpponents();
+		StringBuilder sb = new StringBuilder();
+		for (Opponent opponent : opponents)
+		{
+			String text = "Name: " + opponent.getName() + "\n";
+			sb.append(text);
+			text = "\tColor: " + opponent.getColor() + "\n";
+			sb.append(text);
+			text = "\tScore: " + opponent.getScore() + "\n";
+			sb.append(text);
+			text = "\tTrain Cards: " + opponent.getNumberHandCards() + "\n";
+			sb.append(text);
+			text = "\tDestination Cards: " + opponent.getDestinationCardCount() + "\n";
+			sb.append(text);
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
