@@ -121,7 +121,7 @@ public class ClientProxy implements IClient {
     @Override
     public Signal addHistoryItem(Username name, HistoryItem item) {
         String methodName = "addHistoryItem";
-        String[] paramTypes = {historyItemClassName};
+        String[] paramTypes = {userNameClassName, historyItemClassName};
         Object[] params = {item};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
