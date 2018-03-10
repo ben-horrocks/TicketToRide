@@ -4,8 +4,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -56,7 +58,8 @@ public class ClientCommunicator
 	{
 		try
 		{
-			socket = new Socket(SERVER_HOST, 8080);
+			socket = new Socket();
+			socket.connect(new InetSocketAddress(SERVER_HOST, 8080), 5000);
 			messages = new LinkedBlockingQueue<>();
 			server = new ConnectionToServer(socket);
 
@@ -106,8 +109,7 @@ public class ClientCommunicator
 							}
 
 						}
-						catch (InterruptedException e)
-						{
+						catch (InterruptedException e) {
 							System.out.println("InterruptedException when receiving data from server: " + e);
 						}
 					}
@@ -115,6 +117,9 @@ public class ClientCommunicator
 			};
 
 			receiver.setDaemon(true);
+		}
+		catch (SocketTimeoutException e){
+			System.out.print("SocketTimeoutException: No Server found at: " + SERVER_HOST);
 		}
 		catch (IOException e)
 		{
