@@ -208,20 +208,26 @@ public class ClientCommunicator
 	 */
 	public Object send(Object object) throws IOException
 	{
-		if (server.read.getState() == Thread.State.NEW)
+		if (socket.isConnected())
 		{
-			server.read.start();
-			receiver.start();
+			if (server.read.getState() == Thread.State.NEW)
+			{
+				server.read.start();
+				receiver.start();
+			}
+			Signal result = null;
+			server.write(object);
+			while (result == null)
+			{
+				result = getSignalFromServer();
+			}
+			setSignalFromServer(null);
+			return result;
 		}
-		Signal result = null;
-		server.write(object);
-		while (result == null)
+		else
 		{
-			result = getSignalFromServer();
+			return new Signal(SignalType.ERROR, "Not connected to server.");
 		}
-		setSignalFromServer(null);
-		return result;
-
 	}
 
 	/**
