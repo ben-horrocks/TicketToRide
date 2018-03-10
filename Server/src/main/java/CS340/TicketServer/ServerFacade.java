@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import common.CommandParams;
 import common.DataModels.AuthToken;
 import common.DataModels.ChatItem;
 import common.DataModels.DestinationCard;
@@ -14,6 +15,7 @@ import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HandTrainCards;
+import common.DataModels.HistoryItem;
 import common.DataModels.Password;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.TrainCard;
@@ -388,5 +390,18 @@ public class ServerFacade implements IServer
 			//TODO ClientProxy.getSINGLETON().opponentClaimedEdge(user, edge);
 		}
 		return new Signal(SignalType.OK, edge);
+	}
+
+	public void reportCommand(CommandParams cmd){
+		//Data Setup
+		HistoryItem item = new HistoryItem(cmd);
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
+		Set<User> players = game.getUsers();
+		//Report the command (if applicable)
+		if(item.shouldReport()) {
+			for (User u : players) {
+				ClientProxy.getSINGLETON().addHistoryItem(u.getUsername(), item);
+			}
+		}
 	}
 }
