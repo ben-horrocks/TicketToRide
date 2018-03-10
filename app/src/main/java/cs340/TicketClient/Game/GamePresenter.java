@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+import common.CommandParams;
 import common.DataModels.ChatItem;
 import common.DataModels.DestDrawRequest;
 import common.DataModels.GameData.Opponent;
@@ -78,7 +79,7 @@ public class GamePresenter
 
 	void test()
 	{
-
+		//TODO call make choices for all the chagnes FROM THE MODEL.(Observer/observable)
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run()
@@ -90,18 +91,17 @@ public class GamePresenter
 				displayOpponentHandSizes();
 
 				// Update player info
-				updatePlayerPoints();
+				updatePlayerPoints(25);
 				addRemoveTrainCardsOfPlayer();
 				addRemoveDestinationCardsOfPlayer();
 
 				//Update Other Player Info
-				updateTrainCardsOfOtherPlayers();
-				updateTrainCarsOfotherPlayers();
-				updateDestinationCardsOfOtherPlayers();
+				updateTrainCardsOfOtherPlayers(-1);
+				updateDestinationCardsOfOtherPlayers(2);
 
 				//Update Decks Info
 				updateVisibleAndInvisibleCardsInTrainCardDeck();
-				updateNumOfCardsInDestinationDeck();
+				updateNumOfCardsInDestinationDeck(3);
 
 				//Update Game Info
 				AddClaimedRoute();
@@ -158,50 +158,50 @@ public class GamePresenter
 	}
 
 
-	private void updatePlayerPoints()
+	private void updatePlayerPoints(int number)
 	{
-		model.getPlayer().addPoints(250);
+		model.addPoints(number);
 	}
 
 	private void addRemoveTrainCardsOfPlayer() {
-		TrainCard card = model.getPlayer().getHand().get(0);
-		model.getPlayer().getHand().getTrainCards().remove(0);
+		model.removeTrainCard();
 	}
 
 	private void addRemoveDestinationCardsOfPlayer() {
-
+		model.removeDestCard();
 	}
 
-	private void updateTrainCardsOfOtherPlayers() {
+	private void updateTrainCardsOfOtherPlayers(int number) {
+
+		model.addTrainToOpponant(number);
 
 	}
-
-	private void updateTrainCarsOfotherPlayers() {
-
-	}
-
-	private void updateDestinationCardsOfOtherPlayers() {
-
+	private void updateDestinationCardsOfOtherPlayers(int number) {
+		model.addDestToOpponant(number);
 	}
 
 	private void updateVisibleAndInvisibleCardsInTrainCardDeck() {
 
 	}
 
-	private void updateNumOfCardsInDestinationDeck() {
-
+	private void updateNumOfCardsInDestinationDeck(int number) {
+			model.updateDDeckCount(number);
 	}
 
 	private void AddClaimedRoute() {
+		//TODO all of this function
 
 	}
 
 	private void AddChatMessages() {
-
+		ChatItem chatItem = new ChatItem(model.getPlayer(), "Test button");
+		model.updateChat(chatItem);
 	}
 
 	private void AddGameHistoryEntries() {
-
+		CommandParams cmd = new CommandParams("TEST", null, null);
+		HistoryItem historyItem = new HistoryItem(cmd);
+		model.updateHistory(historyItem);
 	}
 
 	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>

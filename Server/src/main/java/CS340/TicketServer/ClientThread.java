@@ -85,6 +85,7 @@ public class ClientThread extends Thread
 									socketOwners.add(username);
 									ServerCommunicator.getThreads().put(username, parent);
 								}
+								ServerFacade.getSINGLETON().reportCommand(commandParams);
 							}
 							else if (message instanceof Signal)
 							{

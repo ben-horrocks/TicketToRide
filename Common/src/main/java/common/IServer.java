@@ -6,6 +6,15 @@ import common.DataModels.*;
 
 public interface IServer
 {
+	String START_GAME_METHOD = "startGame";
+	String RETURN_DEST_CARDS_METHOD = "returnDestinationCards";
+	String SEND_CHAT_METHOD = "sendChat";
+	String DRAW_DEST_CARDS_METHOD = "drawDestinationCards";
+	String DRAW_FACE_UP_METHOD = "drawFaceUp";
+	String DRAW_DECK_METHOD = "drawDeck";
+	String CLAIM_EDGE_METHOD = "claimEdge";
+
+
 	/**
 	 * checks the database for the username ans password and logs in if the username and password match one on the server
 	 * @param username username of player attempting to login
