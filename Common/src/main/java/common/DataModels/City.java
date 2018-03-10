@@ -3,12 +3,22 @@ package common.DataModels;
 
 import java.io.Serializable;
 
+/**
+ * A city.
+ */
 public class City implements Serializable
 {
 	private double latitude;
 	private double longitude;
 	private String cityName;
 
+	/**
+	 * @pre All parameters must be non-null.
+	 * @post A valid City object.
+	 * @param latitude A latitudinal value for the earth.
+	 * @param longitude A longitudinal value for the earth.
+	 * @param cityName A city name (hopefully on earth).
+	 */
 	public City(double latitude, double longitude, String cityName)
 	{
 		this.latitude = latitude;

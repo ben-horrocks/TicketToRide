@@ -8,9 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The representation of the board game.
+ */
 public class EdgeGraph implements Serializable
 {
-	private Map<City, List<Edge>> graph = new HashMap<>();
+	private Map<City, List<Edge>> graph;
+
+	public EdgeGraph()
+	{
+		graph = new HashMap<>();
+	}
 
 	public Map<City, List<Edge>> getGraph() { return graph; }
 

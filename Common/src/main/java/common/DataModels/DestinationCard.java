@@ -1,18 +1,22 @@
-/**
- * DestinationCard.java
- * Author: Ben Horrocks
- * Last Commit: 4 March, 2018
- * Notes: Object to store Destination Card
- */
 package common.DataModels;
 
 import java.io.Serializable;
 
+/**
+ * A destination card.
+ */
 public class DestinationCard implements Serializable
 {
   private String city1, city2;
   private int pointValue;
 
+	/**
+	 * @pre All parameters must be non-null.
+	 * @post A valid DestinationCard object.
+	 * @param city1 The name of the "start" city.
+	 * @param city2 The name of the "destination" city.
+	 * @param points The amount of points this route is worth.
+	 */
   public DestinationCard(String city1, String city2, int points) {
     this.city1 = city1;
     this.city2 = city2;

@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by Kavika F.
- */
-
 public class HandDestinationCards implements Serializable
 {
 	private List<DestinationCard> destinationCards;

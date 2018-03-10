@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import common.DataModels.*;
 
+/**
+ * A restricted view of a player.
+ */
 public class Opponent implements Serializable{
     private User user;
     private int numberHandCards;
@@ -22,15 +25,9 @@ public class Opponent implements Serializable{
         this.claimedEdges = new EdgeGraph();
     }
 
-    public void incrementDestinationCards(int number)
-    {
-        numberDestinationCards += number;
-    }
+    public void incrementDestinationCards(int number) { numberDestinationCards += number; }
 
-    public void incrementTrainCards(int number)
-    {
-        numberHandCards += number;
-    }
+    public void incrementTrainCards(int number) { numberHandCards += number; }
 
     public Opponent(Player player)
 	{
@@ -42,7 +39,7 @@ public class Opponent implements Serializable{
 		this.claimedEdges = player.getClaimedEdges();
 	}
 
-    String getName() { return user.getStringUserName(); }
+    public String getName() { return user.getStringUserName(); }
 
     public Username getUsername() { return user.getUsername(); }
 
