@@ -370,9 +370,9 @@ public class ServerFacade implements IServer
 	 * 		cards to be able to claim the edge) and the edge has already been modified to have the
 	 * 		specified player as it's owner.
 	 *
-	 * @param id
-	 * @param user
-	 * @param edge
+	 * @param id The id of the game we're trying to access.
+	 * @param user The username of the player trying to claim an edge.
+	 * @param edge The edge that user wants to claim.
 	 * @return
 	 */
 	@Override
