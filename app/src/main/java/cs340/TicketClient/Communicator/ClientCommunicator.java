@@ -35,6 +35,7 @@ public class ClientCommunicator
 	}
 
 	private ConnectionToServer server;
+	private Thread receiver;
 	private Socket socket;
 	private LinkedBlockingQueue<Object> messages;
 	private Signal signalFromServer = null;
@@ -59,7 +60,7 @@ public class ClientCommunicator
 			messages = new LinkedBlockingQueue<>();
 			server = new ConnectionToServer(socket);
 
-			Thread receiver = new Thread()
+			receiver = new Thread()
 			{
 				/**
 				 * While this thread is running, take Objects from the blockingQueue, cast them
@@ -114,7 +115,6 @@ public class ClientCommunicator
 			};
 
 			receiver.setDaemon(true);
-			receiver.start();
 		}
 		catch (IOException e)
 		{
@@ -128,6 +128,7 @@ public class ClientCommunicator
 		private Socket socket;
 		private ObjectInputStream inputStream;
 		private ObjectOutputStream outputStream;
+		private Thread read;
 
 		private ConnectionToServer(Socket socket) throws IOException
 		{
@@ -135,7 +136,7 @@ public class ClientCommunicator
 			inputStream = new ObjectInputStream(this.socket.getInputStream());
 			outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 
-			Thread read = new Thread()
+			read = new Thread()
 			{
 				/**
 				 * While this thread is running, constantly listen for incoming objects from the
@@ -178,7 +179,6 @@ public class ClientCommunicator
 			};
 
 			read.setDaemon(true);
-			read.start();
 		}
 
 		/**
@@ -206,6 +206,11 @@ public class ClientCommunicator
 	 */
 	public Object send(Object object) throws IOException
 	{
+		if (server.read.getState() == Thread.State.NEW)
+		{
+			server.read.start();
+			receiver.start();
+		}
 		setSignalFromServer(null);
 		Signal result = null;
 		server.write(object);
