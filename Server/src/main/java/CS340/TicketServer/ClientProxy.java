@@ -134,10 +134,12 @@ public class ClientProxy implements IClient {
             threadList.get(client).push(command);
             Signal signal = new Signal(SignalType.OK, "Dummy Signal");
             return signal;
+        } catch (NullPointerException e) {
+            System.out.println("Client: " + client.getName() + " is not connected!");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Signal(SignalType.ERROR, "An error occurred when sending a \""
-                    + methodName + "\" command to: " + client.getName());
         }
+        return new Signal(SignalType.ERROR, "An error occurred when sending a \""
+                + methodName + "\" command to: " + client.getName());
     }
 }
