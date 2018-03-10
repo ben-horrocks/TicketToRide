@@ -52,7 +52,10 @@ public class ChatFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 if (mChatInputText.getText().length() != 0) {
+                    //send chat message to server
                     mChatPresenter.sendChatMessage(mChatInputText.getText().toString());
+                    //clear message in text box
+                    mChatInputText.setText("");
                 }
             }
         });

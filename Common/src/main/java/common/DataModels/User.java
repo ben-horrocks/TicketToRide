@@ -2,6 +2,9 @@ package common.DataModels;
 
 import java.io.Serializable;
 
+/**
+ * 
+ */
 public class User implements Serializable
 {
 	private Username username;

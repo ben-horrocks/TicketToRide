@@ -91,7 +91,22 @@ public class GamePresenter
 
 				// Update player info
 				updatePlayerPoints();
+				addRemoveTrainCardsOfPlayer();
+				addRemoveDestinationCardsOfPlayer();
 
+				//Update Other Player Info
+				updateTrainCardsOfOtherPlayers();
+				updateTrainCarsOfotherPlayers();
+				updateDestinationCardsOfOtherPlayers();
+
+				//Update Decks Info
+				updateVisibleAndInvisibleCardsInTrainCardDeck();
+				updateNumOfCardsInDestinationDeck();
+
+				//Update Game Info
+				AddClaimedRoute();
+				AddChatMessages();
+				AddGameHistoryEntries();
 			}
 		});
 	}
@@ -146,6 +161,47 @@ public class GamePresenter
 	private void updatePlayerPoints()
 	{
 		model.getPlayer().addPoints(250);
+	}
+
+	private void addRemoveTrainCardsOfPlayer() {
+		TrainCard card = model.getPlayer().getHand().get(0);
+		model.getPlayer().getHand().getTrainCards().remove(0);
+	}
+
+	private void addRemoveDestinationCardsOfPlayer() {
+
+	}
+
+	private void updateTrainCardsOfOtherPlayers() {
+
+	}
+
+	private void updateTrainCarsOfotherPlayers() {
+
+	}
+
+	private void updateDestinationCardsOfOtherPlayers() {
+
+	}
+
+	private void updateVisibleAndInvisibleCardsInTrainCardDeck() {
+
+	}
+
+	private void updateNumOfCardsInDestinationDeck() {
+
+	}
+
+	private void AddClaimedRoute() {
+
+	}
+
+	private void AddChatMessages() {
+
+	}
+
+	private void AddGameHistoryEntries() {
+
 	}
 
 	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
