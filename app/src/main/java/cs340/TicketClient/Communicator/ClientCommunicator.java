@@ -75,7 +75,7 @@ public class ClientCommunicator
 						try
 						{
 							Object received = messages.take();
-							messages.remove(received);
+							//messages.remove(received);
 							if (received instanceof Signal)
 							{
 								Signal signal = (Signal) received;

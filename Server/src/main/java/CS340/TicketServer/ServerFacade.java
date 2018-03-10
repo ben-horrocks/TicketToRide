@@ -305,7 +305,7 @@ public class ServerFacade implements IServer
 	}
 
 	@Override
-	public Signal send(GameID id, ChatItem item) {
+	public Signal sendChat(GameID id, ChatItem item) {
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		game.addChatMessage(item);
 		for (User user : game.getUsers())

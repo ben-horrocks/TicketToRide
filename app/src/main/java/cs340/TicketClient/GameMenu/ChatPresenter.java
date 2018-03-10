@@ -37,7 +37,7 @@ public class ChatPresenter {
         Player player = model.getPlayer();
         GameID id = model.getGameID();
         ChatItem chatItem = new ChatItem(player, message);
-        ServerProxy.getInstance().send(id, chatItem);
+        ServerProxy.getInstance().sendChat(id, chatItem);
     }
 
     public void updateChatList() {
