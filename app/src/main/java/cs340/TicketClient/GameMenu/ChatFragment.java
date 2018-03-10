@@ -13,8 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import common.DataModels.ChatItem;
+import common.DataModels.GameInfo;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
@@ -24,7 +26,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
     private Button mCloseButton;
     private RecyclerView mChatRecyclerView;
-    private RecyclerView.Adapter mChatAdapter;
+    private ChatFragment.ChatAdapter mChatAdapter;
     private RecyclerView.LayoutManager mChatLayoutManager;
     private EditText mChatInputText;
     private Button mSendButton;
@@ -62,7 +64,10 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
         //-- RECYCLER --
         //Get messages from the Game model
-        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getPlayHistory();
+        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
+        if (chatList == null) {
+            chatList = new ArrayList<>();
+        }
 
         //Instantiate View
         mChatRecyclerView = (RecyclerView) v.findViewById(R.id.chat_recycler_field);
@@ -80,23 +85,17 @@ public class ChatFragment extends android.support.v4.app.Fragment {
     }
 
     public void updateChatList() {
-
-        //-- RECYCLER --
-        //Get messages from the Game model
         ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
-
-        //Instantiate View
-        mChatRecyclerView = (RecyclerView) getView().findViewById(R.id.chat_recycler_field);
-
-        //Setup layout Manager
-        mChatLayoutManager = new LinearLayoutManager(getActivity());
-        ((LinearLayoutManager) mChatLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
-        mChatRecyclerView.setLayoutManager(mChatLayoutManager);
-
-        //Populate Recycler
-        mChatAdapter = new ChatAdapter(chatList);
-        mChatRecyclerView.setAdapter(mChatAdapter);
-
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //-- RECYCLER --
+                //Get messages from the Game model
+                ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
+                mChatAdapter.clear();
+                mChatAdapter.addChats(chatList);
+            }
+        });
     }
 
     public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
@@ -142,6 +141,40 @@ public class ChatFragment extends android.support.v4.app.Fragment {
                 return chatList.size();
             }
             return 0;
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView)
+        {
+            super.onAttachedToRecyclerView(recyclerView);
+        }
+
+        /**
+         * Abstract: Function to add a collection of games to the list.
+         *
+         * @pre games is not null, newGames.size >0
+         * @post games will have the new list of games added to it, games.size += newgames
+         */
+        public void addChats(List<ChatItem> newList)
+        {
+            if (chatList != null) {
+                chatList.addAll(newList);
+                notifyDataSetChanged();
+            }
+        }
+
+        /**
+         * Abstract: Function to clear all games from the list.
+         *
+         * @pre games is not null
+         * @post games.size == 0
+         */
+        public void clear()
+        {
+            if (chatList != null) {
+                chatList.clear();
+                notifyDataSetChanged();
+            }
         }
     }
 
