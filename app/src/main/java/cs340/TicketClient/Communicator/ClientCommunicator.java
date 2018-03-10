@@ -190,6 +190,8 @@ public class ClientCommunicator
 			try
 			{
 				outputStream.writeObject(object);
+				outputStream.flush();
+				outputStream.reset();
 			}
 			catch (IOException e)
 			{
@@ -220,6 +222,15 @@ public class ClientCommunicator
 		setSignalFromServer(null);
 		return result;
 
+	}
+
+	/**
+	 * This function "pushes" or sends Objects from the Server to the Client.
+	 * @param object The object to be sent to the Client.
+	 */
+	public void push(Object object)
+	{
+		server.write(object);
 	}
 
 	/**
