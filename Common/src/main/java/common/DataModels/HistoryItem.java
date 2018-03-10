@@ -94,6 +94,9 @@ public class HistoryItem implements Serializable{
                 action.append(edge.getSecondCity().getCityName());
                 break;
             }
+            case "TEST": {
+                action.append("This is a test HistoryItem!");
+            }
             default:
                 action.append("Unrecognized Command: ");
                 action.append(commandName);

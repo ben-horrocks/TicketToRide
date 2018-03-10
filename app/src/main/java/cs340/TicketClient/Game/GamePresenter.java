@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+import common.CommandParams;
 import common.DataModels.ChatItem;
 import common.DataModels.DestDrawRequest;
 import common.DataModels.GameData.Opponent;
@@ -198,7 +199,8 @@ public class GamePresenter
 	}
 
 	private void AddGameHistoryEntries() {
-		HistoryItem historyItem = new HistoryItem(model.getPlayer(), "Is Testing");
+		CommandParams cmd = new CommandParams("TEST", null, null);
+		HistoryItem historyItem = new HistoryItem(cmd);
 		model.updateHistory(historyItem);
 	}
 
