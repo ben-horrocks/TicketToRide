@@ -158,6 +158,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         public void addChats(List<ChatItem> newList)
         {
             if (chatList != null) {
+            	chatList.clear();
                 chatList.addAll(newList);
                 notifyDataSetChanged();
             }
