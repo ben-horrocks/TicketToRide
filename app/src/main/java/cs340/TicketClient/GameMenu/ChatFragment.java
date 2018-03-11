@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -104,13 +105,13 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
         public class Holder extends RecyclerView.ViewHolder {
 
-            private RelativeLayout mChatSlot;
+            private LinearLayout mChatSlot;
             private TextView mDisplayName;
             private TextView mMessage;
 
             public Holder(View itemView) {
                 super(itemView);
-                mChatSlot = (RelativeLayout) itemView.findViewById(R.id.chat_slot);
+                mChatSlot = (LinearLayout) itemView.findViewById(R.id.chat_slot);
                 mDisplayName = (TextView) itemView.findViewById(R.id.chat_player);
                 mMessage = (TextView) itemView.findViewById(R.id.chat_message);
             }
