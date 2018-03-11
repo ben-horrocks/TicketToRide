@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -157,12 +158,10 @@ public class ClientCommunicator
 						{
 							System.out.println("IOException in read Thread: " + e);
 							e.printStackTrace();
-							// if SocketException, like a problem with Server, stop listening
-							if (e instanceof SocketException || e instanceof EOFException)
-							{
-								closeSocket();
-								break;
-							}
+							// there's ever a problem with Server, stop listening
+							closeSocket();
+							break;
+
 						}
 						catch (ClassNotFoundException e)
 						{
