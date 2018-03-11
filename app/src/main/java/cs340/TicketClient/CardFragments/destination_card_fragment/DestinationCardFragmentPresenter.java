@@ -1,23 +1,20 @@
-package cs340.TicketClient.CardFragments;
+package cs340.TicketClient.CardFragments.destination_card_fragment;
 
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import common.DataModels.GameData.SendCardsRequest;
 import common.DataModels.GameID;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.Signal;
-import common.DataModels.SignalType;
 import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
 import static common.DataModels.SignalType.OK;
 
-public class DestinationCardFragmentPresenter implements IDestinationCardFragmentPresenter{
+public class DestinationCardFragmentPresenter implements IDestinationCardFragmentPresenter
+{
 
     private GameModel model;
     private DestinationCardFragment fragment;

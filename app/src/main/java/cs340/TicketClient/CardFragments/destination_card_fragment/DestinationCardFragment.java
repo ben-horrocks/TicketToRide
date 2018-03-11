@@ -1,4 +1,4 @@
-package cs340.TicketClient.CardFragments;
+package cs340.TicketClient.CardFragments.destination_card_fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

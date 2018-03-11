@@ -1,12 +1,6 @@
-package cs340.TicketClient.GameMenu;
+package cs340.TicketClient.GameMenu.history;
 
-import common.DataModels.HistoryItem;
-import common.DataModels.GameData.Player;
 import cs340.TicketClient.Game.GameModel;
-
-/**
- * Created by Carter on 3/7/18.
- */
 
 public class HistoryPresenter {
 

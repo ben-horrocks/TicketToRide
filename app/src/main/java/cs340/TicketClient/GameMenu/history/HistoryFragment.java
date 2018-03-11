@@ -1,4 +1,4 @@
-package cs340.TicketClient.GameMenu;
+package cs340.TicketClient.GameMenu.history;
 
 import android.graphics.Color;
 import android.os.Bundle;

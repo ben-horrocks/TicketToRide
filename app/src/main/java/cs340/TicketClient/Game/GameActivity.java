@@ -1,6 +1,5 @@
 package cs340.TicketClient.Game;
 
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -20,22 +19,18 @@ import com.google.android.gms.maps.GoogleMap;
 import java.util.List;
 
 import common.DataModels.GameData.Opponent;
-import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HandTrainCards;
-import common.DataModels.ScreenName;
-import common.DataModels.TrainCard;
 import common.DataModels.User;
 import common.DataModels.Username;
-import cs340.TicketClient.CardFragments.DeckFragment;
-import cs340.TicketClient.CardFragments.DestinationCardFragment;
-import cs340.TicketClient.CardFragments.HandFragment;
-import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.GameMenu.ChatFragment;
-import cs340.TicketClient.GameMenu.HistoryFragment;
-import cs340.TicketClient.GameMenu.PlayerFragment;
+import cs340.TicketClient.CardFragments.deck_fragment.DeckFragment;
+import cs340.TicketClient.CardFragments.destination_card_fragment.DestinationCardFragment;
+import cs340.TicketClient.CardFragments.hand_fragment.HandFragment;
+import cs340.TicketClient.GameMenu.chat.ChatFragment;
+import cs340.TicketClient.GameMenu.history.HistoryFragment;
+import cs340.TicketClient.GameMenu.player_info.PlayerFragment;
 import cs340.TicketClient.R;
 
 public class GameActivity extends AppCompatActivity
@@ -191,7 +186,7 @@ public class GameActivity extends AppCompatActivity
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment fragment;
 
-		switch(item.getItemId())
+		switch(item.getItemId()) // For all fragments, retain their data after being used.
 		{
 			case R.id.chat_btn:
 				fragment = new ChatFragment();

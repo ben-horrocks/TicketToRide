@@ -1,12 +1,10 @@
 package cs340.TicketClient.ASyncTask;
 
-/**
- * Created by Vibro on 3/10/2018.
- */
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
 
 import common.DataModels.ChatItem;
 import common.DataModels.GameID;
@@ -16,11 +14,11 @@ import cs340.TicketClient.Communicator.ServerProxy;
 
 public class SendChatTask extends AsyncTask<Object, Void, Signal>
 {
-    private Context context;
+	private WeakReference<Context> contextRef;
 
     public SendChatTask(Context context)
     {
-        this.context = context;
+        contextRef = new WeakReference<>(context);
     }
 
     @Override
@@ -34,12 +32,18 @@ public class SendChatTask extends AsyncTask<Object, Void, Signal>
     @Override
     protected void onPostExecute(Signal signal)
     {
+    	Context context = contextRef.get();
         if (signal.getSignalType() == SignalType.ERROR)
         {
-            Toast.makeText(context, (String)signal.getObject(), Toast.LENGTH_LONG).show();
-        } else
-        {
-            //LobbyPresenter.getInstance().gameStarted();
+        	if (context != null)
+			{
+				Toast.makeText(context, (String)signal.getObject(), Toast.LENGTH_LONG).show();
+			}
+			else
+			{
+				System.out.println("Send Chat Error in AsyncTask: " + signal.getObject());
+			}
         }
+        // else do nothing
     }
 }

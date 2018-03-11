@@ -1,16 +1,13 @@
-package cs340.TicketClient.GameMenu;
+package cs340.TicketClient.GameMenu.player_info;
 
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameData.TurnQueue;
-import common.DataModels.HandDestinationCards;
-import common.DataModels.HandTrainCards;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
 import cs340.TicketClient.Game.GameModel;

@@ -1,4 +1,4 @@
-package cs340.TicketClient.CardFragments;
+package cs340.TicketClient.CardFragments.hand_fragment;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -58,10 +58,7 @@ public class HandTrainCardAdapter extends RecyclerView.Adapter<HandTrainCardAdap
 	}
 
 	@Override
-	public int getItemCount()
-	{
-		return mTrainCards.length;
-	}
+	public int getItemCount() { return mTrainCards.length; }
 
 	class HandTrainCardViewHolder extends RecyclerView.ViewHolder
 	{

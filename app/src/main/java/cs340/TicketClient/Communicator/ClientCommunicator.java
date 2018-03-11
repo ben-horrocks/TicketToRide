@@ -92,13 +92,15 @@ public class ClientCommunicator
 								}
 								else
 								{
-									System.out.println(signal.getSignalType() + ": " + signal.getObject());
+									System.out.println("Signal received and set on client side: " +
+											signal.getSignalType() + " -> " + signal.getObject());
 									setSignalFromServer(signal);
 								}
 							}
 							else if (received instanceof CommandParams)
 							{
-								System.out.println("CommandParams received on client side: " + ((CommandParams) received).getMethodName());
+								System.out.println("CommandParams received on client side: " +
+										((CommandParams) received).getMethodName());
 								CommandParams params = (CommandParams) received;
 								ClientCommand command = new ClientCommand(params);
 								Signal result = (Signal) command.execute();

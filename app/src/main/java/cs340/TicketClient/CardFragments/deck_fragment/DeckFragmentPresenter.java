@@ -1,6 +1,4 @@
-package cs340.TicketClient.CardFragments;
-
-import android.graphics.drawable.Drawable;
+package cs340.TicketClient.CardFragments.deck_fragment;
 
 import java.util.ArrayList;
 
@@ -12,7 +10,8 @@ import cs340.TicketClient.R;
  * Created by jhens on 3/1/2018.
  */
 
-public class DeckFragmentPresenter implements IDeckFragmentPresenter {
+public class DeckFragmentPresenter implements IDeckFragmentPresenter
+{
 
     private DeckFragment fragment;
     private GameModel model;

@@ -1,17 +1,14 @@
 package cs340.TicketClient.Game;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 import common.CommandParams;
 import common.DataModels.ChatItem;
 import common.DataModels.DestDrawRequest;
 import common.DataModels.GameData.Opponent;
-import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
 import common.DataModels.GameData.TurnQueue;
@@ -20,12 +17,9 @@ import common.DataModels.HandTrainCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
-import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
-import cs340.TicketClient.CardFragments.DestinationCardFragment;
 import cs340.TicketClient.Communicator.ServerProxy;
-import cs340.TicketClient.R;
 
 public class GamePresenter
 {

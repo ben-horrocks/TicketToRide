@@ -11,8 +11,8 @@ import common.DataModels.HandDestinationCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.TrainCard;
 import common.DataModels.Username;
-import cs340.TicketClient.GameMenu.ChatPresenter;
-import cs340.TicketClient.GameMenu.HistoryPresenter;
+import cs340.TicketClient.GameMenu.chat.ChatPresenter;
+import cs340.TicketClient.GameMenu.history.HistoryPresenter;
 
 public class GameModel
 {

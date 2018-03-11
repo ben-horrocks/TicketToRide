@@ -1,10 +1,9 @@
-package cs340.TicketClient.GameMenu;
+package cs340.TicketClient.GameMenu.chat;
 
 import common.DataModels.ChatItem;
 import common.DataModels.GameData.Player;
 import common.DataModels.GameID;
 import cs340.TicketClient.ASyncTask.SendChatTask;
-import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
 public class ChatPresenter {
@@ -21,9 +20,7 @@ public class ChatPresenter {
         return SINGLETON;
     }
 
-    public static ChatPresenter getSINGLETON() {
-        return SINGLETON;
-    }
+    public static ChatPresenter getSINGLETON() {return SINGLETON; }
 
     private ChatPresenter(ChatFragment fragment) {
         this.fragment = fragment;

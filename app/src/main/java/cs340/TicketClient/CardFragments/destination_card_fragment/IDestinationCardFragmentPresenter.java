@@ -1,10 +1,6 @@
-package cs340.TicketClient.CardFragments;
+package cs340.TicketClient.CardFragments.destination_card_fragment;
 
 import common.DataModels.HandDestinationCards;
-
-/**
- * Created by jhens on 3/9/2018.
- */
 
 public interface IDestinationCardFragmentPresenter {
 

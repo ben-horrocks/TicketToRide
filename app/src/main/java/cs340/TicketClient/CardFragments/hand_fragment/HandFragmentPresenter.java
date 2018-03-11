@@ -1,15 +1,12 @@
-package cs340.TicketClient.CardFragments;
+package cs340.TicketClient.CardFragments.hand_fragment;
 
 
-import java.util.ArrayList;
-
-import common.DataModels.DestinationCard;
 import common.DataModels.HandDestinationCards;
 import common.DataModels.HandTrainCards;
-import common.DataModels.TrainCard;
 import cs340.TicketClient.Game.GameModel;
 
-public class HandFragmentPresenter implements IHandFragmentPresenter {
+public class HandFragmentPresenter implements IHandFragmentPresenter
+{
 
     private HandFragment fragment;
     private GameModel model;
