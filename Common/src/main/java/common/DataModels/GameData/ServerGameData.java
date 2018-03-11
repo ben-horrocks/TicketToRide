@@ -35,7 +35,7 @@ public class ServerGameData implements Serializable
 	private EdgeGraph gameBoard;
 	private TrainCardDeck deck;
 	private DestinationCardDeck destinations;
-	private List<HistoryItem> history;
+	private List<HistoryItem> history = new ArrayList<>();
 	private List<ChatItem> chat = new ArrayList<>();
 
 	public ServerGameData(User startingUser)
