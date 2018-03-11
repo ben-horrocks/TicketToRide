@@ -195,7 +195,7 @@ public class GameActivity extends AppCompatActivity
 		{
 			case R.id.chat_btn:
 				fragment = new ChatFragment();
-				fm.beginTransaction().add(R.id.fragment_map, fragment).commit();
+				fm.beginTransaction().add(R.id.fragment_map, fragment).addToBackStack(null).commit();
 				break;
 			case R.id.hist_btn:
 				fragment = new HistoryFragment();
