@@ -92,6 +92,7 @@ public class ClientCommunicator
 								}
 								else
 								{
+									System.out.println(signal.getSignalType() + ": " + signal.getObject());
 									setSignalFromServer(signal);
 								}
 							}
