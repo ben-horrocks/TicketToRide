@@ -50,9 +50,7 @@ public class GameModel
 	public void addChatItem(ChatItem item)
 	{
 		gameData.getChat().add(item);
-		if (ChatPresenter.getSINGLETON() != null) {
-			ChatPresenter.getSINGLETON().updateChatList();
-		}
+		ChatPresenter.getSINGLETON().updateChatList();
 	}
 
 	public void addHistoryItem(HistoryItem item)

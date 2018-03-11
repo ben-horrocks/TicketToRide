@@ -7,16 +7,12 @@ import cs340.TicketClient.ASyncTask.SendChatTask;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
-/**
- * Created by Carter on 3/7/18.
- */
-
 public class ChatPresenter {
 
     private static ChatPresenter SINGLETON;
 
-    ChatFragment fragment;
-    GameModel model;
+    private ChatFragment fragment;
+    private GameModel model;
 
     public static ChatPresenter getSINGLETON(ChatFragment fragment) {
         if (SINGLETON == null) {

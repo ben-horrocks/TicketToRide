@@ -86,13 +86,12 @@ public class ChatFragment extends android.support.v4.app.Fragment {
     }
 
     public void updateChatList() {
-        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //-- RECYCLER --
                 //Get messages from the Game model
-                ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
+                ArrayList<ChatItem> chatList = (ArrayList<ChatItem>) GameModel.getInstance().getChatMessages();
                 mChatAdapter.clear();
                 mChatAdapter.addChats(chatList);
             }

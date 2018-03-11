@@ -151,6 +151,8 @@ public class GameActivity extends AppCompatActivity
 					return;
 				startDestinationFragement(cards);
 				break;
+			default:
+				System.out.println("Broken at onClick(View v) in Game Activity");
 		}
 	}
 
