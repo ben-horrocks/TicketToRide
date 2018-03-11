@@ -44,15 +44,6 @@ public class HistoryItem implements Serializable{
                 action.append(" started!");
                 break;
             }
-            case IServer.SEND_CHAT_METHOD: {
-                game = (GameID) params[0];
-                ChatItem chat = (ChatItem) params[1];
-                action.append(chat.getPlayerName());
-                action.append(" said \"");
-                action.append(chat.getMessage());
-                action.append('\"');
-                break;
-            }
             case IServer.RETURN_DEST_CARDS_METHOD: {
                 game = (GameID) params[0];
                 Username user = (Username) params[1];
