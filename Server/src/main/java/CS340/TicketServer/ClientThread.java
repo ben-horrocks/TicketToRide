@@ -200,7 +200,7 @@ public class ClientThread extends Thread
 		}
 	}
 
-	public Object send(Object object) throws IOException
+	public synchronized Object send(Object object) throws IOException
 	{
 		Signal result = null;
 		push(object);

@@ -44,7 +44,7 @@ public class ClientGameData implements IGameData, Serializable
         this.gameboard = game.getGameBoard();
         this.faceUp = game.getFaceUpCards();
         this.history = game.getHistory();
-        this.chat = new ArrayList<>();
+        this.chat = game.getChat();
         this.turnQueue = game.getTurnQueue();
         destinationCardsLeft = 30;
     }

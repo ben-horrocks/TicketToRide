@@ -75,6 +75,8 @@ public class ServerGameData implements Serializable
 		gameStarted = true;
 	}
 
+	public List<ChatItem> getChat() { return chat; }
+
 	public GameID getId() { return id; }
 
 	public void setId(GameID id) { this.id = id; }

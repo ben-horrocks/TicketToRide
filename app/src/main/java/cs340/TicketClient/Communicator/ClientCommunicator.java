@@ -207,7 +207,7 @@ public class ClientCommunicator
 	 * @return Return a result object from the server. May or may not be an error object.
 	 * @throws IOException Can throw an IOException if there is an issue with the input/output streams.
 	 */
-	public Object send(Object object) throws IOException
+	public synchronized Object send(Object object) throws IOException
 	{
 		if (socket.isConnected())
 		{
@@ -235,7 +235,7 @@ public class ClientCommunicator
 	 * This function "pushes" or sends Objects from the Server to the Client.
 	 * @param object The object to be sent to the Client.
 	 */
-	public void push(Object object)
+	public synchronized void push(Object object)
 	{
 		server.write(object);
 	}
