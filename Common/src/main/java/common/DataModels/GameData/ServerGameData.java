@@ -58,6 +58,8 @@ public class ServerGameData implements Serializable
 		this.destinations = new DestinationCardDeck();
 		this.gameBoard = new EdgeGraph();
 		createEdges();
+		this.chat = new ArrayList<>();
+		this.history = new ArrayList<>();
 	}
 
 	private void createTurnQueue()
@@ -140,7 +142,7 @@ public class ServerGameData implements Serializable
 
 	public void addHistoryItem(HistoryItem event)
 	{
-		//TODO: implement
+		history.add(event);
 	}
 
 	public void addChatMessage(ChatItem message)

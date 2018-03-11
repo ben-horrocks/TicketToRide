@@ -224,7 +224,12 @@ public class GamePresenter
 		protected void onPostExecute(Signal signal)
 		{
 			super.onPostExecute(signal);
-			activity.startDestinationFragement((HandDestinationCards)signal.getObject());
+			if(signal.getSignalType() == SignalType.OK) {
+				activity.startDestinationFragement((HandDestinationCards) signal.getObject());
+			}else{
+				System.out.println(signal.getObject());
+			}
+
 		}
 	}
 }
