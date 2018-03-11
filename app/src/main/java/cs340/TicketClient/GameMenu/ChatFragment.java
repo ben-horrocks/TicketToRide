@@ -49,17 +49,24 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         //Setup and store ChatPresenter
         mChatPresenter = ChatPresenter.getSINGLETON(this);
 
-        //-- SEND BUTTON --
         mChatInputText = (EditText) v.findViewById(R.id.chat_text_input);
+		mSendButton = (Button) v.findViewById(R.id.chat_send_button);
+
+		// Input Text
         mChatInputText.setOnKeyListener(new View.OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event)
 			{
-				return (keyCode == KeyEvent.KEYCODE_ENTER);
+				if (keyCode == KeyEvent.KEYCODE_ENTER)
+				{
+					mSendButton.performClick();
+					return true;
+				}
+				return false;
 			}
 		});
 
-        mSendButton = (Button) v.findViewById(R.id.chat_send_button);
+        // Send Button
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
