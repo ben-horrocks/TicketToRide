@@ -176,7 +176,7 @@ public class ClientThread extends Thread
 	 * This function "pushes" or sends Objects from the Server to the Client.
 	 * @param object The object to be sent to the Client.
 	 */
-	public void push(Object object)
+	public synchronized void push(Object object)
 	{
 		try
 		{

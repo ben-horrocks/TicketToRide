@@ -26,7 +26,7 @@ public class ClientCommunicator
 	private static ClientCommunicator SINGLETON = null;
 	public static ClientCommunicator getSingleton()
 	{
-		if(SINGLETON == null || !SINGLETON.socket.isConnected())
+		if(SINGLETON == null || !SINGLETON.socket.isConnected() || SINGLETON.socket.isClosed())
 		{
 			SINGLETON = new ClientCommunicator();
 		}

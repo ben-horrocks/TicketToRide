@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,14 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
         //-- SEND BUTTON --
         mChatInputText = (EditText) v.findViewById(R.id.chat_text_input);
+        mChatInputText.setOnKeyListener(new View.OnKeyListener() {
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event)
+			{
+				return (keyCode == KeyEvent.KEYCODE_ENTER);
+			}
+		});
+
         mSendButton = (Button) v.findViewById(R.id.chat_send_button);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
