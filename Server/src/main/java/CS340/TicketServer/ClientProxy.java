@@ -122,7 +122,7 @@ public class ClientProxy implements IClient {
     public Signal addHistoryItem(Username name, HistoryItem item) {
         String methodName = "addHistoryItem";
         String[] paramTypes = {userNameClassName, historyItemClassName};
-        Object[] params = {item};
+        Object[] params = {name, item};
         return sendCommandToClient(name, methodName, paramTypes, params);
     }
 
