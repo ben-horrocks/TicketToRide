@@ -65,7 +65,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
         //-- RECYCLER --
         //Get messages from the Game model
-        ArrayList<ChatItem> chatList = (ArrayList) GameModel.getInstance().getChatMessages();
+        ArrayList<ChatItem> chatList = (ArrayList<ChatItem>) GameModel.getInstance().getChatMessages();
         if (chatList == null) {
             chatList = new ArrayList<>();
         }
@@ -92,8 +92,9 @@ public class ChatFragment extends android.support.v4.app.Fragment {
                 //-- RECYCLER --
                 //Get messages from the Game model
                 ArrayList<ChatItem> chatList = (ArrayList<ChatItem>) GameModel.getInstance().getChatMessages();
+                mChatAdapter.clear();
                 mChatAdapter.addChats(chatList);
-                mChatRecyclerView.invalidate();
+                //mChatRecyclerView.invalidate();
             }
         });
     }
@@ -158,6 +159,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
         public void addChats(List<ChatItem> newList)
         {
             if (chatList != null) {
+            	//clear();
                 chatList.addAll(newList);
                 notifyDataSetChanged();
             }
