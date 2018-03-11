@@ -162,6 +162,7 @@ public class ServerProxy implements IServer
             return s;
         } catch (Exception e)
         {
+            e.printStackTrace();
             return new Signal(SignalType.ERROR, e.getMessage());
         }
     }
