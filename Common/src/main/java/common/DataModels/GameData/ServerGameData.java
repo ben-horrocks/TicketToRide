@@ -36,7 +36,7 @@ public class ServerGameData implements Serializable
 	private TrainCardDeck deck;
 	private DestinationCardDeck destinations;
 	private List<HistoryItem> history;
-	private List<ChatItem> chat;
+	private List<ChatItem> chat = new ArrayList<>();
 
 	public ServerGameData(User startingUser)
 	{
@@ -145,7 +145,7 @@ public class ServerGameData implements Serializable
 
 	public void addChatMessage(ChatItem message)
 	{
-		//TODO: implement
+		chat.add(message);
 	}
 
 	public boolean isGameStarted() { return gameStarted; }
