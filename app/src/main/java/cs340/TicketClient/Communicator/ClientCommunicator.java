@@ -102,7 +102,7 @@ public class ClientCommunicator
 								CommandParams params = (CommandParams) received;
 								ClientCommand command = new ClientCommand(params);
 								Signal result = (Signal) command.execute();
-								server.write(result);
+								server.write(result); // push(result);
 								System.out.println("Signal sent to server: " + result.getSignalType());
 							}
 
