@@ -1,6 +1,5 @@
 package cs340.TicketClient.Game;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,27 +8,34 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
+import com.google.maps.android.ui.IconGenerator;
+
+import org.w3c.dom.Text;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 import common.DataModels.EdgeGraph;
@@ -41,6 +47,8 @@ import cs340.TicketClient.R;
 import common.DataModels.City;
 import common.DataModels.Edge;
 import common.DataModels.TrainColor;
+
+import static common.DataModels.TrainColor.GRAY;
 
 /**
  * Created by Kavika F.
@@ -73,6 +81,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
 		mapView.onResume();
 		MapsInitializer.initialize(getActivity().getApplicationContext());
+
+		// Calls onMapReady
 		mapView.getMapAsync(this);
 
 		return rootView;
@@ -106,6 +116,51 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		drawMarkers();
 		//createEdges();
 		drawEdges();
+		googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+			@Override
+			public View getInfoWindow(Marker marker)
+			{
+				return null;
+			}
+
+			@Override
+			public View getInfoContents(Marker marker)
+			{
+				View v = getLayoutInflater().inflate(R.layout.edge_info, null);
+
+				TextView edgeTitle = (TextView) v.findViewById(R.id.edge_title);
+				edgeTitle.setText(marker.getTitle());
+				TextView edgeLength = (TextView) v.findViewById(R.id.edge_length);
+				TextView edgeOwner = (TextView) v.findViewById(R.id.edge_owner);
+				if (marker.getSnippet() != null)
+				{
+					Scanner sc = new Scanner(marker.getSnippet());
+					sc.nextLine();
+					String text = sc.nextLine();
+					edgeLength.setText(text);
+					text = sc.nextLine();
+					edgeOwner.setText(text);
+				}
+				else
+				{
+					edgeLength.setText("Owned by: ");
+					edgeOwner.setText("\'Murrica");
+				}
+				return v;
+			}
+		});
+		googleMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
+			@Override
+			public void onPolylineClick(Polyline polyline)
+			{
+				if (polyline.getTag() instanceof Marker)
+				{
+					Marker marker = (Marker) polyline.getTag();
+					String snippet = marker.getSnippet();
+					marker.showInfoWindow();
+				}
+			}
+		});
 	}
 
 	private void makeCityMarkers()
@@ -247,22 +302,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		City miami = cities.get(CityName.MIAMI);
 
 		// Vancouver to Seattle
-		addEdge(vancouver, seattle, TrainColor.GRAY, 1, true);
+		addEdge(vancouver, seattle, GRAY, 1, true);
 
 		// Seattle to Vancouver
-		addEdge(seattle, vancouver, TrainColor.GRAY, 1, true);
+		addEdge(seattle, vancouver, GRAY, 1, true);
 
 		// Seattle to Portland
-		addEdge(seattle, portland, TrainColor.GRAY, 1, true);
+		addEdge(seattle, portland, GRAY, 1, true);
 
 		// Portland to Seattle
-		addEdge(portland, seattle, TrainColor.GRAY, 1, true);
+		addEdge(portland, seattle, GRAY, 1, true);
 
 		// Vancouver to Calgary
-		addEdge(vancouver, calgary, TrainColor.GRAY, 3, false);
+		addEdge(vancouver, calgary, GRAY, 3, false);
 
 		// Seattle to Calgary
-		addEdge(seattle, calgary, TrainColor.GRAY, 4, false);
+		addEdge(seattle, calgary, GRAY, 4, false);
 
 		// Portland to San Francisco
 		addEdge(portland, sanFrancisco, TrainColor.GREEN, 5, true);
@@ -286,16 +341,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(portland, saltLakeCity, TrainColor.BLUE, 6, false);
 
 		// Los Angeles to Las Vegas
-		addEdge(losAngeles, lasVegas, TrainColor.GRAY, 2, false);
+		addEdge(losAngeles, lasVegas, GRAY, 2, false);
 
 		// Los Angeles to Phoenix
-		addEdge(losAngeles, phoenix, TrainColor.GRAY, 3, false);
+		addEdge(losAngeles, phoenix, GRAY, 3, false);
 
 		// Las Vegas to Salt Lake City
 		addEdge(lasVegas, saltLakeCity, TrainColor.ORANGE, 3, false);
 
 		// Calgary to Helena
-		addEdge(calgary, helena, TrainColor.GRAY, 4, false);
+		addEdge(calgary, helena, GRAY, 4, false);
 
 		// Seattle to Helena
 		addEdge(seattle, helena, TrainColor.YELLOW, 6, false);
@@ -307,19 +362,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(losAngeles, elPaso, TrainColor.BLACK, 6, false);
 
 		// Phoenix to El Paso
-		addEdge(phoenix, elPaso, TrainColor.GRAY, 3, false);
+		addEdge(phoenix, elPaso, GRAY, 3, false);
 
 		// El Paso to Santa Fe
-		addEdge(elPaso, santaFe, TrainColor.GRAY, 2, false);
+		addEdge(elPaso, santaFe, GRAY, 2, false);
 
 		// Phoenix to Santa Fe
-		addEdge(phoenix, santaFe, TrainColor.GRAY, 3, false);
+		addEdge(phoenix, santaFe, GRAY, 3, false);
 
 		// Phoenix to Denver
 		addEdge(phoenix, denver, TrainColor.WHITE, 5, false);
 
 		// Santa Fe to Denver
-		addEdge(santaFe, denver, TrainColor.GRAY, 2, false);
+		addEdge(santaFe, denver, GRAY, 2, false);
 
 		// Salt Lake City to Denver
 		addEdge(saltLakeCity, denver, TrainColor.RED, 3, true);
@@ -343,16 +398,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(helena, duluth, TrainColor.ORANGE, 6, false);
 
 		// Winnipeg to Saul St. Marie
-		addEdge(winnipeg, saultStMarie, TrainColor.GRAY, 6, false);
+		addEdge(winnipeg, saultStMarie, GRAY, 6, false);
 
 		// Duluth to Saul St. Marie
-		addEdge(duluth, saultStMarie, TrainColor.GRAY, 3, false);
+		addEdge(duluth, saultStMarie, GRAY, 3, false);
 
 		// Duluth to Omaha
-		addEdge(duluth, omaha, TrainColor.GRAY, 2, true);
+		addEdge(duluth, omaha, GRAY, 2, true);
 
 		// Omaha to Duluth
-		addEdge(omaha, duluth, TrainColor.GRAY, 2, true);
+		addEdge(omaha, duluth, GRAY, 2, true);
 
 		// Helena to Omaha
 		addEdge(helena, omaha, TrainColor.RED, 5, false);
@@ -361,10 +416,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(denver, omaha, TrainColor.PINK, 4, false);
 
 		// Omaha to Kansas City
-		addEdge(omaha, kansasCity, TrainColor.GRAY, 1, true);
+		addEdge(omaha, kansasCity, GRAY, 1, true);
 
 		// Kansas City to Omaha
-		addEdge(kansasCity, omaha, TrainColor.GRAY, 1, true);
+		addEdge(kansasCity, omaha, GRAY, 1, true);
 
 		// Denver to Kansas City
 		addEdge(denver, kansasCity, TrainColor.BLACK, 4, true);
@@ -373,10 +428,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(kansasCity, denver, TrainColor.ORANGE, 4, true);
 
 		// Kansas City to Oklahoma City
-		addEdge(kansasCity, oklahomaCity, TrainColor.GRAY, 2, true);
+		addEdge(kansasCity, oklahomaCity, GRAY, 2, true);
 
 		// Oklahoma City to Kansas City
-		addEdge(oklahomaCity, kansasCity, TrainColor.GRAY, 2, true);
+		addEdge(oklahomaCity, kansasCity, GRAY, 2, true);
 
 		// Denver to Oklahoma City
 		addEdge(denver, oklahomaCity, TrainColor.RED, 4, false);
@@ -391,22 +446,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(elPaso, houston, TrainColor.GREEN, 6, false);
 
 		// Dallas to Houston
-		addEdge(dallas, houston, TrainColor.GRAY, 1, true);
+		addEdge(dallas, houston, GRAY, 1, true);
 
 		// Houston to Dallas
-		addEdge(houston, dallas, TrainColor.GRAY, 1, true);
+		addEdge(houston, dallas, GRAY, 1, true);
 
 		// Oklahoma City to Dallas
-		addEdge(oklahomaCity, dallas, TrainColor.GRAY, 2, true);
+		addEdge(oklahomaCity, dallas, GRAY, 2, true);
 
 		// Dallas to Oklahoma City
-		addEdge(dallas, oklahomaCity, TrainColor.GRAY, 2, true);
+		addEdge(dallas, oklahomaCity, GRAY, 2, true);
 
 		// Oklahoma City to Little Rock
-		addEdge(oklahomaCity, littleRock, TrainColor.GRAY, 2, false);
+		addEdge(oklahomaCity, littleRock, GRAY, 2, false);
 
 		// Dallas to Little Rock
-		addEdge(dallas, littleRock, TrainColor.GRAY, 2, false);
+		addEdge(dallas, littleRock, GRAY, 2, false);
 
 		// Duluth to Chicago
 		addEdge(duluth, chicago, TrainColor.RED, 3, false);
@@ -427,16 +482,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(chicago, saintLouis, TrainColor.WHITE, 2, true);
 
 		// Saint Louis to Little Rock
-		addEdge(saintLouis, littleRock, TrainColor.GRAY, 2, false);
+		addEdge(saintLouis, littleRock, GRAY, 2, false);
 
 		// Houston to New Orleans
-		addEdge(houston, newOrleans, TrainColor.GRAY, 2, false);
+		addEdge(houston, newOrleans, GRAY, 2, false);
 
 		// Little Rock to New Orleans
 		addEdge(littleRock, newOrleans, TrainColor.GREEN, 3, false);
 
 		// Saul St. Marie to Toronto
-		addEdge(saultStMarie, toronto, TrainColor.GRAY, 2, false);
+		addEdge(saultStMarie, toronto, GRAY, 2, false);
 
 		// Duluth to Toronto
 		addEdge(duluth, toronto, TrainColor.PINK, 6, false);
@@ -445,7 +500,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(chicago, toronto, TrainColor.WHITE, 4, false);
 
 		// Toronto to Pittsburgh
-		addEdge(toronto, pittsburgh, TrainColor.GRAY, 2, false);
+		addEdge(toronto, pittsburgh, GRAY, 2, false);
 
 		// Chicago to Pittsburgh
 		addEdge(chicago, pittsburgh, TrainColor.ORANGE, 3, true);
@@ -457,7 +512,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(saintLouis, pittsburgh, TrainColor.GREEN, 5, false);
 
 		// Saint Louis to Nashville
-		addEdge(saintLouis, nashville, TrainColor.GRAY, 2, false);
+		addEdge(saintLouis, nashville, GRAY, 2, false);
 
 		// Little Rock to Nashville
 		addEdge(littleRock, nashville, TrainColor.WHITE, 3, false);
@@ -466,7 +521,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(nashville, pittsburgh, TrainColor.YELLOW, 4, false);
 
 		// Nashville to Atlanta
-		addEdge(nashville, atlanta, TrainColor.GRAY, 1, false);
+		addEdge(nashville, atlanta, GRAY, 1, false);
 
 		// Atlanta to New Orleans
 		addEdge(atlanta, newOrleans, TrainColor.YELLOW, 4, true);
@@ -484,28 +539,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(miami, charleston, TrainColor.PINK, 4, false);
 
 		// Atlanta to Charleston
-		addEdge(atlanta, charleston, TrainColor.GRAY, 2, false);
+		addEdge(atlanta, charleston, GRAY, 2, false);
 
 		// Nashville to Raleigh
 		addEdge(nashville, raleigh, TrainColor.BLACK, 3, false);
 
 		// Atlanta to Raleigh
-		addEdge(atlanta, raleigh, TrainColor.GRAY, 2, true);
+		addEdge(atlanta, raleigh, GRAY, 2, true);
 
 		// Raleigh to Atlanta
-		addEdge(raleigh, atlanta, TrainColor.GRAY, 2, true);
+		addEdge(raleigh, atlanta, GRAY, 2, true);
 
 		// Charleston to Raleigh
-		addEdge(charleston, raleigh, TrainColor.GRAY, 2, false);
+		addEdge(charleston, raleigh, GRAY, 2, false);
 
 		// Raleigh to Washington D.C.
-		addEdge(raleigh, washingtonDC, TrainColor.GRAY, 2, true);
+		addEdge(raleigh, washingtonDC, GRAY, 2, true);
 
 		// Washington D.C. Raleigh
-		addEdge(washingtonDC, raleigh, TrainColor.GRAY, 2, true);
+		addEdge(washingtonDC, raleigh, GRAY, 2, true);
 
 		// Washington D.C. to Pittsburgh
-		addEdge(washingtonDC, pittsburgh, TrainColor.GRAY, 2, false);
+		addEdge(washingtonDC, pittsburgh, GRAY, 2, false);
 
 		// Pittsburgh to New York
 		addEdge(pittsburgh, newYork, TrainColor.WHITE, 2, true);
@@ -514,7 +569,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(newYork, pittsburgh, TrainColor.GREEN, 2, true);
 
 		// Pittsburgh to Raleigh
-		addEdge(pittsburgh, raleigh, TrainColor.GRAY, 2, false);
+		addEdge(pittsburgh, raleigh, GRAY, 2, false);
 
 		// New York to Washington D.C.
 		addEdge(newYork, washingtonDC, TrainColor.ORANGE, 2, true);
@@ -529,16 +584,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		addEdge(newYork, boston, TrainColor.RED, 2, true);
 
 		// Montreal to Boston
-		addEdge(montreal, boston, TrainColor.GRAY, 2, true);
+		addEdge(montreal, boston, GRAY, 2, true);
 
 		// Boston to Montreal
-		addEdge(boston, montreal, TrainColor.GRAY, 2, true);
+		addEdge(boston, montreal, GRAY, 2, true);
 
 		// Saul St. Marie to Montreal
 		addEdge(saultStMarie, montreal, TrainColor.BLACK, 5, false);
 
 		// Toronto to Montreal
-		addEdge(toronto, montreal, TrainColor.GRAY, 3, false);
+		addEdge(toronto, montreal, GRAY, 3, false);
 
 		// New York to Montreal
 		addEdge(newYork, montreal, TrainColor.BLUE, 3, false);
@@ -560,41 +615,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			City city2 = edge.getSecondCity();
 			LatLng city2coords = new LatLng(city2.getLatitude(), city2.getLongitude());
 			Polyline line;
+			float lineWidth = 20;
 
-			if (edge.isDoubleEdge())
+			IColor color;
+			if (edge.getOwnerColor() != null)
 			{
-				IColor color;
-				if (edge.getOwnerColor() != null)
+				// Edge is owned. Use solid pattern and player color.
+				color = edge.getOwnerColor();
+				if (edge.isDoubleEdge())
 				{
-					color = edge.getOwnerColor();
-					line = showCurvedPolyline(city1coords, city2coords, color);
+					line = showCurvedPolyline(city1coords, city2coords, color, edge);
 				}
 				else
 				{
-					if (edge.getColor() == TrainColor.GRAY)
-					{
-						Polyline underGray = showCurvedPolyline(city1coords, city2coords, TrainColor.LIGHT_GRAY);
-						underGray.setWidth(20);
-					}
-					line = showCurvedPolyline(city1coords, city2coords, edge.getColor());
+					line = showStraightPolyline(city1, city2, color, edge);
 				}
+				line.setClickable(true);
+				line.setWidth(lineWidth);
+				lines.add(line);
 			}
 			else
 			{
-				if (edge.getColor() == TrainColor.GRAY)
+				// Edge unowned. Use dashed pattern and edge color.
+				color = edge.getColor();
+				if (edge.isDoubleEdge())
 				{
-					Polyline underGray = showStraightPolyline(city1, city2, TrainColor.LIGHT_GRAY);
-					underGray.setWidth(20);
+					if (edge.getColor() == GRAY)
+					{
+						Polyline underGray = showCurvedPolyline(
+								city1coords, city2coords, TrainColor.LIGHT_GRAY, edge);
+						underGray.setWidth(lineWidth);
+					}
+					line = showCurvedPolyline(city1coords, city2coords, color, edge);
 				}
-				line = showStraightPolyline(city1, city2, edge.getColor());
-			}
+				else
+				{
+					if (edge.getColor() == GRAY)
+					{
+						Polyline underGray = showStraightPolyline(
+								city1, city2, TrainColor.LIGHT_GRAY, edge);
+						underGray.setWidth(lineWidth);
+					}
 
-			line.setTag(edge.getCities());
-			line.setClickable(true);
-			List<PatternItem> pattern = Arrays.asList(new Dash(30), new Gap(20));
-			line.setPattern(pattern);
-			line.setWidth(20);
-			lines.add(line);
+					line = showStraightPolyline(city1, city2, color, edge);
+				}
+				List<PatternItem> pattern = Arrays.asList(new Dash(30), new Gap(20));
+				line.setPattern(pattern);
+				line.setClickable(true);
+				line.setWidth(lineWidth);
+				lines.add(line);
+			}
 		}
 	}
 
@@ -637,17 +707,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		}
 	}
 
-	private Polyline showStraightPolyline(City city1, City city2, IColor color)
+	private Polyline showStraightPolyline(City city1, City city2, IColor color, Edge edge)
 	{
 		LatLng city1coords = new LatLng(city1.getLatitude(), city1.getLongitude());
 		LatLng city2coords = new LatLng(city2.getLatitude(), city2.getLongitude());
 		PolylineOptions polylineOptions = new PolylineOptions().add(city1coords, city2coords)
 				.color(pickColor(color));
 		Polyline line = googleMap.addPolyline(polylineOptions);
+		LatLng middle = SphericalUtil.interpolate(city1coords, city2coords, 0.5);
+		Marker marker = addPolylineTag(edge, middle);
+		line.setTag(marker);
 		return line;
 	}
 
-	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, IColor color) {
+	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, IColor color, Edge edge) {
 
 		int numPoints = 3;
 		double a = SphericalUtil.computeDistanceBetween(p1, p2);
@@ -663,6 +736,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		LatLng c = SphericalUtil.interpolate(p1, p2, 0.5);
 		//googleMap.addMarker(new MarkerOptions().position(c).title("center point - interpolate")); // Just to see center. Debugging only
 
+		Marker marker = null;
 		for (int i = 0; i < numPoints; i++)
 		{
 			double time = (i * Math.PI) / 2;
@@ -675,9 +749,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 			}
 			LatLng point = SphericalUtil.computeOffset(c, distance, averageHeading + Math.toDegrees(time));
 			options.add(point);
+			if (x < 1) // It's probably 0
+			{
+				marker = addPolylineTag(edge, point);
+			}
 		}
 		Polyline line = googleMap.addPolyline(
 				options.color(pickColor(color)).geodesic(false));
+		line.setTag(marker);
 		return line;
+	}
+
+	private Marker addPolylineTag(Edge edge, LatLng position)
+	{
+		IconGenerator iconGenerator = new IconGenerator(getContext());
+		StringBuilder sb = new StringBuilder();
+		String text = edge.getFirstCity().getCityName() + " to " + edge.getSecondCity().getCityName();
+		sb.append("\nLength: ");
+		sb.append(edge.getLength());
+		sb.append("\nOwner: ");
+		if (edge.getOwner() == null)
+		{
+			sb.append("None");
+		}
+		else
+		{
+			sb.append(edge.getOwner());
+		}
+		// Bitmap iconBitmap = iconGenerator.makeIcon(sb.toString());
+		Marker marker = googleMap.addMarker(new MarkerOptions()
+				.title(text)
+				.snippet(sb.toString())
+				.position(position)
+				.icon(BitmapDescriptorFactory
+				.fromResource(R.drawable.invisible)));
+		// .icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
+
+		return marker;
 	}
 }

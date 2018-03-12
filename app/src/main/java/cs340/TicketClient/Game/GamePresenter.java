@@ -4,11 +4,14 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import common.CommandParams;
 import common.DataModels.ChatItem;
+import common.DataModels.City;
 import common.DataModels.DestDrawRequest;
 import common.DataModels.DestinationCard;
+import common.DataModels.Edge;
 import common.DataModels.GameData.CityName;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.PlayerColor;
@@ -255,9 +258,16 @@ public class GamePresenter
 
 	private void updateNumOfCardsInDestinationDeck(int number) { model.updateDDeckCount(number); }
 
-	private void AddClaimedRoute() {
-		//TODO all of this function
-
+	private void AddClaimedRoute()
+	{
+		City duluthSub = new City(46.786672, -92.100485, CityName.DULUTH);
+		List<Edge> duluthEdges = model.getGameData().getGameboard().getGraph().get(duluthSub);
+		for (Edge e : duluthEdges)
+		{
+			e.setOwner(model.getPlayer());
+		}
+		String text = "Claimed all edges \"coming from\" Duluth";
+		activity.makeLargerToast(text);
 	}
 
 	private void AddChatMessages() {

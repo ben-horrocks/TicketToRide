@@ -36,7 +36,7 @@ import cs340.TicketClient.R;
 public class GameActivity extends AppCompatActivity
 {
 
-	private GoogleMap mMap;
+	private GoogleMap googleMap;
 	private User user;
 	private GamePresenter presenter;
 	final FragmentManager fm = this.getSupportFragmentManager();
