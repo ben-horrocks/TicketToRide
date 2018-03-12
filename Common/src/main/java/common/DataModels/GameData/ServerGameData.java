@@ -124,7 +124,7 @@ public class ServerGameData implements Serializable
 
 	public void edgeClaimed(Edge edge)
 	{
-		User owner = edge.getOwner();
+		Username owner = edge.getOwner();
 		getPlayer(owner).claimedEdge(edge);
 		//TODO update gameBoard with the modified edge
 	}
@@ -173,11 +173,11 @@ public class ServerGameData implements Serializable
 		return null;
 	}
 
-	private Player getPlayer(User user)
+	private Player getPlayer(Username user)
 	{
 		for (Player p : players)
 		{
-			if (p.getUser().getStringUserName().equals(user.getStringUserName()))
+			if (p.getUser().getStringUserName().equals(user.getName()))
 				return p;
 		}
 		return null;

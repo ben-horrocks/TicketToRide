@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.DataModels.GameData.Opponent;
+import common.DataModels.GameData.Player;
+import common.DataModels.GameData.PlayerColor;
+
 /**
  * A route between two cities.
  */
@@ -12,8 +16,9 @@ public class Edge implements Serializable
 	private City firstCity;
 	private City secondCity;
 	private TrainColor color;
+	private PlayerColor ownerColor;
 	private int length;
-	private User owner = null;
+	private Username owner = null;
 	private boolean isDoubleEdge;
 
 	/**
@@ -32,6 +37,7 @@ public class Edge implements Serializable
 		this.color = color;
 		this.length = length;
 		this.isDoubleEdge = isDoubleEdge;
+		this.ownerColor = null;
 	}
 
 	public City getFirstCity() { return firstCity; }
@@ -50,9 +56,21 @@ public class Edge implements Serializable
 
 	public int getLength() { return length; }
 
-	public User getOwner() { return owner; }
+	public Username getOwner() { return owner; }
 
-	public void setOwner(User owner) { this.owner = owner; }
+	public void setOwner(Player owner) {
+		this.owner = owner.getUser().getUsername();
+		this.ownerColor = owner.getColor();
+	}
+
+	public void setOwner(Opponent owner){
+		this.owner = owner.getUsername();
+		this.ownerColor = owner.getColor();
+	}
+
+	public PlayerColor getOwnerColor(){
+		return this.ownerColor;
+	}
 
 	public boolean isClaimed() { return owner != null; }
 

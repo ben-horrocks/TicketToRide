@@ -3,8 +3,12 @@ package common.DataModels;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import common.DataModels.GameData.Player;
+import common.DataModels.GameData.PlayerColor;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +29,8 @@ public class EdgeTest
 		Password password = new Password("passw0rd");
 		ScreenName screenName = new ScreenName("Fighter Boi");
 		User user = new User(username, password, screenName);
-		edge1.setOwner(user);
+		Player player = new Player(user, PlayerColor.BLACK);
+		edge1.setOwner(player);
 
 		city1 = new City(568, 1245.4, "Whaaa t?");
 		city2 = new City(9009.1, 87.43, "bananas.");
@@ -124,12 +129,13 @@ public class EdgeTest
 		Password password = new Password("passw0rd");
 		ScreenName screenName = new ScreenName("Fighter Boi");
 		User user = new User(username, password, screenName);
-		assertEquals(edge1.getOwner(), user);
-		edge2.setOwner(user);
-		assertEquals(edge2.getOwner(), user);
+		Player player = new Player(user, PlayerColor.BLACK);
+		assertEquals(edge1.getOwner(), username);
+		edge2.setOwner(player);
+		assertEquals(edge2.getOwner(), username);
 		assertEquals(redEdge.getOwner(), null);
-		redEdge.setOwner(user);
-		assertEquals(redEdge.getOwner(), user);
+		redEdge.setOwner(player);
+		assertEquals(redEdge.getOwner(), username);
 		assertEquals(blueEdge.getOwner(), null);
 	}
 
@@ -140,12 +146,13 @@ public class EdgeTest
 		Password password = new Password("passw0rd");
 		ScreenName screenName = new ScreenName("Fighter Boi");
 		User user = new User(username, password, screenName);
-		assertEquals(edge1.getOwner(), user);
-		edge2.setOwner(user);
-		assertEquals(edge2.getOwner(), user);
+		Player player = new Player(user, PlayerColor.BLACK);
+		assertEquals(edge1.getOwner(), username);
+		edge2.setOwner(player);
+		assertEquals(edge2.getOwner(), username);
 		assertEquals(redEdge.getOwner(), null);
-		redEdge.setOwner(user);
-		assertEquals(redEdge.getOwner(), user);
+		redEdge.setOwner(player);
+		assertEquals(redEdge.getOwner(), username);
 		assertEquals(blueEdge.getOwner(), null);
 	}
 
@@ -157,10 +164,11 @@ public class EdgeTest
 		Password password = new Password("passw0rd");
 		ScreenName screenName = new ScreenName("Fighter Boi");
 		User user = new User(username, password, screenName);
-		edge2.setOwner(user);
+		Player player = new Player(user, PlayerColor.BLACK);
+		edge2.setOwner(player);
 		assertEquals(edge2.isClaimed(), true);
 		assertEquals(redEdge.isClaimed(), false);
-		redEdge.setOwner(user);
+		redEdge.setOwner(player);
 		assertEquals(redEdge.isClaimed(), true);
 		assertEquals(blueEdge.isClaimed(), false);
 	}
