@@ -65,7 +65,7 @@ public class GamePresenter
 		if (model.getInitialDCards() != null)
 		{
 			HandDestinationCards cards = model.getInitialDCards();
-			GameModel.getInstance().clearDCards();
+			//GameModel.getInstance().clearDCards();
 			return cards;
 		}
 		else
