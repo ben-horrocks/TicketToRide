@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/history_slot"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:paddingBottom="15dp"
-              android:id="@+id/history_slot">
+              android:layout_marginTop="10dp"
+              android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/history_player"
@@ -12,26 +13,23 @@
         android:textAllCaps="true"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10px"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/history_divider"
         android:text=" : "
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:textSize="12sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10px"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginLeft="10px"/>
     <TextView
         android:id="@+id/history_text"
-        android:text="History description"
-        android:textSize="12sp"
+        android:text="History message"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10px"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginLeft="10px"/>
 
 </LinearLayout>

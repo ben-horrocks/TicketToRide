@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import common.DataModels.HistoryItem;
 import cs340.TicketClient.Game.GameModel;
@@ -23,7 +24,7 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
     private Button mCloseButton;
     private RecyclerView mHistoryRecyclerView;
-    private RecyclerView.Adapter mHistoryAdapter;
+    private HistoryFragment.HistoryAdapter mHistoryAdapter;
     private RecyclerView.LayoutManager mHistoryLayoutManager;
 
     @Override
@@ -59,22 +60,21 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
     }
 
     public void updateHistoryList() {
-
-        //-- RECYCLER --
-        //Get list from the model
-        ArrayList<HistoryItem> historyList = (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
-
-        //Instantiate View
-        mHistoryRecyclerView = (RecyclerView) getActivity().findViewById(R.id.history_recycler_field);
-
-        //Setup layout Manager
-        mHistoryLayoutManager = new LinearLayoutManager(getActivity());
-        ((LinearLayoutManager) mHistoryLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
-        mHistoryRecyclerView.setLayoutManager(mHistoryLayoutManager);
-
-        //Populate Recycler
-        mHistoryAdapter = new HistoryFragment.HistoryAdapter(historyList);
-        mHistoryRecyclerView.setAdapter(mHistoryAdapter);
+        if (getActivity() != null)
+        {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //-- RECYCLER --
+                    //Get messages from the Game model
+                    ArrayList<HistoryItem> historyList = (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
+                    // The .clear() will make it so the first person to send a chat item won't receive it.
+                    //mChatAdapter.clear();
+                    mHistoryAdapter.addHistory(historyList);
+                    //mChatRecyclerView.invalidate();
+                }
+            });
+        }
 
     }
 
@@ -108,7 +108,7 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         public void onBindViewHolder(HistoryFragment.HistoryAdapter.Holder holder, int position) {
             if (mHistoryList != null && !mHistoryList.isEmpty()) {
                 HistoryItem item =  mHistoryList.get(position);
-                //holder.mDisplayName.setText(item.getPlayerName());
+                holder.mDisplayName.setText(item.getPlayerName());
                 holder.mAction.setText(item.getAction());
             }
         }
@@ -119,6 +119,23 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
                 return mHistoryList.size();
             }
             return 0;
+        }
+
+        void addHistory(List<HistoryItem> newList)
+        {
+            if (mHistoryList != null) {
+                mHistoryList = new ArrayList<>(newList);
+                //chatList.addAll(newList);
+                notifyDataSetChanged();
+            }
+        }
+
+        void clear()
+        {
+            if (mHistoryList != null) {
+                mHistoryList.clear();
+                notifyDataSetChanged();
+            }
         }
     }
 

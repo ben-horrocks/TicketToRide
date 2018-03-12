@@ -12,6 +12,7 @@ import common.IServer;
 
 public class HistoryItem implements Serializable{
 
+    private Username name;
     private GameID game;
     private String action;
     private boolean reportable;
@@ -24,6 +25,8 @@ public class HistoryItem implements Serializable{
     public boolean shouldReport(){
         return reportable;
     }
+
+    public String getPlayerName() { return name.getName(); }
 
     public String getAction() {
         return action;
@@ -46,10 +49,10 @@ public class HistoryItem implements Serializable{
             }
             case IServer.RETURN_DEST_CARDS_METHOD: {
                 game = (GameID) params[0];
-                Username user = (Username) params[1];
+                name = (Username) params[1];
                 HandDestinationCards selected = (HandDestinationCards) params[2];
                 HandDestinationCards returned = (HandDestinationCards) params[3];
-                action.append(user.getName());
+                action.append(name.getName());
                 action.append(" drew ");
                 action.append(selected.size());
                 action.append(" destination cards");
@@ -64,9 +67,9 @@ public class HistoryItem implements Serializable{
             }
             case IServer.DRAW_FACE_UP_METHOD: {
                 game = (GameID) params[0];
-                Username user = (Username) params[1];
+                name = (Username) params[1];
                 int index = (int) params[2];
-                action.append(user.getName());
+                action.append(name.getName());
                 action.append(" drew card ");
                 action.append(index);
                 action.append(" from the face up cards");
@@ -74,9 +77,9 @@ public class HistoryItem implements Serializable{
             }
             case IServer.CLAIM_EDGE_METHOD: {
                 game = (GameID) params[0];
-                Username user = (Username) params[1];
+                name = (Username) params[1];
                 Edge edge = (Edge) params[2];
-                action.append(user.getName());
+                action.append(name.getName());
                 action.append(" claimed the ");
                 action.append(edge.getColor());
                 action.append(" edge from ");
