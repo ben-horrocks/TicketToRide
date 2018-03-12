@@ -1,5 +1,6 @@
 package cs340.TicketClient.Game;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,6 +34,9 @@ import java.util.Set;
 
 import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.CityName;
+import common.DataModels.GameData.Player;
+import common.DataModels.GameData.PlayerColor;
+import common.IColor;
 import cs340.TicketClient.R;
 import common.DataModels.City;
 import common.DataModels.Edge;
@@ -559,12 +563,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 
 			if (edge.isDoubleEdge())
 			{
-				if (edge.getColor() == TrainColor.GRAY)
+				IColor color;
+				if (edge.getOwnerColor() != null)
 				{
-					Polyline underGray = showCurvedPolyline(city1coords, city2coords, TrainColor.LIGHT_GRAY);
-					underGray.setWidth(20);
+					color = edge.getOwnerColor();
+					line = showCurvedPolyline(city1coords, city2coords, color);
 				}
-				line = showCurvedPolyline(city1coords, city2coords, edge.getColor());
+				else
+				{
+					if (edge.getColor() == TrainColor.GRAY)
+					{
+						Polyline underGray = showCurvedPolyline(city1coords, city2coords, TrainColor.LIGHT_GRAY);
+						underGray.setWidth(20);
+					}
+					line = showCurvedPolyline(city1coords, city2coords, edge.getColor());
+				}
 			}
 			else
 			{
@@ -585,27 +598,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		}
 	}
 
-	private int pickColor(TrainColor color)
+	private int pickColor(IColor color)
 	{
-		switch(color)
+		if (color instanceof TrainColor)
 		{
-			case PINK: return getContext().getResources().getColor(R.color.colorEdgePink);
-			case WHITE: return getContext().getResources().getColor(R.color.colorEdgeWhite);
-			case BLUE: return getContext().getResources().getColor(R.color.colorEdgeBlue);
-			case YELLOW: return getContext().getResources().getColor(R.color.colorEdgeYellow);
-			case ORANGE: return getContext().getResources().getColor(R.color.colorEdgeOrange);
-			case BLACK: return getContext().getResources().getColor(R.color.colorEdgeBlack);
-			case RED: return getContext().getResources().getColor(R.color.colorEdgeRed);
-			case GREEN: return getContext().getResources().getColor(R.color.colorEdgeGreen);
-			case GRAY: return getContext().getResources().getColor(R.color.colorEdgeGray);
-			case LIGHT_GRAY: return getContext().getResources().getColor(R.color.colorEdgeLightGray);
-			default:
-				System.out.println("No color found");
-				return 0;
+			TrainColor trainColor = (TrainColor) color;
+			switch(trainColor)
+			{
+				case PINK: return getContext().getResources().getColor(R.color.colorEdgePink);
+				case WHITE: return getContext().getResources().getColor(R.color.colorEdgeWhite);
+				case BLUE: return getContext().getResources().getColor(R.color.colorEdgeBlue);
+				case YELLOW: return getContext().getResources().getColor(R.color.colorEdgeYellow);
+				case ORANGE: return getContext().getResources().getColor(R.color.colorEdgeOrange);
+				case BLACK: return getContext().getResources().getColor(R.color.colorEdgeBlack);
+				case RED: return getContext().getResources().getColor(R.color.colorEdgeRed);
+				case GREEN: return getContext().getResources().getColor(R.color.colorEdgeGreen);
+				case GRAY: return getContext().getResources().getColor(R.color.colorEdgeGray);
+				case LIGHT_GRAY: return getContext().getResources().getColor(R.color.colorEdgeLightGray);
+				default:
+					System.out.println("No Edge Color Found");
+					return 0;
+			}
+		}
+		else
+		{
+			PlayerColor playerColor = (PlayerColor) color;
+			switch (playerColor)
+			{
+				case BLACK: return getContext().getResources().getColor(R.color.colorEdgeBlack);
+				case BLUE: return getContext().getResources().getColor(R.color.colorEdgeBlue);
+				case GREEN: return getContext().getResources().getColor(R.color.colorEdgeGreen);
+				case RED: return getContext().getResources().getColor(R.color.colorEdgeRed);
+				case YELLOW: return getContext().getResources().getColor(R.color.colorEdgeYellow);
+				default:
+					System.out.println("No Player Color Found");
+					return 0;
+			}
 		}
 	}
 
-	private Polyline showStraightPolyline(City city1, City city2, TrainColor color)
+	private Polyline showStraightPolyline(City city1, City city2, IColor color)
 	{
 		LatLng city1coords = new LatLng(city1.getLatitude(), city1.getLongitude());
 		LatLng city2coords = new LatLng(city2.getLatitude(), city2.getLongitude());
@@ -615,7 +647,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
 		return line;
 	}
 
-	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, TrainColor color) {
+	private Polyline showCurvedPolyline (LatLng p1, LatLng p2, IColor color) {
 
 		int numPoints = 3;
 		double a = SphericalUtil.computeDistanceBetween(p1, p2);
