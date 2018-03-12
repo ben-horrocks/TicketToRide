@@ -6,10 +6,6 @@ import common.CommandParams;
 import common.DataModels.GameData.Player;
 import common.IServer;
 
-/**
- * Created by Carter on 3/6/18.
- */
-
 public class HistoryItem implements Serializable{
 
     private GameID game;
