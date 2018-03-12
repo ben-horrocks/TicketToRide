@@ -1,9 +1,3 @@
-/**
- * DestinationDeck.java
- * Author: Ben Horrocks
- * Last Commit: 4 March, 2018
- * Notes: Model to store DestinationCardDeck
- */
 package common.DataModels.GameData.Decks;
 
 import java.io.Serializable;
@@ -14,14 +8,32 @@ import common.DataModels.City;
 import common.DataModels.DestinationCard;
 import common.DataModels.GameData.CityName;
 
+/**
+ * <h1>Destination Card Deck</h1>
+ * Class to store and interact with Destination Card Deck
+ * @author Ben Horrocks
+ * @since 2018-03-12
+ */
 public class DestinationCardDeck implements IDestinationCardDeck, Serializable
 {
   private List<DestinationCard> deck;
+
+  /**
+   * Constructor for the deck.
+   * @pre N/A
+   * @post A newly created & shuffled deck with all 30 destination cards
+   */
   public DestinationCardDeck() {
     initializeDestinationDeck();
     shuffle();
   }
 
+  /**
+   * Draws 3 Destination Cards for the player to choose from.
+   * @pre DestinationCardDeck.getDeckSize() > 3
+   * @post Destination Card Deck is the same, except for the first 3 cards are removed
+   * @return A list of 3 different Destination cards for the player to choose from.
+   */
   @Override
   public List<DestinationCard> draw()
   {
@@ -34,6 +46,11 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
     return drawnCards;
   }
 
+  /**
+   * Shuffles the deck randomly
+   * @pre DestinationDeck.getDeckSize() > 0
+   * @post Destination Deck contains the same elements in a different order
+   */
   @Override
   public void shuffle()
   {
@@ -47,6 +64,12 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
     this.deck = newdeck;
   }
 
+  /**
+   * Returns a list of Destination Cards to the bottom of the deck.
+   * @param cards cards to return to the deck
+   * @pre cards.size() > 0
+   * @post The Destination Card Deck contains the same elements in the same order, with the Destination Cards in cards at the bottom of the deck
+   */
   @Override
   public void putBackInDeck(List<DestinationCard> cards)
   {
@@ -56,6 +79,12 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
     }
   }
 
+  /**
+   * Gets the number of DestinationCards in the DestinationDeck.
+   * @pre none
+   * @post DestinationDeck contains same number of cards in the same order
+   * @return number of cards in the Destination Deck
+   */
   @Override
   public int getDeckSize()
   {
