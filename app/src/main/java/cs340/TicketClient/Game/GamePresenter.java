@@ -8,6 +8,8 @@ import java.util.List;
 import common.CommandParams;
 import common.DataModels.ChatItem;
 import common.DataModels.DestDrawRequest;
+import common.DataModels.DestinationCard;
+import common.DataModels.GameData.CityName;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.PlayerColor;
 import common.DataModels.GameData.StartGamePacket;
@@ -17,6 +19,7 @@ import common.DataModels.HandTrainCards;
 import common.DataModels.HistoryItem;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
+import common.DataModels.TrainCard;
 import common.DataModels.TrainColor;
 import common.DataModels.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
@@ -90,8 +93,8 @@ public class GamePresenter
 				addRemoveDestinationCardsOfPlayer();
 
 				//Update Other Player Info
-				updateTrainCardsOfOtherPlayers(-1);
-				updateDestinationCardsOfOtherPlayers(2);
+				updateTrainCardsOfOtherPlayers(20, 4);
+				updateDestinationCardsOfOtherPlayers(4, 1);
 
 				//Update Decks Info
 				updateVisibleAndInvisibleCardsInTrainCardDeck();
@@ -152,35 +155,105 @@ public class GamePresenter
 	}
 
 
+	/**
+	 * Add the given amount of points to the player's score. Update display. Mainly for testing.
+	 * @param number How many points to increase the player's score by.
+	 */
 	private void updatePlayerPoints(int number)
 	{
+		int beforePoints = model.getPlayer().getScore();
 		model.addPoints(number);
+		String text = "Updated player points from " + beforePoints +
+				" to " + model.getPlayer().getScore();
+		activity.makeLargerToast(text);
 	}
 
-	private void addRemoveTrainCardsOfPlayer() {
+	/**
+	 * Add and remove train cards from the player's hand. Update display. Mainly for testing.
+	 */
+	private void addRemoveTrainCardsOfPlayer()
+	{
+		model.addTrainCard(TrainColor.RED);
+		String text = "Added 1 red train card to the hand.";
+		activity.makeLargerToast(text);
 		model.removeTrainCard();
+		model.removeTrainCard();
+		text = "Removed two cards from the hand.";
+		activity.makeLargerToast(text);
 	}
 
-	private void addRemoveDestinationCardsOfPlayer() {
+	/**
+	 * Add and remove destination cards from the player's hand. Update display. Mainly for testing.
+	 */
+	private void addRemoveDestinationCardsOfPlayer()
+	{
+		model.addDestCard(new DestinationCard(CityName.KANSAS_CITY, CityName.NEW_YORK_CITY, 200));
+		String text = "Added a fake destination card from Kansas City to New York for 200 points.";
+		activity.makeLargerToast(text);
+		model.addDestCard(new DestinationCard(CityName.DALLAS, CityName.SANTA_FE, 1));
+		text = "Added a fake destination card from Dallas to Santa Fe for 1 point.";
+		activity.makeLargerToast(text);
 		model.removeDestCard();
+		text = "Removed a destination card from the player.";
+		activity.makeLargerToast(text);
 	}
 
-	private void updateTrainCardsOfOtherPlayers(int number) {
-
-		model.addTrainToOpponant(number);
-
+	/**
+	 * Increases and decreases the number of cards the opponents have.
+	 * @param increase The amount to increase their count by.
+	 * @param decrease The amount to decrease their count by.
+	 */
+	private void updateTrainCardsOfOtherPlayers(int increase, int decrease)
+	{
+		model.addTrainToOpponent(increase);
+		String text = "Increased opponent's number of train cards by " + increase;
+		activity.makeLargerToast(text);
+		model.removeTrainFromOpponent(decrease);
+		text = "Decreased opponent's number of train cards by " + decrease;
+		activity.makeLargerToast(text);
 	}
-	private void updateDestinationCardsOfOtherPlayers(int number) {
-		model.addDestToOpponant(number);
+
+	private void updateDestinationCardsOfOtherPlayers(int increase, int decrease)
+	{
+		model.addDestToOpponent(increase);
+		String text = "Increased opponent's number of destination cards by " + increase;
+		activity.makeLargerToast(text);
+		model.removeDestFromOpponent(decrease);
+		text = "Decreased opponent's number of destination cards by " + decrease;
+		activity.makeLargerToast(text);
 	}
 
-	private void updateVisibleAndInvisibleCardsInTrainCardDeck() {
+	private void updateVisibleAndInvisibleCardsInTrainCardDeck()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Current Face Up Cards: ");
+		List<TrainCard> cards = model.getGameData().getFaceUp();
+		for (int i = 0; i < cards.size(); i++)
+		{
+			sb.append(cards.get(i));
+			if (i + 1 < cards.size())
+			{
+				sb.append(", ");
+			}
+		}
+		sb.append("\nCurrent Deck Size: ");
+		sb.append(model.getTrainCardDeckSize());
+		activity.makeLargerToast(sb.toString());
 
+		// Draw Card from Deck
+		TrainColor color = model.drawFromTrainCardDeck().getType();
+		model.addTrainCard(color);
+		String text = "Drew a " + color + " train card from the deck and updated deck size.";
+		activity.makeLargerToast(text);
+
+		color = model.drawFromFaceUp().getType();
+		model.addTrainCard(color);
+		text = "Drew a " + color + " train card from the face up pile, " +
+				"updated face up list, and updated deck size.";
+		activity.makeLargerToast(text);
 	}
 
-	private void updateNumOfCardsInDestinationDeck(int number) {
-			model.updateDDeckCount(number);
-	}
+	private void updateNumOfCardsInDestinationDeck(int number) { model.updateDDeckCount(number); }
 
 	private void AddClaimedRoute() {
 		//TODO all of this function
@@ -219,7 +292,7 @@ public class GamePresenter
 		{
 			super.onPostExecute(signal);
 			if(signal.getSignalType() == SignalType.OK) {
-				activity.startDestinationFragement((HandDestinationCards) signal.getObject());
+				activity.startDestinationFragment((HandDestinationCards) signal.getObject());
 			}else{
 				System.out.println(signal.getObject());
 			}

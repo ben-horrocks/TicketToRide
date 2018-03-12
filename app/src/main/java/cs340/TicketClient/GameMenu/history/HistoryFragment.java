@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         //-- RECYCLER --
         //Get list from the model
-        ArrayList<HistoryItem> historyList = (ArrayList) GameModel.getInstance().getPlayHistory();
+        ArrayList<HistoryItem> historyList = (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
         mHistoryRecyclerView = (RecyclerView) v.findViewById(R.id.history_recycler_field);
@@ -61,7 +62,7 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         //-- RECYCLER --
         //Get list from the model
-        ArrayList<HistoryItem> historyList = (ArrayList) GameModel.getInstance().getPlayHistory();
+        ArrayList<HistoryItem> historyList = (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
         mHistoryRecyclerView = (RecyclerView) getActivity().findViewById(R.id.history_recycler_field);
@@ -83,13 +84,11 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         public class Holder extends RecyclerView.ViewHolder {
 
-            private RelativeLayout mHistorySlot;
             private TextView mDisplayName;
             private TextView mAction;
 
             public Holder(View itemView) {
                 super(itemView);
-                mHistorySlot = (RelativeLayout) itemView.findViewById(R.id.history_slot);
                 mDisplayName = (TextView) itemView.findViewById(R.id.history_player);
                 mAction = (TextView) itemView.findViewById(R.id.history_text);
             }

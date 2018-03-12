@@ -47,8 +47,9 @@ public class GameActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 		presenter = new GamePresenter(this);
-		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
 		Bundle extras = getIntent().getExtras();
+
+		// Initialize the model through the presenter
 		if (extras != null)
 		{
 			if (extras.get("packet") instanceof StartGamePacket)
@@ -57,6 +58,8 @@ public class GameActivity extends AppCompatActivity
 				presenter.fillModel(packet);
 			}
 		}
+
+		// Start up the google map
 		Fragment mapViewFragment = fm.findFragmentById(R.id.fragment_map);
 		if (mapViewFragment == null)
 		{
@@ -64,8 +67,6 @@ public class GameActivity extends AppCompatActivity
 			mapViewFragment.setArguments(extras);
 			fm.beginTransaction().add(R.id.fragment_map, mapViewFragment).commit();
 		}
-
-
 
 		// Start the game off by having the player pick their destination cards
 		Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
@@ -80,11 +81,13 @@ public class GameActivity extends AppCompatActivity
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 		}
 
+		// The buttons
 		Button handButton = (Button) this.findViewById(R.id.hand_button);
 		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
 		Button drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);
 		Button claimRouteButton = (Button) this.findViewById(R.id.claim_route_button);
 
+		// Hand Button On Click Listener
 		handButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v)
@@ -93,6 +96,7 @@ public class GameActivity extends AppCompatActivity
 			}
 		});
 
+		// Destination Card Button On Click Listener
 		destinationCardButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v)
@@ -101,11 +105,12 @@ public class GameActivity extends AppCompatActivity
 			}
 		});
 
+		// Draw Train Card On Click Listener
 		drawTrainCardButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v)
 			{
-				Fragment drawCardFragment = fm.findFragmentById(R.id.fragment_deck);
+				Fragment drawCardFragment;
 				drawCardFragment = new DeckFragment();
 				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
 						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
@@ -113,6 +118,7 @@ public class GameActivity extends AppCompatActivity
 			}
 		});
 
+		// Claim Route On Click Listener
 		claimRouteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v)
@@ -124,7 +130,9 @@ public class GameActivity extends AppCompatActivity
 
 	}
 
-	public 	void onClick(View v)
+	// On Click Listener for XML files
+	// Should change to regular onClickListeners eventually...
+	public void onClick(View v)
 	{
 		switch(v.getId())
 		{
@@ -144,17 +152,11 @@ public class GameActivity extends AppCompatActivity
 				HandDestinationCards cards = presenter.getDestinationCards();
 				if (cards == null)
 					return;
-				startDestinationFragement(cards);
+				startDestinationFragment(cards);
 				break;
 			default:
 				System.out.println("Broken at onClick(View v) in Game Activity");
 		}
-	}
-
-	public void closeCurrentFragment()
-	{
-		FragmentManager fm = this.getSupportFragmentManager();
-		fm.popBackStack();
 	}
 
 	@Override
@@ -164,14 +166,9 @@ public class GameActivity extends AppCompatActivity
 		return true;
 	}
 
-	public FragmentManager getFM()
+	public void startDestinationFragment(HandDestinationCards cards)
 	{
-		return fm;
-	}
-
-	public void startDestinationFragement(HandDestinationCards cards)
-	{
-		Fragment destinationCardFragment = fm.findFragmentById(R.id.fragment_destination_card);
+		Fragment destinationCardFragment;
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("cards", cards);
 		destinationCardFragment = new DestinationCardFragment();
@@ -212,7 +209,7 @@ public class GameActivity extends AppCompatActivity
 	 * Create a larger toast for a longer period of time. Mainly used for testing.
 	 * @param message The message for the toast to display.
 	 */
-	private void makeLargerToast(String message)
+	void makeLargerToast(String message)
 	{
 		Toast toast = Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG);
 		// Increase toast text size without creating custom toast

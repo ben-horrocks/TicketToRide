@@ -77,16 +77,10 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
   }
 
   @Override
-  public List<TrainCard> getFaceUpCards()
-  {
-    return faceUpCards;
-  }
+  public List<TrainCard> getFaceUpCards() { return faceUpCards; }
 
   @Override
-  public int getDeckSize()
-  {
-    return deck.size();
-  }
+  public int size() { return deck.size(); }
 
   private void addDiscardToDeck()
   {

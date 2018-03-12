@@ -27,6 +27,7 @@ public class ClientGameData implements IGameData, Serializable
 	private List<ChatItem> chat;
 	private TurnQueue turnQueue;
 	private int destinationCardsLeft;
+	private int trainCardsLeft;
 
     public ClientGameData(ServerGameData game, Username username){
         this.id = game.getId();
@@ -47,6 +48,7 @@ public class ClientGameData implements IGameData, Serializable
         this.chat = game.getChat();
         this.turnQueue = game.getTurnQueue();
         destinationCardsLeft = 30;
+        this.trainCardsLeft = game.getTrainCardsLeft();
     }
 
     public int getDestinationCardsLeft() {
@@ -61,6 +63,10 @@ public class ClientGameData implements IGameData, Serializable
     public List<TrainCard> getFaceUp() { return faceUp; }
 
     public GameID getId() { return id; }
+
+    public int getTrainCardsLeft() { return trainCardsLeft; }
+
+    public void decrementTrainCardsLeft() { trainCardsLeft--; }
 
     public List<Opponent> getOpponents() { return opponents; }
 
@@ -91,6 +97,7 @@ public class ClientGameData implements IGameData, Serializable
 
 	public TurnQueue getTurnQueue() { return turnQueue; }
 
+	// TODO: determine what this is doing and deal with it
     @Override
     public void deckDraw(Username username, List<TrainCard> drawn) {
         Opponent o = getOpponent(username);

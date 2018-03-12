@@ -38,16 +38,6 @@ public class ServerGameData implements Serializable
 	private List<HistoryItem> history = new ArrayList<>();
 	private List<ChatItem> chat = new ArrayList<>();
 
-	public ServerGameData(User startingUser)
-	{
-		this.name = startingUser.getUsername() + "\'s game";
-		this.creator = startingUser;
-		this.players = new ArrayList<>();
-		this.players.add(new Player(startingUser, getNextColor()));
-		this.deck = new TrainCardDeck();
-		this.destinations = new DestinationCardDeck();
-	}
-
 	public ServerGameData(String name, User startingUser)
 	{
 		this.name = name;
@@ -62,10 +52,7 @@ public class ServerGameData implements Serializable
 		this.history = new ArrayList<>();
 	}
 
-	private void createTurnQueue()
-	{
-		turnQueue = new TurnQueue(getUserNames());
-	}
+	private void createTurnQueue() { turnQueue = new TurnQueue(getUserNames()); }
 
 	public TurnQueue getTurnQueue() { return turnQueue; }
 
@@ -162,6 +149,7 @@ public class ServerGameData implements Serializable
 
 	public boolean isGameFull() { return players.size() >= PLAYER_LIMIT; }
 
+	public int getTrainCardsLeft() { return deck.size(); }
 
 	//TODO: documentation - what is this doing?
 	public void playerDrewTrainCard(String username, HandTrainCards drawn)

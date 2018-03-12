@@ -11,5 +11,5 @@ public interface ITrainCardDeck
   void shuffle();
   void DiscardCards(List<TrainCard> cards);
   List<TrainCard> getFaceUpCards();
-  int getDeckSize();
+  int size();
 }
