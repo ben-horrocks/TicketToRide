@@ -87,6 +87,7 @@ public class HistoryItem implements Serializable{
             }
             case "TEST": {
                 action.append("This is a test HistoryItem!");
+                break;
             }
             default:
                 action.append("Unrecognized Command: ");

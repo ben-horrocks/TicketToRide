@@ -26,6 +26,7 @@ public class HandTrainCards implements Serializable {
 
     private void updateMap()
 	{
+		trainColorCounts.clear();
 		for (TrainCard card : trainCards)
 		{
 			addToMap(card.getType());
