@@ -5,8 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import CS340.TicketServer.ClientThread;
+import CS340.TicketServer.LogKeeper;
 import CS340.TicketServer.PushTimer;
 import common.DataModels.Username;
 
@@ -14,9 +16,11 @@ public class ServerCommunicator
 {
 	private static final int SERVER_PORT_NUMBER = 8080;
 	private static final Map<Username, ClientThread> threads = new ConcurrentHashMap<>();
+	private Logger logger = LogKeeper.getSingleton().getLogger();
 
 	private ServerCommunicator()
 	{
+		logger.entering("ServerCommunicator", "ServerCommunicator()");
 		Thread server = new Thread()
 		{
 			/**
@@ -47,34 +51,37 @@ public class ServerCommunicator
 				{
 					try
 					{
-						System.out.println("Waiting for socket connection...");
+						logger.fine("Waiting for socket...");
 						socket = serverSocket.accept();
 						if (socket == null)
 						{
-							System.out.println("Incoming socket was null!");
+							logger.fine("Incoming socket was null");
 						}
 						else
 						{
-							System.out.println("Connection received from " + socket.getInetAddress());
-							System.out.println("Thread for " + socket.getInetAddress() + " started");
+							logger.fine("Connection received from " + socket.getInetAddress());
 							ClientThread clientThread = new ClientThread(socket);
 							clientThread.start();
+							logger.fine("Thread for " + socket.getInetAddress() + " started");
 						}
 					}
 					catch (IOException e)
 					{
-						System.out.println("Error in receiving client socket: " + e);
+						logger.warning("Error in receiving client socket: " + e);
 					}
 					catch (NullPointerException e)
 					{
-						System.out.println("NullPointerException when trying to accept incoming socket: " + e);
+						logger.warning("NullPointerException when trying to accept incoming socket: " + e);
 					}
 				}
 			}
 		};
 
 		server.setDaemon(true);
+		logger.finer("Starting Server...");
 		server.start();
+		logger.finer("Server Started");
+		logger.exiting("ServerCommunicator", "ServerCommunicator()");
 	}
 
 	private static int getServerPortNumber() { return SERVER_PORT_NUMBER; }
