@@ -16,7 +16,7 @@ public class ServerCommunicator
 {
 	private static final int SERVER_PORT_NUMBER = 8080;
 	private static final Map<Username, ClientThread> threads = new ConcurrentHashMap<>();
-	private Logger logger = LogKeeper.getSingleton().getLogger();
+	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
 	private ServerCommunicator()
 	{
