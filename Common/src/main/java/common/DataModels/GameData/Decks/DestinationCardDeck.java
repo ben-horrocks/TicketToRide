@@ -16,6 +16,9 @@ import common.DataModels.GameData.CityName;
  */
 public class DestinationCardDeck implements IDestinationCardDeck, Serializable
 {
+  /**
+   * Object to store the List of Destination Cards.
+   */
   private List<DestinationCard> deck;
 
   /**
