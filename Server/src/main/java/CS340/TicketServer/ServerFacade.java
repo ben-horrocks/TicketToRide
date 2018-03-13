@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import common.CommandParams;
 import common.DataModels.AuthToken;
@@ -25,7 +26,6 @@ import common.DataModels.Signal;
 import common.DataModels.SignalType;
 import common.DataModels.Username;
 import common.IServer;
-import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -35,6 +35,7 @@ public class ServerFacade implements IServer
 	 */
 	private static volatile ServerFacade SINGLETON;
 	private static final Object mutex = new Object();
+	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
 	/**
 	 * Default constructor for the serverFacade class
@@ -45,16 +46,19 @@ public class ServerFacade implements IServer
 	 */
 	private ServerFacade() {}
 
-	public static ServerFacade getSINGLETON() {
+	static ServerFacade getSINGLETON() {
+		logger.entering("ServerFacade", "getSINGLETON");
 		ServerFacade newServer = SINGLETON;
 		if (newServer == null) {
 			synchronized (mutex) {
 				newServer = SINGLETON;
 				if (newServer == null) {
+					logger.finest("Making new ServerFacade");
 					SINGLETON = newServer = new ServerFacade();
 				}
 			}
 		}
+		logger.exiting("ServerFacade", "getSINGLETON");
 		return newServer;
 	}
 
@@ -67,6 +71,7 @@ public class ServerFacade implements IServer
 	 * @return Return a signal with either the User that logged in or an Error message
 	 */
 	public Signal login(String username, String password) {
+		logger.entering("ServerFacade", "login", new Object[]{username, password});
 		Database database = Database.SINGLETON;
 		Username uName = new Username(username);
 		//Password pWord = new Password(password);
@@ -75,16 +80,22 @@ public class ServerFacade implements IServer
 		User user = database.getPlayer(uName);
 		if (user == null) {
 			String errorMsg = "Sorry, you are not registered yet";
-			return new Signal(SignalType.ERROR, errorMsg);
+			Signal signal = new Signal(SignalType.ERROR, errorMsg);
+			logger.exiting("ServerFacade", "login", signal);
+			return signal;
 		}
 		//Check that the provided password matches the profile password
 		if (!user.getPassword().getPass().equals(password)) {
 			String errorMsg = "Sorry, that's not the correct username or password";
-			return new Signal(SignalType.ERROR, errorMsg);
+			Signal signal = new Signal(SignalType.ERROR, errorMsg);
+			logger.exiting("ServerFacade", "login", signal);
+			return signal;
 		}
 		AuthToken token = new AuthToken();
 		user.setToken(token);
-		return new Signal(SignalType.OK, user);
+		Signal signal = new Signal(SignalType.OK, user);
+		logger.exiting("ServerFacade", "login", signal);
+		return signal;
 	}
 
 	/**
@@ -97,6 +108,7 @@ public class ServerFacade implements IServer
 	 * @return A signal with a player if the registration was okay or an error if the username is taken
 	 */
 	public Signal register(String username, String password, String screenName) {
+		logger.entering("ServerFacade", "register", new Object[]{username, password, screenName});
 		Database database = Database.SINGLETON;
 
 		Username uName = new Username(username);
@@ -111,11 +123,14 @@ public class ServerFacade implements IServer
 			user = new User(uName, pWord, sName);
 			user.setToken(token);
 			database.addPlayer(user);
-
-			return new Signal(SignalType.OK, user);
+			Signal signal = new Signal(SignalType.OK, user);
+			logger.exiting("ServerFacade", "register", signal);
+			return signal;
 		}
 		String errorMsg = "Sorry, this username is already taken";
-		return new Signal(SignalType.ERROR, errorMsg);
+		Signal signal = new Signal(SignalType.ERROR, errorMsg);
+		logger.exiting("ServerFacade", "register", signal);
+		return signal;
 	}
 
 	/**
@@ -128,6 +143,7 @@ public class ServerFacade implements IServer
 	 * @return A signal stating that the game was added
 	 */
 	public Signal addGame (String gameName, User startingUser) {
+		logger.entering("ServerFacade", "addGame", new Object[]{gameName, startingUser});
 		Database database = Database.SINGLETON;
 
 		Integer increment = 1;
@@ -151,12 +167,16 @@ public class ServerFacade implements IServer
 		boolean openGameAdded = database.addOpenGame(serverGameData);
 		if (openGameAdded)
 		{
-			return new Signal(SignalType.OK, serverGameData);
+			Signal signal = new Signal(SignalType.OK, serverGameData);
+			logger.exiting("ServerFacade", "addGame", signal);
+			return signal;
 		}
 		else
 		{
 			String errorMessage = "Game " + finalName.toString() + " not added to open game.";
-			return new Signal(SignalType.ERROR, errorMessage);
+			Signal signal = new Signal(SignalType.ERROR, errorMessage);
+			logger.exiting("ServerFacade", "addGame", signal);
+			return signal;
 		}
 	}
 
@@ -169,20 +189,27 @@ public class ServerFacade implements IServer
 	 * @return A signal specifying whether the user joined the game or an error occurred.
 	 */
 	public Signal joinGame(User user, GameID id) {
+		logger.entering("ServerFacade", "joinGame", new Object[]{user, id});
 		Database database = Database.SINGLETON;
 		ServerGameData serverGameData = database.getOpenGameByID(id);
 		if (!serverGameData.isGameFull()) {
 			//Check if serverGameData contains user
 			if (serverGameData.getUsers().contains(user)) {
 				String errMsg = "Sorry, you have already joined this serverGameData.";
-				return new Signal(SignalType.ERROR, errMsg);
+				Signal signal = new Signal(SignalType.ERROR, errMsg);
+				logger.exiting("ServerFacade", "joinGame", signal);
+				return signal;
 
 			}
 			serverGameData.addPlayer(user);
-			return new Signal(SignalType.OK, serverGameData);
+			Signal signal = new Signal(SignalType.OK, serverGameData);
+			logger.exiting("ServerFacade", "joinGame", signal);
+			return signal;
 		}
 		String errMsg = "Sorry, the serverGameData you have chosen is already full.";
-		return new Signal(SignalType.ERROR, errMsg);
+		Signal signal = new Signal(SignalType.ERROR, errMsg);
+		logger.exiting("ServerFacade", "joinGame", signal);
+		return signal;
 	}
 
 	/**
@@ -193,11 +220,13 @@ public class ServerFacade implements IServer
 	 * @return A signal stating whether the game started ok or an error occurred.
 	 */
 	public Signal startGame(GameID id) {
+		logger.entering("ServerFacade", "startGame", id);
 		Database database = Database.SINGLETON;
 		ServerGameData serverGameData = database.getOpenGameByID(id);
 		if (serverGameData == null) {
 			String errMsg = "Sorry, this serverGameData does not exist";
 			Signal signal = new Signal(SignalType.ERROR, errMsg);
+			logger.exiting("ServerFacade", "startGame", signal);
 			return signal;
 		}
 		if (!serverGameData.isGameStarted()) {
@@ -226,11 +255,9 @@ public class ServerFacade implements IServer
 				}
 
 				//Update all the players
-				System.out.println("Entering StartGame Alert Loop");
-				int numLoops = 0;
+				logger.finest("Entering StartGame Alert Loop");
 				for (User u: serverGameData.getUsers())
 				{
-					numLoops++;
 					//create ClientGameData
 					ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
 					//create the packet
@@ -239,31 +266,42 @@ public class ServerFacade implements IServer
 							hands.get(u.getUsername()),
 							gameData);
 					Signal s = ClientProxy.getSINGLETON().startGame(packet);
-					System.out.println(s.getSignalType().name());
-					//TODO: Error Checking
+					if (s.getSignalType().equals(SignalType.ERROR))
+					{
+						logger.exiting("ServerFacade", "startGame", s);
+						return s;
+					}
 				}
-				System.out.println("Exiting StartGame Alert Loop");
+				logger.finest("Exiting StartGame Alert Loop");
 				//return start signal to player
-				int finalLoops = numLoops;
-				return new Signal(SignalType.OK, "Accepted");
+				Signal signal = new Signal(SignalType.OK, "Accepted");
+				logger.exiting("ServerFacade", "startGame", signal);
+				return signal;
 			}
 			else
 			{
 				String errorMessage = "Game " + serverGameData.getId() + " not deleted.";
-				return new Signal(SignalType.ERROR, errorMessage);
+				Signal signal = new Signal(SignalType.ERROR, errorMessage);
+				logger.exiting("ServerFacade", "startGame", signal);
+				return signal;
 			}
 		}
 		String errMsg = "Sorry, this serverGameData has already started.";
-		return new Signal(SignalType.ERROR, errMsg);
+		Signal signal = new Signal(SignalType.ERROR, errMsg);
+		logger.exiting("ServerFacade", "startGame", signal);
+		return signal;
 	}
 
 	@Override
-	public Signal getAvailableGameInfo() {
+	public Signal getAvailableGameInfo()
+	{
+		// TODO: implement
 		return null;
 	}
 
 	@Override
 	public Signal populate(){
+		logger.entering("ServerFacade", "populate");
 		User[] users = new User[5];
 		for(int i = 1; i <= 5; i++){
 			String name = "Tester" + Integer.toString(i);
@@ -286,11 +324,14 @@ public class ServerFacade implements IServer
 		}*/
 
 		Signal signal = new Signal(SignalType.OK, "Populated");
+		logger.exiting("ServerFacade", "populate", signal);
 		return signal;
 	}
 
 	@Override
 	public Signal returnDestinationCards(GameID id, Username user, HandDestinationCards pickedCards, HandDestinationCards returnCards) {
+		logger.entering("ServerFacade", "returnDestinationCards",
+				new Object[]{id, user, pickedCards, returnCards});
 		//Data setup
 		Database database = Database.SINGLETON;
 		User agent = database.getPlayer(user);
@@ -305,63 +346,79 @@ public class ServerFacade implements IServer
 			ClientProxy.getSINGLETON().opponentDrewDestinationCards(u.getUsername(), pickedCards.size());
 		}
 		// Tell the sender that the operation was successful
-		return new Signal(SignalType.OK, "Accepted");
+		Signal signal = new Signal(SignalType.OK, "Accepted");
+		logger.exiting("ServerFacade", "returnDestinationCards", signal);
+		return signal;
 	}
 
 	@Override
 	public Signal sendChat(GameID id, ChatItem item) {
+		logger.entering("ServerFacade", "sendChat", new Object[]{id, item});
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		game.addChatMessage(item);
 		for (User user : game.getUsers())
 		{
 			ClientProxy.getSINGLETON().addChatItem(user.getUsername(), item);
 		}
-		return new Signal(SignalType.OK, "Message added to chat successfully");
+		Signal signal = new Signal(SignalType.OK, "Message added to chat successfully");
+		logger.exiting("ServerFacade", "sendChat", signal);
+		return signal;
 	}
 
 	@Override
 	public Signal drawFaceUp(GameID id, Username user, int index) {
+		// int in Object[] may throw an exception
+		logger.entering("ServerFacade", "drawFaceUp", new Object[]{id, user, index});
+
 		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		//Update GameData
 		TrainCard card = game.faceUpDraw(index);
 		//Alert Clients
-		Set<User> otherusers = game.getUsers();
-		otherusers.remove(Database.SINGLETON.getPlayer(user));
-		for(User u : otherusers)
+		Set<User> otherUsers = game.getUsers();
+		otherUsers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherUsers)
 		{
 			ClientProxy.getSINGLETON().opponentDrewFaceUpCard(u.getUsername(), index, card);
 		}
 		//Give the card to the requester
-		return new Signal(SignalType.OK, card);
+		Signal signal = new Signal(SignalType.OK, card);
+		logger.exiting("ServerFacade", "drawFaceUp", signal);
+		return signal;
 	}
 
 	@Override
 	public Signal drawDestinationCards(GameID id, Username user) {
+		logger.entering("ServerFacade", "drawDestinationCards", new Object[]{id, user});
 		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		//Update GameData
 		List<DestinationCard> cards = game.destinationDraw();
 		HandDestinationCards hand = new HandDestinationCards(cards);
 		//Give the Cards to the requester
-		return new Signal(SignalType.OK, hand);
+		Signal signal = new Signal(SignalType.OK, hand);
+		logger.exiting("ServerFacade", "drawDestinationCards", signal);
+		return signal;
 	}
 
 	@Override
 	public Signal drawDeck(GameID id, Username user) {
+		logger.entering("ServerFacade", "drawDeck", new Object[]{id, user});
 		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		//Update GameData
 		TrainCard card = game.drawFromTrainDeck();
 		//Alert Opponents
-		Set<User> otherusers = game.getUsers();
-		otherusers.remove(Database.SINGLETON.getPlayer(user));
-		for(User u : otherusers)
+		Set<User> otherUsers = game.getUsers();
+		otherUsers.remove(Database.SINGLETON.getPlayer(user));
+		for(User u : otherUsers)
 		{
 			ClientProxy.getSINGLETON().opponentDrewDeckCard(u.getUsername());
 		}
 		//Give the card to the requester
-		return new Signal(SignalType.OK, card);
+		Signal signal = new Signal(SignalType.OK, card);
+		logger.exiting("ServerFacade", "drawDeck", signal);
+		return signal;
 	}
 
 	/**
@@ -375,10 +432,11 @@ public class ServerFacade implements IServer
 	 * @param id The id of the game we're trying to access.
 	 * @param user The username of the player trying to claim an edge.
 	 * @param edge The edge that user wants to claim.
-	 * @return
+	 * @return A signal specifying whether or not the claim worked.
 	 */
 	@Override
 	public Signal claimEdge(GameID id, Username user, Edge edge) {
+		logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
 		//Data Setup
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
 		//Update GameData
@@ -389,10 +447,13 @@ public class ServerFacade implements IServer
 		for(User u : opponents){
 			//TODO ClientProxy.getSINGLETON().opponentClaimedEdge(user, edge);
 		}
-		return new Signal(SignalType.OK, edge);
+		Signal signal = new Signal(SignalType.OK, edge);
+		logger.exiting("ServerFacade", "claimEdge", signal);
+		return signal;
 	}
 
-	public void reportCommand(CommandParams cmd){
+	void reportCommand(CommandParams cmd){
+		logger.entering("ServerFacade", "reportCommand", cmd);
 		//Make the History Item
 		HistoryItem item = new HistoryItem(cmd);
 		//Report the command (if applicable)
@@ -403,5 +464,6 @@ public class ServerFacade implements IServer
 				ClientProxy.getSINGLETON().addHistoryItem(u.getUsername(), item);
 			}
 		}
+		logger.exiting("ServerFacade", "reportCommand");
 	}
 }

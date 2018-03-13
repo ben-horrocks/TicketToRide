@@ -52,7 +52,7 @@ public class ClientProxy implements IClient {
                 }
             }
         }
-        logger.exiting("ClientProxy", "getSINGLETON");
+        logger.exiting("ClientProxy", "getSINGLETON", clientProxy);
         return clientProxy;
     }
 
@@ -67,108 +67,121 @@ public class ClientProxy implements IClient {
 
 	@Override
     public Signal updateGameList(List<GameInfo> gameList) {
-		logger.entering("ClientProxy", "updateGameList");
+		logger.entering("ClientProxy", "updateGameList", gameList);
 		ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.UPDATE, gameList);
         for (ClientThread thread : threadList.values()) {
             thread.push(signal);
         }
-        logger.exiting("ClientProxy", "updateGameList");
-        return new Signal(SignalType.OK, "Accepted");
+        signal = new Signal(SignalType.OK, "Accepted");
+        logger.exiting("ClientProxy", "updateGameList", signal);
+        return signal;
     }
 
     @Override
     public Signal startGame(StartGamePacket packet) {
-		logger.entering("ClientProxy", "startGame");
+		logger.entering("ClientProxy", "startGame", packet);
         //Get the recipient for the packet and find their thread
 		Username packetRecipient = packet.getUser();
         String methodName = "startGame";
         String[] paramTypes = {startGamePacketClassName};
         Object[] params = {packet};
-        logger.exiting("ClientProxy", "startGame");
-        return sendCommandToClient(packetRecipient, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(packetRecipient, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "startGame", signal);
+        return signal;
     }
 
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount) {
-		logger.entering("ClientProxy", "opponentDrewDestinationCards");
+		// int in logger may break things
+		logger.entering("ClientProxy", "opponentDrewDestinationCards", new Object[]{name, amount});
         String methodName = "opponentDrewDestinationCards";
         String[] paramTypes = {userNameClassName, intClassName};
         Object[] params = {name, amount};
-        logger.exiting("ClientProxy", "opponentDrewDestinationCards");
-        return sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "opponentDrewDestinationCards", signal);
+        return signal;
     }
 
     @Override
     public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement) {
-		logger.entering("ClientProxy", "opponentDrewFaceUpCard");
+		// int in logger may break things
+		logger.entering("ClientProxy", "opponentDrewFaceUpCard",
+				new Object[]{name, index, replacement});
         String methodName = "opponentDrewFaceUpCard";
         String[] paramTypes = {userNameClassName, intClassName, trainCardClassName};
         Object[] params = {name, index, replacement};
-        logger.exiting("ClientProxy", "opponentDrewFaceUpCard");
-        return sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "opponentDrewFaceUpCard", signal);
+        return signal;
     }
 
     @Override
     public Signal opponentDrewDeckCard(Username name) {
-		logger.entering("ClientProxy", "opponentDrewDeckCard");
+		logger.entering("ClientProxy", "opponentDrewDeckCard", name);
         String methodName = "opponentDrewDeckCard";
         String[] paramTypes = {userNameClassName};
         Object[] params = {name};
-        logger.exiting("ClientProxy", "opponentDrewDeckCard");
-        return sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "opponentDrewDeckCard", signal);
+        return signal;
     }
 
     @Override
     public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards) {
-		logger.entering("ClientProxy", "playerDrewDestinationCards");
+		logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards});
         String methodName = "playerDrewDestinationCards";
         String[] paramTypes = {userNameClassName, handDestinationCardsClassName};
         Object[] params = {name, cards};
-        logger.exiting("ClientProxy", "playerDrewDestinationCards");
-        return sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "playerDrewDestinationCards", signal);
+        return signal;
     }
 
     @Override
     public Signal addChatItem(Username name, ChatItem item) {
-		logger.entering("ClientProxy", "addChatItem");
+		logger.entering("ClientProxy", "addChatItem", new Object[]{name, item});
         String methodName = "addChatItem";
         String[] paramTypes = {userNameClassName, chatItemClassName};
         Object[] params = {name, item};
-        logger.exiting("ClientProxy", "addChatItem");
-        return sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "addChatItem", signal);
+        return signal;
     }
 
     @Override
     public Signal addHistoryItem(Username name, HistoryItem item) {
-		logger.entering("ClientProxy", "addHistoryItem");
+		logger.entering("ClientProxy", "addHistoryItem", new Object[]{name, item});
         String methodName = "addHistoryItem";
         String[] paramTypes = {userNameClassName, historyItemClassName};
         Object[] params = {name, item};
-        logger.exiting("ClientProxy", "addHistoryItem");
-        return sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "addHistoryItem", signal);
+        return signal;
     }
 
     private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes, Object[] params){
-		logger.entering("ClientProxy", "sendCommandToClient");
+		logger.entering("ClientProxy", "sendCommandToClient",
+				new Object[]{client, methodName, paramTypes, params});
 		logger.fine("Sending \"" + methodName + "\" command to: " + client.getName());
         CommandParams command = new CommandParams(methodName, paramTypes, params);
         try {
             ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
             threadList.get(client).push(command);
             Signal signal = new Signal(SignalType.OK, "Dummy Signal");
-            logger.exiting("ClientProxy", "sendCommandToClient");
+            logger.exiting("ClientProxy", "sendCommandToClient", signal);
             return signal;
         } catch (NullPointerException e) {
         	logger.warning("Client: " + client.getName() + " is not connected!");
         } catch (Exception e) {
-        	logger.warning("Exception " + e);
+        	logger.warning(e.getMessage());
             e.printStackTrace();
         }
         logger.warning("An error occurred when sending a \""
 				+ methodName + "\" command to: " + client.getName());
-        logger.exiting("ClientProxy", "sendCommandToClient");
-        return new Signal(SignalType.ERROR, "An error occurred when sending a \""
-                + methodName + "\" command to: " + client.getName());
+        Signal signal = new Signal(SignalType.ERROR, "An error occurred when sending a \""
+				+ methodName + "\" command to: " + client.getName());
+        logger.exiting("ClientProxy", "sendCommandToClient", signal);
+        return signal;
     }
 }

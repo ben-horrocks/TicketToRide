@@ -57,7 +57,7 @@ public class LogKeeper
 	 */
 	private void initialize() throws IOException
 	{
-		Level logLevel = Level.FINEST;
+		Level logLevel = Level.FINE;
 		logger = Logger.getLogger("server");
 		logger.setLevel(logLevel);
 		logger.setUseParentHandlers(false);
@@ -68,7 +68,7 @@ public class LogKeeper
 		logger.addHandler(consoleHandler);
 
 		FileHandler fileHandler = new FileHandler("server_log.txt", false);
-		fileHandler.setLevel(logLevel);
+		fileHandler.setLevel(Level.ALL);
 		fileHandler.setFormatter(new SimpleFormatter());
 		logger.addHandler(fileHandler);
 	}

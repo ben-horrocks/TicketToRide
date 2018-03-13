@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import common.CommandParams;
 import common.DataModels.User;
@@ -21,6 +23,8 @@ import communicators.ServerCommunicator;
 
 public class ClientThread extends Thread
 {
+	private static final Logger logger = LogKeeper.getSingleton().getLogger();
+
 	private LinkedBlockingQueue<Object> messages;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
@@ -33,10 +37,11 @@ public class ClientThread extends Thread
 
 	private void setSignalFromClient(Signal signalFromClient) { this.signalFromClient = signalFromClient; }
 
-	private void setClose(boolean close) { this.close = close; }
+	private void close() { close = true; }
 
 	public ClientThread(final Socket clientSocket)
 	{
+		logger.entering("ClientThread", "<init>", clientSocket);
 		try
 		{
 			this.clientSocket = clientSocket;
@@ -44,7 +49,6 @@ public class ClientThread extends Thread
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			in = new ObjectInputStream(clientSocket.getInputStream());
 			final ClientThread thisThread = this;
-
 
 			Thread receiver = new Thread(thisThread)
 			{
@@ -58,26 +62,29 @@ public class ClientThread extends Thread
 				 */
 				public void run()
 				{
-					while(true)
+					boolean keepRunning = true;
+					while(keepRunning)
 					{
 						try
 						{
 							if (close)
 							{
+								keepRunning = false;
 								currentThread().interrupt();
 							}
+							logger.finer("Taking message from blocking queue");
 							Object message = messages.take();
 							Signal result;
 							if (message instanceof CommandParams)
 							{
 								CommandParams commandParams = (CommandParams) message;
 								ServerCommand serverCommand = new ServerCommand(commandParams);
-								System.out.println("Recieved \"" + commandParams.getMethodName()
+								logger.fine("Received \"" + commandParams.getMethodName()
 									+ "\" command");
 								result = (Signal) serverCommand.execute();
 								if (result == null)
 								{
-									System.out.println("Result of command.execute() was null");
+									logger.fine("Result of command.execute() was null");
 								}
 								else if (result.getObject() instanceof User)
 								{
@@ -100,9 +107,9 @@ public class ClientThread extends Thread
 						}
 						catch (InterruptedException e)
 						{
-							System.out.println(e + " when receiving in ClientThread");
+							logger.severe(e + " when receiving in ClientThread");
+							keepRunning = false;
 							closeThread();
-							break;
 						}
 					}
 				}
@@ -110,6 +117,7 @@ public class ClientThread extends Thread
 
 			receiver.setDaemon(true);
 			receiver.start();
+			logger.finer("Receiver Thread Started");
 
 			Thread read = new Thread(thisThread)
 			{
@@ -126,82 +134,69 @@ public class ClientThread extends Thread
 					{
 						if (close)
 						{
-							currentThread().interrupt();
+							keepRunning = false;
+							this.interrupt();
 						}
 						try
 						{
+							logger.finer("Reading object stream on server side");
 							Object object = in.readObject();
 							if(object != null)
+								logger.finer("Putting object in message blocking queue");
 								messages.put(object);
 						}
 						catch (IOException e)
 						{
 							/* Quietly Ignore EOF exceptions */
+							logger.log(Level.FINEST, "IOException in read thread on server side");
 						}
-						catch (ClassNotFoundException e)
+						catch (ClassNotFoundException | InterruptedException e)
 						{
-							System.out.println("ClassNotFoundException in read Thread: " + e);
-							e.printStackTrace();
-						}
-						catch (InterruptedException e)
-						{
-							System.out.println("InterruptedException in read Thread: " + e);
+							logger.severe(e + " in read Thread");
 							e.printStackTrace();
 						}
 					}
-					try
-					{
-						clientSocket.close();
-						closeThread();
-					}
-					catch (IOException e)
-					{
-						System.out.println("Error closing socket in read thread: " + e);
-						e.printStackTrace();
-					}
+					closeThread();
 				}
 			};
 
 			read.setDaemon(true);
 			read.start();
+			logger.finer("Read Thread Started");
 		}
 		catch (IOException e)
 		{
-			System.out.println("IOException in read Thread: " + e);
+			logger.severe(e + " in read Thread");
 			e.printStackTrace();
 		}
+		logger.exiting("ClientThread", "<init>");
 	}
 
 	/**
 	 * This function "pushes" or sends Objects from the Server to the Client.
 	 * @param object The object to be sent to the Client.
 	 */
-	public synchronized void push(Object object)
+	synchronized void push(Object object)
 	{
+		logger.entering("ClientThread", "push", object);
 		try
 		{
+			logger.finest("Writing object to output stream");
 			out.writeObject(object);
 			out.flush();
 			out.reset();
 		}
 		catch (IOException e)
 		{
-			System.out.println(clientSocket.getInetAddress() + " disconnected from the server");
-			try
-			{
-				clientSocket.close();
-				closeThread();
-			}
-			catch (IOException ex)
-			{
-				System.out.println("Error closing socket " + clientSocket.getInetAddress());
-				ex.printStackTrace();
-			}
+			logger.severe(clientSocket.getInetAddress() + " disconnected from the server");
+			closeThread();
 		}
+		logger.exiting("ClientThread", "push");
 	}
 
 	public synchronized Object send(Object object) throws IOException
 	{
+		logger.entering("ClientThread", "send", object);
 		Signal result = null;
 		push(object);
 		while (result == null)
@@ -209,19 +204,34 @@ public class ClientThread extends Thread
 			result = getSignalFromClient();
 		}
 		setSignalFromClient(null);
+		logger.exiting("ClientThread", "send", result);
 		return result;
 	}
 
 	private void closeThread()
 	{
+		logger.entering("ClientThread", "closeThread");
 		Map<Username, ClientThread> threads = ServerCommunicator.getThreads();
 		for (Username username : socketOwners)
 		{
 			if (threads.containsKey(username))
 			{
-				threads.get(username).setClose(true);
+				threads.get(username).close();
 				threads.remove(username);
+				logger.finer("Removed thread reference from thread map");
 			}
 		}
+		try
+		{
+			logger.finer("Closing socket from server side");
+			clientSocket.close();
+			logger.finer("Socket closed on server side");
+		}
+		catch (IOException e)
+		{
+			logger.severe(e + " when closing socket from server side");
+			e.printStackTrace();
+		}
+		logger.exiting("ClientThread", "closeThread");
 	}
 }
