@@ -9,6 +9,7 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import common.Command;
 import common.CommandParams;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
@@ -83,7 +84,6 @@ public class ClientCommunicator
 									List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
 									ClientFacade.getSINGLETON().updateGameList(infoList);
 								}else if (signal.getSignalType() == SignalType.START_GAME){
-									ClientFacade c = new ClientFacade();
 									//c.startGame(((ServerGameData)signal.getObject()).getId());
 								}
 								else
@@ -98,7 +98,7 @@ public class ClientCommunicator
 								System.out.println("CommandParams received on client side: " +
 										((CommandParams) received).getMethodName());
 								CommandParams params = (CommandParams) received;
-								ClientCommand command = new ClientCommand(params);
+								Command command = new Command(params, ClientFacade.class.getName());
 								Signal result = (Signal) command.execute();
 								server.write(result); // push(result);
 								System.out.println("Signal sent to server: " + result.getSignalType());

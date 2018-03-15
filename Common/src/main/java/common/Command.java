@@ -25,25 +25,24 @@ public class Command implements Serializable
 	//null.
 
 	/**
-	 * The constructor for the ServerCommand to be sent.
-	 * @param methodName The name of the method the sending party wishes to invoke.
-	 * @param parameterTypeNames The types of the parameters.
-	 * @param parameters The parameters to be used in the method.
+	 * The constructor for a command.
+	 * Note: Could not include class path in commandParams due to the different
+	 * module dependencies of classes. When wanting to make a command, you'll
+	 * have to execute it almost immediately to avoid passing around a command
+	 * that may become invalid in different modules.
+	 *
+	 * @param commandParams The parameters for the command class to work correctly.
+	 * @param classPath     The class path for the class trying to be called.
+	 * @pre Parameters must be non-null. ClassPath must be a valid class path.
+	 * CommandParams must contain all valid information pertaining to the method being called.
+	 * @post Will create a valid Command to be executed.
 	 */
-	public Command(String methodName, String[] parameterTypeNames, Object[] parameters)
-	{
-		this.methodName = methodName;
-		this.parameterTypeNames = parameterTypeNames;
-		this.parameters = parameters;
-		createParameterTypes();
-	}
-
-	public Command(CommandParams commandParams)
+	public Command(CommandParams commandParams, String classPath)
 	{
 		this.methodName = commandParams.getMethodName();
 		this.parameterTypeNames = commandParams.getParameterTypeNames();
 		this.parameters = commandParams.getParameters();
-		this.classPath = commandParams.getClassPath();
+		this.classPath = classPath;
 		createParameterTypes();
 	}
 
@@ -82,7 +81,7 @@ public class Command implements Serializable
 				result.append(parameter);
 				result.append("(");
 				result.append(parameter.getClass().getName());
-				result.append( ")");
+				result.append(")");
 				result.append(", ");
 			}
 			result.delete(result.length() - 2, result.length());

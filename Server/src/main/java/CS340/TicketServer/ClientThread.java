@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import common.Command;
 import common.CommandParams;
 import common.DataModels.User;
 import common.DataModels.Signal;
@@ -78,7 +79,7 @@ public class ClientThread extends Thread
 							if (message instanceof CommandParams)
 							{
 								CommandParams commandParams = (CommandParams) message;
-								ServerCommand serverCommand = new ServerCommand(commandParams);
+								Command serverCommand = new Command(commandParams, ServerFacade.class.getName());
 								logger.fine("Received \"" + commandParams.getMethodName()
 									+ "\" command");
 								result = (Signal) serverCommand.execute();
