@@ -41,7 +41,8 @@ public class ServerProxy implements IServer
         try {
             String[] parameterTypes = {stringClassName, stringClassName};
             Object[] parameters = {username, password};
-            CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
+            CommandParams loginCommand = new CommandParams(
+            		"login", parameterTypes, parameters, CommandParams.FacadeEnum.CLIENT);
             Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(loginCommand);
             return returnSignal;
         }
@@ -64,7 +65,8 @@ public class ServerProxy implements IServer
         try {
             String[] parameterTypes = {stringClassName, stringClassName, stringClassName};
             Object[] parameters = {username, password, screenName};
-            CommandParams registerCommand = new CommandParams("register", parameterTypes, parameters);
+            CommandParams registerCommand = new CommandParams(
+            		"register", parameterTypes, parameters, CommandParams.FacadeEnum.CLIENT);
             Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(registerCommand);
             return returnSignal;
         }
@@ -80,7 +82,8 @@ public class ServerProxy implements IServer
     public Signal startGame(GameID id) {
         String[] parameterTypes = {gameIDClassname};
         Object[] parameters = {id};
-        CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
+        CommandParams startGameCommand = new CommandParams(
+        		"startGame", parameterTypes, parameters, CommandParams.FacadeEnum.CLIENT);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(startGameCommand);
         } catch (Exception e) {
@@ -93,8 +96,8 @@ public class ServerProxy implements IServer
     public Signal getAvailableGameInfo() {
         String[] parameterTypes = {};
         Object[] parameters = {};
-        CommandParams getAvailableGameInfoCommand =
-                new CommandParams("getAvailableGameInfo", parameterTypes, parameters);
+        CommandParams getAvailableGameInfoCommand = new CommandParams(
+        		"getAvailableGameInfo", parameterTypes, parameters, CommandParams.FacadeEnum.CLIENT);
         try{
             return (Signal) ClientCommunicator.getSingleton().send(getAvailableGameInfoCommand);
         } catch (Exception e){
@@ -108,7 +111,8 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {stringClassName, playerClassName};
         Object[] params = {gameName, user};
-        CommandParams newcommand = new CommandParams("addGame", paramTypes, params);
+        CommandParams newcommand = new CommandParams(
+        		"addGame", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
         } catch (Exception e) {
@@ -122,7 +126,8 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {playerClassName, gameIDClassname};
         Object[] params = {user, id};
-        CommandParams newcommand = new CommandParams("joinGame", paramTypes, params);
+        CommandParams newcommand = new CommandParams(
+        		"joinGame", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
         } catch (Exception e) {
@@ -142,7 +147,8 @@ public class ServerProxy implements IServer
     public Signal returnDestinationCards(GameID id, Username name, HandDestinationCards pickedCards, HandDestinationCards returnCards) {
         String[] paramTypes = {gameIDClassname, usernameClassName, handDestinationCardsClassName, handDestinationCardsClassName};
         Object[] params = {id, name, pickedCards, returnCards};
-        CommandParams commandParams = new CommandParams("returnDestinationCards", paramTypes, params);
+        CommandParams commandParams = new CommandParams(
+        		"returnDestinationCards", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
@@ -156,7 +162,8 @@ public class ServerProxy implements IServer
     public Signal sendChat(GameID id, ChatItem item) {
         String[] paramTypes = {gameIDClassname, chatItemClassName};
         Object[] params = {id, item};
-        CommandParams commandParams = new CommandParams("sendChat", paramTypes, params);
+        CommandParams commandParams = new CommandParams(
+        		"sendChat", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
@@ -171,7 +178,8 @@ public class ServerProxy implements IServer
     public Signal drawDeck(GameID id, Username user) {
         String[] paramTypes = {gameIDClassname, usernameClassName};
         Object[] params = {id, user};
-        CommandParams commandParams = new CommandParams("drawDeck", paramTypes, params);
+        CommandParams commandParams = new CommandParams(
+        		"drawDeck", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
@@ -185,7 +193,8 @@ public class ServerProxy implements IServer
     public Signal drawDestinationCards(GameID id, Username user) {
         String[] paramTypes = {gameIDClassname, usernameClassName};
         Object[] params = {id, user};
-        CommandParams commandParams = new CommandParams("drawDestinationCards", paramTypes, params);
+        CommandParams commandParams = new CommandParams(
+        		"drawDestinationCards", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
@@ -199,7 +208,8 @@ public class ServerProxy implements IServer
     public Signal drawFaceUp(GameID id, Username user, int cardIndex) {
         String[] paramTypes = {gameIDClassname, usernameClassName, "int"};
         Object[] params = {id, user, cardIndex};
-        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        CommandParams commandParams = new CommandParams(
+        		"drawFaceUp", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
@@ -213,7 +223,8 @@ public class ServerProxy implements IServer
     public Signal claimEdge(GameID id, Username user, Edge edge) {
         String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName};
         Object[] params = {id, user, edge};
-        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        CommandParams commandParams = new CommandParams(
+        		"drawFaceUp", paramTypes, params, CommandParams.FacadeEnum.CLIENT);
         try {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;

@@ -31,7 +31,7 @@ import common.CommandParams;
 public class Populator {
     public static void main(String[] args){
         String ipAddress = args[0];
-        CommandParams params = new CommandParams( "populate" ,new String[0], new Object[0]);
+        CommandParams params = new CommandParams("populate" ,new String[0], new Object[0], CommandParams.FacadeEnum.SERVER);
         ClientCommunicator.setSERVER_HOST(ipAddress);
         try {
             ClientCommunicator.getSingleton().send(params);

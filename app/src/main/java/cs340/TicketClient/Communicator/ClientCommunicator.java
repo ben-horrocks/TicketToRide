@@ -1,19 +1,15 @@
 package cs340.TicketClient.Communicator;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import common.CommandParams;
-import common.DataModels.GameData.ServerGameData;
 import common.DataModels.GameInfo;
 import common.DataModels.Signal;
 import common.DataModels.SignalType;
@@ -85,7 +81,7 @@ public class ClientCommunicator
 									// Hope that the List of type UPDATE has GameInfo Objects
 									@SuppressWarnings("unchecked")
 									List<GameInfo> infoList = (List<GameInfo>) signal.getObject();
-									ClientFacade.getSingleton().updateGameList(infoList);
+									ClientFacade.getSINGLETON().updateGameList(infoList);
 								}else if (signal.getSignalType() == SignalType.START_GAME){
 									ClientFacade c = new ClientFacade();
 									//c.startGame(((ServerGameData)signal.getObject()).getId());

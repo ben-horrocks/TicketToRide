@@ -1,18 +1,16 @@
-package cs340.TicketClient.Communicator;
+package common;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import common.CommandParams;
-
 /**
- * A Command class that extends the CommandParams class and is Serializable. This class
+ * A ServerCommand class that extends the CommandParams class and is Serializable. This class
  * is meant to send Commands between Clients and Servers. The CommandParams class has one
- * public function that Command has to implement (execute()). The implementation will vary
- * depending on the context of the Command (what is the destination of the Command?).
+ * public function that ServerCommand has to implement (execute()). The implementation will vary
+ * depending on the context of the ServerCommand (what is the destination of the ServerCommand?).
  */
-public class ClientCommand implements Serializable
+public class Command implements Serializable
 {
 	private static final long serialVersionUID = 5950169519310163575L;
 
@@ -20,18 +18,19 @@ public class ClientCommand implements Serializable
 	private String[] parameterTypeNames;
 	private Object[] parameters = null;
 	private Class<?>[] parameterTypes;
+	private String classPath;
 
 	//I don't generate the parameter type names from the
 	//parameters because some of the parameters might be
 	//null.
 
 	/**
-	 * The constructor for the Command to be sent.
+	 * The constructor for the ServerCommand to be sent.
 	 * @param methodName The name of the method the sending party wishes to invoke.
 	 * @param parameterTypeNames The types of the parameters.
 	 * @param parameters The parameters to be used in the method.
 	 */
-	public ClientCommand(String methodName, String[] parameterTypeNames, Object[] parameters)
+	public Command(String methodName, String[] parameterTypeNames, Object[] parameters)
 	{
 		this.methodName = methodName;
 		this.parameterTypeNames = parameterTypeNames;
@@ -39,11 +38,12 @@ public class ClientCommand implements Serializable
 		createParameterTypes();
 	}
 
-	public ClientCommand(CommandParams commandParams)
+	public Command(CommandParams commandParams)
 	{
 		this.methodName = commandParams.getMethodName();
 		this.parameterTypeNames = commandParams.getParameterTypeNames();
 		this.parameters = commandParams.getParameters();
+		this.classPath = commandParams.getClassPath();
 		createParameterTypes();
 	}
 
@@ -97,9 +97,12 @@ public class ClientCommand implements Serializable
 		Object result = null;
 		try
 		{
-			Method method;
-			method = ClientFacade.class.getMethod(methodName, parameterTypes);
-			result = method.invoke(ClientFacade.getSINGLETON(), parameters);
+			Class<?> handler = Class.forName(classPath);
+			Method getSingleton = handler.getDeclaredMethod("getSINGLETON");
+			getSingleton.setAccessible(true);
+			Object singleton = getSingleton.invoke(null);
+			Method method = handler.getMethod(methodName, parameterTypes);
+			result = method.invoke(singleton, parameters);
 
 		} catch (NoSuchMethodException | SecurityException e)
 		{
@@ -117,6 +120,10 @@ public class ClientCommand implements Serializable
 		{
 			System.err.println("Illegal access while trying to execute the method " + methodName);
 			e.printStackTrace();
+		} catch (ClassNotFoundException e)
+		{
+			System.err.println("ERROR: no class found with path: " + classPath);
+			e.printStackTrace();
 		}
 
 		return result;
@@ -132,7 +139,7 @@ public class ClientCommand implements Serializable
 				parameterTypes[i] = getClassFor(parameterTypeNames[i]);
 			} catch (ClassNotFoundException e)
 			{
-				System.err.println("ERROR: IN Command.execute could not create a parameter type from the parameter type name " +
+				System.err.println("ERROR: IN ServerCommand.execute could not create a parameter type from the parameter type name " +
 						parameterTypeNames[i]);
 				e.printStackTrace();
 			}
