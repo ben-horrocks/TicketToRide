@@ -599,5 +599,6 @@ public class ServerGameData implements Serializable
                 longestPathOwners.add(player.getUser().getUsername());
             }
         }
+        longestRoute.setLongestRoute(longestPathOwners, longestPathLength);
     }
 }
