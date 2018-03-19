@@ -10,19 +10,35 @@ import cs340.TicketClient.Game.GameModel;
 
 import static common.DataModels.SignalType.OK;
 
+/**
+ * Presenter for DestinationCardFragment view
+ * @invarient GameModel.getInstance() has appropriate data (clientGameData and HandDestinationCard)
+ */
 public class DestinationCardFragmentPresenter implements IDestinationCardFragmentPresenter
 {
 
-    private GameModel model;
-    private DestinationCardFragment fragment;
+    private GameModel model; // Game model with relevant data
+    private DestinationCardFragment fragment; // Fragment this presenter is for
 
+    /**
+     * Constructor
+     * @pre fragment is not null
+     * @post model will be non-null
+     * @post this.fragment will be non-null
+     * @param fragment DestinationCardFragment that this presenter is being created for
+     */
     DestinationCardFragmentPresenter(DestinationCardFragment fragment)
     {
         model = GameModel.getInstance();
         this.fragment = fragment;
     }
 
-
+    /**
+     * Function returns the HandDestinationCard item that is
+     * @pre GameModel singleton works as intended
+     * @post you will either get back 3 destinations cards or a null object
+     * @return a HandCardFragment or null if it has already been used
+     */
     public HandDestinationCards getDCards()
     {
         HandDestinationCards cards = null;
@@ -34,6 +50,12 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
         return cards;
     }
 
+    /**
+     * This method takes the cards in the fragment and returns them to the server, indicating which were selected and which were not.
+     * @pre there is a connection to the server
+     * @post the SendCardsTask is in the process, or done, returning the cards to the server and closing the fragment
+     * @post the palyer's destination cards are updated with the new additions
+     */
     public void confirmDestinationCards()
     {
         HandDestinationCards selected = new HandDestinationCards();
@@ -68,6 +90,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
         fm.beginTransaction().remove(fragment).commit();
     }
 
+
     private static class SendCardsTask extends AsyncTask<SendCardsRequest, Integer, Signal>
     {
         DestinationCardFragmentPresenter presenter;
@@ -77,6 +100,14 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
             this.presenter = presenter;
         }
 
+        /**
+         * This method executes the return destinationCards command on a different thread from the UI thread.
+         * @pre obj is not null
+         * @pre It has 1 request object in it that is not null and non of it's members are null.
+         * @post the server has the updated information about the destination cards, and the player is listed as having them.
+         * @param obj request with the cards to return, the ones the use selected, the GameID, and the player's username.
+         * @return a Signal saying that the cards were returned to the database successfully
+         */
         @Override
         protected Signal doInBackground(SendCardsRequest[] obj)
         {
@@ -86,6 +117,12 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
                                             request.getSelected(), request.getReturned());
         }
 
+        /**
+         * This method closes the destinationCardFragment after the cards are returned to the server.
+         * @pre the Signal is either an OK or ERROR signal
+         * @post the client is given confirmation that either the return of the cards failed, or succeeded.
+         * @param signal Signal returned from the server
+         */
         @Override
         protected void onPostExecute(Signal signal)
         {
@@ -96,7 +133,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
                 fm.popBackStack();
             } else
             {
-                System.out.printf("back info back from return destination cards");
+                System.out.printf("error back from return destination cards");
                 FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
                 fm.popBackStack();
             }
