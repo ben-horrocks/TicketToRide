@@ -7,15 +7,21 @@ import java.io.Serializable;
  */
 public class TrainCard implements Serializable
 {
-	private TrainColor type;
+    private TrainColor type;
 
-	public TrainCard(TrainColor type) { this.type = type; }
+    public TrainCard(TrainColor type)
+    {
+        this.type = type;
+    }
 
-	public TrainColor getType() { return type; }
+    public TrainColor getType()
+    {
+        return type;
+    }
 
-	@Override
-	public String toString()
-	{
-		return type + " Train Card";
-	}
+    @Override
+    public String toString()
+    {
+        return type + " Train Card";
+    }
 }

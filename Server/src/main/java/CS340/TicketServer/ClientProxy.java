@@ -5,19 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import common.CommandParams;
-import common.DataModels.ChatItem;
-import common.DataModels.GameInfo;
+import common.DataModels.*;
 import common.DataModels.GameData.StartGamePacket;
-import common.DataModels.HandDestinationCards;
-import common.DataModels.HistoryItem;
-import common.DataModels.Signal;
-import common.DataModels.SignalType;
-import common.DataModels.TrainCard;
-import common.DataModels.Username;
 import common.IClient;
 import communicators.ServerCommunicator;
 
-public class ClientProxy implements IClient {
+public class ClientProxy implements IClient
+{
 
     /**
      * Static fields for the Server Facade class
@@ -26,10 +20,10 @@ public class ClientProxy implements IClient {
     private static volatile ClientProxy SINGLETON;
     private static final Object mutex = new Object();
 
-	/**
-	 * The logger for the client proxy.
-	 */
-	private static final Logger logger = LogKeeper.getSingleton().getLogger();
+    /**
+     * The logger for the client proxy.
+     */
+    private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
     /**
      * Default constructor for the serverFacade class
@@ -38,16 +32,22 @@ public class ClientProxy implements IClient {
      * it is also prohibited for any thread to advance beyond the synchronized keyword
      * without available access to the mutex object
      */
-    private ClientProxy() {}
+    private ClientProxy()
+    {
+    }
 
-    static ClientProxy getSINGLETON() {
-    	logger.entering("ClientProxy", "getSINGLETON");
+    static ClientProxy getSINGLETON()
+    {
+        logger.entering("ClientProxy", "getSINGLETON");
         ClientProxy clientProxy = SINGLETON;
-        if (clientProxy == null) {
-            synchronized (mutex) {
+        if (clientProxy == null)
+        {
+            synchronized (mutex)
+            {
                 clientProxy = SINGLETON;
-                if (clientProxy == null) {
-                	logger.finer("Creating new ClientProxy");
+                if (clientProxy == null)
+                {
+                    logger.finer("Creating new ClientProxy");
                     SINGLETON = clientProxy = new ClientProxy();
                 }
             }
@@ -58,19 +58,23 @@ public class ClientProxy implements IClient {
 
     /* The String literals for the class paths for classes. */
     private static final String startGamePacketClassName = StartGamePacket.class.getName();
-	private static final String userNameClassName = Username.class.getName();
-	private static final String intClassName = int.class.getName();
-	private static final String trainCardClassName = TrainCard.class.getName();
-	private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
-	private static final String chatItemClassName = ChatItem.class.getName();
-	private static final String historyItemClassName = HistoryItem.class.getName();
+    private static final String userNameClassName = Username.class.getName();
+    private static final String intClassName = int.class.getName();
+    private static final String trainCardClassName = TrainCard.class.getName();
+    private static final String handDestinationCardsClassName =
+            HandDestinationCards.class.getName();
+    private static final String chatItemClassName = ChatItem.class.getName();
+    private static final String historyItemClassName = HistoryItem.class.getName();
 
-	@Override
-    public Signal updateGameList(List<GameInfo> gameList) {
-		logger.entering("ClientProxy", "updateGameList", gameList);
-		ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
+    @Override
+    public Signal updateGameList(List<GameInfo> gameList)
+    {
+        logger.entering("ClientProxy", "updateGameList", gameList);
+        ConcurrentHashMap<Username, ClientThread> threadList =
+                (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
         Signal signal = new Signal(SignalType.UPDATE, gameList);
-        for (ClientThread thread : threadList.values()) {
+        for (ClientThread thread : threadList.values())
+        {
             thread.push(signal);
         }
         signal = new Signal(SignalType.OK, "Accepted");
@@ -79,10 +83,11 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal startGame(StartGamePacket packet) {
-		logger.entering("ClientProxy", "startGame", packet);
+    public Signal startGame(StartGamePacket packet)
+    {
+        logger.entering("ClientProxy", "startGame", packet);
         //Get the recipient for the packet and find their thread
-		Username packetRecipient = packet.getUser();
+        Username packetRecipient = packet.getUser();
         String methodName = "startGame";
         String[] paramTypes = {startGamePacketClassName};
         Object[] params = {packet};
@@ -92,9 +97,10 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal opponentDrewDestinationCards(Username name, int amount) {
-		// int in logger may break things
-		logger.entering("ClientProxy", "opponentDrewDestinationCards", new Object[]{name, amount});
+    public Signal opponentDrewDestinationCards(Username name, int amount)
+    {
+        // int in logger may break things
+        logger.entering("ClientProxy", "opponentDrewDestinationCards", new Object[]{name, amount});
         String methodName = "opponentDrewDestinationCards";
         String[] paramTypes = {userNameClassName, intClassName};
         Object[] params = {name, amount};
@@ -104,10 +110,11 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement) {
-		// int in logger may break things
-		logger.entering("ClientProxy", "opponentDrewFaceUpCard",
-				new Object[]{name, index, replacement});
+    public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement)
+    {
+        // int in logger may break things
+        logger.entering("ClientProxy", "opponentDrewFaceUpCard",
+                        new Object[]{name, index, replacement});
         String methodName = "opponentDrewFaceUpCard";
         String[] paramTypes = {userNameClassName, intClassName, trainCardClassName};
         Object[] params = {name, index, replacement};
@@ -117,8 +124,9 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal opponentDrewDeckCard(Username name) {
-		logger.entering("ClientProxy", "opponentDrewDeckCard", name);
+    public Signal opponentDrewDeckCard(Username name)
+    {
+        logger.entering("ClientProxy", "opponentDrewDeckCard", name);
         String methodName = "opponentDrewDeckCard";
         String[] paramTypes = {userNameClassName};
         Object[] params = {name};
@@ -128,8 +136,9 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards) {
-		logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards});
+    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards)
+    {
+        logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards});
         String methodName = "playerDrewDestinationCards";
         String[] paramTypes = {userNameClassName, handDestinationCardsClassName};
         Object[] params = {name, cards};
@@ -139,8 +148,9 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal addChatItem(Username name, ChatItem item) {
-		logger.entering("ClientProxy", "addChatItem", new Object[]{name, item});
+    public Signal addChatItem(Username name, ChatItem item)
+    {
+        logger.entering("ClientProxy", "addChatItem", new Object[]{name, item});
         String methodName = "addChatItem";
         String[] paramTypes = {userNameClassName, chatItemClassName};
         Object[] params = {name, item};
@@ -150,8 +160,9 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public Signal addHistoryItem(Username name, HistoryItem item) {
-		logger.entering("ClientProxy", "addHistoryItem", new Object[]{name, item});
+    public Signal addHistoryItem(Username name, HistoryItem item)
+    {
+        logger.entering("ClientProxy", "addHistoryItem", new Object[]{name, item});
         String methodName = "addHistoryItem";
         String[] paramTypes = {userNameClassName, historyItemClassName};
         Object[] params = {name, item};
@@ -160,27 +171,34 @@ public class ClientProxy implements IClient {
         return signal;
     }
 
-    private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes, Object[] params){
-		logger.entering("ClientProxy", "sendCommandToClient",
-				new Object[]{client, methodName, paramTypes, params});
-		logger.fine("Sending \"" + methodName + "\" command to: " + client.getName());
+    private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes,
+                                       Object[] params)
+    {
+        logger.entering("ClientProxy", "sendCommandToClient",
+                        new Object[]{client, methodName, paramTypes, params});
+        logger.fine("Sending \"" + methodName + "\" command to: " + client.getName());
         CommandParams command = new CommandParams(methodName, paramTypes, params);
-        try {
-            ConcurrentHashMap<Username, ClientThread> threadList = (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
+        try
+        {
+            ConcurrentHashMap<Username, ClientThread> threadList =
+                    (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
             threadList.get(client).push(command);
             Signal signal = new Signal(SignalType.OK, "Dummy Signal");
             logger.exiting("ClientProxy", "sendCommandToClient", signal);
             return signal;
-        } catch (NullPointerException e) {
-        	logger.warning("Client: " + client.getName() + " is not connected!");
-        } catch (Exception e) {
-        	logger.warning(e.getMessage());
+        } catch (NullPointerException e)
+        {
+            logger.warning("Client: " + client.getName() + " is not connected!");
+        } catch (Exception e)
+        {
+            logger.warning(e.getMessage());
             e.printStackTrace();
         }
-        logger.warning("An error occurred when sending a \""
-				+ methodName + "\" command to: " + client.getName());
-        Signal signal = new Signal(SignalType.ERROR, "An error occurred when sending a \""
-				+ methodName + "\" command to: " + client.getName());
+        logger.warning("An error occurred when sending a \"" + methodName + "\" command to: " +
+                       client.getName());
+        Signal signal = new Signal(SignalType.ERROR,
+                                   "An error occurred when sending a \"" + methodName +
+                                   "\" command to: " + client.getName());
         logger.exiting("ClientProxy", "sendCommandToClient", signal);
         return signal;
     }

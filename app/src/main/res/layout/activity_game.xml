@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
+
         <Button
             android:id="@+id/hand_button"
             android:layout_width="match_parent"
@@ -44,6 +44,7 @@
             android:layout_weight="1"
             tools:ignore="ButtonStyle"
             android:clickable="false"/>
+
         <Button
             android:id="@+id/draw_trainCar_button"
             android:layout_width="wrap_content"
@@ -52,6 +53,7 @@
             android:layout_weight="1"
             tools:ignore="ButtonStyle"
             android:clickable="false"/>
+
         <Button
             android:id="@+id/claim_route_button"
             android:layout_width="wrap_content"
@@ -61,7 +63,6 @@
             tools:ignore="ButtonStyle"
             android:clickable="false"/>
     </LinearLayout>
-
 
 
 </RelativeLayout>

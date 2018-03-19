@@ -7,7 +7,8 @@ import common.DataModels.*;
 /**
  * A restricted view of a player.
  */
-public class Opponent implements Serializable{
+public class Opponent implements Serializable
+{
     private User user;
     private int numberHandCards;
     private int numberDestinationCards;
@@ -16,7 +17,7 @@ public class Opponent implements Serializable{
     private EdgeGraph claimedEdges;
 
     public Opponent(User user, PlayerColor color)
-	{
+    {
         this.user = user;
         this.numberHandCards = 0;
         this.numberDestinationCards = 0;
@@ -25,41 +26,83 @@ public class Opponent implements Serializable{
         this.claimedEdges = new EdgeGraph();
     }
 
-    public void incrementDestinationCards(int number) { numberDestinationCards += number; }
+    public void incrementDestinationCards(int number)
+    {
+        numberDestinationCards += number;
+    }
 
-    public void incrementTrainCards(int number) { numberHandCards += number; }
+    public void incrementTrainCards(int number)
+    {
+        numberHandCards += number;
+    }
 
     public Opponent(Player player)
-	{
-		this.user = player.getUser();
-		this.numberHandCards = player.getNumberTrainCards();
-		this.numberDestinationCards = player.getDestinationCards().size();
-		this.color = player.getColor();
-		this.score = player.getScore();
-		this.claimedEdges = player.getClaimedEdges();
-	}
+    {
+        this.user = player.getUser();
+        this.numberHandCards = player.getNumberTrainCards();
+        this.numberDestinationCards = player.getDestinationCards().size();
+        this.color = player.getColor();
+        this.score = player.getScore();
+        this.claimedEdges = player.getClaimedEdges();
+    }
 
-    public String getName() { return user.getStringUserName(); }
+    public String getName()
+    {
+        return user.getStringUserName();
+    }
 
-    public Username getUsername() { return user.getUsername(); }
+    public Username getUsername()
+    {
+        return user.getUsername();
+    }
 
-    public int getNumberHandCards() { return numberHandCards; }
+    public int getNumberHandCards()
+    {
+        return numberHandCards;
+    }
 
-    public void addHandCard(int amount){ this.numberHandCards += amount; }
+    public void addHandCard(int amount)
+    {
+        this.numberHandCards += amount;
+    }
 
-    public void removeHandCard(int amount) { this.numberHandCards -= amount; }
+    public void removeHandCard(int amount)
+    {
+        this.numberHandCards -= amount;
+    }
 
-    public int getDestinationCardCount() { return this.numberDestinationCards; }
+    public int getDestinationCardCount()
+    {
+        return this.numberDestinationCards;
+    }
 
-    public void addDestinationCards(int amount) { this.numberDestinationCards += amount; }
+    public void addDestinationCards(int amount)
+    {
+        this.numberDestinationCards += amount;
+    }
 
-    public void removeDestinationCard(int amount) { this.numberDestinationCards -= amount; }
+    public void removeDestinationCard(int amount)
+    {
+        this.numberDestinationCards -= amount;
+    }
 
-    public PlayerColor getColor() { return this.color; }
+    public PlayerColor getColor()
+    {
+        return this.color;
+    }
 
-    public int getScore() { return this.score; }
+    public int getScore()
+    {
+        return this.score;
+    }
 
-    public void addPoints(int points) { this.score += points; }
+    public void addPoints(int points)
+    {
+        this.score += points;
+    }
 
-    public EdgeGraph getClaimedEdges() { return this.claimedEdges; }
+    public EdgeGraph getClaimedEdges()
+    {
+        return this.claimedEdges;
+    }
 }

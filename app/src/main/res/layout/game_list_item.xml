@@ -22,7 +22,7 @@
             android:textAlignment="center"
             android:textSize="24sp"
             tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"/>
 
         <TextView
             android:id="@+id/join_start"
@@ -34,7 +34,7 @@
             android:textColor="#16B50E"
             android:textSize="24sp"
             android:textStyle="bold"
-            tools:text="Join" />
+            tools:text="Join"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +51,7 @@
             android:textAlignment="center"
             android:textSize="24sp"
             tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="36dp" />
+            tools:layout_editor_absoluteY="36dp"/>
 
         <TextView
             android:id="@+id/player_count"
@@ -65,6 +65,7 @@
             tools:layout_editor_absoluteX="264dp"
             tools:layout_editor_absoluteY="36dp"/>
     </LinearLayout>
+
     <ImageView
         android:id="@+id/bottomBorder"
         android:layout_width="match_parent"

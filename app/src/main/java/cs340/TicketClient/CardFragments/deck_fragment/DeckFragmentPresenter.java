@@ -25,7 +25,8 @@ public class DeckFragmentPresenter implements IDeckFragmentPresenter
     @Override
     public ArrayList<Integer> getFaceUpCards()
     {
-        ArrayList<TrainCard> faceUp = (ArrayList<TrainCard>)GameModel.getInstance().getGameData().getFaceUp();
+        ArrayList<TrainCard> faceUp =
+                (ArrayList<TrainCard>) GameModel.getInstance().getGameData().getFaceUp();
         ArrayList<Integer> graphics = new ArrayList<>();
         for (TrainCard t : faceUp)
         {

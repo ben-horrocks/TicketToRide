@@ -4,9 +4,5 @@ import common.IColor;
 
 public enum PlayerColor implements IColor
 {
-    BLACK,
-    BLUE,
-    GREEN,
-    RED,
-    YELLOW
+    BLACK, BLUE, GREEN, RED, YELLOW
 }

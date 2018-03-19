@@ -4,10 +4,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 
 import common.DataModels.GameData.SendCardsRequest;
-import common.DataModels.GameID;
-import common.DataModels.HandDestinationCards;
-import common.DataModels.Signal;
-import common.DataModels.Username;
+import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
@@ -32,7 +29,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
      */
     DestinationCardFragmentPresenter(DestinationCardFragment fragment)
     {
-    	model = GameModel.getInstance();
+        model = GameModel.getInstance();
         this.fragment = fragment;
     }
 
@@ -45,7 +42,8 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
     public HandDestinationCards getDCards()
     {
         HandDestinationCards cards = null;
-        if (GameModel.getInstance().getInitialDCards() != null) {
+        if (GameModel.getInstance().getInitialDCards() != null)
+        {
             cards = model.getInitialDCards();
             model.clearDCards();
         }
@@ -62,43 +60,45 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
     {
         HandDestinationCards selected = new HandDestinationCards();
         HandDestinationCards returned = new HandDestinationCards();
-        if(fragment.card1Check.isChecked())
+        if (fragment.card1Check.isChecked())
+        {
             selected.add(fragment.dCards.get(0));
-        else
+        } else
+        {
             returned.add(fragment.dCards.get(0));
-        if(fragment.card2Check.isChecked())
+        }
+        if (fragment.card2Check.isChecked())
+        {
             selected.add(fragment.dCards.get(1));
-        else
+        } else
+        {
             returned.add(fragment.dCards.get(1));
-        if(fragment.card3Check.isChecked())
+        }
+        if (fragment.card3Check.isChecked())
+        {
             selected.add(fragment.dCards.get(2));
-        else
+        } else
+        {
             returned.add(fragment.dCards.get(2));
+        }
         GameID id = model.getGameID();
         Username user = model.getPlayer().getUser().getUsername();
-        SendCardsRequest request= new SendCardsRequest(id, user, selected, returned);
+        SendCardsRequest request = new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,request);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
         fm.beginTransaction().remove(fragment).commit();
     }
 
-    /**
-     * This Class is a Aysnc Task that runs the ReturnDestinationCards command to the server on a seperate
-     * thread from the UI
-     * @invarient the presenter is not null, there is a connection to the server
-     */
-    private static class SendCardsTask extends AsyncTask<SendCardsRequest,Integer ,Signal>
-    {
-    	DestinationCardFragmentPresenter presenter; // Presenter task is called from
 
-        /**
-         * Constructor
-         * @pre Presenter is not null
-         * @post the class is properly contructed and can perform it's methods
-         * @param presenter DestinationFragmentPresenter that this class is in.
-         */
-    	SendCardsTask(DestinationCardFragmentPresenter presenter) { this.presenter = presenter; }
+    private static class SendCardsTask extends AsyncTask<SendCardsRequest, Integer, Signal>
+    {
+        DestinationCardFragmentPresenter presenter;
+
+        SendCardsTask(DestinationCardFragmentPresenter presenter)
+        {
+            this.presenter = presenter;
+        }
 
         /**
          * This method executes the return destinationCards command on a different thread from the UI thread.
@@ -109,9 +109,12 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
          * @return a Signal saying that the cards were returned to the database successfully
          */
         @Override
-        protected Signal doInBackground(SendCardsRequest[] obj) {
+        protected Signal doInBackground(SendCardsRequest[] obj)
+        {
             SendCardsRequest request = obj[0];
-            return ServerProxy.getInstance().returnDestinationCards(request.getId(), request.getUser(), request.getSelected(), request.getReturned());
+            return ServerProxy.getInstance()
+                    .returnDestinationCards(request.getId(), request.getUser(),
+                                            request.getSelected(), request.getReturned());
         }
 
         /**
@@ -121,14 +124,14 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
          * @param signal Signal returned from the server
          */
         @Override
-        protected void onPostExecute(Signal signal) {
+        protected void onPostExecute(Signal signal)
+        {
             super.onPostExecute(signal);
             if (signal.getSignalType() == OK)
-			{
-				FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
-				fm.popBackStack();
-			}
-			else
+            {
+                FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+            } else
             {
                 System.out.printf("error back from return destination cards");
                 FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
