@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/gmaeOver"
+        android:id="@+id/game_over"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/game_over"
@@ -40,14 +40,14 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/EndGamePlayers"
+        android:id="@+id/end_game_players"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
     </android.support.v7.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/WinnerText"
+        android:id="@+id/winner_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/winner_text"
@@ -55,7 +55,7 @@
         android:textSize="24sp"/>
 
     <TextView
-        android:id="@+id/WinnerName"
+        android:id="@+id/winner_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Winner's name here"
@@ -63,7 +63,7 @@
         android:textSize="28sp"/>
 
     <Button
-        android:id="@+id/ReturnToLobbyButton"
+        android:id="@+id/return_to_lobby_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/return_to_lobby"/>

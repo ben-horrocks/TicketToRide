@@ -55,6 +55,11 @@ public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.view
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    public void addPlayers(List<Player> newplayers) {
+        players.addAll(newplayers);
+        notifyDataSetChanged();
+    }
+
     /**
      * Abstract: Function to clear all players from the list.
      *
