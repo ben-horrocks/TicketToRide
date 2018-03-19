@@ -19,8 +19,9 @@ import android.widget.*;
 
 import java.util.List;
 
-import common.DataModels.*;
 import common.DataModels.GameData.StartGamePacket;
+import common.DataModels.GameInfo;
+import common.DataModels.User;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 
@@ -38,137 +39,140 @@ import cs340.TicketClient.R;
 public class LobbyActivity extends AppCompatActivity
         implements ILobbyActivity, CreateGameDialog.CreateGameDialogListener
 {
-  private EditText mSearchGameText;
-  private ImageView mClearSearch;
-  private RecyclerView mGameList;
-  private GameListAdapter mGameListAdapter;
-  private RecyclerView.LayoutManager mLayoutManager;
-  private Button mNewGameButton;
+    private EditText mSearchGameText;
+    private ImageView mClearSearch;
+    private RecyclerView mGameList;
+    private GameListAdapter mGameListAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private Button mNewGameButton;
 
-  @Override
-  protected void onCreate(final Bundle savedInstanceState)
-  {
-    super.onCreate(savedInstanceState);
-    this.setContentView(R.layout.activity_lobby);
-
-    //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
-    LobbyPresenter.setActivity(this);
-    Bundle extras = this.getIntent().getExtras();
-    if (extras != null)
-	{
-		User user = (User) extras.get("user");
-		LobbyPresenter.getInstance().setUser(user);
-
-	}
-    //VIEW BINDING
-    mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
-    mClearSearch = (ImageView) this.findViewById(R.id.ClearSearch);
-    mGameList = (RecyclerView) this.findViewById(R.id.GameList);
-    mLayoutManager = new LinearLayoutManager(this);
-    mGameList.setLayoutManager(mLayoutManager);
-    mGameListAdapter = new GameListAdapter();
-    mGameList.setAdapter(mGameListAdapter);
-    mNewGameButton = findViewById(R.id.newGameButton);
-    //END VIEW BINDING
-
-    //LISTENERS
-    mSearchGameText.addTextChangedListener(new TextWatcher()
+    @Override
+    protected void onCreate(final Bundle savedInstanceState)
     {
-      @Override
-      public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-      {
+        super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.activity_lobby);
 
-      }
-
-      @Override
-      public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-      {
-        mGameListAdapter.clear();
-        if (charSequence.length() > 0)
+        //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
+        LobbyPresenter.setActivity(this);
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null)
         {
-          List<GameInfo> games = LobbyPresenter.getInstance().searchGames(charSequence.toString());
-          mGameListAdapter.addGames(games);
+            User user = (User) extras.get("user");
+            LobbyPresenter.getInstance().setUser(user);
+
         }
-      }
+        //VIEW BINDING
+        mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
+        mClearSearch = (ImageView) this.findViewById(R.id.ClearSearch);
+        mGameList = (RecyclerView) this.findViewById(R.id.GameList);
+        mLayoutManager = new LinearLayoutManager(this);
+        mGameList.setLayoutManager(mLayoutManager);
+        mGameListAdapter = new GameListAdapter();
+        mGameList.setAdapter(mGameListAdapter);
+        mNewGameButton = findViewById(R.id.newGameButton);
+        //END VIEW BINDING
 
-      @Override
-      public void afterTextChanged(Editable editable)
-      {
-      }
-    });
-    mClearSearch.setOnClickListener(new View.OnClickListener()
+        //LISTENERS
+        mSearchGameText.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                mGameListAdapter.clear();
+                if (charSequence.length() > 0)
+                {
+                    List<GameInfo> games =
+                            LobbyPresenter.getInstance().searchGames(charSequence.toString());
+                    mGameListAdapter.addGames(games);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+            }
+        });
+        mClearSearch.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mSearchGameText.setText("");
+            }
+        });
+        mNewGameButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                CreateGameDialog dialog = new CreateGameDialog();
+                dialog.show(getFragmentManager(), "New ServerGameData");
+            }
+        });
+        //END LISTENERS
+    }
+
+    /**
+     * Abstract: Callback from presenter to update ServerGameData List.
+     *
+     * @pre Server has successfully sent nerw gameList
+     * @post The game list will be displayed with the Search filter still applied
+     */
+    public void updateGameList()
     {
-      @Override
-      public void onClick(View view)
-      {
-        mSearchGameText.setText("");
-      }
-    });
-    mNewGameButton.setOnClickListener(new View.OnClickListener()
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                mGameListAdapter.clear();
+                List<GameInfo> games = LobbyPresenter.getInstance()
+                        .searchGames(mSearchGameText.getText().toString());
+                mGameListAdapter.addGames(games);
+            }
+        });
+    }
+
+
+    /**
+     * Abstract: Callback from presenter to start GameActivity
+     *
+     * @pre User has successfully started a game
+     * @post GameActivity will be inflated and started, player info will be stored in "player" extra in intent.
+     */
+    public void startGame(StartGamePacket packet)
     {
-      @Override
-      public void onClick(View view)
-      {
-        CreateGameDialog dialog = new CreateGameDialog();
-        dialog.show(getFragmentManager(), "New ServerGameData");
-      }
-    });
-    //END LISTENERS
-  }
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("packet", packet);
+        startActivity(intent);
+    }
 
-  /**
-   * Abstract: Callback from presenter to update ServerGameData List.
-   *
-   * @pre Server has successfully sent nerw gameList
-   * @post The game list will be displayed with the Search filter still applied
-   */
-  public void updateGameList()
-  {
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        mGameListAdapter.clear();
-        List<GameInfo> games =
-                LobbyPresenter.getInstance().searchGames(mSearchGameText.getText().toString());
-        mGameListAdapter.addGames(games);
-      }
-    });
-  }
-
-
-  /**
-   * Abstract: Callback from presenter to start GameActivity
-   *
-   * @pre User has successfully started a game
-   * @post GameActivity will be inflated and started, player info will be stored in "player" extra in intent.
-   */
-  public void startGame(StartGamePacket packet)
-  {
-    Intent intent = new Intent(this, GameActivity.class);
-    intent.putExtra("packet", packet);
-    startActivity(intent);
-  }
-
-  /**
-   * Abstract: Callback from presenter to update view when a New game is added.
-   *
-   * @pre User has successfully added a game
-   * @post Add game button will change to start game button instead, new listener will be bound.
-   */
-  public void gameAdded()
-  {
+    /**
+     * Abstract: Callback from presenter to update view when a New game is added.
+     *
+     * @pre User has successfully added a game
+     * @post Add game button will change to start game button instead, new listener will be bound.
+     */
+    public void gameAdded()
+    {
 //    mNewGameButton.setText(R.string.start_game);
-  }
+    }
 
-  /**
-   * Abstract: Function to return data from Dialog and start newGameTask to send to server.
-   *
-   * @pre User has just asked for a new game t be created via the dialog, newGame.length >0
-   * @post A new AddGameTask will have been executed to add a new game on the server.
-   */
-  @Override
-  public void onAddGame(DialogFragment frag, String newGame)
-  {
-    LobbyPresenter.getInstance().addGame(newGame);
-  }
+    /**
+     * Abstract: Function to return data from Dialog and start newGameTask to send to server.
+     *
+     * @pre User has just asked for a new game t be created via the dialog, newGame.length >0
+     * @post A new AddGameTask will have been executed to add a new game on the server.
+     */
+    @Override
+    public void onAddGame(DialogFragment frag, String newGame)
+    {
+        LobbyPresenter.getInstance().addGame(newGame);
+    }
 }

@@ -16,6 +16,7 @@
         android:layout_marginLeft="10px"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
+
     <TextView
         android:id="@+id/chat_divider"
         android:text=" : "
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="10px"/>
+
     <TextView
         android:id="@+id/chat_message"
         android:text="Chat Message"

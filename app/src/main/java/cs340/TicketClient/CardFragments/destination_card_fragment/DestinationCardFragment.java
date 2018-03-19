@@ -2,18 +2,15 @@ package cs340.TicketClient.CardFragments.destination_card_fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import common.DataModels.HandDestinationCards;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
-public class DestinationCardFragment extends Fragment {
+public class DestinationCardFragment extends Fragment
+{
 
     TextView card1View;
     TextView card2View;
@@ -25,21 +22,24 @@ public class DestinationCardFragment extends Fragment {
     HandDestinationCards dCards;
     DestinationCardFragmentPresenter presenter;
 
-    public DestinationCardFragment() {
+    public DestinationCardFragment()
+    {
         // Required empty public constructor
     }
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_destination_card, container, false);
+        View view = inflater.inflate(R.layout.fragment_destination_card, container, false);
         card1View = view.findViewById(R.id.card1View);
         card2View = view.findViewById(R.id.card2View);
         card3View = view.findViewById(R.id.card3View);
@@ -52,48 +52,63 @@ public class DestinationCardFragment extends Fragment {
 
         Bundle extras = getArguments();
         if (extras.get("cards") != null)
-		{
-			dCards = (HandDestinationCards)extras.get("cards");
-		}
+        {
+            dCards = (HandDestinationCards) extras.get("cards");
+        }
 
         //dCards = presenter.getDCards();
-        String path1 = dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2()+ "\n Points: " + dCards.get(0).getPointValue();
-        String path2 = dCards.get(1).getCity1()+ " -> " + dCards.get(1).getCity2()+ "\n Points: " + dCards.get(1).getPointValue();
-        String path3 = dCards.get(2).getCity1()+ " -> " + dCards.get(2).getCity2()+ "\n Points: " + dCards.get(2).getPointValue();
+        String path1 =
+                dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                dCards.get(0).getPointValue();
+        String path2 =
+                dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
+                dCards.get(1).getPointValue();
+        String path3 =
+                dCards.get(2).getCity1() + " -> " + dCards.get(2).getCity2() + "\n Points: " +
+                dCards.get(2).getPointValue();
 
         card1View.setText(path1);
         card2View.setText(path2);
         card3View.setText(path3);
 
-        String s = "There are " + GameModel.getInstance().getGameData().getDestinationCardsLeft() + " Destination Cards left";
+        String s = "There are " + GameModel.getInstance().getGameData().getDestinationCardsLeft() +
+                   " Destination Cards left";
         TextView destinationCardsLeft = view.findViewById(R.id.DestinationDeckSize);
         destinationCardsLeft.setText(s);
 
 
-        card1Check.setOnClickListener(new View.OnClickListener() {
+        card1Check.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 toggleButton();
             }
         });
 
-        card2Check.setOnClickListener(new View.OnClickListener() {
+        card2Check.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 toggleButton();
             }
         });
 
-        card3Check.setOnClickListener(new View.OnClickListener() {
+        card3Check.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 toggleButton();
             }
         });
 
-        confirmCards.setOnClickListener(new View.OnClickListener() {
+        confirmCards.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 presenter.confirmDestinationCards();
             }
         });
@@ -103,11 +118,25 @@ public class DestinationCardFragment extends Fragment {
     void toggleButton()
     {
         int numSelected = 0;
-        if (card1Check.isChecked()) numSelected++;
-        if (card2Check.isChecked()) numSelected++;
-        if(card3Check.isChecked()) numSelected++;
-        if(numSelected >=2 ) confirmCards.setEnabled(true);
-        else confirmCards.setEnabled(false);
+        if (card1Check.isChecked())
+        {
+            numSelected++;
+        }
+        if (card2Check.isChecked())
+        {
+            numSelected++;
+        }
+        if (card3Check.isChecked())
+        {
+            numSelected++;
+        }
+        if (numSelected >= 2)
+        {
+            confirmCards.setEnabled(true);
+        } else
+        {
+            confirmCards.setEnabled(false);
+        }
     }
 
 }
