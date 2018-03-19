@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.DataModels.ChatItem;
-import common.DataModels.DestinationCard;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameInfo;
 import common.DataModels.HandDestinationCards;
@@ -21,13 +20,21 @@ import cs340.TicketClient.Lobby.LobbyPresenter;
 public class ClientFacade implements IClient
 {
 	private static ClientFacade SINGLETON = null;
-	public static ClientFacade getSingleton()
+	public static ClientFacade getSINGLETON()
 	{
 		if(SINGLETON == null)
 		{
 			SINGLETON = new ClientFacade();
 		}
 		return SINGLETON;
+	}
+
+	private ClientFacade()
+	{
+		if (SINGLETON != null)
+		{
+			throw new InstantiationError( "Creating of this object is not allowed.");
+		}
 	}
 
 	@Override

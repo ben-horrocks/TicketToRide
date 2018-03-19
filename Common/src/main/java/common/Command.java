@@ -1,10 +1,8 @@
-package CS340.TicketServer;
+package common;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import common.CommandParams;
 
 /**
  * A ServerCommand class that extends the CommandParams class and is Serializable. This class
@@ -12,7 +10,7 @@ import common.CommandParams;
  * public function that ServerCommand has to implement (execute()). The implementation will vary
  * depending on the context of the ServerCommand (what is the destination of the ServerCommand?).
  */
-public class ServerCommand implements Serializable
+public class Command implements Serializable
 {
 	private static final long serialVersionUID = 5950169519310163575L;
 
@@ -20,30 +18,31 @@ public class ServerCommand implements Serializable
 	private String[] parameterTypeNames;
 	private Object[] parameters = null;
 	private Class<?>[] parameterTypes;
+	private String classPath;
 
 	//I don't generate the parameter type names from the
 	//parameters because some of the parameters might be
 	//null.
 
 	/**
-	 * The constructor for the ServerCommand to be sent.
-	 * @param methodName The name of the method the sending party wishes to invoke.
-	 * @param parameterTypeNames The types of the parameters.
-	 * @param parameters The parameters to be used in the method.
+	 * The constructor for a command.
+	 * Note: Could not include class path in commandParams due to the different
+	 * module dependencies of classes. When wanting to make a command, you'll
+	 * have to execute it almost immediately to avoid passing around a command
+	 * that may become invalid in different modules.
+	 *
+	 * @param commandParams The parameters for the command class to work correctly.
+	 * @param classPath     The class path for the class trying to be called.
+	 * @pre Parameters must be non-null. ClassPath must be a valid class path.
+	 * CommandParams must contain all valid information pertaining to the method being called.
+	 * @post Will create a valid Command to be executed.
 	 */
-	public ServerCommand(String methodName, String[] parameterTypeNames, Object[] parameters)
-	{
-		this.methodName = methodName;
-		this.parameterTypeNames = parameterTypeNames;
-		this.parameters = parameters;
-		createParameterTypes();
-	}
-
-	public ServerCommand(CommandParams commandParams)
+	public Command(CommandParams commandParams, String classPath)
 	{
 		this.methodName = commandParams.getMethodName();
 		this.parameterTypeNames = commandParams.getParameterTypeNames();
 		this.parameters = commandParams.getParameters();
+		this.classPath = classPath;
 		createParameterTypes();
 	}
 
@@ -82,7 +81,7 @@ public class ServerCommand implements Serializable
 				result.append(parameter);
 				result.append("(");
 				result.append(parameter.getClass().getName());
-				result.append( ")");
+				result.append(")");
 				result.append(", ");
 			}
 			result.delete(result.length() - 2, result.length());
@@ -97,9 +96,12 @@ public class ServerCommand implements Serializable
 		Object result = null;
 		try
 		{
-			Method method;
-			method = ServerFacade.class.getMethod(methodName, parameterTypes);
-			result = method.invoke(ServerFacade.getSINGLETON(), parameters);
+			Class<?> handler = Class.forName(classPath);
+			Method getSingleton = handler.getDeclaredMethod("getSINGLETON");
+			getSingleton.setAccessible(true);
+			Object singleton = getSingleton.invoke(null);
+			Method method = handler.getMethod(methodName, parameterTypes);
+			result = method.invoke(singleton, parameters);
 
 		} catch (NoSuchMethodException | SecurityException e)
 		{
@@ -116,6 +118,10 @@ public class ServerCommand implements Serializable
 		} catch (InvocationTargetException e)
 		{
 			System.err.println("Illegal access while trying to execute the method " + methodName);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e)
+		{
+			System.err.println("ERROR: no class found with path: " + classPath);
 			e.printStackTrace();
 		}
 

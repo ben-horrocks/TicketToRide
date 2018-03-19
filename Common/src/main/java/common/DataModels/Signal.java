@@ -16,4 +16,10 @@ public class Signal implements Serializable
 	public Object getObject() { return object; }
 
 	public SignalType getSignalType() { return signalType; }
+
+	@Override
+	public String toString()
+	{
+		return signalType + ": " + object.toString();
+	}
 }

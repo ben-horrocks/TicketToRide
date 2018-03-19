@@ -34,4 +34,9 @@
     <!-- HISTORY STRINGS -->
     <string name="hist_title">Game History</string>
 
+    <!-- END GAME ACTIVITY STRINGS -->
+    <string name="game_over">Game Over!</string>
+    <string name="return_to_lobby">Return to Lobby</string>
+    <string name="winner_text">Winner:</string>
+
 </resources>

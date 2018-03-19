@@ -28,8 +28,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.ui.IconGenerator;
 
-import org.w3c.dom.Text;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,7 +38,6 @@ import java.util.Set;
 
 import common.DataModels.EdgeGraph;
 import common.DataModels.GameData.CityName;
-import common.DataModels.GameData.Player;
 import common.DataModels.GameData.PlayerColor;
 import common.IColor;
 import cs340.TicketClient.R;

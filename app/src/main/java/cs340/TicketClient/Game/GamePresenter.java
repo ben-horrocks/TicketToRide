@@ -2,6 +2,7 @@ package cs340.TicketClient.Game;
 
 import android.os.AsyncTask;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -281,13 +282,13 @@ public class GamePresenter
 		model.updateHistory(historyItem);
 	}
 
-	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
+	static class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
 	{
-		GameActivity activity;
+		WeakReference<GameActivity> activity;
 
 		DrawDestinationTask(GameActivity activity)
 		{
-			this.activity = activity;
+			this.activity = new WeakReference<>(activity);
 		}
 
 		@Override
@@ -301,9 +302,19 @@ public class GamePresenter
 		protected void onPostExecute(Signal signal)
 		{
 			super.onPostExecute(signal);
+			GameActivity gameActivity = activity.get();
 			if(signal.getSignalType() == SignalType.OK) {
-				activity.startDestinationFragment((HandDestinationCards) signal.getObject());
-			}else{
+				if (gameActivity != null)
+				{
+					gameActivity.startDestinationFragment((HandDestinationCards) signal.getObject());
+				}
+				else
+				{
+					System.err.println("ERROR: onPostExecute in DrawDestinationTask - game activity is null");
+				}
+			}
+			else
+			{
 				System.out.println(signal.getObject());
 			}
 
