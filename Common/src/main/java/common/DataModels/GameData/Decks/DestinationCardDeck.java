@@ -69,8 +69,8 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
 
   /**
    * Returns a list of Destination Cards to the bottom of the deck.
-   * @param cards cards to return to the deck
-   * @pre cards.size() > 0
+   * @param cards LIst of cards to return to the deck
+   * @pre cards.size() > 0 && cards.size() < 3
    * @post The Destination Card Deck contains the same elements in the same order, with the Destination Cards in cards at the bottom of the deck
    */
   @Override
@@ -94,6 +94,11 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
     return deck.size();
   }
 
+  /**
+   * Function to initalize the destination Deck
+   * @pre none
+   * @post deck contains exactly 30 new Destination Cards
+   */
   private void initializeDestinationDeck()
   {
     List<DestinationCard> newDeck = new ArrayList<>();

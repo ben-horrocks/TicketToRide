@@ -2,13 +2,17 @@ package cs340.TicketClient.Game;
 
 import android.os.AsyncTask;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import common.CommandParams;
 import common.DataModels.ChatItem;
+import common.DataModels.City;
 import common.DataModels.DestDrawRequest;
 import common.DataModels.DestinationCard;
+import common.DataModels.Edge;
 import common.DataModels.GameData.CityName;
 import common.DataModels.GameData.Opponent;
 import common.DataModels.GameData.PlayerColor;
@@ -62,7 +66,7 @@ public class GamePresenter
 		if (model.getInitialDCards() != null)
 		{
 			HandDestinationCards cards = model.getInitialDCards();
-			GameModel.getInstance().clearDCards();
+			//GameModel.getInstance().clearDCards();
 			return cards;
 		}
 		else
@@ -255,9 +259,16 @@ public class GamePresenter
 
 	private void updateNumOfCardsInDestinationDeck(int number) { model.updateDDeckCount(number); }
 
-	private void AddClaimedRoute() {
-		//TODO all of this function
-
+	private void AddClaimedRoute()
+	{
+		City duluthSub = new City(46.786672, -92.100485, CityName.DULUTH);
+		List<Edge> duluthEdges = model.getGameData().getGameboard().getGraph().get(duluthSub);
+		for (Edge e : duluthEdges)
+		{
+			e.setOwner(model.getPlayer());
+		}
+		String text = "Claimed all edges \"coming from\" Duluth";
+		activity.makeLargerToast(text);
 	}
 
 	private void AddChatMessages() {
@@ -271,13 +282,13 @@ public class GamePresenter
 		model.updateHistory(historyItem);
 	}
 
-	class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
+	static class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
 	{
-		GameActivity activity;
+		WeakReference<GameActivity> activity;
 
 		DrawDestinationTask(GameActivity activity)
 		{
-			this.activity = activity;
+			this.activity = new WeakReference<>(activity);
 		}
 
 		@Override
@@ -291,9 +302,19 @@ public class GamePresenter
 		protected void onPostExecute(Signal signal)
 		{
 			super.onPostExecute(signal);
+			GameActivity gameActivity = activity.get();
 			if(signal.getSignalType() == SignalType.OK) {
-				activity.startDestinationFragment((HandDestinationCards) signal.getObject());
-			}else{
+				if (gameActivity != null)
+				{
+					gameActivity.startDestinationFragment((HandDestinationCards) signal.getObject());
+				}
+				else
+				{
+					System.err.println("ERROR: onPostExecute in DrawDestinationTask - game activity is null");
+				}
+			}
+			else
+			{
 				System.out.println(signal.getObject());
 			}
 

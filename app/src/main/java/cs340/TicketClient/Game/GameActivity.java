@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +34,10 @@ import cs340.TicketClient.GameMenu.history.HistoryFragment;
 import cs340.TicketClient.GameMenu.player_info.PlayerFragment;
 import cs340.TicketClient.R;
 
-public class GameActivity extends AppCompatActivity
+public class GameActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-	private GoogleMap mMap;
+	private GoogleMap googleMap;
 	private User user;
 	private GamePresenter presenter;
 	final FragmentManager fm = this.getSupportFragmentManager();
@@ -81,57 +82,31 @@ public class GameActivity extends AppCompatActivity
 			.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 		}
 
+		LinearLayout handLayout = this.findViewById(R.id.hand_button_holder);
+		LinearLayout movesLayout = this.findViewById(R.id.move_bar);
+
 		// The buttons
-		Button handButton = (Button) this.findViewById(R.id.hand_button);
-		Button destinationCardButton = (Button) this.findViewById(R.id.draw_destination_button);
-		Button drawTrainCardButton = (Button) this.findViewById(R.id.draw_trainCar_button);
-		Button claimRouteButton = (Button) this.findViewById(R.id.claim_route_button);
+		Button handButton = handLayout.findViewById(R.id.hand_button);
+		Button destinationCardButton = movesLayout.findViewById(R.id.draw_destination_button);
+		Button drawTrainCardButton = movesLayout.findViewById(R.id.draw_trainCar_button);
+		Button claimRouteButton = movesLayout.findViewById(R.id.claim_route_button);
 
 		// Hand Button On Click Listener
-		handButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				Bundle bundle = new Bundle();
-			}
-		});
+		handButton.setOnClickListener(this);
 
 		// Destination Card Button On Click Listener
-		destinationCardButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-
-			}
-		});
+		destinationCardButton.setOnClickListener(this);
 
 		// Draw Train Card On Click Listener
-		drawTrainCardButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				Fragment drawCardFragment;
-				drawCardFragment = new DeckFragment();
-				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
-						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
-
-			}
-		});
+		drawTrainCardButton.setOnClickListener(this);
 
 		// Claim Route On Click Listener
-		claimRouteButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-
-			}
-		});
-
-
+		claimRouteButton.setOnClickListener(this);
 	}
 
 	// On Click Listener for XML files
 	// Should change to regular onClickListeners eventually...
+	@Override
 	public void onClick(View v)
 	{
 		switch(v.getId())
@@ -143,7 +118,7 @@ public class GameActivity extends AppCompatActivity
 						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
 				break;
 			case R.id.draw_trainCar_button:
-				Fragment drawCardFragment = fm.findFragmentById(R.id.fragment_deck);
+				Fragment drawCardFragment;
 				drawCardFragment = new DeckFragment();
 				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
 						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
@@ -153,6 +128,9 @@ public class GameActivity extends AppCompatActivity
 				if (cards == null)
 					return;
 				startDestinationFragment(cards);
+				break;
+			case R.id.claim_route_button:
+				System.out.println("To implement... lol");
 				break;
 			default:
 				System.out.println("Broken at onClick(View v) in Game Activity");

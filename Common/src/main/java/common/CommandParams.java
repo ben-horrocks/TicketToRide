@@ -13,6 +13,7 @@ public class CommandParams implements Serializable
 
 	/**
 	 * @pre Parameters cannot be null. Arrays can have null objects in them, though.
+	 * FacadeEnum must be a valid enum.
 	 * @post A valid CommandParams object.
 	 * @param methodName The name of the method wanting to be made.
 	 * @param parameterTypeNames The name of the types for the parameters.

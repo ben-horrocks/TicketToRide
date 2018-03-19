@@ -1,0 +1,302 @@
+Mar 17, 2018 12:29:05 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 12:36:16 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 12:36:16 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 12:36:16 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 12:36:16 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "register" command
+Mar 17, 2018 12:36:22 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 12:36:26 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "register" command
+Mar 17, 2018 12:36:28 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 12:36:31 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:36:33 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 12:36:33 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 12:36:33 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 12:36:33 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 12:36:33 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 12:37:02 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 12:37:02 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester11
+Mar 17, 2018 12:37:02 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester1
+Mar 17, 2018 12:37:02 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 12:37:02 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 12:37:02 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 12:38:02 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 12:38:02 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 12:38:43 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 12:38:43 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 12:38:43 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 12:38:43 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:38:47 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 12:38:50 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:38:51 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 12:38:54 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:38:56 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 12:38:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 12:38:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 12:38:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 12:38:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 12:39:12 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 12:39:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester1
+Mar 17, 2018 12:39:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 12:39:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 12:39:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 12:40:58 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 12:40:58 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 12:41:15 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 12:41:15 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 12:41:15 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 12:41:15 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:41:20 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 12:41:24 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:41:28 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 12:41:32 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 12:41:35 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 12:41:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 12:41:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 12:41:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 12:41:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 12:42:18 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 12:42:18 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester1
+Mar 17, 2018 12:42:18 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 12:42:18 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 12:42:18 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:21:19 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:21:19 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:21:52 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 1:21:52 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 1:21:52 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 1:21:52 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:21:54 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 1:21:59 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:22:01 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 1:22:05 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:22:07 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 1:22:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 1:22:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 1:22:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:22:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:22:14 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 1:22:14 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:22:14 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester1
+Mar 17, 2018 1:22:14 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:22:14 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:22:14 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:27:38 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:27:38 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:27:55 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 1:27:55 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 1:27:55 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 1:27:55 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:27:59 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 1:28:04 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:28:05 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 1:28:08 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:28:09 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 1:28:09 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 1:28:09 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 1:28:09 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:28:09 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:33:37 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 1:33:37 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester1
+Mar 17, 2018 1:33:37 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:33:37 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:33:37 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:37:34 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:37:34 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:38:20 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 1:38:20 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 1:38:20 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 1:38:20 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:38:24 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 1:38:29 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:38:31 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 1:38:34 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:38:35 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 1:38:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 1:38:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 1:38:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:38:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:38:46 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 1:38:46 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:38:46 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester1
+Mar 17, 2018 1:38:46 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:38:46 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:38:46 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:41:45 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:41:45 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:42:25 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 17, 2018 1:42:25 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 17, 2018 1:42:25 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 17, 2018 1:42:25 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:42:35 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 17, 2018 1:42:40 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:42:42 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 17, 2018 1:42:46 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 17, 2018 1:42:47 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 17, 2018 1:42:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1
+Mar 17, 2018 1:42:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester11
+Mar 17, 2018 1:42:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:42:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:42:54 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 1:42:54 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:42:54 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester1
+Mar 17, 2018 1:42:54 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:42:54 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:42:54 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:43:10 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 17, 2018 1:43:10 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:43:10 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester1
+Mar 17, 2018 1:43:10 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester11
+Mar 17, 2018 1:43:10 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 17, 2018 1:43:10 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester11
+Mar 17, 2018 1:43:19 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 17, 2018 1:43:19 PM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server

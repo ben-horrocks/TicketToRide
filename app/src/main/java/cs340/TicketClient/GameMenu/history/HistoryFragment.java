@@ -22,7 +22,6 @@ import cs340.TicketClient.R;
 
 public class HistoryFragment extends android.support.v4.app.Fragment {
 
-    private Button mCloseButton;
     private RecyclerView mHistoryRecyclerView;
     private HistoryFragment.HistoryAdapter mHistoryAdapter;
     private RecyclerView.LayoutManager mHistoryLayoutManager;
@@ -84,12 +83,10 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         public class Holder extends RecyclerView.ViewHolder {
 
-            private TextView mDisplayName;
             private TextView mAction;
 
             public Holder(View itemView) {
                 super(itemView);
-                mDisplayName = (TextView) itemView.findViewById(R.id.history_player);
                 mAction = (TextView) itemView.findViewById(R.id.history_text);
             }
         }
@@ -108,7 +105,6 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         public void onBindViewHolder(HistoryFragment.HistoryAdapter.Holder holder, int position) {
             if (mHistoryList != null && !mHistoryList.isEmpty()) {
                 HistoryItem item =  mHistoryList.get(position);
-                holder.mDisplayName.setText(item.getPlayerName());
                 holder.mAction.setText(item.getAction());
             }
         }

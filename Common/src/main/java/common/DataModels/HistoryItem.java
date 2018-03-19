@@ -18,15 +18,11 @@ public class HistoryItem implements Serializable{
         this.action = parseCommand(action);
     }
 
-    public boolean shouldReport(){
-        return reportable;
-    }
+    public boolean shouldReport(){ return reportable; }
 
     public String getPlayerName() { return name.getName(); }
 
-    public String getAction() {
-        return action;
-    }
+    public String getAction() { return action; }
 
     public GameID getGame() {return game;}
 
@@ -97,4 +93,10 @@ public class HistoryItem implements Serializable{
         }
         return action.toString();
     }
+
+    @Override
+	public String toString()
+	{
+		return "GameID - " + game + ": " + name.getName() + " performed action \"" + action + "\"";
+	}
 }
