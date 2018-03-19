@@ -1,8 +1,7 @@
 package common.DataModels;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import common.DataModels.GameData.*;
 
@@ -151,5 +150,22 @@ public class Edge implements Serializable
     {
         return "Owner: " + owner + "\n" + "From " + firstCity.getCityName() + " to " +
                secondCity.getCityName() + "\n" + "Length: " + length + ". Color: " + color;
+    }
+
+    public int computeLongestPath(Set<Edge> unusedEdges)
+    {
+        int longestPath = 0;
+        for(Edge checkEdge : unusedEdges) {
+            if(checkEdge.getCities().contains(firstCity) || checkEdge.getCities().contains(secondCity)) {
+                unusedEdges.remove(checkEdge);
+                int newLongestPath = checkEdge.computeLongestPath(unusedEdges);
+                if(newLongestPath > longestPath)
+                {
+                    longestPath = newLongestPath;
+                }
+            }
+        }
+        longestPath += length;
+        return longestPath;
     }
 }

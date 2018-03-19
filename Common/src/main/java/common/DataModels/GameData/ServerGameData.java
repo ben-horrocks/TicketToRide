@@ -22,6 +22,7 @@ public class ServerGameData implements Serializable
     private DestinationCardDeck destinations;
     private List<HistoryItem> history = new ArrayList<>();
     private List<ChatItem> chat = new ArrayList<>();
+    private LongestRoute longestRoute;
 
     public ServerGameData(String name, User startingUser)
     {
@@ -579,6 +580,24 @@ public class ServerGameData implements Serializable
         } else
         {
             return false;
+        }
+    }
+
+    public void computeLongestRoute() {
+        List<Username> longestPathOwners = new ArrayList<>();
+        int longestPathLength = 0;
+        for(Player player : players)
+        {
+            int playerLongestPath = player.computeLongestPath();
+            if( playerLongestPath > longestPathLength)
+            {
+                longestPathOwners.clear();
+                longestPathOwners.add(player.getUser().getUsername());
+                longestPathLength = playerLongestPath;
+            } else if(playerLongestPath == longestPathLength)
+            {
+                longestPathOwners.add(player.getUser().getUsername());
+            }
         }
     }
 }

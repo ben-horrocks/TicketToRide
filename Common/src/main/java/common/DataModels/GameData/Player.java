@@ -1,7 +1,7 @@
 package common.DataModels.GameData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.*;
 
 import common.DataModels.*;
 
@@ -125,4 +125,21 @@ public class Player implements Serializable
     {
         return pieces.getNumTrainPieces();
     }
+
+    public int computeLongestPath()
+    {
+        Set<Edge> unusedEdges = claimedEdges.getAllEdges();
+        int longestPath = 0;
+        for(Edge edge : unusedEdges)
+        {
+            unusedEdges.remove(edge);
+            int newLongestPath = edge.computeLongestPath(unusedEdges);
+            if(newLongestPath > longestPath)
+            {
+                longestPath = newLongestPath;
+            }
+        }
+        return longestPath;
+    }
+
 }
