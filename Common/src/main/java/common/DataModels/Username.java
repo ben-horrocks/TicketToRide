@@ -7,34 +7,58 @@ import java.io.Serializable;
  */
 public class Username implements Serializable
 {
-	private String name;
+    private String name;
 
-	/**
-	 * @pre name must be non-null.
-	 * @param name The username.
-	 */
-	public Username(String name) { this.name = name; }
+    /**
+     * @param name The username.
+     * @pre name must be non-null.
+     */
+    public Username(String name)
+    {
+        this.name = name;
+    }
 
-	public static boolean isValidUserName(String name) { return !name.contains(" "); }
+    public static boolean isValidUserName(String name)
+    {
+        return !name.contains(" ");
+    }
 
-	public String getName() { return name; }
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setName(String name) { this.name = name; }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
-	@Override
-	public boolean equals(Object o)
-	{
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
 
-		Username username = (Username) o;
+        Username username = (Username) o;
 
-		return name.equals(username.name);
-	}
+        return name.equals(username.name);
+    }
 
-	@Override
-	public int hashCode() { return name.hashCode(); }
+    @Override
+    public int hashCode()
+    {
+        return name.hashCode();
+    }
 
-	@Override
-	public String toString() { return name; }
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

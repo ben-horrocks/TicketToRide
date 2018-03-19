@@ -3,43 +3,60 @@ package common.DataModels;
 import java.io.Serializable;
 
 import common.CommandParams;
-import common.DataModels.GameData.Player;
 import common.IServer;
 
-public class HistoryItem implements Serializable{
+public class HistoryItem implements Serializable
+{
 
     private Username name;
     private GameID game;
     private String action;
     private boolean reportable;
 
-    public HistoryItem(CommandParams action) {
+    public HistoryItem(CommandParams action)
+    {
         reportable = true;
         this.action = parseCommand(action);
     }
 
-    public boolean shouldReport(){ return reportable; }
+    public boolean shouldReport()
+    {
+        return reportable;
+    }
 
-    public String getPlayerName() { return name.getName(); }
+    public String getPlayerName()
+    {
+        return name.getName();
+    }
 
-    public String getAction() { return action; }
+    public String getAction()
+    {
+        return action;
+    }
 
-    public GameID getGame() {return game;}
+    public GameID getGame()
+    {
+        return game;
+    }
 
-    private String parseCommand(CommandParams cmd){
+    private String parseCommand(CommandParams cmd)
+    {
         StringBuilder action = new StringBuilder();
         String commandName = cmd.getMethodName();
         Object[] params = cmd.getParameters();
         //the curly braces are to separate scope, they are on purpose.
-        switch(commandName){
-            case IServer.START_GAME_METHOD: {
+        switch (commandName)
+        {
+            case IServer.START_GAME_METHOD:
+            {
                 game = (GameID) params[0];
                 action.append("Game: ");
                 action.append(game.getId());
                 action.append(" started!");
                 break;
             }
-            case IServer.RETURN_DEST_CARDS_METHOD: {
+            case IServer.RETURN_DEST_CARDS_METHOD:
+            {
                 game = (GameID) params[0];
                 name = (Username) params[1];
                 HandDestinationCards selected = (HandDestinationCards) params[2];
@@ -50,14 +67,16 @@ public class HistoryItem implements Serializable{
                 action.append(" destination cards");
                 break;
             }
-            case IServer.DRAW_DECK_METHOD: {
+            case IServer.DRAW_DECK_METHOD:
+            {
                 game = (GameID) params[0];
                 Username user = (Username) params[1];
                 action.append(user.getName());
                 action.append(" drew a card from the deck");
                 break;
             }
-            case IServer.DRAW_FACE_UP_METHOD: {
+            case IServer.DRAW_FACE_UP_METHOD:
+            {
                 game = (GameID) params[0];
                 name = (Username) params[1];
                 int index = (int) params[2];
@@ -67,7 +86,8 @@ public class HistoryItem implements Serializable{
                 action.append(" from the face up cards");
                 break;
             }
-            case IServer.CLAIM_EDGE_METHOD: {
+            case IServer.CLAIM_EDGE_METHOD:
+            {
                 game = (GameID) params[0];
                 name = (Username) params[1];
                 Edge edge = (Edge) params[2];
@@ -80,7 +100,8 @@ public class HistoryItem implements Serializable{
                 action.append(edge.getSecondCity().getCityName());
                 break;
             }
-            case "TEST": {
+            case "TEST":
+            {
                 action.append("This is a test HistoryItem!");
                 break;
             }
@@ -95,8 +116,8 @@ public class HistoryItem implements Serializable{
     }
 
     @Override
-	public String toString()
-	{
-		return "GameID - " + game + ": " + name.getName() + " performed action \"" + action + "\"";
-	}
+    public String toString()
+    {
+        return "GameID - " + game + ": " + name.getName() + " performed action \"" + action + "\"";
+    }
 }

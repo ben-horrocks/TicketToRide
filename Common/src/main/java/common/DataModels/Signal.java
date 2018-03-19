@@ -9,17 +9,23 @@ public class Signal implements Serializable
 
     public Signal(SignalType signalType, Object object)
     {
-		this.signalType = signalType;
-		this.object = object;
+        this.signalType = signalType;
+        this.object = object;
     }
 
-	public Object getObject() { return object; }
+    public Object getObject()
+    {
+        return object;
+    }
 
-	public SignalType getSignalType() { return signalType; }
+    public SignalType getSignalType()
+    {
+        return signalType;
+    }
 
-	@Override
-	public String toString()
-	{
-		return signalType + ": " + object.toString();
-	}
+    @Override
+    public String toString()
+    {
+        return signalType + ": " + object.toString();
+    }
 }

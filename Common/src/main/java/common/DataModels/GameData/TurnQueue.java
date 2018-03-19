@@ -13,36 +13,50 @@ import common.DataModels.Username;
 
 public class TurnQueue implements Serializable
 {
-	private ArrayBlockingQueue<Username> queue;
+    private ArrayBlockingQueue<Username> queue;
 
-	// Constructors
-	public TurnQueue(ArrayBlockingQueue<Username> queue) { this.queue = queue; }
+    // Constructors
+    public TurnQueue(ArrayBlockingQueue<Username> queue)
+    {
+        this.queue = queue;
+    }
 
-	public TurnQueue(Collection<Username> collection) 
-	{
-		queue = new ArrayBlockingQueue<Username>(collection.size());
-		queue.addAll(collection);
-	}
+    public TurnQueue(Collection<Username> collection)
+    {
+        queue = new ArrayBlockingQueue<Username>(collection.size());
+        queue.addAll(collection);
+    }
 
-	public TurnQueue(Username[] usernames) { this(Arrays.asList(usernames)); }
+    public TurnQueue(Username[] usernames)
+    {
+        this(Arrays.asList(usernames));
+    }
 
-	// Public Methods
-	public Username peek() { return queue.peek(); }
+    // Public Methods
+    public Username peek()
+    {
+        return queue.peek();
+    }
 
-	public Username[] toArray() { return queue.toArray(new Username[queue.size()]); }
+    public Username[] toArray()
+    {
+        return queue.toArray(new Username[queue.size()]);
+    }
 
-	public void nextTurn()
-	{
-		Username username = queue.poll();
-		if (username != null)
-		{
-			queue.add(username);
-		}
-		else
-		{
-			System.out.println("Error in turn queue: queue.poll returned null.");
-		}
-	}
+    public void nextTurn()
+    {
+        Username username = queue.poll();
+        if (username != null)
+        {
+            queue.add(username);
+        } else
+        {
+            System.out.println("Error in turn queue: queue.poll returned null.");
+        }
+    }
 
-	public int size() { return queue.size(); }
+    public int size()
+    {
+        return queue.size();
+    }
 }
