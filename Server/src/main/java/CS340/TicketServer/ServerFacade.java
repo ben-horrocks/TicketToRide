@@ -583,7 +583,7 @@ public class ServerFacade implements IServer
         opponents.remove(Database.SINGLETON.getPlayer(user));
         for (User u : opponents)
         {
-            //TODO ClientProxy.getSINGLETON().opponentClaimedEdge(user, edge);
+            ClientProxy.getSINGLETON().playerClaimedEdge(u.getUsername(), edge);
         }
         Signal signal = new Signal(SignalType.OK, edge);
         logger.exiting("ServerFacade", "claimEdge", signal);
