@@ -21,6 +21,7 @@ public class GameModel
     private ClientGameData gameData;
     private static GameModel singleton;
     private HandDestinationCards initialDCards;
+    private TurnPoints turnPoints;
 
     public static GameModel getInstance()
     {
@@ -33,6 +34,7 @@ public class GameModel
 
     private GameModel()
     {
+    	turnPoints = new TurnPoints();
     }
 
     // Game Methods
@@ -216,4 +218,10 @@ public class GameModel
     {
         getPlayer().addPoints(number);
     }
+
+    public int getTurnPointsLeft() { return turnPoints.getPoints(); }
+
+    public void resetTurnPoints() { turnPoints.resetPoints(); }
+
+    public boolean spendTurnPoints(int toSpend) { return turnPoints.spendPoints(toSpend); }
 }

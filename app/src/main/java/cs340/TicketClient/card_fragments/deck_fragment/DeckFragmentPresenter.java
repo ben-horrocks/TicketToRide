@@ -1,63 +1,61 @@
 package cs340.TicketClient.card_fragments.deck_fragment;
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 
 import common.cards.TrainCard;
+import common.cards.TrainColor;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.R;
 
-/**
- * Created by jhens on 3/1/2018.
- */
-
-public class DeckFragmentPresenter implements IDeckFragmentPresenter
+class DeckFragmentPresenter
 {
 
     private DeckFragment fragment;
     private GameModel model;
 
-    public DeckFragmentPresenter(DeckFragment fragment)
+    DeckFragmentPresenter(DeckFragment fragment)
     {
         this.fragment = fragment;
-        this.model = null;
+        this.model = GameModel.getInstance();
     }
 
-    @Override
-    public ArrayList<Integer> getFaceUpCards()
+    SparseArray<TrainCard> getFaceUpCards()
     {
         ArrayList<TrainCard> faceUp =
                 (ArrayList<TrainCard>) GameModel.getInstance().getGameData().getFaceUp();
-        ArrayList<Integer> graphics = new ArrayList<>();
+        SparseArray<TrainCard> graphics = new SparseArray<>();
         for (TrainCard t : faceUp)
         {
             switch (t.getType())
             {
                 case RED:
-                    graphics.add(R.drawable.traincard_red);
+                    graphics.append(R.drawable.traincard_red, new TrainCard(TrainColor.RED));
                     break;
                 case BLUE:
-                    graphics.add(R.drawable.traincard_blue);
+                    graphics.append(R.drawable.traincard_blue, new TrainCard(TrainColor.BLUE));
                     break;
                 case GRAY:
-                    graphics.add(R.drawable.traincard_locomotive);
+                    graphics.append(R.drawable.traincard_locomotive, new TrainCard(TrainColor.LOCOMOTIVE));
                     break;
                 case PINK:
-                    graphics.add(R.drawable.traincard_pink);
+                    graphics.append(R.drawable.traincard_pink, new TrainCard(TrainColor.PINK));
                     break;
                 case BLACK:
-                    graphics.add(R.drawable.traincard_black);
+                    graphics.append(R.drawable.traincard_black, new TrainCard(TrainColor.BLACK));
                     break;
                 case GREEN:
-                    graphics.add(R.drawable.traincard_green);
+                    graphics.append(R.drawable.traincard_green, new TrainCard(TrainColor.GREEN));
                     break;
                 case WHITE:
-                    graphics.add(R.drawable.traincard_white);
+                    graphics.append(R.drawable.traincard_white, new TrainCard(TrainColor.WHITE));
                     break;
                 case ORANGE:
-                    graphics.add(R.drawable.traincard_orange);
+                    graphics.append(R.drawable.traincard_orange, new TrainCard(TrainColor.ORANGE));
                     break;
                 case YELLOW:
-                    graphics.add(R.drawable.traincard_yellow);
+                    graphics.append(R.drawable.traincard_yellow, new TrainCard(TrainColor.YELLOW));
                     break;
                 default:
                     System.out.println("No TrainCardImage for that Color");
@@ -66,4 +64,8 @@ public class DeckFragmentPresenter implements IDeckFragmentPresenter
         }
         return graphics;
     }
+
+    boolean isMyTurn() { return model.isMyTurn(); }
+
+    boolean spendTurnPoints(int toSpend) { return model.spendTurnPoints(toSpend); }
 }

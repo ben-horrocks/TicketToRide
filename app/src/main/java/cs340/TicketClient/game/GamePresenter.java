@@ -79,6 +79,8 @@ public class GamePresenter
         }
     }
 
+
+
 	/**
 	 * AsyncTask to draw a destination card from the server.
 	 */
