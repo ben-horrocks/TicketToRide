@@ -13,6 +13,7 @@ import common.cards.TrainCard;
 import common.communication.Signal;
 import common.communication.SignalType;
 import common.history.HistoryItem;
+import common.map.Edge;
 import common.player_info.Username;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.lobby.LobbyPresenter;
@@ -111,6 +112,12 @@ public class ClientFacade implements IClient
     }
 
     @Override
+    public Signal playerClaimedEdge(Username name, Edge edge) {
+        //TODO: implement updating opponents with the new edge
+        return new Signal(SignalType.ERROR, "unimplemented");
+    }
+
+    @Override
     public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards)
     {
         try
@@ -147,5 +154,12 @@ public class ClientFacade implements IClient
         {
             return new Signal(SignalType.ERROR, e.getMessage());
         }
+    }
+
+    @Override
+    public Signal lastTurn(Username name)
+    {
+        //TODO: implement Last Turn (Probably popping up a toast)
+        return new Signal(SignalType.ERROR, "uniplemented");
     }
 }
