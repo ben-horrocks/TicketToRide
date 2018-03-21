@@ -55,8 +55,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     username.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		  setLogin();
-		  setRegister();
+
       }
 
       @Override
@@ -75,8 +74,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     ip.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		  setLogin();
-		  setRegister();
+
       }
 
       @Override
@@ -95,8 +93,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     password.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		  setLogin();
-		  setRegister();
+
       }
 
       @Override
@@ -115,8 +112,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     screenname.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		  setLogin();
-		  setRegister();
+
       }
 
       @Override
