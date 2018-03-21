@@ -6,8 +6,8 @@ import android.util.SparseArray;
 
 import java.util.ArrayList;
 
-import common.DataModels.DrawDeckRequest;
-import common.DataModels.DrawFaceUpRequest;
+import common.request.DrawDeckRequest;
+import common.request.DrawFaceUpRequest;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
 import common.communication.Signal;

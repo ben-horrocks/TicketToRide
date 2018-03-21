@@ -1,4 +1,4 @@
-package common.DataModels;
+package common.request;
 
 import common.game_data.GameID;
 import common.player_info.Username;
@@ -7,17 +7,15 @@ import common.player_info.Username;
  * Created by jhens on 3/20/2018.
  */
 
-public class DrawFaceUpRequest
+public class DrawDeckRequest
 {
     GameID id;
     Username username;
-    int index;
 
-    public DrawFaceUpRequest(GameID id, Username username, int index)
+    public DrawDeckRequest(GameID id, Username username)
     {
         this.id = id;
         this.username = username;
-        this.index = index;
     }
 
     public GameID getId() {
@@ -26,9 +24,5 @@ public class DrawFaceUpRequest
 
     public Username getUsername() {
         return username;
-    }
-
-    public int getIndex() {
-        return index;
     }
 }
