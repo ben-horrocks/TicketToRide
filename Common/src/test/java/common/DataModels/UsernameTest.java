@@ -3,6 +3,8 @@ package common.DataModels;
 import org.junit.Before;
 import org.junit.Test;
 
+import common.player_info.Username;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 

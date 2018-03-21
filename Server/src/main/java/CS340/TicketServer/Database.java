@@ -2,8 +2,11 @@ package CS340.TicketServer;
 
 import java.util.*;
 
-import common.DataModels.GameData.ServerGameData;
-import common.DataModels.*;
+import common.game_data.GameID;
+import common.game_data.GameInfo;
+import common.game_data.ServerGameData;
+import common.player_info.User;
+import common.player_info.Username;
 
 public class Database
 {

@@ -6,8 +6,15 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.GameData.Player;
-import common.DataModels.GameData.PlayerColor;
+import common.map.City;
+import common.map.Edge;
+import common.player_info.Player;
+import common.player_info.PlayerColor;
+import common.cards.TrainColor;
+import common.player_info.Password;
+import common.player_info.ScreenName;
+import common.player_info.User;
+import common.player_info.Username;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
