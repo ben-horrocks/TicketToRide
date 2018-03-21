@@ -3,15 +3,15 @@ package cs340.TicketClient.Login;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import common.DataModels.Signal;
-import common.DataModels.User;
+import common.communication.Signal;
+import common.player_info.User;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 public class LoginPresenterFacade implements ILoginPresenter
 {
 
     private static final String stringClassName = "java.lang.String";
-    private static final String playerClassName = "common.DataModels.User";
+    private static final String playerClassName = "common.player_info.User";
     private LoginActivity activity;
 
 

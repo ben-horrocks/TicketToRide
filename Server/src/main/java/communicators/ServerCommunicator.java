@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import CS340.TicketServer.*;
-import common.DataModels.Username;
+import common.player_info.Username;
 
 public class ServerCommunicator
 {

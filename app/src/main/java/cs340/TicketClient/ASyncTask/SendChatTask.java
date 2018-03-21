@@ -6,7 +6,10 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-import common.DataModels.*;
+import common.chat.ChatItem;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.game_data.GameID;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 public class SendChatTask extends AsyncTask<Object, Void, Signal>

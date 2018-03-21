@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.TextView;
 
-import common.DataModels.DestinationCard;
+import common.cards.DestinationCard;
 import cs340.TicketClient.R;
 
 /**

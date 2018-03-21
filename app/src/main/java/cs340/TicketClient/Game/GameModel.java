@@ -2,8 +2,17 @@ package cs340.TicketClient.Game;
 
 import java.util.List;
 
-import common.DataModels.*;
-import common.DataModels.GameData.*;
+import common.cards.DestinationCard;
+import common.cards.HandDestinationCards;
+import common.cards.TrainCard;
+import common.cards.TrainColor;
+import common.chat.ChatItem;
+import common.game_data.ClientGameData;
+import common.game_data.GameID;
+import common.game_data.Opponent;
+import common.history.HistoryItem;
+import common.player_info.Player;
+import common.player_info.Username;
 import cs340.TicketClient.GameMenu.chat.ChatPresenter;
 import cs340.TicketClient.GameMenu.history.HistoryPresenter;
 

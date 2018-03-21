@@ -19,9 +19,9 @@ import android.widget.*;
 
 import java.util.List;
 
-import common.DataModels.GameData.StartGamePacket;
-import common.DataModels.GameInfo;
-import common.DataModels.User;
+import common.game_data.StartGamePacket;
+import common.game_data.GameInfo;
+import common.player_info.User;
 import cs340.TicketClient.Game.GameActivity;
 import cs340.TicketClient.R;
 

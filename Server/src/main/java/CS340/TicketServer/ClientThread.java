@@ -7,9 +7,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import common.Command;
-import common.CommandParams;
-import common.DataModels.*;
+import common.communication.Command;
+import common.communication.CommandParams;
+import common.communication.Signal;
+import common.player_info.User;
+import common.player_info.Username;
 import communicators.ServerCommunicator;
 
 /**

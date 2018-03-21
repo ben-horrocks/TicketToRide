@@ -9,7 +9,7 @@ import android.widget.*;
 
 import java.util.List;
 
-import common.DataModels.GameData.Player;
+import common.player_info.Player;
 import cs340.TicketClient.R;
 
 public class EndGameActivity extends AppCompatActivity

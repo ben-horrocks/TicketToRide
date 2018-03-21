@@ -2,7 +2,9 @@ package cs340.TicketClient.Lobby;
 
 import java.util.*;
 
-import common.DataModels.*;
+import common.game_data.GameID;
+import common.game_data.GameInfo;
+import common.player_info.User;
 
 /**
  * Abstract: The class that holds all the data that the LobbyActivity needs to display a list of

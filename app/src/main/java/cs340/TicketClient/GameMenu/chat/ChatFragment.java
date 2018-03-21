@@ -10,7 +10,7 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.ChatItem;
+import common.chat.ChatItem;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 

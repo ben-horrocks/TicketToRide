@@ -4,10 +4,17 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import common.CommandParams;
-import common.DataModels.*;
-import common.DataModels.GameData.StartGamePacket;
-import common.IClient;
+import common.chat.ChatItem;
+import common.communication.CommandParams;
+import common.game_data.GameInfo;
+import common.game_data.StartGamePacket;
+import common.communication.IClient;
+import common.cards.HandDestinationCards;
+import common.cards.TrainCard;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.history.HistoryItem;
+import common.player_info.Username;
 import communicators.ServerCommunicator;
 
 public class ClientProxy implements IClient

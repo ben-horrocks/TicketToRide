@@ -2,7 +2,7 @@ package cs340.TicketClient.CardFragments.deck_fragment;
 
 import java.util.ArrayList;
 
-import common.DataModels.TrainCard;
+import common.cards.TrainCard;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 

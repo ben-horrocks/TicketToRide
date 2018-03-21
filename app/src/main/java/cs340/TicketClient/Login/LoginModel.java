@@ -1,6 +1,8 @@
 package cs340.TicketClient.Login;
 
-import common.DataModels.*;
+import common.player_info.Password;
+import common.player_info.ScreenName;
+import common.player_info.Username;
 
 /**
  * Created by jhens on 2/7/2018.

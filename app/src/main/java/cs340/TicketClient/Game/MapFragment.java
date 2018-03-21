@@ -12,13 +12,16 @@ import com.google.maps.android.ui.IconGenerator;
 
 import java.util.*;
 
-import common.DataModels.*;
-import common.DataModels.GameData.CityName;
-import common.DataModels.GameData.PlayerColor;
+import common.map.CityName;
+import common.map.City;
+import common.map.Edge;
+import common.map.EdgeGraph;
+import common.player_info.PlayerColor;
 import common.IColor;
+import common.cards.TrainColor;
 import cs340.TicketClient.R;
 
-import static common.DataModels.TrainColor.GRAY;
+import static common.cards.TrainColor.GRAY;
 
 /**
  * Created by Kavika F.

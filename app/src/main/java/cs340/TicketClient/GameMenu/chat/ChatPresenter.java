@@ -1,8 +1,8 @@
 package cs340.TicketClient.GameMenu.chat;
 
-import common.DataModels.ChatItem;
-import common.DataModels.GameData.Player;
-import common.DataModels.GameID;
+import common.chat.ChatItem;
+import common.player_info.Player;
+import common.game_data.GameID;
 import cs340.TicketClient.ASyncTask.SendChatTask;
 import cs340.TicketClient.Game.GameModel;
 

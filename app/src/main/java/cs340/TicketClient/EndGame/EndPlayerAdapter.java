@@ -8,7 +8,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.GameData.Player;
+import common.player_info.Player;
 import cs340.TicketClient.R;
 
 /**

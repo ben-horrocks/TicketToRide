@@ -5,8 +5,10 @@ import android.widget.Toast;
 
 import java.util.*;
 
-import common.DataModels.GameData.StartGamePacket;
-import common.DataModels.*;
+import common.game_data.GameID;
+import common.game_data.GameInfo;
+import common.game_data.StartGamePacket;
+import common.player_info.User;
 import cs340.TicketClient.ASyncTask.*;
 
 public class LobbyPresenter implements ILobbyPresenter

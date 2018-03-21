@@ -1,7 +1,7 @@
 package cs340.TicketClient.Login;
 
 
-import common.DataModels.User;
+import common.player_info.User;
 
 /**
  * Created by jhens on 2/5/2018.

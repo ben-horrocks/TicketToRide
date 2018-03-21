@@ -1,8 +1,8 @@
 package cs340.TicketClient.CardFragments.hand_fragment;
 
 
-import common.DataModels.HandDestinationCards;
-import common.DataModels.HandTrainCards;
+import common.cards.HandDestinationCards;
+import common.cards.HandTrainCards;
 import cs340.TicketClient.Game.GameModel;
 
 public class HandFragmentPresenter implements IHandFragmentPresenter

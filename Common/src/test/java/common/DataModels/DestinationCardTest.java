@@ -3,6 +3,9 @@ package common.DataModels;
 import org.junit.Before;
 import org.junit.Test;
 
+import common.cards.DestinationCard;
+import common.map.City;
+
 import static org.junit.Assert.assertEquals;
 
 public class DestinationCardTest

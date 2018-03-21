@@ -2,7 +2,7 @@ package cs340.TicketClient.Communicator;
 
 import java.io.IOException;
 
-import common.CommandParams;
+import common.communication.CommandParams;
 
 /**
  * Created by Vibro on 2/26/2018.

@@ -4,8 +4,12 @@ package cs340.TicketClient.GameMenu.player_info;
 import java.util.List;
 import java.util.Map;
 
-import common.DataModels.*;
-import common.DataModels.GameData.*;
+import common.cards.DestinationCard;
+import common.cards.TrainColor;
+import common.game_data.Opponent;
+import common.game_data.TurnQueue;
+import common.player_info.Player;
+import common.player_info.Username;
 import cs340.TicketClient.Game.GameModel;
 
 public class PlayerPresenter

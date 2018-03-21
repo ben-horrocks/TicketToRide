@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.*;
 
-import common.DataModels.HandDestinationCards;
+import common.cards.HandDestinationCards;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 

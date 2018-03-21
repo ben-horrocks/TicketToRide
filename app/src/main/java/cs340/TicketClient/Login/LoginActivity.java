@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import common.DataModels.User;
+import common.player_info.User;
 import cs340.TicketClient.Communicator.ClientCommunicator;
 import cs340.TicketClient.Lobby.LobbyActivity;
 import cs340.TicketClient.R;

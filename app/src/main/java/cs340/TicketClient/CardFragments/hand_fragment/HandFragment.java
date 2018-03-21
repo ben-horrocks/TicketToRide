@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 
-import common.DataModels.DestinationCard;
-import common.DataModels.TrainCard;
+import common.cards.DestinationCard;
+import common.cards.TrainCard;
 import cs340.TicketClient.R;
 
 

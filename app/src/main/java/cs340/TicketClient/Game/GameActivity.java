@@ -10,8 +10,13 @@ import com.google.android.gms.maps.GoogleMap;
 
 import java.util.List;
 
-import common.DataModels.GameData.*;
-import common.DataModels.*;
+import common.cards.HandDestinationCards;
+import common.cards.HandTrainCards;
+import common.game_data.Opponent;
+import common.game_data.StartGamePacket;
+import common.player_info.PlayerColor;
+import common.player_info.User;
+import common.player_info.Username;
 import cs340.TicketClient.CardFragments.deck_fragment.DeckFragment;
 import cs340.TicketClient.CardFragments.destination_card_fragment.DestinationCardFragment;
 import cs340.TicketClient.CardFragments.hand_fragment.HandFragment;

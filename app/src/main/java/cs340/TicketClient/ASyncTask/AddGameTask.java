@@ -6,7 +6,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-import common.DataModels.*;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.player_info.User;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 public class AddGameTask extends AsyncTask<Object, Void, Signal>

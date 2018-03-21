@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.ImageView;
 
-import common.DataModels.TrainCard;
-import common.DataModels.TrainColor;
+import common.cards.TrainCard;
+import common.cards.TrainColor;
 import cs340.TicketClient.R;
 
 public class HandTrainCardAdapter

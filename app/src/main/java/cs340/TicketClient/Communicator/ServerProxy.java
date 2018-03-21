@@ -4,9 +4,16 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import common.CommandParams;
-import common.DataModels.*;
-import common.IServer;
+import common.chat.ChatItem;
+import common.communication.CommandParams;
+import common.communication.IServer;
+import common.cards.HandDestinationCards;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.game_data.GameID;
+import common.map.Edge;
+import common.player_info.User;
+import common.player_info.Username;
 
 public class ServerProxy implements IServer
 {

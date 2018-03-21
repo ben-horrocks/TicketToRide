@@ -3,10 +3,17 @@ package cs340.TicketClient.Communicator;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DataModels.*;
-import common.DataModels.GameData.Opponent;
-import common.DataModels.GameData.StartGamePacket;
-import common.IClient;
+import common.game_data.Opponent;
+import common.chat.ChatItem;
+import common.game_data.GameInfo;
+import common.game_data.StartGamePacket;
+import common.communication.IClient;
+import common.cards.HandDestinationCards;
+import common.cards.TrainCard;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.history.HistoryItem;
+import common.player_info.Username;
 import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.Lobby.LobbyPresenter;
 

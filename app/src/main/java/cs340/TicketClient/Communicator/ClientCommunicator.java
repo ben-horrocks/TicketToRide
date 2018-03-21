@@ -5,9 +5,11 @@ import java.net.*;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import common.Command;
-import common.CommandParams;
-import common.DataModels.*;
+import common.communication.Command;
+import common.communication.CommandParams;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.game_data.GameInfo;
 
 public class ClientCommunicator
 {

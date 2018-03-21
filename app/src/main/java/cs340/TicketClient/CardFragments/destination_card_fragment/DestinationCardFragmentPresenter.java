@@ -3,12 +3,15 @@ package cs340.TicketClient.CardFragments.destination_card_fragment;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 
-import common.DataModels.GameData.SendCardsRequest;
-import common.DataModels.*;
+import common.request.SendCardsRequest;
+import common.cards.HandDestinationCards;
+import common.communication.Signal;
+import common.game_data.GameID;
+import common.player_info.Username;
 import cs340.TicketClient.Communicator.ServerProxy;
 import cs340.TicketClient.Game.GameModel;
 
-import static common.DataModels.SignalType.OK;
+import static common.communication.SignalType.OK;
 
 /**
  * Presenter for DestinationCardFragment view

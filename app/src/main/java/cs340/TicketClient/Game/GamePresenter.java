@@ -6,9 +6,25 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.CommandParams;
-import common.DataModels.*;
-import common.DataModels.GameData.*;
+import common.chat.ChatItem;
+import common.communication.CommandParams;
+import common.cards.DestinationCard;
+import common.cards.HandDestinationCards;
+import common.cards.HandTrainCards;
+import common.cards.TrainCard;
+import common.cards.TrainColor;
+import common.communication.Signal;
+import common.communication.SignalType;
+import common.game_data.Opponent;
+import common.game_data.StartGamePacket;
+import common.game_data.TurnQueue;
+import common.history.HistoryItem;
+import common.map.City;
+import common.map.CityName;
+import common.map.Edge;
+import common.player_info.PlayerColor;
+import common.player_info.Username;
+import common.request.DestDrawRequest;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 public class GamePresenter
