@@ -72,8 +72,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                setLogin();
-                setRegister();
             }
 
             @Override
@@ -96,8 +94,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                setLogin();
-                setRegister();
+
             }
 
             @Override
@@ -120,8 +117,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                setLogin();
-                setRegister();
             }
 
             @Override
@@ -144,8 +139,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                setLogin();
-                setRegister();
             }
 
             @Override
@@ -245,6 +238,4 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
         intent.putExtra("user", user);
         startActivity(intent);
     }
-
-
 }
