@@ -517,7 +517,6 @@ public class ServerFacade implements IServer
         List<DestinationCard> cards = game.destinationDraw();
         HandDestinationCards hand = new HandDestinationCards(cards);
         //Give the Cards to the requester
-        // TODO: notify all clients of the destination card draw
         Signal signal = new Signal(SignalType.OK, hand);
         logger.exiting("ServerFacade", "drawDestinationCards", signal);
         return signal;
@@ -584,7 +583,7 @@ public class ServerFacade implements IServer
         opponents.remove(Database.SINGLETON.getPlayer(user));
         for (User u : opponents)
         {
-            //TODO ClientProxy.getSINGLETON().opponentClaimedEdge(user, edge);
+            ClientProxy.getSINGLETON().playerClaimedEdge(u.getUsername(), edge);
         }
         Signal signal = new Signal(SignalType.OK, edge);
         logger.exiting("ServerFacade", "claimEdge", signal);
@@ -618,5 +617,18 @@ public class ServerFacade implements IServer
             }
         }
         logger.exiting("ServerFacade", "reportCommand");
+    }
+
+    public Signal lastTurn(GameID id)
+    {
+        logger.entering("ServerFacade", "lastTurn", id);
+        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        for(User u: game.getUsers())
+        {
+            ClientProxy.getSINGLETON().lastTurn(u.getUsername());
+        }
+        Signal signal = new Signal(SignalType.OK, "LastTurn");
+        logger.exiting("ServerFacade", "lastTurn", signal);
+        return signal;
     }
 }

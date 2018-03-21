@@ -257,5 +257,20 @@ public class ServerProxy implements IServer
             return new Signal(SignalType.ERROR, e.getMessage());
         }
     }
+
+    @Override
+    public Signal lastTurn(GameID id) {
+        String[] paramTypes = {gameIDClassname};
+        Object[] params = {id};
+        CommandParams commandParams = new CommandParams("lastTurn", paramTypes, params);
+        try
+        {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
+    }
 }
     
