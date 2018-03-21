@@ -1,5 +1,8 @@
 package common.DataModels;
 
+import common.game_data.GameID;
+import common.player_info.Username;
+
 /**
  * Created by jhens on 3/20/2018.
  */
