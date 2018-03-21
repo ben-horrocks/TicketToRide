@@ -6,10 +6,15 @@ import common.DataModels.TrainCard;
 
 public interface ITrainCardDeck
 {
-  TrainCard drawFaceUp(int index);
-  TrainCard drawFaceDown();
-  void shuffle();
-  void DiscardCards(List<TrainCard> cards);
-  List<TrainCard> getFaceUpCards();
-  int size();
+    TrainCard drawFaceUp(int index);
+
+    TrainCard drawFaceDown();
+
+    void shuffle();
+
+    void DiscardCards(List<TrainCard> cards);
+
+    List<TrainCard> getFaceUpCards();
+
+    int size();
 }

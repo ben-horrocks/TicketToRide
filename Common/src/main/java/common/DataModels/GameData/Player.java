@@ -1,20 +1,22 @@
 package common.DataModels.GameData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import common.DataModels.*;
 
-public class Player implements Serializable{
+public class Player implements Serializable
+{
     private User user;
     private HandTrainCards hand;
     private HandDestinationCards destinations;
     private PlayerColor color;
     private int score;
     private EdgeGraph claimedEdges;
+    private TrainPiece pieces;
 
-    public Player(User user, PlayerColor color) {
+    public Player(User user, PlayerColor color)
+    {
         this.user = user;
         this.hand = new HandTrainCards();
         this.destinations = new HandDestinationCards();
@@ -23,21 +25,38 @@ public class Player implements Serializable{
         this.claimedEdges = new EdgeGraph();
     }
 
-    public String getName() { return this.user.getStringUserName(); }
+    public String getName()
+    {
+        return this.user.getStringUserName();
+    }
 
-    public User getUser() {return  this.user;}
+    public User getUser()
+    {
+        return this.user;
+    }
 
-    public HandTrainCards getHand() { return this.hand; }
+    public HandTrainCards getHand()
+    {
+        return this.hand;
+    }
 
-    public void drewTrainCards(HandTrainCards cards) { this.hand.addAll(cards); }
+    public void drewTrainCards(HandTrainCards cards)
+    {
+        this.hand.addAll(cards);
+    }
 
-    public void claimedEdge(Edge edge) {
-        if (canClaimEdge(edge)) {
+    public void claimedEdge(Edge edge)
+    {
+        if (canClaimEdge(edge))
+        {
             claimedEdges.addEdge(edge);
             ArrayList<TrainCard> toRemove = new ArrayList<>();
-            for (int i = 0; i < edge.getLength(); i++) {
-                for (TrainCard t : hand.getTrainCards()) {
-                    if (t.getType() == edge.getColor()) {
+            for (int i = 0; i < edge.getLength(); i++)
+            {
+                for (TrainCard t : hand.getTrainCards())
+                {
+                    if (t.getType() == edge.getColor())
+                    {
                         toRemove.add(t);
                         break;
                     }
@@ -50,36 +69,77 @@ public class Player implements Serializable{
 
 
     private boolean canClaimEdge(Edge edge)
-	{
-		return numCardsOfColor(edge.getColor()) >= edge.getLength();
-	}
+    {
+        return numCardsOfColor(edge.getColor()) >= edge.getLength();
+    }
 
-	private int numCardsOfColor(TrainColor color)
-	{
-		int sum = 0;
-		for (TrainCard t : hand.getTrainCards())
-		{
-			if (t.getType() == color)
-			{
-				sum++;
-			}
-		}
-		return sum;
-	}
+    private int numCardsOfColor(TrainColor color)
+    {
+        int sum = 0;
+        for (TrainCard t : hand.getTrainCards())
+        {
+            if (t.getType() == color)
+            {
+                sum++;
+            }
+        }
+        return sum;
+    }
 
-    public HandDestinationCards getDestinationCards() { return this.destinations; }
+    public HandDestinationCards getDestinationCards()
+    {
+        return this.destinations;
+    }
 
-    public void drewDestinationCards(HandDestinationCards cards){
+    public void drewDestinationCards(HandDestinationCards cards)
+    {
         this.destinations.addAll(cards);
     }
 
-    public PlayerColor getColor() { return this.color; }
+    public PlayerColor getColor()
+    {
+        return this.color;
+    }
 
-    public int getScore() { return this.score; }
+    public int getScore()
+    {
+        return this.score;
+    }
 
-    public void addPoints(int points) { this.score += points; }
+    public void addPoints(int points)
+    {
+        this.score += points;
+    }
 
-    public EdgeGraph getClaimedEdges() { return this.claimedEdges; }
+    public EdgeGraph getClaimedEdges()
+    {
+        return this.claimedEdges;
+    }
 
-    public int getNumberTrainCards() { return hand.size(); }
+    public int getNumberTrainCards()
+    {
+        return hand.size();
+    }
+
+    public int getTrainPiecesRemaining()
+    {
+        return pieces.getNumTrainPieces();
+    }
+
+    public int computeLongestPath()
+    {
+        Set<Edge> unusedEdges = claimedEdges.getAllEdges();
+        int longestPath = 0;
+        for(Edge edge : unusedEdges)
+        {
+            unusedEdges.remove(edge);
+            int newLongestPath = edge.computeLongestPath(unusedEdges);
+            if(newLongestPath > longestPath)
+            {
+                longestPath = newLongestPath;
+            }
+        }
+        return longestPath;
+    }
+
 }

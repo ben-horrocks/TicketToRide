@@ -6,15 +6,12 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-import common.DataModels.ChatItem;
-import common.DataModels.GameID;
-import common.DataModels.Signal;
-import common.DataModels.SignalType;
+import common.DataModels.*;
 import cs340.TicketClient.Communicator.ServerProxy;
 
 public class SendChatTask extends AsyncTask<Object, Void, Signal>
 {
-	private WeakReference<Context> contextRef;
+    private WeakReference<Context> contextRef;
 
     public SendChatTask(Context context)
     {
@@ -32,17 +29,16 @@ public class SendChatTask extends AsyncTask<Object, Void, Signal>
     @Override
     protected void onPostExecute(Signal signal)
     {
-    	Context context = contextRef.get();
+        Context context = contextRef.get();
         if (signal.getSignalType() == SignalType.ERROR)
         {
-        	if (context != null)
-			{
-				Toast.makeText(context, (String)signal.getObject(), Toast.LENGTH_LONG).show();
-			}
-			else
-			{
-				System.out.println("Send Chat Error in AsyncTask: " + signal.getObject());
-			}
+            if (context != null)
+            {
+                Toast.makeText(context, (String) signal.getObject(), Toast.LENGTH_LONG).show();
+            } else
+            {
+                System.out.println("Send Chat Error in AsyncTask: " + signal.getObject());
+            }
         }
         // else do nothing
     }

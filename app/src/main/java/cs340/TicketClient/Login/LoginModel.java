@@ -1,21 +1,22 @@
 package cs340.TicketClient.Login;
 
-import common.DataModels.Password;
-import common.DataModels.ScreenName;
-import common.DataModels.Username;
+import common.DataModels.*;
 
 /**
  * Created by jhens on 2/7/2018.
  */
 
-public class LoginModel {
+public class LoginModel
+{
 
     private static LoginModel model = null;
 
     public static LoginModel getInstance()
     {
-        if(model == null)
+        if (model == null)
+        {
             model = new LoginModel();
+        }
         return model;
     }
 
@@ -26,6 +27,7 @@ public class LoginModel {
 
     public boolean isValidRegister(String username, String password, String screenname)
     {
-        return Username.isValidUserName(username) && Password.isValidPass(password) && ScreenName.isValidScreenName(screenname);
+        return Username.isValidUserName(username) && Password.isValidPass(password) &&
+               ScreenName.isValidScreenName(screenname);
     }
 }

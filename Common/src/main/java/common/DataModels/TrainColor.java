@@ -8,5 +8,5 @@ import common.IColor;
  */
 public enum TrainColor implements IColor
 {
-	PINK, WHITE, BLUE, YELLOW, ORANGE, BLACK, RED, GREEN, GRAY, LIGHT_GRAY, LOCOMOTIVE
+    PINK, WHITE, BLUE, YELLOW, ORANGE, BLACK, RED, GREEN, GRAY, LIGHT_GRAY, LOCOMOTIVE
 }

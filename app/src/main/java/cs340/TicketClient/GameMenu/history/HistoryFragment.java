@@ -4,12 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.view.*;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,19 +15,23 @@ import cs340.TicketClient.Game.GameModel;
 import cs340.TicketClient.R;
 
 
-public class HistoryFragment extends android.support.v4.app.Fragment {
+public class HistoryFragment extends android.support.v4.app.Fragment
+{
 
     private RecyclerView mHistoryRecyclerView;
     private HistoryFragment.HistoryAdapter mHistoryAdapter;
     private RecyclerView.LayoutManager mHistoryLayoutManager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
@@ -41,7 +40,8 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         //-- RECYCLER --
         //Get list from the model
-        ArrayList<HistoryItem> historyList = (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
+        ArrayList<HistoryItem> historyList =
+                (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
 
         //Instantiate View
         mHistoryRecyclerView = (RecyclerView) v.findViewById(R.id.history_recycler_field);
@@ -58,15 +58,19 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
         return v;
     }
 
-    public void updateHistoryList() {
+    public void updateHistoryList()
+    {
         if (getActivity() != null)
         {
-            getActivity().runOnUiThread(new Runnable() {
+            getActivity().runOnUiThread(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     //-- RECYCLER --
                     //Get messages from the Game model
-                    ArrayList<HistoryItem> historyList = (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
+                    ArrayList<HistoryItem> historyList =
+                            (ArrayList<HistoryItem>) GameModel.getInstance().getPlayHistory();
                     // The .clear() will make it so the first person to send a chat item won't receive it.
                     //mChatAdapter.clear();
                     mHistoryAdapter.addHistory(historyList);
@@ -77,41 +81,54 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
     }
 
-    public class HistoryAdapter extends RecyclerView.Adapter<HistoryFragment.HistoryAdapter.Holder> {
+    public class HistoryAdapter extends RecyclerView.Adapter<HistoryFragment.HistoryAdapter.Holder>
+    {
 
         private ArrayList<HistoryItem> mHistoryList;
 
-        public class Holder extends RecyclerView.ViewHolder {
+        public class Holder extends RecyclerView.ViewHolder
+        {
 
             private TextView mAction;
 
-            public Holder(View itemView) {
+            public Holder(View itemView)
+            {
                 super(itemView);
                 mAction = (TextView) itemView.findViewById(R.id.history_text);
             }
         }
 
-        public HistoryAdapter(ArrayList<HistoryItem> historyList) { this.mHistoryList = historyList; }
+        public HistoryAdapter(ArrayList<HistoryItem> historyList)
+        {
+            this.mHistoryList = historyList;
+        }
 
         @Override
-        public HistoryFragment.HistoryAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public HistoryFragment.HistoryAdapter.Holder onCreateViewHolder(ViewGroup parent,
+                                                                        int viewType)
+        {
             // create a new view
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_list_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.history_list_item, parent, false);
             HistoryFragment.HistoryAdapter.Holder h = new HistoryFragment.HistoryAdapter.Holder(v);
             return h;
         }
 
         @Override
-        public void onBindViewHolder(HistoryFragment.HistoryAdapter.Holder holder, int position) {
-            if (mHistoryList != null && !mHistoryList.isEmpty()) {
-                HistoryItem item =  mHistoryList.get(position);
+        public void onBindViewHolder(HistoryFragment.HistoryAdapter.Holder holder, int position)
+        {
+            if (mHistoryList != null && !mHistoryList.isEmpty())
+            {
+                HistoryItem item = mHistoryList.get(position);
                 holder.mAction.setText(item.getAction());
             }
         }
 
         @Override
-        public int getItemCount() {
-            if (mHistoryList != null) {
+        public int getItemCount()
+        {
+            if (mHistoryList != null)
+            {
                 return mHistoryList.size();
             }
             return 0;
@@ -119,7 +136,8 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         void addHistory(List<HistoryItem> newList)
         {
-            if (mHistoryList != null) {
+            if (mHistoryList != null)
+            {
                 mHistoryList = new ArrayList<>(newList);
                 //chatList.addAll(newList);
                 notifyDataSetChanged();
@@ -128,7 +146,8 @@ public class HistoryFragment extends android.support.v4.app.Fragment {
 
         void clear()
         {
-            if (mHistoryList != null) {
+            if (mHistoryList != null)
+            {
                 mHistoryList.clear();
                 notifyDataSetChanged();
             }

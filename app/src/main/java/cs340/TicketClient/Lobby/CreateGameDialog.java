@@ -26,73 +26,73 @@ import cs340.TicketClient.R;
  */
 public class CreateGameDialog extends DialogFragment
 {
-  EditText mNewGameName;
-  CreateGameDialogListener mlistener;
+    EditText mNewGameName;
+    CreateGameDialogListener mlistener;
 
-  @Override
-  public Dialog onCreateDialog(final Bundle savedInstanceState)
-  {
-    LayoutInflater inflater = getActivity().getLayoutInflater();
-    View view = inflater.inflate(R.layout.new_game_fragment, null);
-    mNewGameName = (EditText) view.findViewById(R.id.newGameText);
-    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    builder.setView(view)
-            .setPositiveButton(R.string.new_game_confirm, new DialogInterface.OnClickListener()
+    @Override
+    public Dialog onCreateDialog(final Bundle savedInstanceState)
+    {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.new_game_fragment, null);
+        mNewGameName = (EditText) view.findViewById(R.id.newGameText);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view)
+                .setPositiveButton(R.string.new_game_confirm, new DialogInterface.OnClickListener()
+                {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        String newGameName = mNewGameName.getText().toString();
+                        if (newGameName.length() > 0)
+                        {
+                            mlistener.onAddGame(CreateGameDialog.this, newGameName);
+                        } else
+                        {
+                            Toast.makeText(getActivity().getBaseContext(),
+                                           "Please specify a game name", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).setNegativeButton(R.string.new_game_cancel, new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
             {
-
-              @Override
-              public void onClick(DialogInterface dialogInterface, int i)
-              {
-                String newGameName = mNewGameName.getText().toString();
-                if (newGameName.length() > 0)
-                {
-                  mlistener.onAddGame(CreateGameDialog.this, newGameName);
-                } else
-                {
-                  Toast.makeText(getActivity().getBaseContext(), "Please specify a game name",
-                                 Toast.LENGTH_SHORT).show();
-                }
-              }
-            }).setNegativeButton(R.string.new_game_cancel, new DialogInterface.OnClickListener()
-    {
-      @Override
-      public void onClick(DialogInterface dialogInterface, int i)
-      {
-        CreateGameDialog.this.getDialog().cancel();
-      }
-    });
-    return builder.create();
-  }
-
-  @Override
-  public void onAttach(Activity activity)
-  {
-    super.onAttach(activity);
-
-    try
-    {
-      mlistener = (CreateGameDialogListener) activity;
-    } catch (ClassCastException e)
-    {
-      Toast.makeText(activity, "This activity must implement CreateGameDialogListener",
-                     Toast.LENGTH_SHORT).show();
+                CreateGameDialog.this.getDialog().cancel();
+            }
+        });
+        return builder.create();
     }
-  }
 
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
 
-  /**
-   * CreateGameDialogListener
-   * Abstract: Interface to successfully pass newGameName to Activity so that it can correctly create the NewGameTask.
-   */
-  public interface CreateGameDialogListener
-  {
+        try
+        {
+            mlistener = (CreateGameDialogListener) activity;
+        } catch (ClassCastException e)
+        {
+            Toast.makeText(activity, "This activity must implement CreateGameDialogListener",
+                           Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     /**
-     * Abstract: Function to return data from Dialog and start newGameTask to send to server.
-     *
-     * @pre User has just asked for a new game t be created via the dialog, newGame.length >0
-     * @post A new AddGameTask will have been executed to add a new game on the server.
+     * CreateGameDialogListener
+     * Abstract: Interface to successfully pass newGameName to Activity so that it can correctly create the NewGameTask.
      */
-    public void onAddGame(DialogFragment frag, String newGameName);
-  }
+    public interface CreateGameDialogListener
+    {
+
+        /**
+         * Abstract: Function to return data from Dialog and start newGameTask to send to server.
+         *
+         * @pre User has just asked for a new game t be created via the dialog, newGame.length >0
+         * @post A new AddGameTask will have been executed to add a new game on the server.
+         */
+        public void onAddGame(DialogFragment frag, String newGameName);
+    }
 }

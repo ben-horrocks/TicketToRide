@@ -5,10 +5,8 @@ import android.util.Log;
 import java.io.IOException;
 
 import common.CommandParams;
-import common.DataModels.Signal;
-
-import common.*;
 import common.DataModels.*;
+import common.IServer;
 
 public class ServerProxy implements IServer
 {
@@ -17,7 +15,9 @@ public class ServerProxy implements IServer
     public static ServerProxy getInstance()
     {
         if (singleton == null)
+        {
             singleton = new ServerProxy();
+        }
         return singleton;
     }
 
@@ -25,52 +25,52 @@ public class ServerProxy implements IServer
     private static final String gameIDClassname = GameID.class.getName();
     private static final String playerClassName = User.class.getName();
     private static final String usernameClassName = Username.class.getName();
-    private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
+    private static final String handDestinationCardsClassName =
+            HandDestinationCards.class.getName();
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
 
     /**
-     *
      * @param username username of player trying to login
      * @param password password of player trying to login
      * @return success or fail login Signal
      */
     @Override
-    public Signal login(String username, String password) {
+    public Signal login(String username, String password)
+    {
 
-        try {
+        try
+        {
             String[] parameterTypes = {stringClassName, stringClassName};
             Object[] parameters = {username, password};
-            CommandParams loginCommand = new CommandParams(
-            		"login", parameterTypes, parameters);
+            CommandParams loginCommand = new CommandParams("login", parameterTypes, parameters);
             Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(loginCommand);
             return returnSignal;
-        }
-        catch(IOException e)
+        } catch (IOException e)
         {
-            Log.d("IO Execption",e.getMessage());
+            Log.d("IO Execption", e.getMessage());
             return null;
         }
     }
 
     /**
-     *
-     * @param username username of player trying to register (must be unique)
-     * @param password password of player trying to register
+     * @param username   username of player trying to register (must be unique)
+     * @param password   password of player trying to register
      * @param screenName screenname of player trying to register
      * @return success or fail register Signal
      */
     @Override
-    public Signal register(String username, String password, String screenName) {
-        try {
+    public Signal register(String username, String password, String screenName)
+    {
+        try
+        {
             String[] parameterTypes = {stringClassName, stringClassName, stringClassName};
             Object[] parameters = {username, password, screenName};
-            CommandParams registerCommand = new CommandParams(
-            		"register", parameterTypes, parameters);
+            CommandParams registerCommand =
+                    new CommandParams("register", parameterTypes, parameters);
             Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(registerCommand);
             return returnSignal;
-        }
-        catch(IOException e)
+        } catch (IOException e)
         {
             Log.d("IO Exception", e.getMessage());
             e.printStackTrace();
@@ -79,28 +79,33 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal startGame(GameID id) {
+    public Signal startGame(GameID id)
+    {
         String[] parameterTypes = {gameIDClassname};
         Object[] parameters = {id};
-        CommandParams startGameCommand = new CommandParams(
-        		"startGame", parameterTypes, parameters);
-        try {
+        CommandParams startGameCommand = new CommandParams("startGame", parameterTypes, parameters);
+        try
+        {
             return (Signal) ClientCommunicator.getSingleton().send(startGameCommand);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public Signal getAvailableGameInfo() {
+    public Signal getAvailableGameInfo()
+    {
         String[] parameterTypes = {};
         Object[] parameters = {};
-        CommandParams getAvailableGameInfoCommand = new CommandParams(
-        		"getAvailableGameInfo", parameterTypes, parameters);
-        try{
+        CommandParams getAvailableGameInfoCommand =
+                new CommandParams("getAvailableGameInfo", parameterTypes, parameters);
+        try
+        {
             return (Signal) ClientCommunicator.getSingleton().send(getAvailableGameInfoCommand);
-        } catch (Exception e){
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return null;
@@ -111,11 +116,12 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {stringClassName, playerClassName};
         Object[] params = {gameName, user};
-        CommandParams newcommand = new CommandParams(
-        		"addGame", paramTypes, params);
-        try {
+        CommandParams newcommand = new CommandParams("addGame", paramTypes, params);
+        try
+        {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return null;
@@ -126,11 +132,12 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {playerClassName, gameIDClassname};
         Object[] params = {user, id};
-        CommandParams newcommand = new CommandParams(
-        		"joinGame", paramTypes, params);
-        try {
+        CommandParams newcommand = new CommandParams("joinGame", paramTypes, params);
+        try
+        {
             return (Signal) ClientCommunicator.getSingleton().send(newcommand);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return null;
@@ -138,33 +145,39 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal populate(){
+    public Signal populate()
+    {
         //empty
         return null;
     }
 
     @Override
-    public Signal returnDestinationCards(GameID id, Username name, HandDestinationCards pickedCards, HandDestinationCards returnCards) {
-        String[] paramTypes = {gameIDClassname, usernameClassName, handDestinationCardsClassName, handDestinationCardsClassName};
+    public Signal returnDestinationCards(GameID id, Username name, HandDestinationCards pickedCards,
+                                         HandDestinationCards returnCards)
+    {
+        String[] paramTypes = {gameIDClassname, usernameClassName, handDestinationCardsClassName,
+                               handDestinationCardsClassName};
         Object[] params = {id, name, pickedCards, returnCards};
-        CommandParams commandParams = new CommandParams(
-        		"returnDestinationCards", paramTypes, params);
-        try {
+        CommandParams commandParams =
+                new CommandParams("returnDestinationCards", paramTypes, params);
+        try
+        {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
         } catch (Exception e)
         {
-           return new Signal(SignalType.ERROR, e.getMessage());
+            return new Signal(SignalType.ERROR, e.getMessage());
         }
     }
 
     @Override
-    public Signal sendChat(GameID id, ChatItem item) {
+    public Signal sendChat(GameID id, ChatItem item)
+    {
         String[] paramTypes = {gameIDClassname, chatItemClassName};
         Object[] params = {id, item};
-        CommandParams commandParams = new CommandParams(
-        		"sendChat", paramTypes, params);
-        try {
+        CommandParams commandParams = new CommandParams("sendChat", paramTypes, params);
+        try
+        {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
         } catch (Exception e)
@@ -175,12 +188,13 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal drawDeck(GameID id, Username user) {
+    public Signal drawDeck(GameID id, Username user)
+    {
         String[] paramTypes = {gameIDClassname, usernameClassName};
         Object[] params = {id, user};
-        CommandParams commandParams = new CommandParams(
-        		"drawDeck", paramTypes, params);
-        try {
+        CommandParams commandParams = new CommandParams("drawDeck", paramTypes, params);
+        try
+        {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
         } catch (Exception e)
@@ -190,12 +204,13 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal drawDestinationCards(GameID id, Username user) {
+    public Signal drawDestinationCards(GameID id, Username user)
+    {
         String[] paramTypes = {gameIDClassname, usernameClassName};
         Object[] params = {id, user};
-        CommandParams commandParams = new CommandParams(
-        		"drawDestinationCards", paramTypes, params);
-        try {
+        CommandParams commandParams = new CommandParams("drawDestinationCards", paramTypes, params);
+        try
+        {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
         } catch (Exception e)
@@ -205,12 +220,13 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal drawFaceUp(GameID id, Username user, int cardIndex) {
+    public Signal drawFaceUp(GameID id, Username user, int cardIndex)
+    {
         String[] paramTypes = {gameIDClassname, usernameClassName, "int"};
         Object[] params = {id, user, cardIndex};
-        CommandParams commandParams = new CommandParams(
-        		"drawFaceUp", paramTypes, params);
-        try {
+        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        try
+        {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
         } catch (Exception e)
@@ -220,12 +236,13 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal claimEdge(GameID id, Username user, Edge edge) {
+    public Signal claimEdge(GameID id, Username user, Edge edge)
+    {
         String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName};
         Object[] params = {id, user, edge};
-        CommandParams commandParams = new CommandParams(
-        		"drawFaceUp", paramTypes, params);
-        try {
+        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        try
+        {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
             return s;
         } catch (Exception e)

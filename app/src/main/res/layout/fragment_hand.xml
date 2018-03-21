@@ -5,6 +5,7 @@
     android:id="@+id/fragment_hand"
     android:background="@color/colorEdgeWhite"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/destinationCard_hand_layout"
         android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
         <TextView
             android:text="Destination Cards"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/destinationCards"

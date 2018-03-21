@@ -6,8 +6,11 @@ import common.DataModels.DestinationCard;
 
 public interface IDestinationCardDeck
 {
-  List<DestinationCard> draw();
-  void shuffle();
-  void putBackInDeck(List<DestinationCard> cards);
-  int getDeckSize();
+    List<DestinationCard> draw();
+
+    void shuffle();
+
+    void putBackInDeck(List<DestinationCard> cards);
+
+    int getDeckSize();
 }
