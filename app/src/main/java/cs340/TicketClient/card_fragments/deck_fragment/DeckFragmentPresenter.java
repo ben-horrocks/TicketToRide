@@ -11,6 +11,7 @@ import common.DataModels.DrawFaceUpRequest;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
 import common.communication.Signal;
+import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.R;
 
