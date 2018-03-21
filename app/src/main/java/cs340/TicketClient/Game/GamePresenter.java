@@ -77,7 +77,7 @@ public class GamePresenter
 
     void test()
     {
-        //TODO call make choices for all the chagnes FROM THE MODEL.(Observer/observable)
+        //TODO call make choices for all the changes FROM THE MODEL.(Observer/observable)
         activity.runOnUiThread(new Runnable()
         {
             @Override
@@ -202,7 +202,7 @@ public class GamePresenter
     }
 
     /**
-     * Increases and decreases the number of cards the opponents have.
+     * Increases and decreases the number of cards the opponents have. Mainly for testing.
      *
      * @param increase The amount to increase their count by.
      * @param decrease The amount to decrease their count by.
@@ -217,7 +217,12 @@ public class GamePresenter
         activity.makeLargerToast(text);
     }
 
-    private void updateDestinationCardsOfOtherPlayers(int increase, int decrease)
+	/**
+	 * Update the number of destination cards the opponents have. Mainly for testing.
+	 * @param increase The amount to increase their count by.
+	 * @param decrease The amount to decrease their count by.
+	 */
+	private void updateDestinationCardsOfOtherPlayers(int increase, int decrease)
     {
         model.addDestToOpponent(increase);
         String text = "Increased opponent's number of destination cards by " + increase;
@@ -227,7 +232,10 @@ public class GamePresenter
         activity.makeLargerToast(text);
     }
 
-    private void updateVisibleAndInvisibleCardsInTrainCardDeck()
+	/**
+	 * Update the face up cards and train card deck. Mainly for testing.
+	 */
+	private void updateVisibleAndInvisibleCardsInTrainCardDeck()
     {
         StringBuilder sb = new StringBuilder();
         sb.append("Current Face Up Cards: ");
@@ -257,12 +265,19 @@ public class GamePresenter
         activity.makeLargerToast(text);
     }
 
-    private void updateNumOfCardsInDestinationDeck(int number)
+	/**
+	 * Updates the number of destination cards in the destination card deck. Currently for testing (?)
+	 * @param number The number of cards to remove from the count.
+	 */
+	private void updateNumOfCardsInDestinationDeck(int number)
     {
         model.updateDDeckCount(number);
     }
 
-    private void AddClaimedRoute()
+	/**
+	 * Adds claimed routes to the map for this player. Mainly for testing.
+	 */
+	private void AddClaimedRoute()
     {
         City duluthSub = new City(46.786672, -92.100485, CityName.DULUTH);
         List<Edge> duluthEdges = model.getGameData().getGameboard().getGraph().get(duluthSub);
@@ -274,20 +289,29 @@ public class GamePresenter
         activity.makeLargerToast(text);
     }
 
-    private void AddChatMessages()
+	/**
+	 * Adds a test chat item to the chat. Mainly for testing.
+	 */
+	private void AddChatMessages()
     {
         ChatItem chatItem = new ChatItem(model.getPlayer(), "Test button");
         model.updateChat(chatItem);
     }
 
-    private void AddGameHistoryEntries()
+	/**
+	 * Adds a test history item to the history list. Mainly for testing.
+	 */
+	private void AddGameHistoryEntries()
     {
         CommandParams cmd = new CommandParams("TEST", null, null);
         HistoryItem historyItem = new HistoryItem(cmd);
         model.updateHistory(historyItem);
     }
 
-    static class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
+	/**
+	 * AsyncTask to draw a destination card from the server.
+	 */
+	static class DrawDestinationTask extends AsyncTask<DestDrawRequest, Integer, Signal>
     {
         WeakReference<GameActivity> activity;
 
