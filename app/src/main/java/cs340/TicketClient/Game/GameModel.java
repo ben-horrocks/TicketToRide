@@ -36,36 +36,18 @@ public class GameModel
     }
 
     // Game Methods
-    public void setGameData(ClientGameData gameData)
-    {
-        this.gameData = gameData;
-    }
+    public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
 
-    public ClientGameData getGameData()
-    {
-        return gameData;
-    }
+    public ClientGameData getGameData() { return gameData; }
 
-    public void setInitialDCards(HandDestinationCards initialDCards)
-    {
-        this.initialDCards = initialDCards;
-    }
+    public void setInitialDCards(HandDestinationCards initialDCards) { this.initialDCards = initialDCards; }
 
-    public GameID getGameID()
-    {
-        return gameData.getId();
-    }
+    public GameID getGameID() { return gameData.getId(); }
 
     // Player and Opponent Methods
-    public Player getPlayer()
-    {
-        return gameData.getPlayer();
-    }
+    public Player getPlayer() { return gameData.getPlayer(); }
 
-    public List<Opponent> getOpponents()
-    {
-        return gameData.getOpponents();
-    }
+    public List<Opponent> getOpponents() { return gameData.getOpponents(); }
 
     // TODO: update to get correct opponent
     public void addTrainToOpponent(int number)
@@ -227,7 +209,7 @@ public class GameModel
 
     public boolean isMyTurn()
     {
-        return whoseTurn().equals(getPlayer().getUser().getUsername());
+        return gameData.isMyTurn();
     }
 
     public void addPoints(int number)

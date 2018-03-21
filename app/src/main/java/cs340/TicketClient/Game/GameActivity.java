@@ -177,9 +177,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 fm.beginTransaction().replace(R.id.fragment_map, fragment).addToBackStack(null)
                         .commit();
                 break;
+                /* Test button functionality suspended
             case R.id.test_btn:
                 presenter.test();
-
+                break;
+                */
         }
 
         return super.onOptionsItemSelected(item);

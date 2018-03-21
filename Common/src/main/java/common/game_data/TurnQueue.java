@@ -7,42 +7,38 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import common.player_info.Username;
 
-/**
- * Created by Kavika F.
- */
-
 public class TurnQueue implements Serializable
 {
     private ArrayBlockingQueue<Username> queue;
 
     // Constructors
-    public TurnQueue(ArrayBlockingQueue<Username> queue)
-    {
-        this.queue = queue;
-    }
+    public TurnQueue(ArrayBlockingQueue<Username> queue) { this.queue = queue; }
 
     public TurnQueue(Collection<Username> collection)
     {
-        queue = new ArrayBlockingQueue<Username>(collection.size());
+        queue = new ArrayBlockingQueue<>(collection.size());
         queue.addAll(collection);
     }
 
-    public TurnQueue(Username[] usernames)
-    {
-        this(Arrays.asList(usernames));
-    }
+    public TurnQueue(Username[] userNames) { this(Arrays.asList(userNames)); }
 
     // Public Methods
-    public Username peek()
-    {
-        return queue.peek();
-    }
 
-    public Username[] toArray()
-    {
-        return queue.toArray(new Username[queue.size()]);
-    }
+	/**
+	 * Tells you whose turn it is right now.
+	 * @return Returns the username of the player whose turn it is.
+	 */
+    public Username peek() { return queue.peek(); }
 
+	/**
+	 * Gives you an array representation of the turn queue.
+	 * @return Returns an array of Username.
+	 */
+	public Username[] toArray() { return queue.toArray(new Username[queue.size()]); }
+
+	/**
+	 * Increment whose turn it is.
+	 */
     public void nextTurn()
     {
         Username username = queue.poll();
@@ -55,8 +51,9 @@ public class TurnQueue implements Serializable
         }
     }
 
-    public int size()
-    {
-        return queue.size();
-    }
+	/**
+	 * The size of the turn queue.
+	 * @return Returns the size of the turn queue.
+	 */
+	public int size() { return queue.size(); }
 }

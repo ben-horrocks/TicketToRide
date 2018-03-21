@@ -127,6 +127,8 @@ public class ClientGameData implements IGameData, Serializable
         return turnQueue.peek();
     }
 
+    public boolean isMyTurn() { return turnQueue.peek().equals(player.getUser().getUsername()); }
+
     public TurnQueue getTurnQueue()
     {
         return turnQueue;
