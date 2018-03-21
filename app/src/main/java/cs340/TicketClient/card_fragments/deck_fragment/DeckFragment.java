@@ -77,13 +77,13 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 				}
 				else
 				{
-					Toast.makeText(getContext(), "Can't draw that card now", Toast.LENGTH_LONG).show();
+					Toast.makeText(getContext(), "Can't draw that card now", Toast.LENGTH_SHORT).show();
 				}
 			}
 		}
 		else
 		{
-			Toast.makeText(getContext(), "Not your turn to claim cards!", Toast.LENGTH_LONG).show();
+			Toast.makeText(getContext(), "Not your turn to claim cards!", Toast.LENGTH_SHORT).show();
 		}
 	}
 }

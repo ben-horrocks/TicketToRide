@@ -86,21 +86,6 @@ public class GameModel
         return gameData.getTrainCardsLeft();
     }
 
-    /* Fake draw method. Only for test button. */
-    public TrainCard drawFromTrainCardDeck()
-    {
-        gameData.decrementTrainCardsLeft();
-        return new TrainCard(TrainColor.RED);
-    }
-
-    /* Fake draw method. Only for test button. "Scary" i can access face up list directly(?) */
-    public TrainCard drawFromFaceUp()
-    {
-        TrainCard card = gameData.getFaceUp().remove(0);
-        gameData.getFaceUp().add(new TrainCard(drawFromTrainCardDeck().getType()));
-        return card;
-    }
-
     // Train Card Hand Methods
     // TODO: update (or at least look at)
     public void addTrainCard(TrainColor color)

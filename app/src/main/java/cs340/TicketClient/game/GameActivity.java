@@ -111,11 +111,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         .addToBackStack(null).commit();
                 break;
             case R.id.draw_trainCar_button:
-                Fragment drawCardFragment;
-                drawCardFragment = new DeckFragment();
-                fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null).commit();
+            	if (presenter.isMyTurn())
+				{
+					Fragment drawCardFragment;
+					drawCardFragment = new DeckFragment();
+					fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
+							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+							.addToBackStack(null).commit();
+				}
+				else
+				{
+					Toast.makeText(this, "Not your turn yet", Toast.LENGTH_SHORT).show();
+				}
                 break;
             case R.id.draw_destination_button:
                 HandDestinationCards cards = presenter.getDestinationCards();

@@ -79,6 +79,7 @@ public class GamePresenter
         }
     }
 
+    boolean isMyTurn() { return model.isMyTurn(); }
 
 
 	/**
