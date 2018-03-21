@@ -25,7 +25,7 @@ public class EndGameActivity extends AppCompatActivity
     {
 
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_end_game);
+        this.setContentView(R.layout.end_game);
         mPlayerList = this.findViewById(R.id.end_game_players);
         mLayoutManager = new LinearLayoutManager(this);
         mPlayerList.setLayoutManager(mLayoutManager);

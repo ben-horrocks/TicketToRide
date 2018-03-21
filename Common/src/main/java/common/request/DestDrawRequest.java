@@ -5,25 +5,32 @@ import common.player_info.Player;
 import common.player_info.Username;
 
 /**
- * Created by jhens on 3/21/2018.
+ * The parameters to request a destination card.
  */
+public class DestDrawRequest
+{
+    private GameID id;
+    private Username user;
 
-public class DestDrawRequest {
-
-    GameID id;
-    Username username;
-
-    public DestDrawRequest(GameID id, Username username)
+    /**
+     * @param id   The id of the game trying to be drawn from.
+     * @param user The username of the player trying to draw the destination card.
+     * @pre All parameters must be non-null.
+     * @post A valid set of parameters for requesting a destination card.
+     */
+    public DestDrawRequest(GameID id, Username user)
     {
         this.id = id;
-        this.username = username;
+        this.user = user;
     }
 
-    public Username getUsername() {
-        return username;
-    }
-
-    public GameID getId() {
+    public GameID getId()
+    {
         return id;
+    }
+
+    public Username getUser()
+    {
+        return user;
     }
 }
