@@ -22,11 +22,6 @@ public class DeckFragment extends Fragment implements View.OnClickListener
     Map<ImageView, TrainCard> faceUpCards;
     Button drawDeck;
     DeckFragmentPresenter presenter;
-    ImageView tCard1;
-	ImageView tCard2;
-	ImageView tCard3;
-	ImageView tCard4;
-	ImageView tCard5;
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -38,16 +33,16 @@ public class DeckFragment extends Fragment implements View.OnClickListener
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_deck, container, false);
 		List<ImageView> faceUpCardImages = new ArrayList<>();
-        tCard1 = v.findViewById(R.id.trainCard1);
-        faceUpCardImages.add(tCard1);
-        tCard2 = v.findViewById(R.id.trainCard2);
-        faceUpCardImages.add(tCard2);
-        tCard3 = v.findViewById(R.id.trainCard3);
-		faceUpCardImages.add(tCard3);
-        tCard4 = v.findViewById(R.id.trainCard4);
-		faceUpCardImages.add(tCard4);
-        tCard5 = v.findViewById(R.id.trainCard5);
-		faceUpCardImages.add(tCard5);
+        ImageView tCard = v.findViewById(R.id.trainCard1);
+        faceUpCardImages.add(tCard);
+        tCard = v.findViewById(R.id.trainCard2);
+        faceUpCardImages.add(tCard);
+        tCard = v.findViewById(R.id.trainCard3);
+		faceUpCardImages.add(tCard);
+        tCard = v.findViewById(R.id.trainCard4);
+		faceUpCardImages.add(tCard);
+        tCard = v.findViewById(R.id.trainCard5);
+		faceUpCardImages.add(tCard);
         drawDeck = v.findViewById(R.id.drawButton);
 
         presenter = new DeckFragmentPresenter(this);
