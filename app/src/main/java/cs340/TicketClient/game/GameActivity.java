@@ -133,6 +133,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 startDestinationFragment(cards);
                 break;
             case R.id.claim_route_button:
+                presenter.startClaimRouteOption();
                 System.out.println("To implement... lol");
                 break;
             default:
