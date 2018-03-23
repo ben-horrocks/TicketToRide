@@ -1,2 +1,2 @@
-Mar 23, 2018 12:16:10 PM communicators.ServerCommunicator$1 run
+Mar 23, 2018 5:46:18 PM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
