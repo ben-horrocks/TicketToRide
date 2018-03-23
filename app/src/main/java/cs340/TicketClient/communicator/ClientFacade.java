@@ -162,4 +162,11 @@ public class ClientFacade implements IClient
         //TODO: implement Last Turn (Probably popping up a toast)
         return new Signal(SignalType.ERROR, "uniplemented");
     }
+
+    @Override
+    public Signal gameEnded(Username name)
+    {
+        //TODO: implement changing to the endgame fragment/activity
+        return new Signal(SignalType.ERROR, "uniplemented");
+    }
 }
