@@ -70,7 +70,7 @@ public class ServerProxy implements IServer
     {
         try
         {
-            String[] parameterTypes = {stringClassName, stringClassName, stringClassName};
+            String[] parameterTypes = {stringClassName, stringClassName};
             Object[] parameters = {username, password};
             CommandParams registerCommand =
                     new CommandParams("register", parameterTypes, parameters);
