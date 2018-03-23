@@ -37,11 +37,6 @@ public class ServerProxy implements IServer
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
 
-    @Override
-    public Signal turnEnded(GameID id, Username user) {
-        return null;
-    }
-
     /**
      * @param username username of player trying to login
      * @param password password of player trying to login
