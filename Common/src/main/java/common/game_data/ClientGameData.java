@@ -134,6 +134,8 @@ public class ClientGameData implements IGameData, Serializable
         return turnQueue;
     }
 
+    public void nextTurn() { turnQueue.nextTurn(); }
+
     // TODO: determine what this is doing and deal with it
     @Override
     public void deckDraw(Username username, List<TrainCard> drawn)

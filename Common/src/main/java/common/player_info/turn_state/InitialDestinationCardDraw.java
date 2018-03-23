@@ -5,7 +5,11 @@ import common.cards.TrainCard;
 import common.map.Edge;
 import common.player_info.Player;
 
-public class NotMyTurn implements ITurnState
+/**
+ * Created by Kavika F.
+ */
+
+public class InitialDestinationCardDraw implements ITurnState
 {
 	@Override
 	public void drawFaceUp(Player player, TrainCard trainCard) {}
@@ -17,11 +21,15 @@ public class NotMyTurn implements ITurnState
 	public void drawFromDeck(Player player, TrainCard trainCard) {}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards) {}
+	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
+	{
+		player.getDestinationCards().addAll(pickedCards);
+		player.setTurnState(new NotMyTurn());
+	}
 
 	@Override
 	public void claimEdge(Player player, Edge edge) {}
 
 	@Override
-	public void turnStarted(Player player) { player.setTurnState(new MyTurnNoAction()); }
+	public void turnStarted(Player player) {}
 }

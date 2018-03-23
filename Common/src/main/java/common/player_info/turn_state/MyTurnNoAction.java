@@ -1,5 +1,6 @@
 package common.player_info.turn_state;
 
+import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
@@ -42,9 +43,10 @@ public class MyTurnNoAction implements ITurnState
 	}
 
 	@Override
-	public void drawDestinationCards(Player player)
+	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
 	{
-		// TODO: implement
+		player.getDestinationCards().addAll(pickedCards);
+		player.setTurnState(new NotMyTurn());
 	}
 
 	@Override

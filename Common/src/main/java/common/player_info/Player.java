@@ -11,7 +11,7 @@ import common.map.City;
 import common.map.Edge;
 import common.map.EdgeGraph;
 import common.player_info.turn_state.ITurnState;
-import common.player_info.turn_state.NotMyTurn;
+import common.player_info.turn_state.InitialDestinationCardDraw;
 
 public class Player implements Serializable
 {
@@ -32,7 +32,7 @@ public class Player implements Serializable
         this.color = color;
         this.score = 0;
         this.claimedEdges = new EdgeGraph();
-        this.turnState = new NotMyTurn();
+        this.turnState = new InitialDestinationCardDraw();
     }
 
     public String getName() { return this.user.getStringUserName(); }
@@ -48,6 +48,8 @@ public class Player implements Serializable
     {
         this.hand.addAll(cards);
     }
+
+    public void drewFaceUpCard(TrainCard trainCard) {  getTurnState().drawFaceUp(this, trainCard); }
 
     public void claimedEdge(Edge edge)
     {
@@ -93,14 +95,11 @@ public class Player implements Serializable
         return sum;
     }
 
-    public HandDestinationCards getDestinationCards()
-    {
-        return this.destinations;
-    }
+    public HandDestinationCards getDestinationCards() { return this.destinations; }
 
     public void drewDestinationCards(HandDestinationCards cards)
     {
-        this.destinations.addAll(cards);
+        getTurnState().drawDestinationCards(this, cards);
     }
 
     public PlayerColor getColor()

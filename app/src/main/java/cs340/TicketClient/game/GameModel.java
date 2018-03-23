@@ -12,6 +12,7 @@ import common.game_data.GameID;
 import common.game_data.Opponent;
 import common.history.HistoryItem;
 import common.player_info.Player;
+import common.player_info.User;
 import common.player_info.Username;
 import cs340.TicketClient.game_menu.chat.ChatPresenter;
 import cs340.TicketClient.game_menu.history.HistoryPresenter;
@@ -21,7 +22,6 @@ public class GameModel
     private ClientGameData gameData;
     private static GameModel singleton;
     private HandDestinationCards initialDCards;
-    private TurnPoints turnPoints;
 
     public static GameModel getInstance()
     {
@@ -32,10 +32,7 @@ public class GameModel
         return singleton;
     }
 
-    private GameModel()
-    {
-    	turnPoints = new TurnPoints();
-    }
+    private GameModel() {}
 
     // Game Methods
     public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
@@ -48,6 +45,8 @@ public class GameModel
 
     // Player and Opponent Methods
     public Player getPlayer() { return gameData.getPlayer(); }
+
+	public Username getUserName() { User user = getPlayer().getUser(); return user.getUsername(); }
 
     public List<Opponent> getOpponents() { return gameData.getOpponents(); }
 
@@ -81,10 +80,7 @@ public class GameModel
         gameData.getFaceUp().set(index, replacement);
     }
 
-    public int getTrainCardDeckSize()
-    {
-        return gameData.getTrainCardsLeft();
-    }
+    public int getTrainCardDeckSize() { return gameData.getTrainCardsLeft(); }
 
     // Train Card Hand Methods
     // TODO: update (or at least look at)
@@ -94,31 +90,16 @@ public class GameModel
     }
 
     // TODO: update to remove specific card(s)
-    public void removeTrainCard()
-    {
-        getPlayer().getHand().remove(0);
-    }
+    public void removeTrainCard() { getPlayer().getHand().remove(0); }
 
     // Destination Card Deck Methods
-    public void decrementDestinationCount(int count)
-    {
-        gameData.decDestinationCardsLeft(count);
-    }
+    public void decrementDestinationCount(int count) { gameData.decDestinationCardsLeft(count); }
 
-    public HandDestinationCards getInitialDCards()
-    {
-        return initialDCards;
-    }
+    public HandDestinationCards getInitialDCards() { return initialDCards; }
 
-    public void updateDDeckCount(int number)
-    {
-        gameData.decDestinationCardsLeft(number);
-    }
+    public void updateDDeckCount(int number) { gameData.decDestinationCardsLeft(number); }
 
-    public void clearDCards()
-    {
-        initialDCards = null;
-    }
+    public void clearDCards() { initialDCards = null; }
 
     // Destination Hand Methods
     // TODO: update (or at least look at)
@@ -199,14 +180,10 @@ public class GameModel
         return gameData.isMyTurn();
     }
 
+    public void nextTurn() { gameData.nextTurn(); }
+
     public void addPoints(int number)
     {
         getPlayer().addPoints(number);
     }
-
-    public int getTurnPointsLeft() { return turnPoints.getPoints(); }
-
-    public void resetTurnPoints() { turnPoints.resetPoints(); }
-
-    public boolean spendTurnPoints(int toSpend) { return turnPoints.spendPoints(toSpend); }
 }

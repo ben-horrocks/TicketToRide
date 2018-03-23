@@ -403,13 +403,13 @@ public class ServerFacade implements IServer
                         new Object[]{id, user, pickedCards, returnCards});
         //Data setup
         Database database = Database.SINGLETON;
-        User agent = database.getPlayer(user);
         ServerGameData game = database.getRunningGameByID(id);
         //Tell the game to update
         game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards);
         //Tell the clients to update
         ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards);
         Set<User> otherPlayers = game.getUsers();
+		User agent = database.getPlayer(user);
         otherPlayers.remove(agent);
         for (User u : otherPlayers)
         {

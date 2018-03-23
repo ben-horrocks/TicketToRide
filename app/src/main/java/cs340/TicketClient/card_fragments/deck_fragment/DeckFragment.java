@@ -74,16 +74,8 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 			else
 			{
 				ImageView imageView = (ImageView) view;
-				int cost = faceUpCards.get(imageView).getCost();
-				boolean successfulDraw = presenter.spendTurnPoints(cost);
-				if (successfulDraw)
-				{
-					// TODO: Implement functionality for successfully drawing cards from face up list
-				}
-				else
-				{
-					Toast.makeText(getContext(), "Can't draw that card now", Toast.LENGTH_SHORT).show();
-				}
+				TrainCard trainCard = faceUpCards.get(imageView);
+				presenter.drawTrainCard(trainCard);
 			}
 		}
 		else

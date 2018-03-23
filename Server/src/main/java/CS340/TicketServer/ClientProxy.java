@@ -227,11 +227,10 @@ public class ClientProxy implements IClient
             logger.warning(e.getMessage());
             e.printStackTrace();
         }
-        logger.warning("An error occurred when sending a \"" + methodName + "\" command to: " +
-                       client.getName());
-        Signal signal = new Signal(SignalType.ERROR,
-                                   "An error occurred when sending a \"" + methodName +
-                                   "\" command to: " + client.getName());
+        String error = "An error occurred when sending a \"" + methodName + "\" command to: " +
+				client.getName();
+        logger.warning(error);
+        Signal signal = new Signal(SignalType.ERROR, error);
         logger.exiting("ClientProxy", "sendCommandToClient", signal);
         return signal;
     }

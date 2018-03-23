@@ -14,6 +14,7 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.history.HistoryItem;
 import common.map.Edge;
+import common.player_info.Player;
 import common.player_info.Username;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.lobby.LobbyPresenter;
@@ -122,8 +123,9 @@ public class ClientFacade implements IClient
     {
         try
         {
-            GameModel.getInstance().getPlayer().getDestinationCards().addAll(cards);
-            return new Signal(SignalType.OK, "Destination Cards added sucessfully");
+        	Player player = GameModel.getInstance().getPlayer();
+        	player.drewDestinationCards(cards);
+        	return new Signal(SignalType.NEXT_TURN, "Destination Cards added successfully");
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());

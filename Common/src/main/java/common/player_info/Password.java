@@ -6,25 +6,13 @@ public class Password implements Serializable
 {
     private String pass;
 
-    public Password(String pass)
-    {
-        this.pass = pass;
-    }
+    public Password(String pass) { this.pass = pass; }
 
-    public String getPass()
-    {
-        return pass;
-    }
+    public String getPass() { return pass; }
 
-    public void setPass(String pass)
-    {
-        this.pass = pass;
-    }
+    public void setPass(String pass) { this.pass = pass; }
 
-    public static boolean isValidPass(String pass)
-    {
-        return !pass.contains(" ");
-    }
+    public static boolean isValidPass(String pass) { return !pass.contains(" "); }
 
     @Override
     public boolean equals(Object o)

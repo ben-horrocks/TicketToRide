@@ -81,6 +81,7 @@ public class GamePresenter
 
     boolean isMyTurn() { return model.isMyTurn(); }
 
+    void nextTurn() { model.nextTurn(); }
 
 	/**
 	 * AsyncTask to draw a destination card from the server.

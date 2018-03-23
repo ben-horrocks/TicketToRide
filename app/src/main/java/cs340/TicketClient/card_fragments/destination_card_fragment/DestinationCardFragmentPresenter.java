@@ -57,7 +57,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
      * This method takes the cards in the fragment and returns them to the server, indicating which were selected and which were not.
      * @pre there is a connection to the server
      * @post the SendCardsTask is in the process, or done, returning the cards to the server and closing the fragment
-     * @post the palyer's destination cards are updated with the new additions
+     * @post the player's destination cards are updated with the new additions
      */
     public void confirmDestinationCards()
     {
@@ -85,7 +85,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
             returned.add(fragment.dCards.get(2));
         }
         GameID id = model.getGameID();
-        Username user = model.getPlayer().getUser().getUsername();
+        Username user = model.getUserName();
         SendCardsRequest request = new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
@@ -98,10 +98,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
     {
         DestinationCardFragmentPresenter presenter;
 
-        SendCardsTask(DestinationCardFragmentPresenter presenter)
-        {
-            this.presenter = presenter;
-        }
+        SendCardsTask(DestinationCardFragmentPresenter presenter) { this.presenter = presenter; }
 
         /**
          * This method executes the return destinationCards command on a different thread from the UI thread.

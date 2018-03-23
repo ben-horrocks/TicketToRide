@@ -6,6 +6,7 @@ import android.util.SparseArray;
 
 import java.util.ArrayList;
 
+import common.player_info.Player;
 import common.request.DrawDeckRequest;
 import common.request.DrawFaceUpRequest;
 import common.cards.TrainCard;
@@ -17,17 +18,21 @@ import cs340.TicketClient.R;
 
 import static common.communication.SignalType.OK;
 
-public class DeckFragmentPresenter
+class DeckFragmentPresenter
 {
 
     private DeckFragment fragment;
     private GameModel model;
+    private Player player;
 
     DeckFragmentPresenter(DeckFragment fragment)
     {
         this.fragment = fragment;
         this.model = GameModel.getInstance();
+        this.player = model.getPlayer();
     }
+
+    void drawTrainCard(TrainCard trainCard) { player.drewFaceUpCard(trainCard); }
 
     SparseArray<TrainCard> getFaceUpCards()
     {
@@ -75,8 +80,6 @@ public class DeckFragmentPresenter
 
     boolean isMyTurn() { return model.isMyTurn(); }
 
-    boolean spendTurnPoints(int toSpend) { return model.spendTurnPoints(toSpend); }
-
     public void DrawDeck()
     {
         DrawDeckRequest request = new DrawDeckRequest(GameModel.getInstance().getGameID(), GameModel.getInstance().getPlayer().getUser().getUsername());
@@ -86,7 +89,7 @@ public class DeckFragmentPresenter
         //change turn info
     }
 
-    Integer getTrainDrawable(TrainCard card)
+    private Integer getTrainDrawable(TrainCard card)
     {
         switch (card.getType())
         {
