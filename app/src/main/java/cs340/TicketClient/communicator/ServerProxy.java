@@ -276,5 +276,21 @@ public class ServerProxy implements IServer
             return new Signal(SignalType.ERROR, e.getMessage());
         }
     }
+
+    @Override
+    public Signal turnEnded(GameID id, Username name)
+    {
+        String[] paramTypes = {gameIDClassname, usernameClassName};
+        Object[] params = {id, name};
+        CommandParams commandParams = new CommandParams("turnEnded", paramTypes, params);
+        try
+        {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
+    }
 }
     
