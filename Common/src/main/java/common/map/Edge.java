@@ -156,13 +156,19 @@ public class Edge implements Serializable
                secondCity.getCityName() + "\n" + "Length: " + length + ". Color: " + color;
     }
 
-    public int computeLongestPath(Set<Edge> unusedEdges)
+    public int computeLongestPathOneDirection(Set<Edge> unusedEdges, Set<Edge> usedEdges)
     {
         int longestPath = 0;
         for(Edge checkEdge : unusedEdges) {
             if(checkEdge.getCities().contains(firstCity) || checkEdge.getCities().contains(secondCity)) {
                 unusedEdges.remove(checkEdge);
-                int newLongestPath = checkEdge.computeLongestPath(unusedEdges);
+                if(!usedEdges.contains(checkEdge))
+                {
+                    usedEdges.add(checkEdge);
+                }
+                Set<Edge> newUnusedEdges = new HashSet<>();
+                newUnusedEdges.addAll(unusedEdges);
+                int newLongestPath = checkEdge.computeLongestPathOneDirection(newUnusedEdges, usedEdges);
                 if(newLongestPath > longestPath)
                 {
                     longestPath = newLongestPath;
@@ -172,4 +178,84 @@ public class Edge implements Serializable
         longestPath += length;
         return longestPath;
     }
+
+    public int computeLongestPathTwoDirections(Set<Edge> unusedEdges)
+    {
+        int longestPathDirectionOne = 0;
+        int longestPathDirectionTwo = 0;
+        for(Edge checkEdge : unusedEdges) {
+            if(checkEdge.getCities().contains(firstCity)) {
+                unusedEdges.remove(checkEdge);
+                int newLongestPath = checkEdge.computeLongestPathTwoDirections(unusedEdges);
+                if(newLongestPath > longestPathDirectionOne)
+                {
+                    longestPathDirectionOne = newLongestPath;
+                }
+            } else if(checkEdge.getCities().contains(secondCity))
+            {
+                unusedEdges.remove(checkEdge);
+                int newLongestPath = checkEdge.computeLongestPathTwoDirections(unusedEdges);
+                if(newLongestPath > longestPathDirectionTwo)
+                {
+                    longestPathDirectionTwo = newLongestPath;
+                }
+            }
+        }
+        int longestPath = length + longestPathDirectionOne + longestPathDirectionTwo;
+        return longestPath;
+    }
+
+    public static List<Edge> findEdgesWithCity(Set<Edge> edges, City city)
+    {
+        List<Edge> realedges = new ArrayList<>();
+        for(Edge edge : edges)
+        {
+            if(edge.getFirstCity().equals(city))
+            {
+                realedges.add(edge);
+            } else if(edge.getSecondCity().equals(city))
+            {
+                realedges.add(edge);
+            }
+        }
+        return realedges;
+    }
+
+    public static List<City> findCitiesWithNumEdges(Set<Edge> edges, int edgenum)
+    {
+        Map<City, Integer> cities = new HashMap<>();
+        for(Edge edge : edges)
+        {
+            City city1 = edge.getFirstCity();
+            City city2 = edge.getSecondCity();
+            if(cities.containsKey(city1))
+            {
+                Integer i = cities.get(city1);
+                cities.put(city1, ++i);
+            } else
+            {
+                Integer i = 0;
+                cities.put(city1, ++i);
+            }
+            if(cities.containsKey(edge.getSecondCity()))
+            {
+                Integer i = cities.get(city2);
+                cities.put(city2, ++i);
+            } else
+            {
+                Integer i = 0;
+                cities.put(city2, ++i);
+            }
+        }
+        List<City> correctCities = new ArrayList<>();
+        for(Map.Entry<City, Integer> city : cities.entrySet())
+        {
+            if(city.getValue().equals(edgenum))
+            {
+                correctCities.add(city.getKey());
+            }
+        }
+        return correctCities;
+    }
+
 }

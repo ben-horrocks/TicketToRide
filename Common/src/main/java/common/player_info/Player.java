@@ -136,14 +136,34 @@ public class Player implements Serializable
     {
         Set<Edge> unusedEdges = claimedEdges.getAllEdges();
         int longestPath = 0;
-        for(Edge edge : unusedEdges)
+        List<City> endCities = Edge.findCitiesWithNumEdges(unusedEdges, 1);
+        Set<Edge> usedEdges = new HashSet<>();
+        for(City city : endCities)
         {
+            Edge edge = Edge.findEdgesWithCity(unusedEdges, city).get(0);
             unusedEdges.remove(edge);
-            int newLongestPath = edge.computeLongestPath(unusedEdges);
-            if(newLongestPath > longestPath)
+            if(!usedEdges.contains(edge))
             {
-                longestPath = newLongestPath;
+                usedEdges.add(edge);
             }
+            int edgeLongestPath = edge.computeLongestPathOneDirection(unusedEdges, usedEdges);
+            longestPath = longestPath < edgeLongestPath ? edgeLongestPath : longestPath;
+        }
+        unusedEdges.removeAll(usedEdges);
+        //check if there are any circular paths that we missed and therefore need to check.
+        if(unusedEdges.size() > 0)
+        {
+            for (Edge edge : unusedEdges)
+            {
+                Set<Edge> newEdges = new HashSet<>();
+                newEdges.addAll(unusedEdges);
+                newEdges.remove(edge);
+                int newLongestPath = edge.computeLongestPathTwoDirections(newEdges);
+                if (newLongestPath > longestPath)
+                {
+                    longestPath = newLongestPath;
+                }
+        }
         }
         return longestPath;
     }
