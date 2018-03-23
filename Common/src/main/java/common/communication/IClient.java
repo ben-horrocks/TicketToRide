@@ -8,6 +8,7 @@ import common.game_data.StartGamePacket;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.history.HistoryItem;
+import common.map.Edge;
 import common.player_info.Username;
 
 public interface IClient
@@ -40,9 +41,13 @@ public interface IClient
 
     Signal opponentDrewDeckCard(Username name);
 
+    Signal playerClaimedEdge(Username name, Edge edge);
+
     Signal playerDrewDestinationCards(Username name, HandDestinationCards cards);
 
     Signal addChatItem(Username name, ChatItem item);
 
     Signal addHistoryItem(Username name, HistoryItem item);
+
+    Signal lastTurn(Username name);
 }

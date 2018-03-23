@@ -95,4 +95,6 @@ public interface IServer
 
     Signal claimEdge(GameID id, Username user, Edge edge);
 
+    Signal lastTurn(GameID id);
+
 }

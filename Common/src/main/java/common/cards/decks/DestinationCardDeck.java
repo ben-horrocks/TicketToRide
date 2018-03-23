@@ -14,7 +14,7 @@ import common.map.CityName;
  * @author Ben Horrocks
  * @since 2018-03-12
  */
-public class DestinationCardDeck implements IDestinationCardDeck, Serializable
+public class DestinationCardDeck implements Serializable
 {
     /**
      * Object to store the List of Destination Cards.
@@ -40,7 +40,6 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
      * @pre DestinationCardDeck.getDeckSize() > 3
      * @post Destination Card Deck is the same, except for the first 3 cards are removed
      */
-    @Override
     public List<DestinationCard> draw()
     {
         List<DestinationCard> drawnCards = new ArrayList<>();
@@ -58,7 +57,6 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
      * @pre DestinationDeck.getDeckSize() > 0
      * @post Destination Deck contains the same elements in a different order
      */
-    @Override
     public void shuffle()
     {
         List<DestinationCard> newdeck = new ArrayList<>();
@@ -78,7 +76,6 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
      * @pre cards.size() > 0 && cards.size() < 3
      * @post The Destination Card Deck contains the same elements in the same order, with the Destination Cards in cards at the bottom of the deck
      */
-    @Override
     public void putBackInDeck(List<DestinationCard> cards)
     {
         for (DestinationCard card : cards)
@@ -94,7 +91,6 @@ public class DestinationCardDeck implements IDestinationCardDeck, Serializable
      * @pre none
      * @post DestinationDeck contains same number of cards in the same order
      */
-    @Override
     public int getDeckSize()
     {
         return deck.size();

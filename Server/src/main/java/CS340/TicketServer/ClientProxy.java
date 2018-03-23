@@ -14,6 +14,7 @@ import common.cards.TrainCard;
 import common.communication.Signal;
 import common.communication.SignalType;
 import common.history.HistoryItem;
+import common.map.Edge;
 import common.player_info.Username;
 import communicators.ServerCommunicator;
 
@@ -72,6 +73,7 @@ public class ClientProxy implements IClient
             HandDestinationCards.class.getName();
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String historyItemClassName = HistoryItem.class.getName();
+    private static final String edgeClassName = Edge.class.getName();
 
     @Override
     public Signal updateGameList(List<GameInfo> gameList)
@@ -175,6 +177,30 @@ public class ClientProxy implements IClient
         Object[] params = {name, item};
         Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "addHistoryItem", signal);
+        return signal;
+    }
+
+    @Override
+    public Signal playerClaimedEdge(Username name, Edge edge)
+    {
+        logger.entering("ClientProxy", "playerClaimedEdge", new Object[]{name, edge});
+        String methodName = "playerClaimedEdge";
+        String[] paramTypes = {userNameClassName, edgeClassName};
+        Object[] params = {name, edge};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "playerClaimedEdge", signal);
+        return signal;
+    }
+
+    @Override
+    public Signal lastTurn(Username name)
+    {
+        logger.entering("ClientProxy", "lastTurn", new Object[]{name});
+        String methodName = "lastTurn";
+        String[] paramTypes = {userNameClassName};
+        Object[] params = {name};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "lastTurn", signal);
         return signal;
     }
 

@@ -98,8 +98,7 @@ public class GamePresenter
         protected Signal doInBackground(DestDrawRequest... destDrawRequests)
         {
             Signal s = ServerProxy.getInstance().drawDestinationCards(destDrawRequests[0].getId(),
-                                                                      destDrawRequests[0]
-                                                                              .getUser());
+                                                                      destDrawRequests[0].getUser());
             return s;
         }
 
