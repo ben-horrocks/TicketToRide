@@ -1,7 +1,6 @@
 package cs340.TicketClient.login;
 
 import common.player_info.Password;
-import common.player_info.ScreenName;
 import common.player_info.Username;
 
 /**
@@ -27,9 +26,8 @@ public class LoginModel
         return Username.isValidUserName(username) && Password.isValidPass(password);
     }
 
-    public boolean isValidRegister(String username, String password, String screenname)
+    public boolean isValidRegister(String username, String password)
     {
-        return Username.isValidUserName(username) && Password.isValidPass(password) &&
-               ScreenName.isValidScreenName(screenname);
+        return Username.isValidUserName(username) && Password.isValidPass(password);
     }
 }

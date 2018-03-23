@@ -1,21 +1,20 @@
 package common.player_info.turn_state;
 
-import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.map.Edge;
 import common.player_info.Player;
 
 public interface ITurnState
 {
-	TrainCard drawFaceUp(Player player);
+	void drawFaceUp(Player player, TrainCard trainCard);
 
-	TrainCard drawFromDeck(TrainCard trainCard);
+	void drawFaceUpLocomotive(Player player);
 
-	HandDestinationCards drawDestinationCards(Player player);
+	void drawFromDeck(Player player, TrainCard trainCard);
+
+	void drawDestinationCards(Player player);
 
 	void claimEdge(Player player, Edge edge);
 
 	void turnStarted(Player player);
-
-	void turnEnded(Player player);
 }

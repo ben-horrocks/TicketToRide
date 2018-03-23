@@ -38,12 +38,12 @@ public class LoginPresenterFacade implements ILoginPresenter
     }
 
     @Override
-    public void register(String username, String password, String screenname)
+    public void register(String username, String password)
     {
 
-        if (LoginModel.getInstance().isValidRegister(username, password, screenname))
+        if (LoginModel.getInstance().isValidRegister(username, password))
         {
-            String[] playerDetails = {username, password, screenname};
+            String[] playerDetails = {username, password};
             //register.setEnabled(false);
             RegisterTask task = new RegisterTask();
             task.execute(playerDetails);
@@ -62,8 +62,7 @@ public class LoginPresenterFacade implements ILoginPresenter
 
             String username = arrayLists[0];
             String password = arrayLists[1];
-            String screenName = arrayLists[2];
-            return ServerProxy.getInstance().register(username, password, screenName);
+            return ServerProxy.getInstance().register(username, password);
         }
 
         @Override

@@ -9,6 +9,8 @@ import common.cards.TrainCard;
 import common.cards.TrainColor;
 import common.map.Edge;
 import common.map.EdgeGraph;
+import common.player_info.turn_state.ITurnState;
+import common.player_info.turn_state.NotMyTurn;
 
 public class Player implements Serializable
 {
@@ -19,6 +21,7 @@ public class Player implements Serializable
     private int score;
     private EdgeGraph claimedEdges;
     private TrainPieces pieces;
+    private ITurnState turnState;
 
     public Player(User user, PlayerColor color)
     {
@@ -28,17 +31,12 @@ public class Player implements Serializable
         this.color = color;
         this.score = 0;
         this.claimedEdges = new EdgeGraph();
+        this.turnState = new NotMyTurn();
     }
 
-    public String getName()
-    {
-        return this.user.getStringUserName();
-    }
+    public String getName() { return this.user.getStringUserName(); }
 
-    public User getUser()
-    {
-        return this.user;
-    }
+    public User getUser() { return this.user; }
 
     public HandTrainCards getHand()
     {
@@ -72,6 +70,9 @@ public class Player implements Serializable
         //TODO if the newly claimed edge completed a destination card add points and remove the card
     }
 
+	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }
+
+	public ITurnState getTurnState() { return turnState; }
 
     private boolean canClaimEdge(Edge edge)
     {

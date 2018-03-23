@@ -20,7 +20,6 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
-import common.player_info.ScreenName;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -125,19 +124,17 @@ public class ServerFacade implements IServer
      *
      * @param username   The username to register
      * @param password   The password to register
-     * @param screenName The screenName this client wants to be known as
      * @return A signal with a player if the registration was okay or an error if the username is taken
      * @pre Parameters must be non-null
      * @post Will return a signal of success or error
      */
-    public Signal register(String username, String password, String screenName)
+    public Signal register(String username, String password)
     {
-        logger.entering("ServerFacade", "register", new Object[]{username, password, screenName});
+        logger.entering("ServerFacade", "register", new Object[]{username, password});
         Database database = Database.SINGLETON;
 
         Username uName = new Username(username);
         Password pWord = new Password(password);
-        ScreenName sName = new ScreenName(screenName);
 
         //Check that user is already registered
         User user = database.getPlayer(uName);
@@ -145,7 +142,7 @@ public class ServerFacade implements IServer
         {
 
             AuthToken token = new AuthToken();
-            user = new User(uName, pWord, sName);
+            user = new User(uName, pWord);
             user.setToken(token);
             database.addPlayer(user);
             Signal signal = new Signal(SignalType.OK, user);
@@ -364,7 +361,7 @@ public class ServerFacade implements IServer
         {
             String name = "Tester" + Integer.toString(i);
             String pass = "test";
-            Signal s = register(name, pass, name);
+            Signal s = register(name, pass);
             users[i - 1] = (User) s.getObject();
         }
 

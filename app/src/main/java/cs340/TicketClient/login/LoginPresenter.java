@@ -30,12 +30,11 @@ public class LoginPresenter implements ILoginPresenter
      *
      * @param username   the player's username (must be unique)
      * @param password   the player's password
-     * @param screenname the name to be displayed for user
      * @return A player object representing the logged in player
      */
     @Override
-    public void register(String username, String password, String screenname)
+    public void register(String username, String password)
     {
-        facade.register(username, password, screenname);
+        facade.register(username, password);
     }
 }

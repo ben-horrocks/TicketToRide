@@ -63,16 +63,15 @@ public class ServerProxy implements IServer
     /**
      * @param username   username of player trying to register (must be unique)
      * @param password   password of player trying to register
-     * @param screenName screenname of player trying to register
      * @return success or fail register Signal
      */
     @Override
-    public Signal register(String username, String password, String screenName)
+    public Signal register(String username, String password)
     {
         try
         {
             String[] parameterTypes = {stringClassName, stringClassName, stringClassName};
-            Object[] parameters = {username, password, screenName};
+            Object[] parameters = {username, password};
             CommandParams registerCommand =
                     new CommandParams("register", parameterTypes, parameters);
             Signal returnSignal = (Signal) ClientCommunicator.getSingleton().send(registerCommand);

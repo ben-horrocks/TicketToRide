@@ -25,10 +25,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
      */
     EditText password;
     /**
-     * Field for player's screenname
-     */
-    EditText screenname;
-    /**
      * ip address for server
      */
     EditText ip;
@@ -60,7 +56,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
 
         username = this.findViewById(R.id.username);
         password = this.findViewById(R.id.password);
-        screenname = this.findViewById(R.id.screen_name);
         ip = this.findViewById(R.id.ipAddress);
         login = this.findViewById(R.id.login);
         register = this.findViewById(R.id.register);
@@ -134,31 +129,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
             }
         });
 
-        screenname.addTextChangedListener(new TextWatcher()
-        {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-                setLogin();
-                setRegister();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable)
-            {
-
-                setLogin();
-                setRegister();
-            }
-        });
-
-
         login.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -175,8 +145,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
             public void onClick(View view)
             {
                 ClientCommunicator.setSERVER_HOST(ip.getText().toString());
-                presenter.register(username.getText().toString(), password.getText().toString(),
-                                   screenname.getText().toString());
+                presenter.register(username.getText().toString(), password.getText().toString());
 
             }
         });
@@ -223,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity
     {
         return username.getText().toString().length() > 0 &&
                password.getText().toString().length() > 0 &&
-               screenname.getText().toString().length() > 0 && ip.getText().toString().length() > 0;
+				ip.getText().toString().length() > 0;
     }
 
     /**

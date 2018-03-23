@@ -32,10 +32,9 @@ public interface IServer
      *
      * @param username    username of new player (primary key)
      * @param password    password of new player
-     * @param displayName name to be displayed for the public
      * @return Signal containing error or ok message and User object
      */
-    Signal register(String username, String password, String displayName);
+    Signal register(String username, String password);
 
     /**
      * adds game to the database

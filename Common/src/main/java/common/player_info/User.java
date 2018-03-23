@@ -9,21 +9,18 @@ public class User implements Serializable
 {
     private Username username;
     private Password password;
-    private ScreenName screenName;
     private AuthToken token;
 
     /**
      * @param username   The username for this user.
      * @param pass       The password for this user.
-     * @param screenName The screenName for this user.
      * @pre All parameters are non-null.
      * @post Will create a user with provided Username, Password, ScreenName and a new authorization token.
      */
-    public User(Username username, Password pass, ScreenName screenName)
+    public User(Username username, Password pass)
     {
         this.username = username;
         this.password = pass;
-        this.screenName = screenName;
         this.token = new AuthToken();
     }
 
@@ -45,11 +42,6 @@ public class User implements Serializable
     public Password getPassword()
     {
         return password;
-    }
-
-    public ScreenName getScreenName()
-    {
-        return screenName;
     }
 
     public AuthToken getToken()
@@ -76,15 +68,7 @@ public class User implements Serializable
 
         User user = (User) o;
 
-        if (!username.equals(user.username))
-        {
-            return false;
-        }
-        if (!password.equals(user.password))
-        {
-            return false;
-        }
-        return screenName.equals(user.screenName);
+        return username.equals(user.username) && password.equals(user.password);
         // if authToken is used in equals method, then no 2 users
         // with all the same data can be equal.
     }
@@ -95,7 +79,6 @@ public class User implements Serializable
         int result = username.getName().length();
         result = 31 * result + username.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + screenName.hashCode();
         result = 31 * result + token.hashCode();
         return result;
     }
