@@ -7,6 +7,7 @@ import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
+import common.map.City;
 import common.map.Edge;
 import common.map.EdgeGraph;
 import common.player_info.turn_state.ITurnState;
