@@ -169,4 +169,11 @@ public class ClientFacade implements IClient
         //TODO: implement changing to the endgame fragment/activity
         return new Signal(SignalType.ERROR, "uniplemented");
     }
+
+    @Override
+    public Signal startTurn(Username name)
+    {
+        //TODO: update turnstate
+        return new Signal(SignalType.ERROR, "uniplemented");
+    }
 }
