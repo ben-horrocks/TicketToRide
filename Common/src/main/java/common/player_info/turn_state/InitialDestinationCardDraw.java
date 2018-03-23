@@ -1,5 +1,7 @@
 package common.player_info.turn_state;
 
+import java.io.Serializable;
+
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.map.Edge;
@@ -9,7 +11,7 @@ import common.player_info.Player;
  * Created by Kavika F.
  */
 
-public class InitialDestinationCardDraw implements ITurnState
+public class InitialDestinationCardDraw implements ITurnState, Serializable
 {
 	@Override
 	public void drawFaceUp(Player player, TrainCard trainCard) {}
