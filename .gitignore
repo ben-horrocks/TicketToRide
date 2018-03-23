@@ -8,3 +8,4 @@
 /captures
 .idea/modules.xml
 .externalNativeBuild
+/server_log.txt

@@ -1,11 +1,12 @@
 package common.player_info.turn_state;
 
 import common.cards.HandDestinationCards;
+import java.io.Serializable;
 import common.cards.TrainCard;
 import common.map.Edge;
 import common.player_info.Player;
 
-public class NotMyTurn implements ITurnState
+public class NotMyTurn implements ITurnState, Serializable
 {
 	@Override
 	public void drawFaceUp(Player player, TrainCard trainCard) {}

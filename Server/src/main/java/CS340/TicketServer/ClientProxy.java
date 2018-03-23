@@ -204,6 +204,30 @@ public class ClientProxy implements IClient
         return signal;
     }
 
+    @Override
+    public Signal gameEnded(Username name)
+    {
+        logger.entering("ClientProxy", "gameEnded", new Object[]{name});
+        String methodName = "gameEnded";
+        String[] paramTypes = {userNameClassName};
+        Object[] params = {name};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "gameEnded", signal);
+        return signal;
+    }
+
+    @Override
+    public Signal startTurn(Username name)
+    {
+        logger.entering("ClientProxy", "startTurn", new Object[]{name});
+        String methodName = "startTurn";
+        String[] paramTypes = {userNameClassName};
+        Object[] params = {name};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "startTurn", signal);
+        return signal;
+    }
+
     private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes,
                                        Object[] params)
     {

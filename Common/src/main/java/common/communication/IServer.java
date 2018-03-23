@@ -96,4 +96,6 @@ public interface IServer
 
     Signal lastTurn(GameID id);
 
+    Signal turnEnded(GameID id, Username user);
+
 }

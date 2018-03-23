@@ -50,4 +50,8 @@ public interface IClient
     Signal addHistoryItem(Username name, HistoryItem item);
 
     Signal lastTurn(Username name);
+
+    Signal gameEnded(Username name);
+
+    Signal startTurn(Username name);
 }

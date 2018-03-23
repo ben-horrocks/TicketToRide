@@ -129,10 +129,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 				}
                 break;
             case R.id.claim_route_button:
+<<<<<<< HEAD
             	if (presenter.isMyTurn())
 				{
 					System.out.println("To implement... lol");
 				}
+=======
+                presenter.startClaimRouteOption();
+                System.out.println("To implement... lol");
+>>>>>>> b2a79a86e7b83c977006d4bec4ba9af830cb8f06
                 break;
             default:
                 System.out.println("Broken at onClick(View v) in Game Activity");

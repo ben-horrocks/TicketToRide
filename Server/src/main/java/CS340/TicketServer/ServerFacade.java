@@ -1,5 +1,6 @@
 package CS340.TicketServer;
 
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -626,6 +627,17 @@ public class ServerFacade implements IServer
         }
         Signal signal = new Signal(SignalType.OK, "LastTurn");
         logger.exiting("ServerFacade", "lastTurn", signal);
+        return signal;
+    }
+
+    public Signal turnEnded(GameID id, Username name)
+    {
+        logger.entering("ServerFacade", "turnEnded", id);
+        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //TODO:Username nextPlayer = game.nextTurn();
+        //TODO:ClientProxy.getSINGLETON().startTurn(nextPlayer);
+        Signal signal = new Signal(SignalType.OK, "LastTurn");
+        logger.exiting("ServerFacade", "turnEnded", signal);
         return signal;
     }
 }

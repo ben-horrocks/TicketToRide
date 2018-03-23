@@ -37,6 +37,11 @@ public class ServerProxy implements IServer
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
 
+    @Override
+    public Signal turnEnded(GameID id, Username user) {
+        return null;
+    }
+
     /**
      * @param username username of player trying to login
      * @param password password of player trying to login
@@ -70,7 +75,7 @@ public class ServerProxy implements IServer
     {
         try
         {
-            String[] parameterTypes = {stringClassName, stringClassName, stringClassName};
+            String[] parameterTypes = {stringClassName, stringClassName};
             Object[] parameters = {username, password};
             CommandParams registerCommand =
                     new CommandParams("register", parameterTypes, parameters);
@@ -262,6 +267,22 @@ public class ServerProxy implements IServer
         String[] paramTypes = {gameIDClassname};
         Object[] params = {id};
         CommandParams commandParams = new CommandParams("lastTurn", paramTypes, params);
+        try
+        {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
+    }
+
+    @Override
+    public Signal turnEnded(GameID id, Username name)
+    {
+        String[] paramTypes = {gameIDClassname, usernameClassName};
+        Object[] params = {id, name};
+        CommandParams commandParams = new CommandParams("turnEnded", paramTypes, params);
         try
         {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
