@@ -1,5 +1,7 @@
 package common.player_info.turn_state;
 
+import common.cards.HandDestinationCards;
+import java.io.Serializable;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
@@ -11,7 +13,7 @@ import common.player_info.Player;
  * Created by Kavika F.
  */
 
-public class MyTurnNoAction implements ITurnState
+public class MyTurnNoAction implements ITurnState, Serializable
 {
 	@Override
 	public void drawFaceUp(Player player, TrainCard trainCard)
@@ -42,9 +44,12 @@ public class MyTurnNoAction implements ITurnState
 	}
 
 	@Override
-	public void drawDestinationCards(Player player)
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn)
 	{
-		// TODO: implement
+		player.getDestinationCards().addAll(pickedCards);
+		player.setTurnState(new NotMyTurn());
+
+		return true;
 	}
 
 	@Override

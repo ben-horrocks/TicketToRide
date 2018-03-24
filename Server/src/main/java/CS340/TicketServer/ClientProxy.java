@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import common.chat.ChatItem;
 import common.communication.CommandParams;
+import common.game_data.GameID;
 import common.game_data.GameInfo;
 import common.game_data.StartGamePacket;
 import common.communication.IClient;
@@ -74,6 +75,7 @@ public class ClientProxy implements IClient
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String historyItemClassName = HistoryItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
+    private static final String gameIDClassName = GameID.class.getName();
 
     @Override
     public Signal updateGameList(List<GameInfo> gameList)
@@ -145,12 +147,12 @@ public class ClientProxy implements IClient
     }
 
     @Override
-    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards)
+    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards, GameID gameID)
     {
-        logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards});
+        logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards, gameID});
         String methodName = "playerDrewDestinationCards";
-        String[] paramTypes = {userNameClassName, handDestinationCardsClassName};
-        Object[] params = {name, cards};
+        String[] paramTypes = {userNameClassName, handDestinationCardsClassName, gameIDClassName};
+        Object[] params = {name, cards, gameID};
         Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "playerDrewDestinationCards", signal);
         return signal;
@@ -191,6 +193,18 @@ public class ClientProxy implements IClient
         logger.exiting("ClientProxy", "playerClaimedEdge", signal);
         return signal;
     }
+
+    @Override
+    public Signal updateTurnQueue(Username username)
+	{
+		logger.entering("ClientProxy", "playerClaimedEdge", username);
+		String methodName = "updateTurnQueue";
+		String[] paramTypes = {userNameClassName};
+		Object[] params = {username};
+		Signal signal = sendCommandToClient(username, methodName, paramTypes, params);
+		logger.exiting("ClientProxy", "updateTurnQueue", signal);
+		return signal;
+	}
 
     @Override
     public Signal lastTurn(Username name)
@@ -251,11 +265,10 @@ public class ClientProxy implements IClient
             logger.warning(e.getMessage());
             e.printStackTrace();
         }
-        logger.warning("An error occurred when sending a \"" + methodName + "\" command to: " +
-                       client.getName());
-        Signal signal = new Signal(SignalType.ERROR,
-                                   "An error occurred when sending a \"" + methodName +
-                                   "\" command to: " + client.getName());
+        String error = "An error occurred when sending a \"" + methodName + "\" command to: " +
+				client.getName();
+        logger.warning(error);
+        Signal signal = new Signal(SignalType.ERROR, error);
         logger.exiting("ClientProxy", "sendCommandToClient", signal);
         return signal;
     }

@@ -1,5 +1,6 @@
 package common.player_info.turn_state;
 
+import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.map.Edge;
 import common.player_info.Player;
@@ -12,7 +13,7 @@ public interface ITurnState
 
 	void drawFromDeck(Player player, TrainCard trainCard);
 
-	void drawDestinationCards(Player player);
+	boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn);
 
 	void claimEdge(Player player, Edge edge);
 

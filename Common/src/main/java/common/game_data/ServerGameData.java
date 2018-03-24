@@ -189,10 +189,10 @@ public class ServerGameData implements Serializable
     }
 
     public void playerDrewDestinationCard(String username, HandDestinationCards drawn,
-                                          HandDestinationCards returned)
+                                          HandDestinationCards returned, boolean isMyTurn)
     {
-        getPlayer(username).drewDestinationCards(drawn);
-        //TODO implement returning cards to the destination deck -> talk to Ben
+        getPlayer(username).drewDestinationCards(drawn, isMyTurn);
+        //TODO: implement returning cards to the destination deck
     }
 
     private Player getPlayer(String name)

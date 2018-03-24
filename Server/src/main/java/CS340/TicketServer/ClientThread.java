@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import common.communication.Command;
 import common.communication.CommandParams;
 import common.communication.Signal;
+import common.communication.SignalType;
 import common.player_info.User;
 import common.player_info.Username;
 import communicators.ServerCommunicator;
@@ -102,8 +103,15 @@ public class ClientThread extends Thread
                             } else if (message instanceof Signal)
                             {
                                 result = (Signal) message;
+                                if (result.getSignalType().equals(SignalType.NEXT_TURN))
+								{
+									CommandParams params = (CommandParams)result.getObject();
+									Command command = new Command(params, ClientProxy.class.getName());
+									command.execute();
+								}
                                 setSignalFromClient(result);
-                            } else
+                            }
+                            else
                             {
                                 return;
                             }

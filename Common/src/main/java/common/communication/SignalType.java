@@ -1,9 +1,9 @@
 package common.communication;
 
 /**
- * Different key words that methods checking signal status
+ * Different key words for methods checking signal status
  */
 public enum SignalType
 {
-    ERROR, OK, ANNOUNCEMENT, UPDATE, START_GAME
+    ERROR, OK, UPDATE, START_GAME, NEXT_TURN
 }

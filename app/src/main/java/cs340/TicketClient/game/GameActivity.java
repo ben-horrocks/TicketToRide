@@ -110,29 +110,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         .addToBackStack(null).commit();
                 break;
             case R.id.draw_trainCar_button:
-            	if (presenter.isMyTurn())
-				{
-					Fragment drawCardFragment;
-					drawCardFragment = new DeckFragment();
-					fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
-							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-							.addToBackStack(null).commit();
-				}
-				else
-				{
-					Toast.makeText(this, "Not your turn yet", Toast.LENGTH_SHORT).show();
-				}
+				Fragment drawCardFragment;
+				drawCardFragment = new DeckFragment();
+				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
+						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+						.addToBackStack(null).commit();
                 break;
             case R.id.draw_destination_button:
-                HandDestinationCards cards = presenter.getDestinationCards();
-                if (cards == null)
-                {
-                    return;
-                }
-                startDestinationFragment(cards);
+				if (presenter.isMyTurn())
+				{
+					// Gets initial dest cards OR gets 3 new ones.
+					presenter.getDestinationCards();
+				}
                 break;
             case R.id.claim_route_button:
-                System.out.println("To implement... lol");
+            	if (presenter.isMyTurn())
+				{
+					presenter.startClaimRouteOption();
+					System.out.println("To implement... lol");
+				}
                 break;
             default:
                 System.out.println("Broken at onClick(View v) in Game Activity");

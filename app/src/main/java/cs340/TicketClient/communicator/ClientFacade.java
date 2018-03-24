@@ -3,6 +3,8 @@ package cs340.TicketClient.communicator;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.communication.CommandParams;
+import common.game_data.GameID;
 import common.game_data.Opponent;
 import common.chat.ChatItem;
 import common.game_data.GameInfo;
@@ -14,8 +16,10 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.history.HistoryItem;
 import common.map.Edge;
+import common.player_info.Player;
 import common.player_info.Username;
 import cs340.TicketClient.game.GameModel;
+import cs340.TicketClient.game.GamePresenter;
 import cs340.TicketClient.lobby.LobbyPresenter;
 
 public class ClientFacade implements IClient
@@ -118,12 +122,25 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards)
+    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards, GameID gameID)
     {
         try
         {
-            GameModel.getInstance().getPlayer().getDestinationCards().addAll(cards);
-            return new Signal(SignalType.OK, "Destination Cards added sucessfully");
+        	Player player = GameModel.getInstance().getPlayer();
+        	boolean isMyTurn = GameModel.getInstance().isMyTurn();
+        	boolean nextTurn = player.drewDestinationCards(cards, isMyTurn);
+        	if (nextTurn)
+			{
+				String methodName = "updateTurnQueue";
+				String[] paramTypes = {Username.class.getName()};
+				Object[] params = {name};
+				CommandParams nextTurnParams = new CommandParams(methodName, paramTypes, params);
+				return new Signal(SignalType.NEXT_TURN, nextTurnParams);
+			}
+			else
+			{
+				return new Signal(SignalType.OK, "Destination Cards added successfully");
+			}
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());
@@ -160,20 +177,27 @@ public class ClientFacade implements IClient
     public Signal lastTurn(Username name)
     {
         //TODO: implement Last Turn (Probably popping up a toast)
-        return new Signal(SignalType.ERROR, "uniplemented");
+        return new Signal(SignalType.ERROR, "unimplemented");
     }
 
-    @Override
+	@Override
+	public Signal updateTurnQueue(Username username)
+	{
+		GameModel.getInstance().nextTurn();
+		return new Signal(SignalType.OK, "TurnQueue for " + username + " updated.");
+	}
+
+	@Override
     public Signal gameEnded(Username name)
     {
         //TODO: implement changing to the endgame fragment/activity
-        return new Signal(SignalType.ERROR, "uniplemented");
+        return new Signal(SignalType.ERROR, "unimplemented");
     }
 
     @Override
     public Signal startTurn(Username name)
     {
         //TODO: update turnstate
-        return new Signal(SignalType.ERROR, "uniplemented");
+        return new Signal(SignalType.ERROR, "unimplemented");
     }
 }
