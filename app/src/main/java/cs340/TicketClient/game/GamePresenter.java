@@ -1,7 +1,11 @@
 package cs340.TicketClient.game;
 
+import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ import common.player_info.Player;
 import common.map.Edge;
 import common.map.EdgeGraph;
 import common.request.DestDrawRequest;
+import cs340.TicketClient.R;
+import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
 import cs340.TicketClient.communicator.ServerProxy;
 
 public class GamePresenter
@@ -47,51 +53,73 @@ public class GamePresenter
 
     void startClaimRouteOption()
     {
-        //get routes
-        EdgeGraph allRoutes = model.getGameData().getGameboard();
-        //get player's train cards
-        HandTrainCards trainCards = model.getGameData().getPlayer().getHand();
-        //get player's destinations cards
-        HandDestinationCards destinationCards = model.getGameData().getPlayer().getDestinationCards();
-
-        //Routes which can be claimed
-        EdgeGraph claimableRoutes = new EdgeGraph();
-
-        //Routes which can be claimed and are a destination card
-        EdgeGraph destinationClaimableRoutes = new EdgeGraph();
-
-        //Figure out which routes the player can claim
-        for (Edge edge : allRoutes.getAllEdges())
+        Edge selectedEdge = model.getSelectedEdge();
+        if (selectedEdge != null)
         {
-            if (!edge.isClaimed())
+            if (!selectedEdge.isClaimed())
             {
-                //check player's train cards to see if can claim
-                ArrayList<TrainCard> cardsToUse = new ArrayList<>();
-                for (TrainCard card : trainCards.getTrainCards())
-                {
-                    if (card.getType().equals(edge.getColor()))
-                    {
-                        cardsToUse.add(card);
-                    }
-                }
-                //If the size of cardsToUse is sufficient for the edge, then this route can be claimed
-                if (edge.getLength() == cardsToUse.size())
-                {
-                    //Check whether the city is a destination card the player has
-                    for (DestinationCard destinationCard : destinationCards.getDestinationCards())
-                    {
-                        boolean city1Check = destinationCard.getCity1().equals(edge.getFirstCity()) || destinationCard.getCity1().equals(edge.getSecondCity());
-                        boolean city2Check = destinationCard.getCity2().equals(edge.getFirstCity()) || destinationCard.getCity2().equals(edge.getSecondCity());
-                        if (city1Check && city2Check)
-                        {
-                            destinationClaimableRoutes.addEdge(edge);
-                        } else {
-                            claimableRoutes.addEdge(edge);
-                        }
-                    }
-                }
+                android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
+                android.support.v4.app.Fragment fragment = new ClaimFragment();
+                fm.beginTransaction().add(R.id.fragment_map, fragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null).commit();
             }
+            else {
+                String message = "This route is already claimed by another player.";
+                Toast.makeText(activity.getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                //todo: reset player state
+            }
+        } else {
+            String message = "Please select an edge first before claiming the route.";
+            Toast.makeText(activity.getBaseContext(), message, Toast.LENGTH_SHORT).show();
+            //todo: reset player state
         }
+
+//        //get routes
+//        EdgeGraph allRoutes = model.getGameData().getGameboard();
+//        //get player's train cards
+//        HandTrainCards trainCards = model.getGameData().getPlayer().getHand();
+//        //get player's destinations cards
+//        HandDestinationCards destinationCards = model.getGameData().getPlayer().getDestinationCards();
+//
+//        //Routes which can be claimed
+//        EdgeGraph claimableRoutes = new EdgeGraph();
+//
+//        //Routes which can be claimed and are a destination card
+//        EdgeGraph destinationClaimableRoutes = new EdgeGraph();
+//
+//        //Figure out which routes the player can claim
+//        for (Edge edge : allRoutes.getAllEdges())
+//        {
+//            if (!edge.isClaimed())
+//            {
+//                //check player's train cards to see if can claim
+//                ArrayList<TrainCard> cardsToUse = new ArrayList<>();
+//                for (TrainCard card : trainCards.getTrainCards())
+//                {
+//                    if (card.getType().equals(edge.getColor()))
+//                    {
+//                        cardsToUse.add(card);
+//                    }
+//                }
+//                //If the size of cardsToUse is sufficient for the edge, then this route can be claimed
+//                if (edge.getLength() == cardsToUse.size())
+//                {
+//                    //Check whether the city is a destination card the player has
+//                    for (DestinationCard destinationCard : destinationCards.getDestinationCards())
+//                    {
+//                        boolean city1Check = destinationCard.getCity1().equals(edge.getFirstCity()) || destinationCard.getCity1().equals(edge.getSecondCity());
+//                        boolean city2Check = destinationCard.getCity2().equals(edge.getFirstCity()) || destinationCard.getCity2().equals(edge.getSecondCity());
+//                        if (city1Check && city2Check)
+//                        {
+//                            destinationClaimableRoutes.addEdge(edge);
+//                        } else {
+//                            claimableRoutes.addEdge(edge);
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     void claimRoute(TrainColor color, int number) throws InsufficientCardsException
