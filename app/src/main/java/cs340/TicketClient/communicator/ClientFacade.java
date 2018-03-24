@@ -125,7 +125,7 @@ public class ClientFacade implements IClient
         {
         	Player player = GameModel.getInstance().getPlayer();
         	player.drewDestinationCards(cards);
-        	return new Signal(SignalType.NEXT_TURN, "Destination Cards added successfully");
+        	return new Signal(SignalType.OK, "Destination Cards added successfully");
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());

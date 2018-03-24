@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import cs340.TicketClient.R;
 
 public class DeckFragment extends Fragment implements View.OnClickListener
 {
-    Map<ImageView, TrainCard> faceUpCards;
+    Map<ImageView, TrainCard> faceUpCards = new HashMap<>();
     Button drawDeck;
     DeckFragmentPresenter presenter;
     ImageView tCard1;
