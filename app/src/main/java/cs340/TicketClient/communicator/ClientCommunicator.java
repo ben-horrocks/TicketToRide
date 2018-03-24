@@ -214,6 +214,7 @@ public class ClientCommunicator
     {
         if (socket.isConnected())
         {
+            setSignalFromServer(null);
             if (server.read.getState() == Thread.State.NEW)
             {
                 server.read.start();
