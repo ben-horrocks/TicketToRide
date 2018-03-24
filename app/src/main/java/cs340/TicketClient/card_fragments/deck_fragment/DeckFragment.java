@@ -92,7 +92,17 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 				ImageView imageView = (ImageView) view;
 				TrainCard trainCard = faceUpCards.get(imageView);
 				presenter.drawTrainCard(trainCard);
-				presenter.DrawFaceUp(GameModel.getInstance().getGameData().getFaceUp().indexOf(trainCard));
+				if(imageView == tCard1)
+					presenter.DrawFaceUp(0);
+				if(imageView == tCard2)
+					presenter.DrawFaceUp(1);
+				if(imageView == tCard3)
+					presenter.DrawFaceUp(2);
+				if(imageView == tCard4)
+					presenter.DrawFaceUp(3);
+				if(imageView == tCard5)
+					presenter.DrawFaceUp(4);
+
 			}
 		}
 		else
