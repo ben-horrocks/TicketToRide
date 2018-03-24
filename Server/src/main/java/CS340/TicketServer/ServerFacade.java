@@ -665,4 +665,13 @@ public class ServerFacade implements IServer
         logger.exiting("ServerFacade", "turnEnded", signal);
         return signal;
     }
+
+    @Override
+    public Signal returnToLobby(Username user)
+    {
+        logger.entering("ServerFacade", "returnToLobby");
+        Signal signal = new Signal(SignalType.OK, user);
+        logger.exiting("ServerFacade", "login", signal);
+        return signal;
+    }
 }

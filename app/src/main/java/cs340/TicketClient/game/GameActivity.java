@@ -282,6 +282,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     {
         Intent intent = new Intent(this, EndGameActivity.class);
         intent.putExtra("players", players);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 }

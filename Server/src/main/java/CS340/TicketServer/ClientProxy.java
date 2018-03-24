@@ -6,9 +6,7 @@ import java.util.logging.Logger;
 
 import common.chat.ChatItem;
 import common.communication.CommandParams;
-import common.game_data.GameID;
-import common.game_data.GameInfo;
-import common.game_data.StartGamePacket;
+import common.game_data.*;
 import common.communication.IClient;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
@@ -76,6 +74,7 @@ public class ClientProxy implements IClient
     private static final String historyItemClassName = HistoryItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
     private static final String gameIDClassName = GameID.class.getName();
+    private static final String endGameClassName = EndGame.class.getName();
 
     @Override
     public Signal updateGameList(List<GameInfo> gameList)
@@ -207,6 +206,18 @@ public class ClientProxy implements IClient
 	}
 
     @Override
+    public Signal gameEnded(Username name, EndGame players)
+    {
+        logger.entering("ClientProxy", "gameEnded", name);
+        String methodName = "gameEnded";
+        String[] paramTypes = {endGameClassName};
+        Object[] params = {players};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "updateTurnQueue", signal);
+        return signal;
+    }
+
+    @Override
     public Signal lastTurn(Username name)
     {
         logger.entering("ClientProxy", "lastTurn", new Object[]{name});
@@ -215,18 +226,6 @@ public class ClientProxy implements IClient
         Object[] params = {name};
         Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "lastTurn", signal);
-        return signal;
-    }
-
-    @Override
-    public Signal gameEnded(Username name)
-    {
-        logger.entering("ClientProxy", "gameEnded", new Object[]{name});
-        String methodName = "gameEnded";
-        String[] paramTypes = {userNameClassName};
-        Object[] params = {name};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
-        logger.exiting("ClientProxy", "gameEnded", signal);
         return signal;
     }
 

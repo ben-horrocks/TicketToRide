@@ -98,4 +98,6 @@ public interface IServer
 
     Signal turnEnded(GameID id, Username user);
 
+    Signal returnToLobby(Username user);
+
 }

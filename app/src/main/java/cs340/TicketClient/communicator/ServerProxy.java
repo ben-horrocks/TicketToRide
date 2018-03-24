@@ -287,5 +287,22 @@ public class ServerProxy implements IServer
             return new Signal(SignalType.ERROR, e.getMessage());
         }
     }
+
+    @Override
+    public Signal returnToLobby(Username user)
+    {
+        String[] parameterTypes = {};
+        Object[] parameters = {};
+        CommandParams commandParams = new CommandParams("returnToLobby", parameterTypes, parameters);
+        try
+        {
+            Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
+            return s;
+        } catch (Exception e)
+        {
+            return new Signal(SignalType.ERROR, e.getMessage());
+        }
+    }
+
 }
     
