@@ -1,658 +1,194 @@
-Mar 24, 2018 10:47:56 AM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:57:45 AM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 10:49:34 AM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:58:30 AM communicators.ServerCommunicator$1 run
 FINE: Connection received from /10.24.196.80
-Mar 24, 2018 10:49:34 AM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:58:30 AM communicators.ServerCommunicator$1 run
 FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 10:49:34 AM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:58:30 AM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 10:49:34 AM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:58:30 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "register" command
-Mar 24, 2018 10:49:35 AM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:58:33 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 24, 2018 11:58:39 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "register" command
-Mar 24, 2018 10:49:37 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 10:49:42 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "register" command
-Mar 24, 2018 10:49:45 AM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:58:41 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "joinGame" command
-Mar 24, 2018 10:49:46 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 10:49:53 AM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:58:46 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "login" command
-Mar 24, 2018 10:49:58 AM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:58:53 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "startGame" command
-Mar 24, 2018 10:49:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:53 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 10:49:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:53 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 10:49:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:53 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:49:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:53 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:50:05 AM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:58:58 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:50:05 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:50:05 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:50:05 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:50:05 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:58:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:50:09 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawDestinationCards" command
-Mar 24, 2018 10:50:12 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:50:12 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:50:12 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:50:12 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:59:15 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawDeck" command
+Mar 24, 2018 11:59:15 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDeckCard" command to: Tester1
+Mar 24, 2018 11:59:15 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:50:12 AM CS340.TicketServer.ClientProxy sendCommandToClient
+Mar 24, 2018 11:59:15 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:50:12 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "updateTurnQueue" command to: Tester
-Mar 24, 2018 10:50:48 AM CS340.TicketServer.ClientThread push
+Mar 24, 2018 11:59:26 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawDeck" command
+Mar 24, 2018 11:59:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDeckCard" command to: Tester1
+Mar 24, 2018 11:59:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 11:59:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:01:07 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:01:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:01:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:01:07 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:01:12 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:01:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:01:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:01:12 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:01:16 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:01:16 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:01:16 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:01:16 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:45 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:45 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:45 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:45 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:47 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:47 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:48 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:48 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:48 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:48 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:49 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:49 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:49 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:49 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:51 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:52 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:52 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:52 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:52 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:53 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:53 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:53 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:53 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:55 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:56 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:56 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:57 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:57 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:57 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:57 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:58 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:58 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:58 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:58 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:03:59 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "drawFaceUp" command
+Mar 24, 2018 12:03:59 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
+Mar 24, 2018 12:03:59 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1
+Mar 24, 2018 12:03:59 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester
+Mar 24, 2018 12:04:16 PM CS340.TicketServer.ClientThread push
 SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:50:48 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:51:12 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 10:51:12 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 10:51:12 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 10:51:12 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:51:14 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 10:51:21 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:51:23 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 10:51:28 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:51:34 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 10:51:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 10:51:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 10:51:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:51:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:51:39 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:51:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:51:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:51:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:51:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:51:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:52:03 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:52:03 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:53:00 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 10:53:00 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 10:53:00 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 10:53:00 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:53:02 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 10:53:06 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:53:08 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 10:53:13 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:53:16 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 10:53:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 10:53:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 10:53:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:53:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:53:21 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:53:21 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:53:21 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:53:21 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:53:21 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:53:48 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawDestinationCards" command
-Mar 24, 2018 10:53:51 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:53:51 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:53:51 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:53:51 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:53:51 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:53:51 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "updateTurnQueue" command to: Tester
-Mar 24, 2018 10:54:04 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:54:04 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:58:57 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 10:58:57 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 10:58:57 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 10:58:57 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:58:59 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 10:59:03 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:59:05 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 10:59:09 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 10:59:11 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 10:59:11 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 10:59:11 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 10:59:11 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:59:11 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:59:16 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:59:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:59:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:59:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:59:16 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:59:42 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawDestinationCards" command
-Mar 24, 2018 10:59:44 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 10:59:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 10:59:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 10:59:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 10:59:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 10:59:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "updateTurnQueue" command to: Tester
-Mar 24, 2018 10:59:56 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 10:59:56 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:07:33 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 11:07:33 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 11:07:33 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 11:07:33 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:07:34 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 11:07:39 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:07:43 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:07:43 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:08:00 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 11:08:00 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 11:08:00 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 11:08:01 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:08:02 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 11:08:07 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:08:08 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 11:08:08 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 11:08:08 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 11:08:08 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:08:08 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:08:13 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 11:08:13 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:08:13 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester
-Mar 24, 2018 11:08:13 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:08:13 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:08:13 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:10:04 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:10:04 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:10:23 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 11:10:23 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 11:10:23 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 11:10:23 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:10:25 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 11:10:30 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:10:31 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 11:10:37 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:10:39 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 11:10:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 11:10:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 11:10:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:10:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:10:47 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 11:10:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 11:10:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:10:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:10:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:16:20 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:16:20 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:17:22 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 11:17:22 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 11:17:22 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 11:17:22 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:17:23 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 11:17:27 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:17:29 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 11:17:35 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:17:36 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 11:17:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 11:17:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 11:17:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:17:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:17:43 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 11:17:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:17:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester
-Mar 24, 2018 11:17:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:17:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:17:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:17:49 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 11:17:49 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:17:49 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester
-Mar 24, 2018 11:17:49 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:17:49 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:17:50 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:17:52 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 11:17:52 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:17:52 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester
-Mar 24, 2018 11:17:52 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:17:52 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:17:52 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:17:58 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:17:58 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:18:18 AM communicators.ServerCommunicator$1 run
-FINE: Connection received from /10.24.196.80
-Mar 24, 2018 11:18:18 AM communicators.ServerCommunicator$1 run
-FINE: Thread for /10.24.196.80 started
-Mar 24, 2018 11:18:18 AM communicators.ServerCommunicator$1 run
-FINE: Waiting for socket...
-Mar 24, 2018 11:18:18 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:18:20 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "addGame" command
-Mar 24, 2018 11:18:24 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:18:26 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "joinGame" command
-Mar 24, 2018 11:18:30 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "login" command
-Mar 24, 2018 11:18:35 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "startGame" command
-Mar 24, 2018 11:18:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester1
-Mar 24, 2018 11:18:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "startGame" command to: Tester
-Mar 24, 2018 11:18:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:18:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:18:39 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "returnDestinationCards" command
-Mar 24, 2018 11:18:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "playerDrewDestinationCards" command to: Tester
-Mar 24, 2018 11:18:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewDestinationCards" command to: Tester1
-Mar 24, 2018 11:18:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:18:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:20:00 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:20:00 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:20:00 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:20:00 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:23:36 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:23:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:23:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:23:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:25:38 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:25:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:25:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:25:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:25:41 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:25:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:25:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:25:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:25:43 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:25:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:25:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:25:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:25:45 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:25:45 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:25:45 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:25:45 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:25:57 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:25:57 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:25:57 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:25:57 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:00 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:00 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:00 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:00 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:04 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:04 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:04 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:04 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:22 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:23 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:23 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:23 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:23 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:28 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:28 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:28 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:28 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:30 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:30 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:30 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:30 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:31 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:31 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:31 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:31 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:33 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:33 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:33 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:33 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:34 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:34 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:35 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:35 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:36 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:38 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:39 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:39 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:40 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:40 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:40 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:40 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:41 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:42 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:42 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:42 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:42 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:43 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:43 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:44 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:44 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:45 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:45 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:45 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:45 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:46 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:47 AM CS340.TicketServer.ClientThread$1 run
-FINE: Received "drawFaceUp" command
-Mar 24, 2018 11:26:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "opponentDrewFaceUpCard" command to: Tester1
-Mar 24, 2018 11:26:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester1
-Mar 24, 2018 11:26:47 AM CS340.TicketServer.ClientProxy sendCommandToClient
-FINE: Sending "addHistoryItem" command to: Tester
-Mar 24, 2018 11:26:59 AM CS340.TicketServer.ClientThread push
-SEVERE: /10.24.196.80 disconnected from the server
-Mar 24, 2018 11:26:59 AM CS340.TicketServer.ClientThread push
+Mar 24, 2018 12:04:16 PM CS340.TicketServer.ClientThread push
 SEVERE: /10.24.196.80 disconnected from the server
