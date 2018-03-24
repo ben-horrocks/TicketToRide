@@ -1,6 +1,9 @@
 package cs340.TicketClient.card_fragments.deck_fragment;
 
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -54,11 +57,17 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 
         presenter = new DeckFragmentPresenter(this);
 
-        SparseArray<TrainCard> trainTypes = presenter.getFaceUpCards();
+        ArrayList<Integer> trainTypes = presenter.getFaceUpCards();
         for (int i = 0; i < faceUpCardImages.size(); i++)
 		{
-			faceUpCardImages.get(i).setImageResource(trainTypes.keyAt(i));
-			faceUpCards.put(faceUpCardImages.get(i), trainTypes.get(i));
+			int imageID = trainTypes.get(i);
+			System.out.println("imageID: " + imageID);
+			Drawable cardDrawable = getActivity().getResources().getDrawable(imageID);
+			Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
+			Drawable card = new BitmapDrawable(getActivity().getResources(),
+					Bitmap.createScaledBitmap(bitmap, 600, 400, true));
+			faceUpCardImages.get(i).setImageDrawable(card);
+			faceUpCards.put(faceUpCardImages.get(i), presenter.getCardByID(imageID));
 		}
 
 		tCard1.setOnClickListener(this);
