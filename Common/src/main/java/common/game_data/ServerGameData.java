@@ -144,11 +144,11 @@ public class ServerGameData implements Serializable
         return destinations.draw();
     }
 
-    public void edgeClaimed(Edge edge)
+    public void edgeClaimed(Edge edge, List<TrainCard> spent)
     {
         Username owner = edge.getOwner();
-        getPlayer(owner).claimedEdge(edge);
-        //TODO update gameBoard with the modified edge
+        getPlayer(owner).claimedEdge(edge, spent);
+        gameBoard.claimed(edge);
     }
 
     public void addHistoryItem(HistoryItem event)
