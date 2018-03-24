@@ -52,6 +52,40 @@ public class Player implements Serializable
 
     public void drewFaceUpCard(TrainCard trainCard) {  getTurnState().drawFaceUp(this, trainCard); }
 
+    public boolean canClaimEdge(Edge e){
+        Map<TrainColor, Integer> coloredCardMap;
+        coloredCardMap = hand.getColorCounts();
+
+        int wildCards = 0;
+        if(coloredCardMap.get(TrainColor.LOCOMOTIVE) != null)
+            wildCards = coloredCardMap.get(TrainColor.LOCOMOTIVE);
+
+        boolean enoughCards = false; //NEVER ENOUGH!!!
+        switch(e.getColor())
+        {
+            //if the edge is colorless we need to see if any sets of a single color are enough to claim the route
+            case LOCOMOTIVE:
+                for(TrainColor color: coloredCardMap.keySet())
+                {
+                    int correctColorCards = coloredCardMap.get(color);
+                    enoughCards = correctColorCards + wildCards >= e.getLength();
+                    if(enoughCards) //if we have enough cards we can stop checking
+                        break;
+                }
+                //if we get here without breaking mid-loop then enoughCards = false
+                break;
+
+            //otherwise we just check the specific color
+            default:
+                int correctColorCards = coloredCardMap.get(e.getColor());
+                enoughCards = correctColorCards + wildCards >= e.getLength();
+                break;
+        }
+        boolean enoughTrainCards = pieces.getNumTrainPieces() >= e.getLength();
+
+        return enoughTrainCards && enoughCards;
+    }
+
     public void claimedEdge(Edge edge)
     {
         if (canClaimEdge(edge))
@@ -79,24 +113,6 @@ public class Player implements Serializable
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }
 
 	public ITurnState getTurnState() { return turnState; }
-
-    private boolean canClaimEdge(Edge edge)
-    {
-        return numCardsOfColor(edge.getColor()) >= edge.getLength();
-    }
-
-    private int numCardsOfColor(TrainColor color)
-    {
-        int sum = 0;
-        for (TrainCard t : hand.getTrainCards())
-        {
-            if (t.getType() == color)
-            {
-                sum++;
-            }
-        }
-        return sum;
-    }
 
     public HandDestinationCards getDestinationCards() { return this.destinations; }
 
