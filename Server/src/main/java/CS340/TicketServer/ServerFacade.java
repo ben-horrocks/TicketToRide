@@ -22,6 +22,7 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
+import common.player_info.Player;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -285,10 +286,25 @@ public class ServerFacade implements IServer
                 {
                     //drawing the players hand
                     ArrayList<TrainCard> hand = new ArrayList<>();
-                    for (int i = 0; i < 4; i++)
+                    if (serverGameData.getName().equals("test"))
                     {
-                        hand.add(serverGameData.drawFromTrainDeck());
+                        for (int i = 0; i < 10; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                        for (Player player : serverGameData.getPlayers())
+                        {
+                            player.setTrains(5);
+                        }
                     }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                    }
+
 
                     serverGameData
                             .playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
