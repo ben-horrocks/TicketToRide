@@ -201,7 +201,7 @@ public class GameModel
 
     public void addPoints(int number)
     {
-        getPlayer().addPoints(number);
+        getPlayer().claimRoutePoints(number);
     }
 
     public int getTurnPointsLeft() { return turnPoints.getPoints(); }

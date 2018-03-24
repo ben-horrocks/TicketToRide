@@ -585,8 +585,9 @@ public class ServerGameData implements Serializable
         gameBoard.addEdge(city1, edge);
     }
 
-    private boolean isLastTurn(Player currentPlayer)
+    public boolean isLastTurn()
     {
+        Player currentPlayer = getPlayer(turnQueue.peek());
         if (currentPlayer.getTrainPiecesRemaining() == 2 ||
             currentPlayer.getTrainPiecesRemaining() == 1 ||
             currentPlayer.getTrainPiecesRemaining() == 0)

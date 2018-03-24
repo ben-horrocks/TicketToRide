@@ -1,6 +1,7 @@
 package cs340.TicketClient.game;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -12,6 +13,7 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.game_data.StartGamePacket;
 import common.history.HistoryItem;
+import common.player_info.Player;
 import common.request.DestDrawRequest;
 import cs340.TicketClient.communicator.ServerProxy;
 
@@ -124,5 +126,10 @@ public class GamePresenter
             }
 
         }
+    }
+
+    void endGame(List<Player> players)
+    {
+        activity.
     }
 }

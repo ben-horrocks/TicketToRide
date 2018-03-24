@@ -574,7 +574,7 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DatSabase.SINGLETON.getRunningGameByID(id);
         //Update GameData
         game.edgeClaimed(edge);
         //Alert Opponents
@@ -635,6 +635,10 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "turnEnded", id);
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        if(game.isLastTurn())
+        {
+            ServerFacade.getSINGLETON().lastTurn(id);
+        }
         //TODO:Username nextPlayer = game.nextTurn();
         //TODO:ClientProxy.getSINGLETON().startTurn(nextPlayer);
         Signal signal = new Signal(SignalType.OK, "LastTurn");

@@ -7,6 +7,7 @@ import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
+import common.game_data.Point;
 import common.map.City;
 import common.map.Edge;
 import common.map.EdgeGraph;
@@ -19,7 +20,7 @@ public class Player implements Serializable
     private HandTrainCards hand;
     private HandDestinationCards destinations;
     private PlayerColor color;
-    private int score;
+    private Point score;
     private EdgeGraph claimedEdges;
     private TrainPieces pieces;
     private ITurnState turnState;
@@ -30,7 +31,7 @@ public class Player implements Serializable
         this.hand = new HandTrainCards();
         this.destinations = new HandDestinationCards();
         this.color = color;
-        this.score = 0;
+        this.score = new Point();
         this.claimedEdges = new EdgeGraph();
         this.turnState = new NotMyTurn();
     }
@@ -54,6 +55,8 @@ public class Player implements Serializable
         if (canClaimEdge(edge))
         {
             claimedEdges.addEdge(edge);
+            //  NEED TO IMPLEMENT EDGE POINTS
+            // score.incrementRoutesClaimed(edge.get);
             ArrayList<TrainCard> toRemove = new ArrayList<>();
             for (int i = 0; i < edge.getLength(); i++)
             {
@@ -108,14 +111,9 @@ public class Player implements Serializable
         return this.color;
     }
 
-    public int getScore()
+    public Point getScore()
     {
         return this.score;
-    }
-
-    public void addPoints(int points)
-    {
-        this.score += points;
     }
 
     public EdgeGraph getClaimedEdges()
@@ -167,6 +165,11 @@ public class Player implements Serializable
         }
         }
         return longestPath;
+    }
+
+    public Username getUsername()
+    {
+        return user.getUsername();
     }
 
 }
