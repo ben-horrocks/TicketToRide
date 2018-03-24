@@ -91,7 +91,7 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 			{
 				ImageView imageView = (ImageView) view;
 				TrainCard trainCard = faceUpCards.get(imageView);
-				presenter.drawTrainCard(trainCard);
+				presenter.drawTrainCard(trainCard.getType());
 				if(imageView == tCard1)
 					presenter.DrawFaceUp(0);
 				if(imageView == tCard2)
