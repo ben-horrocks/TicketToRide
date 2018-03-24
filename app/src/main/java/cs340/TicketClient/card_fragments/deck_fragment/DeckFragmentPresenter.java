@@ -18,7 +18,7 @@ import cs340.TicketClient.R;
 
 import static common.communication.SignalType.OK;
 
-class DeckFragmentPresenter
+public class DeckFragmentPresenter
 {
 
     private DeckFragment fragment;
