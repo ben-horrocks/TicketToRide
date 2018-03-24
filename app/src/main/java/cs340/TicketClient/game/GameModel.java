@@ -1,5 +1,6 @@
 package cs340.TicketClient.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import common.cards.DestinationCard;
@@ -35,6 +36,7 @@ public class GameModel
     private static GameModel singleton;
     private HandDestinationCards initialDCards;
     GamePresenter presenter;
+    private ArrayList<TrainCard> queuedCards;
 
     public static GameModel getInstance()
     {
@@ -48,6 +50,14 @@ public class GameModel
     private GameModel()
     {
 
+    }
+
+    public void setQueuedCards(ArrayList<TrainCard> queuedCards) {
+        this.queuedCards = queuedCards;
+    }
+
+    public ArrayList<TrainCard> getQueuedCards() {
+        return queuedCards;
     }
 
     // Game Methods

@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/trainCards"
+            android:id="@+id/ClaimTrainCards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
