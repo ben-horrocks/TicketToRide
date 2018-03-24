@@ -23,10 +23,16 @@ public class InitialDestinationCardDraw implements ITurnState, Serializable
 	public void drawFromDeck(Player player, TrainCard trainCard) {}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn)
 	{
 		player.getDestinationCards().addAll(pickedCards);
 		player.setTurnState(new NotMyTurn());
+		if (isMyTurn)
+		{
+			player.setTurnState(new MyTurnNoAction());
+		}
+
+		return false;
 	}
 
 	@Override

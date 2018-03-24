@@ -123,7 +123,8 @@ public class GamePresenter
             HandDestinationCards cards = model.getInitialDCards();
             GameModel.getInstance().clearDCards();
             return cards;
-        } else
+        }
+        else
         {
             DestDrawRequest request = new DestDrawRequest(GameModel.getInstance().getGameID(),
                                                           GameModel.getInstance().getPlayer()

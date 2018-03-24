@@ -13,7 +13,7 @@ public interface ITurnState
 
 	void drawFromDeck(Player player, TrainCard trainCard);
 
-	void drawDestinationCards(Player player, HandDestinationCards pickedCards);
+	boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn);
 
 	void claimEdge(Player player, Edge edge);
 

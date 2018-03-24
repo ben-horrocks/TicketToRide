@@ -139,4 +139,7 @@ public class DestinationCardFragment extends Fragment
         }
     }
 
+	// Don't allow exiting destination card fragment
+
+    public void onBackPressed() {}
 }

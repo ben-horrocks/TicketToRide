@@ -97,9 +97,9 @@ public class Player implements Serializable
 
     public HandDestinationCards getDestinationCards() { return this.destinations; }
 
-    public void drewDestinationCards(HandDestinationCards cards)
+    public boolean drewDestinationCards(HandDestinationCards cards, boolean isMyTurn)
     {
-        getTurnState().drawDestinationCards(this, cards);
+        return getTurnState().drawDestinationCards(this, cards, isMyTurn);
     }
 
     public PlayerColor getColor()

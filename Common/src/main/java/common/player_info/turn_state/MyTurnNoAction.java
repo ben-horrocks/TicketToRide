@@ -44,10 +44,12 @@ public class MyTurnNoAction implements ITurnState, Serializable
 	}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn)
 	{
 		player.getDestinationCards().addAll(pickedCards);
 		player.setTurnState(new NotMyTurn());
+
+		return true;
 	}
 
 	@Override

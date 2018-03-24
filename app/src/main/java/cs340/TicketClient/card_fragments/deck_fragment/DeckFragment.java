@@ -1,6 +1,9 @@
 package cs340.TicketClient.card_fragments.deck_fragment;
 
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +24,7 @@ import cs340.TicketClient.game.GameModel;
 
 public class DeckFragment extends Fragment implements View.OnClickListener
 {
-    Map<ImageView, TrainCard> faceUpCards;
+    Map<ImageView, TrainCard> faceUpCards = new HashMap<>();
     Button drawDeck;
     DeckFragmentPresenter presenter;
     ImageView tCard1;
@@ -53,11 +57,16 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 
         presenter = new DeckFragmentPresenter(this);
 
-        SparseArray<TrainCard> trainTypes = presenter.getFaceUpCards();
+        ArrayList<Integer> trainTypes = presenter.getFaceUpCards();
         for (int i = 0; i < faceUpCardImages.size(); i++)
 		{
-			faceUpCardImages.get(i).setImageResource(trainTypes.keyAt(i));
-			faceUpCards.put(faceUpCardImages.get(i), trainTypes.get(i));
+			int imageID = trainTypes.get(i);
+			Drawable cardDrawable = getActivity().getResources().getDrawable(imageID);
+			Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
+			Drawable card = new BitmapDrawable(getActivity().getResources(),
+					Bitmap.createScaledBitmap(bitmap, 600, 400, true));
+			faceUpCardImages.get(i).setImageDrawable(card);
+			faceUpCards.put(faceUpCardImages.get(i), presenter.getCardByID(imageID));
 		}
 
         return v;

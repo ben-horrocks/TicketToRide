@@ -40,10 +40,7 @@ public class DrewFaceUpCard implements ITurnState, Serializable
 	}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
-	{
-
-	}
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn) { return false; }
 
 	@Override
 	public void claimEdge(Player player, Edge edge) {}
