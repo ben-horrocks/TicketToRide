@@ -1,6 +1,8 @@
 package common.player_info;
 
-public class TrainPieces
+import java.io.Serializable;
+
+public class TrainPieces implements Serializable
 {
     private int numTrainPieces;
 
