@@ -9,6 +9,7 @@ import common.cards.TrainColor;
 import common.chat.ChatItem;
 import common.game_data.*;
 import common.history.HistoryItem;
+import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.User;
 import common.player_info.Username;
@@ -35,6 +36,7 @@ public class GameModel
     private static GameModel singleton;
     private HandDestinationCards initialDCards;
     GamePresenter presenter;
+    Edge selectedEdge;
 
     public static GameModel getInstance()
     {
@@ -211,5 +213,14 @@ public class GameModel
     public void endGame(EndGame players)
     {
         presenter.endGame(players);
+    }
+
+    //Selected Edge Methods
+    public Edge getSelectedEdge() {
+        return selectedEdge;
+    }
+
+    public void setSelectedEdge(Edge selectedEdge) {
+        this.selectedEdge = selectedEdge;
     }
 }
