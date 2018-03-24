@@ -84,6 +84,53 @@ public class EdgeGraph implements Serializable
         return false;
     }
 
+    private static boolean existEdge(Set<Edge> graph, String city1, String city2)
+    {
+        for (Edge e : graph)
+        {
+            if (e.getFirstCity().getCityName().equals(city1) && e.getSecondCity().getCityName().equals(city2)
+                    || e.getSecondCity().getCityName().equals(city2) && e.getFirstCity().getCityName().equals(city1))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean findRoute(Set<Edge> left, String city1, String city2)
+    {
+        boolean runningTruth = false;
+        if (existEdge(left, city1, city2))
+            return true;
+        else
+        {
+            for (Edge e : left)
+            {
+                if (e.getFirstCity().toString().equals(city1))
+                {
+                    left.remove(e);
+                    runningTruth = findRoute(left, e.getSecondCity().getCityName(), city2);
+                    if (runningTruth)
+                    {
+                        return true;
+                    }
+                    left.add(e);
+                }
+                else if(e.getSecondCity().toString().equals(city1))
+                {
+                    left.remove(e);
+                    runningTruth = findRoute(left, e.getFirstCity().getCityName(), city2);
+                    if (runningTruth)
+                    {
+                        return true;
+                    }
+                    left.add(e);
+                }
+            }
+            return false;
+        }
+    }
+
     public boolean hasCity(City city)
     {
         return graph.containsKey(city);

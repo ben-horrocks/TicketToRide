@@ -587,13 +587,13 @@ public class ServerFacade implements IServer
      * @post Will return a signal of success or error
      */
     @Override
-    public Signal claimEdge(GameID id, Username user, Edge edge)
+    public Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent)
     {
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
-        game.edgeClaimed(edge);
+        game.edgeClaimed(edge,spent.getTrainCards());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
         opponents.remove(Database.SINGLETON.getPlayer(user));

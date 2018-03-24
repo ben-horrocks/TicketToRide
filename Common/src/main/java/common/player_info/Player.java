@@ -46,59 +46,12 @@ public class Player implements Serializable
         return this.hand;
     }
 
-    private boolean existEdge(String city1, String city2)
-    {
-        for (Edge e : claimedEdges.getAllEdges())
-        {
-            if (e.getFirstCity().getCityName().equals(city1) && e.getSecondCity().getCityName().equals(city2)
-                    || e.getSecondCity().getCityName().equals(city2) && e.getFirstCity().getCityName().equals(city1))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean findRoute(Set<Edge> left, String city1, String city2)
-    {
-        boolean runningTruth = false;
-        if (existEdge(city1, city2))
-            return true;
-        else
-        {
-            for (Edge e : left)
-            {
-                if (e.getFirstCity().toString().equals(city1))
-                {
-                    left.remove(e);
-                    runningTruth = findRoute(left, e.getSecondCity().getCityName(), city2);
-                    if (runningTruth)
-                    {
-                        return true;
-                    }
-                    left.add(e);
-                }
-                else if(e.getSecondCity().toString().equals(city1))
-                {
-                    left.remove(e);
-                    runningTruth = findRoute(left, e.getFirstCity().getCityName(), city2);
-                    if (runningTruth)
-                    {
-                        return true;
-                    }
-                    left.add(e);
-                }
-            }
-            return false;
-        }
-    }
-
     private void checkDestinationCards()
     {
         for (DestinationCard card : destinations.getDestinationCards())
         {
             if (!card.isComplete())
-                card.setComplete(this.findRoute(claimedEdges.getAllEdges(), card.getCity1(), card.getCity2()));
+                card.setComplete(EdgeGraph.findRoute(claimedEdges.getAllEdges(), card.getCity1(), card.getCity2()));
         }
     }
 
