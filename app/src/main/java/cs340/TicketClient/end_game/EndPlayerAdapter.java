@@ -8,7 +8,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.game_data.EndGame;
 import common.player_info.Player;
+import common.player_info.Username;
 import cs340.TicketClient.R;
 
 /**
@@ -19,7 +21,8 @@ import cs340.TicketClient.R;
  */
 public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.viewHolder>
 {
-    private List<Player> players = new ArrayList<>();
+    private List<EndGame.EndGamePlayer> players = new ArrayList<>();
+
 
     public EndPlayerAdapter()
     {
@@ -38,9 +41,9 @@ public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.view
     @Override
     public void onBindViewHolder(viewHolder holder, int position)
     {
-        Player player = players.get(position);
-        holder.playerName.setText(player.getName());
-        holder.playerPoints.setText(player.getScore());
+        EndGame.EndGamePlayer player = players.get(position);
+        holder.playerName.setText(player.getUsername());
+        holder.playerPoints.setText(player.getPoint().getRoutesClaimedPoints());
     }
 
     @Override
@@ -55,8 +58,8 @@ public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.view
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public void addPlayers(List<Player> newplayers) {
-        players.addAll(newplayers);
+    public void addPlayers(EndGame newplayers) {
+        players.addAll(newplayers.getPlayers());
         notifyDataSetChanged();
     }
 
