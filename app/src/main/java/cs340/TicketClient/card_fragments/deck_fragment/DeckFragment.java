@@ -15,6 +15,7 @@ import java.util.Map;
 
 import common.cards.TrainCard;
 import cs340.TicketClient.R;
+import cs340.TicketClient.game.GameModel;
 
 
 public class DeckFragment extends Fragment implements View.OnClickListener
@@ -69,13 +70,14 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 		{
 			if (view.getId() == R.id.drawButton)
 			{
-				// TODO: Implement functionality for successfully drawing cards from deck
+				presenter.DrawDeck();
 			}
 			else
 			{
 				ImageView imageView = (ImageView) view;
 				TrainCard trainCard = faceUpCards.get(imageView);
 				presenter.drawTrainCard(trainCard);
+				presenter.DrawFaceUp(GameModel.getInstance().getGameData().getFaceUp().indexOf(trainCard));
 			}
 		}
 		else
