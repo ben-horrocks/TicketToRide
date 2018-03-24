@@ -61,7 +61,6 @@ public class DeckFragment extends Fragment implements View.OnClickListener
         for (int i = 0; i < faceUpCardImages.size(); i++)
 		{
 			int imageID = trainTypes.get(i);
-			System.out.println("imageID: " + imageID);
 			Drawable cardDrawable = getActivity().getResources().getDrawable(imageID);
 			Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
 			Drawable card = new BitmapDrawable(getActivity().getResources(),

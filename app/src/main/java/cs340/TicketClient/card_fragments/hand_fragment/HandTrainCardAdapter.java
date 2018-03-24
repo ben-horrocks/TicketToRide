@@ -1,6 +1,9 @@
 package cs340.TicketClient.card_fragments.hand_fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.ImageView;
@@ -34,7 +37,12 @@ public class HandTrainCardAdapter
     public void onBindViewHolder(HandTrainCardViewHolder holder, int position)
     {
         TrainCard trainCard = mTrainCards[position];
-        holder.myImageView.setImageResource(getTrainCardImage(trainCard.getType()));
+        int imageID = getTrainCardImage(trainCard.getType());
+		Drawable cardDrawable = mInflater.getContext().getResources().getDrawable(imageID);
+		Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
+		Drawable card = new BitmapDrawable(mInflater.getContext().getResources(),
+				Bitmap.createScaledBitmap(bitmap, 600, 400, true));
+        holder.myImageView.setImageDrawable(card);
     }
 
     private int getTrainCardImage(TrainColor color)
