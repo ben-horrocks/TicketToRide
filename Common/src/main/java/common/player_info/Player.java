@@ -81,9 +81,9 @@ public class Player implements Serializable
                 enoughCards = correctColorCards + wildCards >= e.getLength();
                 break;
         }
-        boolean enoughTrainCards = pieces.getNumTrainPieces() >= e.getLength();
+        boolean enoughTrainCars = pieces.getNumTrainPieces() >= e.getLength();
 
-        return enoughTrainCards && enoughCards;
+        return enoughTrainCars && enoughCards;
     }
 
     public void claimedEdge(Edge edge)
