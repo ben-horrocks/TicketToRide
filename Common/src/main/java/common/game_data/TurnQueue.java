@@ -10,6 +10,7 @@ import common.player_info.Username;
 public class TurnQueue implements Serializable
 {
     private ArrayBlockingQueue<Username> queue;
+    private Boolean lastTurn = false;
 
     // Constructors
     public TurnQueue(ArrayBlockingQueue<Username> queue) { this.queue = queue; }
@@ -44,12 +45,12 @@ public class TurnQueue implements Serializable
     public void nextTurn()
     {
         Username username = queue.poll();
-        if (username != null)
+        if (username != null && !lastTurn)
         {
             queue.add(username);
         } else
         {
-            System.out.println("Error in turn queue: queue.poll returned null.");
+            //game is over
         }
     }
 
@@ -58,4 +59,9 @@ public class TurnQueue implements Serializable
 	 * @return Returns the size of the turn queue.
 	 */
 	public int size() { return queue.size(); }
+
+	public void lastTurn()
+    {
+        lastTurn = true;
+    }
 }

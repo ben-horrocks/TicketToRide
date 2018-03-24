@@ -195,6 +195,7 @@ public class ServerGameData implements Serializable
         //TODO: implement returning cards to the destination deck
     }
 
+
     private Player getPlayer(String name)
     {
         for (Player p : players)
@@ -241,6 +242,16 @@ public class ServerGameData implements Serializable
         }
     }
 
+    public Username getNextPlayer()
+    {
+        return turnQueue.peek();
+    }
+
+    public void nextTurn()
+    {
+        turnQueue.nextTurn();
+    }
+
     public boolean isLastTurn()
     {
         Player currentPlayer = getPlayer(turnQueue.peek());
@@ -253,6 +264,11 @@ public class ServerGameData implements Serializable
         {
             return false;
         }
+    }
+
+    public void lastTurn()
+    {
+        turnQueue.lastTurn();
     }
 
     public void computeLongestRoute() {

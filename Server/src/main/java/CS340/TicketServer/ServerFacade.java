@@ -22,6 +22,8 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
+import common.player_info.Player;
+import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -285,10 +287,25 @@ public class ServerFacade implements IServer
                 {
                     //drawing the players hand
                     ArrayList<TrainCard> hand = new ArrayList<>();
-                    for (int i = 0; i < 4; i++)
+                    if (serverGameData.getName().equals("test"))
                     {
-                        hand.add(serverGameData.drawFromTrainDeck());
+                        for (int i = 0; i < 10; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                        for (Player player : serverGameData.getPlayers())
+                        {
+                            player.setPieces(new TrainPieces(false));
+                        }
                     }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                    }
+
 
                     serverGameData
                             .playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
@@ -627,6 +644,7 @@ public class ServerFacade implements IServer
         {
             ClientProxy.getSINGLETON().lastTurn(u.getUsername());
         }
+        game.lastTurn();
         Signal signal = new Signal(SignalType.OK, "LastTurn");
         logger.exiting("ServerFacade", "lastTurn", signal);
         return signal;
@@ -635,8 +653,7 @@ public class ServerFacade implements IServer
     public Signal nextTurn(GameID gameID)
 	{
 		ServerGameData game = Database.SINGLETON.getRunningGameByID(gameID);
-		TurnQueue turnQueue = game.getTurnQueue();
-		turnQueue.nextTurn();
+		game.nextTurn();
 		for (User u : game.getUsers())
 		{
 			Signal s = ClientProxy.getSINGLETON().updateTurnQueue(u.getUsername());
@@ -646,6 +663,7 @@ public class ServerFacade implements IServer
 				return s;
 			}
 		}
+        ClientProxy.getSINGLETON().startTurn(game.getNextPlayer());
 		Signal signal = new Signal(SignalType.OK, "TurnQueues updated");
 		logger.exiting("ServerFacade", "nextTurn", signal);
 		return signal;
@@ -659,9 +677,8 @@ public class ServerFacade implements IServer
         {
             ServerFacade.getSINGLETON().lastTurn(id);
         }
-        //TODO:Username nextPlayer = game.nextTurn();
-        //TODO:ClientProxy.getSINGLETON().startTurn(nextPlayer);
-        Signal signal = new Signal(SignalType.OK, "LastTurn");
+        nextTurn(id);
+        Signal signal = new Signal(SignalType.OK, "turnEnded");
         logger.exiting("ServerFacade", "turnEnded", signal);
         return signal;
     }
