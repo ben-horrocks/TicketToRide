@@ -23,6 +23,7 @@ import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
 import common.player_info.Player;
+import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -294,7 +295,7 @@ public class ServerFacade implements IServer
                         }
                         for (Player player : serverGameData.getPlayers())
                         {
-                            player.setTrains(5);
+                            player.setPieces(new TrainPieces(false));
                         }
                     }
                     else

@@ -35,6 +35,11 @@ public class Player implements Serializable
         this.score = new Point();
         this.claimedEdges = new EdgeGraph();
         this.turnState = new InitialDestinationCardDraw();
+        this.pieces = new TrainPieces(true);
+    }
+
+    public void setPieces(TrainPieces pieces) {
+        this.pieces = pieces;
     }
 
     public String getName() { return this.user.getStringUserName(); }
