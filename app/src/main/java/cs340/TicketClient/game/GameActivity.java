@@ -280,7 +280,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void endGame(List<Player> players)
     {
-        Intent intent = new Intent();
-        intent.putExtra("players", players);
+//        Intent intent = new Intent();
+//        intent.putExtra("players", players);
     }
 }

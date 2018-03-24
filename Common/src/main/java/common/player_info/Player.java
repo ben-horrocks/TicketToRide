@@ -110,7 +110,12 @@ public class Player implements Serializable
         return this.color;
     }
 
-    public Point getScore()
+    public int getScore()
+    {
+        return this.score.getRoutesClaimedPoints();
+    }
+
+    public Point getPoints()
     {
         return this.score;
     }

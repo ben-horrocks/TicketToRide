@@ -187,8 +187,4 @@ public class GameModel
 
     public void nextTurn() { gameData.nextTurn(); }
 
-    public void addPoints(int number)
-    {
-        getPlayer().claimRoutePoints(number);
-    }
 }

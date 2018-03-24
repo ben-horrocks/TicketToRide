@@ -186,6 +186,6 @@ public class GamePresenter
 
     void endGame(List<Player> players)
     {
-        activity.
+        activity.endGame(players);
     }
 }

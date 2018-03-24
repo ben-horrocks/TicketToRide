@@ -17,7 +17,7 @@ public class EndGame
     {
         for(Player player : players)
         {
-            this.players.put(player.getUsername(), player.get)
+            this.players.put(player.getUsername(), player.getPoints());
         }
     }
 }

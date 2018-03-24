@@ -575,7 +575,7 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
-        ServerGameData game = DatSabase.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
         game.edgeClaimed(edge);
         //Alert Opponents
