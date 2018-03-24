@@ -38,7 +38,7 @@ public class ClaimFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_claim_edge, container, false);
-        claimRoute = v.findViewById(R.id.ClaimTrainCards);
+        claimRoute = v.findViewById(R.id.submit_claim_button);
         trainCardsRecyclerView = v.findViewById(R.id.ClaimTrainCards);
         presenter = new ClaimPresenter(this);
         TrainCard trainCards[] = presenter.getPlayerTrainCards().toArray();

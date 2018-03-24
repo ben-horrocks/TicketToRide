@@ -37,7 +37,7 @@ public class GameModel
     private static GameModel singleton;
     private HandDestinationCards initialDCards;
     GamePresenter presenter;
-    private ArrayList<TrainCard> queuedCards;
+    private ArrayList<TrainCard> queuedCards = new ArrayList<>();
     Edge selectedEdge;
 
     public static GameModel getInstance()
@@ -227,7 +227,11 @@ public class GameModel
 
     //Selected Edge Methods
     public Edge getSelectedEdge() {
-        return selectedEdge;
+        for ( Edge e : getGameData().getGameboard().getAllEdges())
+        {
+            return e;
+        }
+        return null;
     }
 
     public void setSelectedEdge(Edge selectedEdge) {
