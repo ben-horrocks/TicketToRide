@@ -3,6 +3,8 @@ package common.map;
 import java.io.Serializable;
 import java.util.*;
 
+import common.player_info.Player;
+
 /**
  * The representation of the board game.
  */
@@ -47,6 +49,22 @@ public class EdgeGraph implements Serializable
     {
         City city = edge.getFirstCity();
         addEdge(city, edge);
+    }
+
+    public void claimed(Edge edge)
+    {
+        List<Edge> cityEdges = graph.get(edge.getFirstCity());
+        Edge old = null;
+        for(int i=0; i<cityEdges.size(); i++)
+        {
+            Edge temp = cityEdges.get(i);
+            if(temp.getID().equals(edge.getSecondCity()))
+            {
+                old = temp;
+            }
+        }
+        cityEdges.remove(old);
+        cityEdges.add(edge);
     }
 
     public boolean hasEdge(Edge edge)

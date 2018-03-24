@@ -21,6 +21,7 @@ public class Edge implements Serializable
     private int length;
     private Username owner = null;
     private boolean isDoubleEdge;
+    private String id;
 
     /**
      * @param firstCity    The "starting" city.
@@ -39,6 +40,7 @@ public class Edge implements Serializable
         this.length = length;
         this.isDoubleEdge = isDoubleEdge;
         this.ownerColor = null;
+        this.id = generateNewId();
     }
 
     public int computePointValue()
@@ -279,4 +281,20 @@ public class Edge implements Serializable
         return correctCities;
     }
 
+    private String generateNewId()
+    {
+        StringBuilder ID = new StringBuilder();
+        ID.setLength(0);
+        ID.append(UUID.randomUUID().toString());
+        ID.deleteCharAt(23);
+        ID.deleteCharAt(18);
+        ID.deleteCharAt(13);
+        ID.deleteCharAt(8);
+        return ID.toString();
+    }
+
+    public String getID()
+    {
+        return id;
+    }
 }
