@@ -118,14 +118,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 						.addToBackStack(null).commit();
                 break;
             case R.id.draw_destination_button:
-                HandDestinationCards cards = presenter.getDestinationCards();
-                if (cards == null)
-                {
-                    return;
-                }
-                if (presenter.isMyTurn())
+				if (presenter.isMyTurn())
 				{
-					startDestinationFragment(cards);
+					// Gets initial dest cards OR gets 3 new ones.
+					presenter.getDestinationCards();
 				}
                 break;
             case R.id.claim_route_button:

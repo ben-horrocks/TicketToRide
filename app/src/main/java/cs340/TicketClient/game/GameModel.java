@@ -108,6 +108,11 @@ public class GameModel
         getPlayer().getDestinationCards().add(card);
     }
 
+    public void addDestinationCards(HandDestinationCards cards)
+	{
+		getPlayer().getDestinationCards().addAll(cards.getDestinationCards());
+	}
+
     // TODO: update to remove specific card(s)
     public void removeDestCard()
     {
