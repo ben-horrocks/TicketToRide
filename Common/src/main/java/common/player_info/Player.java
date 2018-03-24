@@ -126,7 +126,7 @@ public class Player implements Serializable
         switch(e.getColor())
         {
             //if the edge is colorless we need to see if any sets of a single color are enough to claim the route
-            case LOCOMOTIVE:
+            case GRAY:
                 for(TrainColor color: coloredCardMap.keySet())
                 {
                     int correctColorCards = coloredCardMap.get(color);
@@ -148,29 +148,11 @@ public class Player implements Serializable
         return enoughTrainCars && enoughCards;
     }
 
-    public void claimedEdge(Edge edge)
+    public void claimedEdge(Edge edge, List<TrainCard> spent)
     {
-        if (canClaimEdge(edge))
-        {
-            claimedEdges.addEdge(edge);
-            this.checkDestinationCards();
-            //  NEED TO IMPLEMENT EDGE POINTS
-            // score.incrementRoutesClaimed(edge.get);
-            ArrayList<TrainCard> toRemove = new ArrayList<>();
-            for (int i = 0; i < edge.getLength(); i++)
-            {
-                for (TrainCard t : hand.getTrainCards())
-                {
-                    if (t.getType() == edge.getColor())
-                    {
-                        toRemove.add(t);
-                        break;
-                    }
-                }
-            }
-            hand.getTrainCards().removeAll(toRemove);
-        }
-        //TODO if the newly claimed edge completed a destination card add points and remove the card
+        claimedEdges.addEdge(edge);
+        this.checkDestinationCards();
+        hand.getTrainCards().remove(spent);
     }
 
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }
