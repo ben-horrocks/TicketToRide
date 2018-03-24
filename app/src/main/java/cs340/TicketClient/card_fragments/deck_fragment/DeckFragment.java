@@ -69,6 +69,7 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 			faceUpCards.put(faceUpCardImages.get(i), presenter.getCardByID(imageID));
 		}
 
+		drawDeck.setOnClickListener(this);
 		tCard1.setOnClickListener(this);
 		tCard2.setOnClickListener(this);
 		tCard3.setOnClickListener(this);
