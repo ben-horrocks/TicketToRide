@@ -30,6 +30,8 @@ public class TurnQueue implements Serializable
 	 */
     public Username peek() { return queue.peek(); }
 
+    public boolean isMyTurn(Username username) { return queue.peek().equals(username); }
+
 	/**
 	 * Gives you an array representation of the turn queue.
 	 * @return Returns an array of Username.

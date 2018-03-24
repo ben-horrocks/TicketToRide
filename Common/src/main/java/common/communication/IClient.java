@@ -3,6 +3,7 @@ package common.communication;
 import java.util.List;
 
 import common.chat.ChatItem;
+import common.game_data.GameID;
 import common.game_data.GameInfo;
 import common.game_data.StartGamePacket;
 import common.cards.HandDestinationCards;
@@ -43,13 +44,15 @@ public interface IClient
 
     Signal playerClaimedEdge(Username name, Edge edge);
 
-    Signal playerDrewDestinationCards(Username name, HandDestinationCards cards);
+    Signal playerDrewDestinationCards(Username name, HandDestinationCards cards, GameID gameID);
 
     Signal addChatItem(Username name, ChatItem item);
 
     Signal addHistoryItem(Username name, HistoryItem item);
 
     Signal lastTurn(Username name);
+
+    Signal updateTurnQueue(Username username);
 
     Signal gameEnded(Username name);
 

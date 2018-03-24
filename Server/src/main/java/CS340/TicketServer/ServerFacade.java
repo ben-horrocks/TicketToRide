@@ -17,6 +17,7 @@ import common.game_data.ClientGameData;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
 import common.game_data.StartGamePacket;
+import common.game_data.TurnQueue;
 import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.AuthToken;
@@ -406,9 +407,10 @@ public class ServerFacade implements IServer
         Database database = Database.SINGLETON;
         ServerGameData game = database.getRunningGameByID(id);
         //Tell the game to update
-        game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards);
+		boolean isMyTurn = game.getTurnQueue().isMyTurn(user);
+        game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards, isMyTurn);
         //Tell the clients to update
-        ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards);
+        ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards, id);
         Set<User> otherPlayers = game.getUsers();
 		User agent = database.getPlayer(user);
         otherPlayers.remove(agent);
@@ -630,10 +632,33 @@ public class ServerFacade implements IServer
         return signal;
     }
 
+    public Signal nextTurn(GameID gameID)
+	{
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(gameID);
+		TurnQueue turnQueue = game.getTurnQueue();
+		turnQueue.nextTurn();
+		for (User u : game.getUsers())
+		{
+			Signal s = ClientProxy.getSINGLETON().updateTurnQueue(u.getUsername());
+			if (s.getSignalType().equals(SignalType.ERROR))
+			{
+				logger.exiting("ServerFacade", "nextTurn", s);
+				return s;
+			}
+		}
+		Signal signal = new Signal(SignalType.OK, "TurnQueues updated");
+		logger.exiting("ServerFacade", "nextTurn", signal);
+		return signal;
+	}
+
     public Signal turnEnded(GameID id, Username name)
     {
         logger.entering("ServerFacade", "turnEnded", id);
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        if(game.isLastTurn())
+        {
+            ServerFacade.getSINGLETON().lastTurn(id);
+        }
         //TODO:Username nextPlayer = game.nextTurn();
         //TODO:ClientProxy.getSINGLETON().startTurn(nextPlayer);
         Signal signal = new Signal(SignalType.OK, "LastTurn");

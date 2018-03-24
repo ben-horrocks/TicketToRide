@@ -1,4 +1,4 @@
-package common.DataModels.GameData;
+package common.game_data;
 
 public class Point
 {

@@ -1,5 +1,6 @@
 package cs340.TicketClient.game;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.*;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +15,7 @@ import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.game_data.Opponent;
 import common.game_data.StartGamePacket;
-import common.player_info.PlayerColor;
-import common.player_info.User;
-import common.player_info.Username;
+import common.player_info.*;
 import cs340.TicketClient.card_fragments.deck_fragment.DeckFragment;
 import cs340.TicketClient.card_fragments.destination_card_fragment.DestinationCardFragment;
 import cs340.TicketClient.card_fragments.hand_fragment.HandFragment;
@@ -118,14 +117,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 						.addToBackStack(null).commit();
                 break;
             case R.id.draw_destination_button:
-                HandDestinationCards cards = presenter.getDestinationCards();
-                if (cards == null)
-                {
-                    return;
-                }
-                if (presenter.isMyTurn())
+				if (presenter.isMyTurn())
 				{
-					startDestinationFragment(cards);
+					// Gets initial dest cards OR gets 3 new ones.
+					presenter.getDestinationCards();
 				}
                 break;
             case R.id.claim_route_button:
@@ -281,5 +276,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             sb.append(line);
         }
         makeLargerToast(sb.toString());
+    }
+
+    public void endGame(List<Player> players)
+    {
+//        Intent intent = new Intent();
+//        intent.putExtra("players", players);
     }
 }

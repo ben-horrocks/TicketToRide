@@ -18,7 +18,7 @@ public class NotMyTurn implements ITurnState, Serializable
 	public void drawFromDeck(Player player, TrainCard trainCard) {}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards) {}
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn) { return false; }
 
 	@Override
 	public void claimEdge(Player player, Edge edge) {}

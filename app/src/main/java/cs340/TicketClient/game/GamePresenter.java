@@ -1,6 +1,7 @@
 package cs340.TicketClient.game;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.game_data.StartGamePacket;
 import common.history.HistoryItem;
+import common.player_info.Player;
 import common.map.Edge;
 import common.map.EdgeGraph;
 import common.request.DestDrawRequest;
@@ -121,7 +123,7 @@ public class GamePresenter
         if (model.getInitialDCards() != null)
         {
             HandDestinationCards cards = model.getInitialDCards();
-            //GameModel.getInstance().clearDCards();
+            GameModel.getInstance().clearDCards();
             return cards;
         } else
         {
@@ -180,5 +182,10 @@ public class GamePresenter
             }
 
         }
+    }
+
+    void endGame(List<Player> players)
+    {
+        activity.endGame(players);
     }
 }
