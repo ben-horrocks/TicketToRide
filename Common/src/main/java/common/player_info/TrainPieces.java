@@ -4,7 +4,12 @@ public class TrainPieces
 {
     private int numTrainPieces;
 
-    public TrainPieces() { numTrainPieces = 45; }
+    public TrainPieces(Boolean bool) {
+        if (bool)
+            numTrainPieces = 45;
+        else
+            numTrainPieces = 5;
+    }
 
     public int getNumTrainPieces() { return numTrainPieces; }
 

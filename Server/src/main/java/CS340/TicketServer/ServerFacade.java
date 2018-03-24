@@ -22,6 +22,8 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
+import common.player_info.Player;
+import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -285,10 +287,25 @@ public class ServerFacade implements IServer
                 {
                     //drawing the players hand
                     ArrayList<TrainCard> hand = new ArrayList<>();
-                    for (int i = 0; i < 4; i++)
+                    if (serverGameData.getName().equals("test"))
                     {
-                        hand.add(serverGameData.drawFromTrainDeck());
+                        for (int i = 0; i < 10; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                        for (Player player : serverGameData.getPlayers())
+                        {
+                            player.setPieces(new TrainPieces(false));
+                        }
                     }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                    }
+
 
                     serverGameData
                             .playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
@@ -571,13 +588,13 @@ public class ServerFacade implements IServer
      * @post Will return a signal of success or error
      */
     @Override
-    public Signal claimEdge(GameID id, Username user, Edge edge)
+    public Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent)
     {
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
-        game.edgeClaimed(edge);
+        game.edgeClaimed(edge,spent.getTrainCards());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
         opponents.remove(Database.SINGLETON.getPlayer(user));
