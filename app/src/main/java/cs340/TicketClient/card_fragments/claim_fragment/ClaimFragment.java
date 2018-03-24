@@ -50,7 +50,7 @@ public class ClaimFragment extends Fragment{
             public void onClick(View view) {
                 if (GameModel.getInstance().getQueuedCards().size() > 0)
                 {
-                    presenter.cardsAreGood();
+                    presenter.sendClaimRequest();
                 }
             }
         });
