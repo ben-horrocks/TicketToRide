@@ -3,6 +3,7 @@ package common.player_info;
 import java.io.Serializable;
 import java.util.*;
 
+import common.cards.DestinationCard;
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
@@ -45,6 +46,62 @@ public class Player implements Serializable
         return this.hand;
     }
 
+    private boolean existEdge(String city1, String city2)
+    {
+        for (Edge e : claimedEdges.getAllEdges())
+        {
+            if (e.getFirstCity().getCityName().equals(city1) && e.getSecondCity().getCityName().equals(city2)
+                    || e.getSecondCity().getCityName().equals(city2) && e.getFirstCity().getCityName().equals(city1))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean findRoute(Set<Edge> left, String city1, String city2)
+    {
+        boolean runningTruth = false;
+        if (existEdge(city1, city2))
+            return true;
+        else
+        {
+            for (Edge e : left)
+            {
+                if (e.getFirstCity().toString().equals(city1))
+                {
+                    left.remove(e);
+                    runningTruth = findRoute(left, e.getSecondCity().getCityName(), city2);
+                    if (runningTruth)
+                    {
+                        return true;
+                    }
+                    left.add(e);
+                }
+                else if(e.getSecondCity().toString().equals(city1))
+                {
+                    left.remove(e);
+                    runningTruth = findRoute(left, e.getFirstCity().getCityName(), city2);
+                    if (runningTruth)
+                    {
+                        return true;
+                    }
+                    left.add(e);
+                }
+            }
+            return false;
+        }
+    }
+
+    private void checkDestinationCards()
+    {
+        for (DestinationCard card : destinations.getDestinationCards())
+        {
+            if (!card.isComplete())
+                card.setComplete(this.findRoute(claimedEdges.getAllEdges(), card.getCity1(), card.getCity2()));
+        }
+    }
+
     public void drewTrainCards(HandTrainCards cards)
     {
         this.hand.addAll(cards);
@@ -52,7 +109,12 @@ public class Player implements Serializable
 
     public void drewFaceUpCard(TrainCard trainCard) {  getTurnState().drawFaceUp(this, trainCard); }
 
-    public boolean canClaimEdge(Edge e){
+    public boolean canClaimEdge(Edge e)
+    {
+        if (e.isClaimed())
+        {
+            return false;
+        }
         Map<TrainColor, Integer> coloredCardMap;
         coloredCardMap = hand.getColorCounts();
 
@@ -91,6 +153,7 @@ public class Player implements Serializable
         if (canClaimEdge(edge))
         {
             claimedEdges.addEdge(edge);
+            this.checkDestinationCards();
             //  NEED TO IMPLEMENT EDGE POINTS
             // score.incrementRoutesClaimed(edge.get);
             ArrayList<TrainCard> toRemove = new ArrayList<>();
