@@ -50,7 +50,7 @@ public class ClaimPresenter implements IClaimPresenter {
         {
             this.presenter = presenter;
         }
-        
+
         @Override
         protected Signal doInBackground(ClaimRequest... claimRequests) {
             return null;

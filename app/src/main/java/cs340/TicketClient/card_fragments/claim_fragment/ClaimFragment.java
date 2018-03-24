@@ -1,5 +1,6 @@
 package cs340.TicketClient.card_fragments.claim_fragment;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,26 +13,25 @@ import common.cards.DestinationCard;
 import common.cards.TrainCard;
 import cs340.TicketClient.R;
 import cs340.TicketClient.game.GameModel;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by jhens on 3/24/2018.
  */
 
-public class ClaimFragment extends Fragment{
+public class ClaimFragment extends Fragment {
 
     RecyclerView trainCardsRecyclerView;
     ClaimPresenter presenter;
     ClaimTrainCardAdapter trainAdapter;
     Button claimRoute;
 
-    public ClaimFragment()
-    {
+    public ClaimFragment() {
 
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -48,8 +48,7 @@ public class ClaimFragment extends Fragment{
         claimRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (GameModel.getInstance().getQueuedCards().size() > 0)
-                {
+                if (GameModel.getInstance().getQueuedCards().size() > 0) {
                     presenter.sendClaimRequest();
                 }
             }
@@ -59,3 +58,4 @@ public class ClaimFragment extends Fragment{
 
     }
 }
+
