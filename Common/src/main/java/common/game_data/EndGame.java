@@ -40,19 +40,30 @@ public class EndGame implements Serializable
             return username.getName();
         }
 
-        public Point getPoint()
-        {
-            return point;
-        }
-
         public void setUsername(Username username)
         {
             this.username = username;
         }
 
-        public void setPoint(Point point)
+        public int getRoutesClaimedPoints()
         {
-            this.point = point;
+            return point.getRoutesClaimedPoints();
         }
+
+        public int getDestinationCardPoints()
+        {
+            return point.getDestinationCardPoints();
+        }
+
+        public int getLongestPathPoints()
+        {
+            return point.getLongestPathPoints();
+        }
+
+        public int getTotalPoints()
+        {
+            return point.computeFinalPoints();
+        }
+
     }
 }
