@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.communication.CommandParams;
 import common.communication.IServer;
@@ -34,6 +35,8 @@ public class ServerProxy implements IServer
     private static final String usernameClassName = Username.class.getName();
     private static final String handDestinationCardsClassName =
             HandDestinationCards.class.getName();
+    private static final String handTrainCardClassName =
+            HandTrainCards.class.getName();
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
 
@@ -242,10 +245,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal claimEdge(GameID id, Username user, Edge edge)
+    public Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent)
     {
-        String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName};
-        Object[] params = {id, user, edge};
+        String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName, handTrainCardClassName};
+        Object[] params = {id, user, edge, spent};
         CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
         try
         {
