@@ -1,5 +1,8 @@
 package cs340.TicketClient.card_fragments.deck_fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -161,23 +164,29 @@ public class DeckFragmentPresenter
 
     public void replaceTrainCard(int index, TrainCard card)
     {
-        Integer drawable = getTrainDrawable(card);
+        int imageID = getTrainDrawable(card);
+		int width = 600;
+		int height = 400;
+		Drawable cardDrawable = fragment.getActivity().getResources().getDrawable(imageID);
+		Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
+		Drawable cardResized = new BitmapDrawable(fragment.getActivity().getResources(),
+				Bitmap.createScaledBitmap(bitmap, width, height, true));
         switch (index)
         {
             case 0:
-                fragment.tCard1.setImageResource(drawable);
+                fragment.tCard1.setImageDrawable(cardResized);
                 break;
             case 1:
-                fragment.tCard2.setImageResource(drawable);
+                fragment.tCard2.setImageDrawable(cardResized);
                 break;
             case 2:
-                fragment.tCard3.setImageResource(drawable);
+                fragment.tCard3.setImageDrawable(cardResized);
                 break;
             case 3:
-                fragment.tCard4.setImageResource(drawable);
+                fragment.tCard4.setImageDrawable(cardResized);
                 break;
             case 4:
-                fragment.tCard5.setImageResource(drawable);
+                fragment.tCard5.setImageDrawable(cardResized);
                 break;
             default:
                 Log.d("Error", "replaceTrainCard: Bad Index");
@@ -192,7 +201,7 @@ public class DeckFragmentPresenter
         DeckFragmentPresenter presenter;
         GameModel model;
 
-        public DrawFaceUpTask(int index, DeckFragmentPresenter presenter, GameModel model)
+        DrawFaceUpTask(int index, DeckFragmentPresenter presenter, GameModel model)
         {
             this.index = index;
             this.presenter = presenter;
@@ -244,11 +253,7 @@ public class DeckFragmentPresenter
             if (signal.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) signal.getObject();
-                GameModel.getInstance().addTrainCard(card);
-                if(!model.isMyTurn())
-                {
-                    ServerProxy.getInstance().turnEnded(model.getGameID(), model.getUserName());
-                }
+
             } else
             {
                 Log.d("ERROR", "onPostExecute: Error Signal on draw face up");

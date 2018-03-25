@@ -53,46 +53,21 @@ public class ServerGameData implements Serializable
         this.history = new ArrayList<>();
     }
 
-    private void createTurnQueue()
-    {
-        turnQueue = new TurnQueue(getUserNames());
-    }
+    private void createTurnQueue() { turnQueue = new TurnQueue(getUserNames()); }
 
-    public TurnQueue getTurnQueue()
-    {
-        return turnQueue;
-    }
+    public TurnQueue getTurnQueue() { return turnQueue; }
 
-    public void startGame()
-    {
-        createTurnQueue();
-        gameStarted = true;
-    }
+    public void startGame() { createTurnQueue(); gameStarted = true; }
 
-    public List<ChatItem> getChat()
-    {
-        return chat;
-    }
+    public List<ChatItem> getChat() { return chat; }
 
-    public GameID getId()
-    {
-        return id;
-    }
+    public GameID getId() { return id; }
 
-    public void setId(GameID id)
-    {
-        this.id = id;
-    }
+    public void setId(GameID id) { this.id = id; }
 
-    public String getName()
-    {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public String getCreatorName()
-    {
-        return creator.getStringUserName();
-    }
+    public String getCreatorName() { return creator.getStringUserName(); }
 
     public Set<User> getUsers()
     {
@@ -114,35 +89,17 @@ public class ServerGameData implements Serializable
         return usernames;
     }
 
-    public EdgeGraph getGameBoard()
-    {
-        return gameBoard;
-    }
+    public EdgeGraph getGameBoard() { return gameBoard; }
 
-    public List<TrainCard> getFaceUpCards()
-    {
-        return deck.getFaceUpCards();
-    }
+    public List<TrainCard> getFaceUpCards() { return deck.getFaceUpCards(); }
 
-    public List<HistoryItem> getHistory()
-    {
-        return history;
-    }
+    public List<HistoryItem> getHistory() { return history; }
 
-    public TrainCard drawFromTrainDeck()
-    {
-        return deck.drawFaceDown();
-    }
+    public TrainCard drawFromTrainDeck() { return deck.drawFaceDown(); }
 
-    public TrainCard faceUpDraw(int index)
-    {
-        return deck.drawFaceUp(index);
-    }
+    public TrainCard faceUpDraw(int index) { return deck.drawFaceUp(index); }
 
-    public List<DestinationCard> destinationDraw()
-    {
-        return destinations.draw();
-    }
+    public List<DestinationCard> destinationDraw() { return destinations.draw(); }
 
     public void edgeClaimed(Edge edge, List<TrainCard> spent)
     {

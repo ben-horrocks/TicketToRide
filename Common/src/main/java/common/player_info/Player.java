@@ -62,7 +62,7 @@ public class Player implements Serializable
 
     public void drewTrainCards(HandTrainCards cards)
     {
-        this.hand.addAll(cards);
+		getTurnState().draw;
     }
 
     public void drewFaceUpCard(TrainCard trainCard) {  getTurnState().drawFaceUp(this, trainCard); }
