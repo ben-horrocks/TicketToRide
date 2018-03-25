@@ -96,7 +96,7 @@ public class LobbyActivity extends AppCompatActivity
 					openGames.add(gameInfo);
 				}
 			}
-			mGameListAdapter.addGames(openGames);
+			mGameListAdapter.setGames(openGames);
 			mRunningGameListAdapter.addGames(runningGames);
 		}
 
@@ -116,7 +116,7 @@ public class LobbyActivity extends AppCompatActivity
                 if (charSequence.length() > 0)
                 {
                     List<GameInfo> games = presenter.searchGames(charSequence.toString());
-                    mGameListAdapter.addGames(games);
+                    mGameListAdapter.setGames(games);
                 }
             }
 
@@ -164,7 +164,7 @@ public class LobbyActivity extends AppCompatActivity
 					openGames.add(gameInfo);
 				}
 			}
-			mGameListAdapter.addGames(openGames);
+			mGameListAdapter.setGames(openGames);
 			mRunningGameListAdapter.addGames(runningGames);
 		}
 	}
@@ -189,7 +189,7 @@ public class LobbyActivity extends AppCompatActivity
 					GameInfo gameInfo = games.get(i);
 
 				}
-                mGameListAdapter.addGames(games);
+                mGameListAdapter.setGames(games);
             }
         });
     }

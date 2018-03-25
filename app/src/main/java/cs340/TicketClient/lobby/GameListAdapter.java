@@ -75,8 +75,9 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
      * @pre games is not null, newGames.size >0
      * @post games will have the new list of games added to it, games.size += newgames
      */
-    public void addGames(List<GameInfo> newgames)
+    public void setGames(List<GameInfo> newgames)
     {
+        games.clear();
         games.addAll(newgames);
         notifyDataSetChanged();
     }
