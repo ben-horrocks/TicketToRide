@@ -15,7 +15,7 @@ import common.player_info.Username;
 
 public interface IGameData
 {
-    void edgeClaimed(Edge edge);
+    void edgeClaimed(Edge edge, List<TrainCard> spent);
 
     void deckDraw(Username username, List<TrainCard> drawn);
 

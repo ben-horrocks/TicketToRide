@@ -105,9 +105,10 @@ public class ClientGameData implements IGameData, Serializable
         return gameboard;
     }
 
-    public void edgeClaimed(Edge edge)
+    public void edgeClaimed(Edge edge, List<TrainCard> spent)
     {
-        // TODO: implement
+        this.player.claimedEdge(edge, spent);
+        this.gameboard.claimed(edge);
     }
 
     private Opponent getOpponent(Username username)

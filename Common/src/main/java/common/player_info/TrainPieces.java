@@ -1,10 +1,17 @@
 package common.player_info;
 
-public class TrainPieces
+import java.io.Serializable;
+
+public class TrainPieces implements Serializable
 {
     private int numTrainPieces;
 
-    public TrainPieces() { numTrainPieces = 45; }
+    public TrainPieces(Boolean bool) {
+        if (bool)
+            numTrainPieces = 45;
+        else
+            numTrainPieces = 5;
+    }
 
     public int getNumTrainPieces() { return numTrainPieces; }
 

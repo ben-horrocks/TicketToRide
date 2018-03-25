@@ -3,9 +3,7 @@ package common.communication;
 import java.util.List;
 
 import common.chat.ChatItem;
-import common.game_data.GameID;
-import common.game_data.GameInfo;
-import common.game_data.StartGamePacket;
+import common.game_data.*;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.history.HistoryItem;
@@ -54,7 +52,7 @@ public interface IClient
 
     Signal updateTurnQueue(Username username);
 
-    Signal gameEnded(Username name);
+    Signal gameEnded(Username name, EndGame players);
 
     Signal startTurn(Username name);
 }

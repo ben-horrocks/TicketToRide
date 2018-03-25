@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.communication.CommandParams;
-import common.game_data.GameID;
-import common.game_data.Opponent;
+import common.game_data.*;
 import common.chat.ChatItem;
-import common.game_data.GameInfo;
-import common.game_data.StartGamePacket;
 import common.communication.IClient;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
@@ -188,9 +185,9 @@ public class ClientFacade implements IClient
 	}
 
 	@Override
-    public Signal gameEnded(Username name)
+    public Signal gameEnded(Username name, EndGame players)
     {
-        //TODO: implement changing to the endgame fragment/activity
+//        call game Presenter here
         return new Signal(SignalType.ERROR, "unimplemented");
     }
 

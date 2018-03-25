@@ -1,6 +1,7 @@
 package common.communication;
 
 import common.cards.HandDestinationCards;
+import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.game_data.GameID;
 import common.map.Edge;
@@ -92,10 +93,12 @@ public interface IServer
 
     Signal drawDestinationCards(GameID id, Username user);
 
-    Signal claimEdge(GameID id, Username user, Edge edge);
+    Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent);
 
     Signal lastTurn(GameID id);
 
     Signal turnEnded(GameID id, Username user);
+
+    Signal returnToLobby(Username user);
 
 }
