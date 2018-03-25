@@ -7,20 +7,25 @@ import java.util.Set;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
 import common.player_info.User;
+import common.player_info.Username;
 
 public class GameInfo implements Serializable
 {
     private GameID id;
     private String name;
     private String creatorName;
-    private Set<User> users = new HashSet<>();
+    private Set<Username> users;
 
     public GameInfo(ServerGameData g)
     {
         this.id = g.getId();
         this.name = g.getName();
         this.creatorName = g.getCreatorName();
-        this.users = g.getUsers();
+        this.users = new HashSet<>();
+        for(User u: g.getUsers())
+        {
+            users.add(u.getUsername());
+        }
     }
 
     public GameInfo(GameID id, String name, String creatorName, Set<User> users)
@@ -28,7 +33,11 @@ public class GameInfo implements Serializable
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
-        this.users = users;
+        this.users = new HashSet<>();
+        for(User u: users)
+        {
+            this.users.add(u.getUsername());
+        }
     }
 
     public GameID getID()
@@ -46,9 +55,14 @@ public class GameInfo implements Serializable
         return this.creatorName;
     }
 
-    public Set<User> getUsers()
+    public Set<Username> getUsers()
     {
         return this.users;
+    }
+
+    public boolean hasUser(Username user)
+    {
+        return this.users.contains(user);
     }
 
     public int getPlayerCount()

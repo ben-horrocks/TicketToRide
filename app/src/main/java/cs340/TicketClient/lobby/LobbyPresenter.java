@@ -283,7 +283,7 @@ public class LobbyPresenter implements ILobbyPresenter
     {
         try
         {
-            return model.getGame(id).getUsers().contains(model.getUser());
+            return model.getGame(id).hasUser(model.getUser().getUsername());
         } catch (LobbyModel.GameNotFoundException e)
         {
             Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
