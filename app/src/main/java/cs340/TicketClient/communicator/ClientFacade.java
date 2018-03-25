@@ -194,7 +194,8 @@ public class ClientFacade implements IClient
     @Override
     public Signal startTurn(Username name)
     {
-        //TODO: update turnstate
+    	Player player = GameModel.getInstance().getPlayer();
+        player.getTurnState().turnStarted(player);
         return new Signal(SignalType.ERROR, "unimplemented");
     }
 }
