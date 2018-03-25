@@ -5,9 +5,7 @@ import java.util.*;
 
 import common.cards.TrainColor;
 import common.game_data.Opponent;
-import common.player_info.Player;
-import common.player_info.PlayerColor;
-import common.player_info.Username;
+import common.player_info.*;
 
 /**
  * A route between two cities.
@@ -43,6 +41,59 @@ public class Edge implements Serializable
         this.id = generateNewId();
     }
 
+    public static List<Edge> findEdgesWithCity(Set<Edge> edges, City city)
+    {
+        List<Edge> realedges = new ArrayList<>();
+        for (Edge edge : edges)
+        {
+            if (edge.getFirstCity().equals(city))
+            {
+                realedges.add(edge);
+            } else if (edge.getSecondCity().equals(city))
+            {
+                realedges.add(edge);
+            }
+        }
+        return realedges;
+    }
+
+    public static List<City> findCitiesWithNumEdges(Set<Edge> edges, int edgenum)
+    {
+        Map<City, Integer> cities = new HashMap<>();
+        for (Edge edge : edges)
+        {
+            City city1 = edge.getFirstCity();
+            City city2 = edge.getSecondCity();
+            if (cities.containsKey(city1))
+            {
+                Integer i = cities.get(city1);
+                cities.put(city1, ++i);
+            } else
+            {
+                Integer i = 0;
+                cities.put(city1, ++i);
+            }
+            if (cities.containsKey(edge.getSecondCity()))
+            {
+                Integer i = cities.get(city2);
+                cities.put(city2, ++i);
+            } else
+            {
+                Integer i = 0;
+                cities.put(city2, ++i);
+            }
+        }
+        List<City> correctCities = new ArrayList<>();
+        for (Map.Entry<City, Integer> city : cities.entrySet())
+        {
+            if (city.getValue().equals(edgenum))
+            {
+                correctCities.add(city.getKey());
+            }
+        }
+        return correctCities;
+    }
+
     public int computePointValue()
     {
         switch (this.getLength())
@@ -64,6 +115,7 @@ public class Edge implements Serializable
 
         }
     }
+
     public City getFirstCity()
     {
         return firstCity;
@@ -130,35 +182,34 @@ public class Edge implements Serializable
         if (this == o)
         {
             return true;
-        }
-        if (o == null || getClass() != o.getClass())
+        } else if (o == null || getClass() != o.getClass())
         {
             return false;
         }
-
         Edge edge = (Edge) o;
-
         if (length != edge.length)
         {
             return false;
-        }
-        if (isDoubleEdge != edge.isDoubleEdge)
+        } else if (isDoubleEdge != edge.isDoubleEdge)
         {
             return false;
-        }
-        if (!firstCity.equals(edge.firstCity))
+        } else if (!firstCity.equals(edge.firstCity))
         {
             return false;
-        }
-        if (!secondCity.equals(edge.secondCity))
+        } else if (!secondCity.equals(edge.secondCity))
         {
             return false;
-        }
-        if (color != edge.color)
+        } else if (color != edge.color)
         {
             return false;
+        } else if (owner == null && edge.owner != null || owner != null && edge.owner == null)
+        {
+            return false;
+        } else if (owner == null && edge.owner == null) {
+            return true;
+        } else {
+            return owner.equals(edge.owner);
         }
-        return owner.equals(edge.owner);
     }
 
     @Override
@@ -182,17 +233,27 @@ public class Edge implements Serializable
     public int computeLongestPathOneDirection(Set<Edge> unusedEdges, Set<Edge> usedEdges)
     {
         int longestPath = 0;
-        for(Edge checkEdge : unusedEdges) {
-            if(checkEdge.getCities().contains(firstCity) || checkEdge.getCities().contains(secondCity)) {
+        Set<Edge> unusedEdgesIterator = new HashSet<>();
+        unusedEdgesIterator.addAll(unusedEdges);
+        for (Edge checkEdge : unusedEdgesIterator)
+        {
+            if (!unusedEdges.contains(checkEdge))
+            {
+                continue;
+            }
+            if (checkEdge.getCities().contains(firstCity) ||
+                checkEdge.getCities().contains(secondCity))
+            {
                 unusedEdges.remove(checkEdge);
-                if(!usedEdges.contains(checkEdge))
+                if (!usedEdges.contains(checkEdge))
                 {
                     usedEdges.add(checkEdge);
                 }
                 Set<Edge> newUnusedEdges = new HashSet<>();
                 newUnusedEdges.addAll(unusedEdges);
-                int newLongestPath = checkEdge.computeLongestPathOneDirection(newUnusedEdges, usedEdges);
-                if(newLongestPath > longestPath)
+                int newLongestPath =
+                        checkEdge.computeLongestPathOneDirection(newUnusedEdges, usedEdges);
+                if (newLongestPath > longestPath)
                 {
                     longestPath = newLongestPath;
                 }
@@ -206,19 +267,27 @@ public class Edge implements Serializable
     {
         int longestPathDirectionOne = 0;
         int longestPathDirectionTwo = 0;
-        for(Edge checkEdge : unusedEdges) {
-            if(checkEdge.getCities().contains(firstCity)) {
-                unusedEdges.remove(checkEdge);
-                int newLongestPath = checkEdge.computeLongestPathTwoDirections(unusedEdges);
-                if(newLongestPath > longestPathDirectionOne)
-                {
-                    longestPathDirectionOne = newLongestPath;
-                }
-            } else if(checkEdge.getCities().contains(secondCity))
+        Set<Edge> unusedEdgesIterator = new HashSet<>();
+        unusedEdgesIterator.addAll(unusedEdges);
+        for (Edge checkEdge : unusedEdgesIterator)
+        {
+            if (!unusedEdges.contains(checkEdge))
+            {
+                continue;
+            }
+            if (checkEdge.getCities().contains(firstCity))
             {
                 unusedEdges.remove(checkEdge);
                 int newLongestPath = checkEdge.computeLongestPathTwoDirections(unusedEdges);
-                if(newLongestPath > longestPathDirectionTwo)
+                if (newLongestPath > longestPathDirectionOne)
+                {
+                    longestPathDirectionOne = newLongestPath;
+                }
+            } else if (checkEdge.getCities().contains(secondCity))
+            {
+                unusedEdges.remove(checkEdge);
+                int newLongestPath = checkEdge.computeLongestPathTwoDirections(unusedEdges);
+                if (newLongestPath > longestPathDirectionTwo)
                 {
                     longestPathDirectionTwo = newLongestPath;
                 }
@@ -226,59 +295,6 @@ public class Edge implements Serializable
         }
         int longestPath = length + longestPathDirectionOne + longestPathDirectionTwo;
         return longestPath;
-    }
-
-    public static List<Edge> findEdgesWithCity(Set<Edge> edges, City city)
-    {
-        List<Edge> realedges = new ArrayList<>();
-        for(Edge edge : edges)
-        {
-            if(edge.getFirstCity().equals(city))
-            {
-                realedges.add(edge);
-            } else if(edge.getSecondCity().equals(city))
-            {
-                realedges.add(edge);
-            }
-        }
-        return realedges;
-    }
-
-    public static List<City> findCitiesWithNumEdges(Set<Edge> edges, int edgenum)
-    {
-        Map<City, Integer> cities = new HashMap<>();
-        for(Edge edge : edges)
-        {
-            City city1 = edge.getFirstCity();
-            City city2 = edge.getSecondCity();
-            if(cities.containsKey(city1))
-            {
-                Integer i = cities.get(city1);
-                cities.put(city1, ++i);
-            } else
-            {
-                Integer i = 0;
-                cities.put(city1, ++i);
-            }
-            if(cities.containsKey(edge.getSecondCity()))
-            {
-                Integer i = cities.get(city2);
-                cities.put(city2, ++i);
-            } else
-            {
-                Integer i = 0;
-                cities.put(city2, ++i);
-            }
-        }
-        List<City> correctCities = new ArrayList<>();
-        for(Map.Entry<City, Integer> city : cities.entrySet())
-        {
-            if(city.getValue().equals(edgenum))
-            {
-                correctCities.add(city.getKey());
-            }
-        }
-        return correctCities;
     }
 
     private String generateNewId()

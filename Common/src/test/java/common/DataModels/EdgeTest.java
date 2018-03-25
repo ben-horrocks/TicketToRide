@@ -33,8 +33,7 @@ public class EdgeTest
         edge1 = new Edge(city1, city2, TrainColor.GREEN, 4, false);
         Username username = new Username("tacoMan");
         Password password = new Password("passw0rd");
-        ScreenName screenName = new ScreenName("Fighter Boi");
-        User user = new User(username, password, screenName);
+        User user = new User(username, password);
         Player player = new Player(user, PlayerColor.BLACK);
         edge1.setOwner(player);
 
@@ -133,8 +132,7 @@ public class EdgeTest
     {
         Username username = new Username("tacoMan");
         Password password = new Password("passw0rd");
-        ScreenName screenName = new ScreenName("Fighter Boi");
-        User user = new User(username, password, screenName);
+        User user = new User(username, password);
         Player player = new Player(user, PlayerColor.BLACK);
         assertEquals(edge1.getOwner(), username);
         edge2.setOwner(player);
@@ -150,8 +148,7 @@ public class EdgeTest
     {
         Username username = new Username("tacoMan");
         Password password = new Password("passw0rd");
-        ScreenName screenName = new ScreenName("Fighter Boi");
-        User user = new User(username, password, screenName);
+        User user = new User(username, password);
         Player player = new Player(user, PlayerColor.BLACK);
         assertEquals(edge1.getOwner(), username);
         edge2.setOwner(player);
@@ -168,8 +165,7 @@ public class EdgeTest
         assertEquals(edge1.isClaimed(), true);
         Username username = new Username("tacoMan");
         Password password = new Password("passw0rd");
-        ScreenName screenName = new ScreenName("Fighter Boi");
-        User user = new User(username, password, screenName);
+        User user = new User(username, password);
         Player player = new Player(user, PlayerColor.BLACK);
         edge2.setOwner(player);
         assertEquals(edge2.isClaimed(), true);
