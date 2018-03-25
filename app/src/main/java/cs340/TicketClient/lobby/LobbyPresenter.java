@@ -17,7 +17,7 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyActivity activity;
     private LobbyModel model;
 
-    private static LobbyPresenter singleton = new LobbyPresenter();
+    private static LobbyPresenter singleton;
 
     /**
      * A method that initializes the singleton object
@@ -41,6 +41,10 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public static LobbyPresenter getInstance()
     {
+    	if (singleton == null)
+		{
+			singleton = new LobbyPresenter();
+		}
         return singleton;
     }
 
