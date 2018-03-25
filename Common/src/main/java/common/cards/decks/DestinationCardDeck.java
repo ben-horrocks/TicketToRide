@@ -3,6 +3,7 @@ package common.cards.decks;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import common.cards.DestinationCard;
 import common.map.CityName;
@@ -60,9 +61,10 @@ public class DestinationCardDeck implements Serializable
     public void shuffle()
     {
         List<DestinationCard> newdeck = new ArrayList<>();
+		Random random = new Random();
         while (deck.size() > 0)
         {
-            int randomcard = (int) (Math.random()) % deck.size();
+            int randomcard = random.nextInt(deck.size());
             newdeck.add(deck.get(randomcard));
             deck.remove(randomcard);
         }

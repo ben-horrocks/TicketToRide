@@ -1,9 +1,3 @@
-/**
- * LobbyActivity.java
- * Author: Ben Horrocks
- * Date of Last Commit: 11 February, 2018
- * Notes: Need to thoroughly test
- */
 package cs340.TicketClient.lobby;
 
 import android.app.DialogFragment;
@@ -42,8 +36,9 @@ public class LobbyActivity extends AppCompatActivity
     private EditText mSearchGameText;
     private ImageView mClearSearch;
     private RecyclerView mGameList;
+    private RecyclerView mRunningGameList;
     private GameListAdapter mGameListAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RunningGameListAdapter mRunningGameListAdapter;
     private Button mNewGameButton;
 
     @Override
@@ -52,7 +47,7 @@ public class LobbyActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_lobby);
 
-        //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
+        //Initialize Lobby Presenter Singleton with reference to this activity for callbacks.
         LobbyPresenter.setActivity(this);
         Bundle extras = this.getIntent().getExtras();
         if (extras != null)
@@ -64,11 +59,17 @@ public class LobbyActivity extends AppCompatActivity
         //VIEW BINDING
         mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
         mClearSearch = (ImageView) this.findViewById(R.id.ClearSearch);
-        mGameList = (RecyclerView) this.findViewById(R.id.GameList);
-        mLayoutManager = new LinearLayoutManager(this);
-        mGameList.setLayoutManager(mLayoutManager);
-        mGameListAdapter = new GameListAdapter();
-        mGameList.setAdapter(mGameListAdapter);
+
+        mGameList = (RecyclerView) this.findViewById(R.id.OpenGameList);
+		mGameList.setLayoutManager(new LinearLayoutManager(this));
+		mGameListAdapter = new GameListAdapter();
+		mGameList.setAdapter(mGameListAdapter);
+
+        mRunningGameList = (RecyclerView) this.findViewById(R.id.YourGameList);
+        mRunningGameList.setLayoutManager(new LinearLayoutManager(this));
+        mRunningGameListAdapter = new RunningGameListAdapter();
+        mRunningGameList.setAdapter(mRunningGameListAdapter);
+
         mNewGameButton = findViewById(R.id.newGameButton);
         //END VIEW BINDING
 
@@ -121,7 +122,7 @@ public class LobbyActivity extends AppCompatActivity
     /**
      * Abstract: Callback from presenter to update ServerGameData List.
      *
-     * @pre Server has successfully sent nerw gameList
+     * @pre Server has successfully sent new gameList
      * @post The game list will be displayed with the Search filter still applied
      */
     public void updateGameList()

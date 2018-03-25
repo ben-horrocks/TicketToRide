@@ -23,10 +23,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
 {
     private List<GameInfo> games = new ArrayList<>();
 
-    public GameListAdapter()
-    {
-
-    }
+    public GameListAdapter() {}
 
     @Override
     public GameListAdapter.viewHolder onCreateViewHolder(ViewGroup parent, int viewType)
