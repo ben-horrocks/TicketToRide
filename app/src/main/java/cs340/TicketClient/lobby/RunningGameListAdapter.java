@@ -46,6 +46,11 @@ public class RunningGameListAdapter extends RecyclerView.Adapter<RunningGameList
 		return games.size();
 	}
 
+	public void addGames(List<GameInfo> gameInfo) {
+		games.addAll(gameInfo);
+		notifyDataSetChanged();
+	}
+
 	public class viewHolder extends RecyclerView.ViewHolder
 	{
 		TextView gameName;

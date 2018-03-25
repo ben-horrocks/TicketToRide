@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import common.game_data.GameID;
-import common.game_data.ServerGameData;
 import common.player_info.User;
 import common.player_info.Username;
 

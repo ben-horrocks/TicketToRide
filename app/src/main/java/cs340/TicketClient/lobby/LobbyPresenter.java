@@ -57,7 +57,7 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyPresenter(LobbyActivity activity)
     {
         this.activity = activity;
-        model = new LobbyModel(new HashMap<GameID, GameInfo>());
+        model = LobbyModel.getSingleton();
     }
 
     private void updateGameList()
@@ -291,8 +291,7 @@ public class LobbyPresenter implements ILobbyPresenter
         return false;
     }
 
-    void setUser(User user)
-    {
-        model.setUser(user);
-    }
+    void setUser(User user) { model.setUser(user); }
+
+    User getUser() { return model.getUser(); }
 }

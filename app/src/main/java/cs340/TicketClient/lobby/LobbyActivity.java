@@ -11,13 +11,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import common.communication.Signal;
+import common.communication.SignalType;
 import common.game_data.StartGamePacket;
 import common.game_data.GameInfo;
 import common.player_info.User;
+import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameActivity;
 import cs340.TicketClient.R;
+import cs340.TicketClient.game.GameModel;
 
 /**
  * LobbyActivity
@@ -40,6 +45,7 @@ public class LobbyActivity extends AppCompatActivity
     private GameListAdapter mGameListAdapter;
     private RunningGameListAdapter mRunningGameListAdapter;
     private Button mNewGameButton;
+    private LobbyPresenter presenter = LobbyPresenter.getInstance();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -53,7 +59,7 @@ public class LobbyActivity extends AppCompatActivity
         if (extras != null)
         {
             User user = (User) extras.get("user");
-            LobbyPresenter.getInstance().setUser(user);
+            presenter.setUser(user);
 
         }
         //VIEW BINDING
@@ -70,6 +76,30 @@ public class LobbyActivity extends AppCompatActivity
         mRunningGameListAdapter = new RunningGameListAdapter();
         mRunningGameList.setAdapter(mRunningGameListAdapter);
 
+        Signal signal = ServerProxy.getInstance().getAvailableGameInfo(GameModel.getInstance().getUserName());
+        if (signal.getSignalType().equals(SignalType.OK) && signal.getObject() instanceof List)
+		{
+			// Hope the list is of GameInfo
+			@SuppressWarnings("unchecked")
+			List<GameInfo> games = (List<GameInfo>) signal.getObject();
+			ArrayList<GameInfo> runningGames = new ArrayList<>();
+			ArrayList<GameInfo> openGames = new ArrayList<>();
+			for (int i = 0; i < games.size(); i++)
+			{
+				GameInfo gameInfo = games.get(i);
+				if (gameInfo.hasUser(presenter.getUser().getUsername()))
+				{
+					runningGames.add(gameInfo);
+				}
+				else
+				{
+					openGames.add(gameInfo);
+				}
+			}
+			mGameListAdapter.addGames(openGames);
+			mRunningGameListAdapter.addGames(runningGames);
+		}
+
         mNewGameButton = findViewById(R.id.newGameButton);
         //END VIEW BINDING
 
@@ -77,10 +107,7 @@ public class LobbyActivity extends AppCompatActivity
         mSearchGameText.addTextChangedListener(new TextWatcher()
         {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
@@ -88,24 +115,18 @@ public class LobbyActivity extends AppCompatActivity
                 mGameListAdapter.clear();
                 if (charSequence.length() > 0)
                 {
-                    List<GameInfo> games =
-                            LobbyPresenter.getInstance().searchGames(charSequence.toString());
+                    List<GameInfo> games = presenter.searchGames(charSequence.toString());
                     mGameListAdapter.addGames(games);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable)
-            {
-            }
+            public void afterTextChanged(Editable editable) {}
         });
         mClearSearch.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
-            {
-                mSearchGameText.setText("");
-            }
+            public void onClick(View view) { mSearchGameText.setText(""); }
         });
         mNewGameButton.setOnClickListener(new View.OnClickListener()
         {
@@ -118,6 +139,35 @@ public class LobbyActivity extends AppCompatActivity
         });
         //END LISTENERS
     }
+
+    @Override
+	public void onResume()
+	{
+		super.onResume();
+		Signal signal = ServerProxy.getInstance().getAvailableGameInfo(GameModel.getInstance().getUserName());
+		if (signal.getSignalType().equals(SignalType.OK) && signal.getObject() instanceof List)
+		{
+			// Hope the list is of GameInfo
+			@SuppressWarnings("unchecked")
+			List<GameInfo> games = (List<GameInfo>) signal.getObject();
+			ArrayList<GameInfo> runningGames = new ArrayList<>();
+			ArrayList<GameInfo> openGames = new ArrayList<>();
+			for (int i = 0; i < games.size(); i++)
+			{
+				GameInfo gameInfo = games.get(i);
+				if (gameInfo.hasUser(presenter.getUser().getUsername()))
+				{
+					runningGames.add(gameInfo);
+				}
+				else
+				{
+					openGames.add(gameInfo);
+				}
+			}
+			mGameListAdapter.addGames(openGames);
+			mRunningGameListAdapter.addGames(runningGames);
+		}
+	}
 
     /**
      * Abstract: Callback from presenter to update ServerGameData List.
@@ -133,8 +183,12 @@ public class LobbyActivity extends AppCompatActivity
             public void run()
             {
                 mGameListAdapter.clear();
-                List<GameInfo> games = LobbyPresenter.getInstance()
-                        .searchGames(mSearchGameText.getText().toString());
+                List<GameInfo> games = presenter.searchGames(mSearchGameText.getText().toString());
+                for (int i = 0; i < games.size(); i++)
+				{
+					GameInfo gameInfo = games.get(i);
+
+				}
                 mGameListAdapter.addGames(games);
             }
         });
@@ -174,6 +228,6 @@ public class LobbyActivity extends AppCompatActivity
     @Override
     public void onAddGame(DialogFragment frag, String newGame)
     {
-        LobbyPresenter.getInstance().addGame(newGame);
+        presenter.addGame(newGame);
     }
 }
