@@ -15,6 +15,7 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.game_data.ClientGameData;
 import common.game_data.GameID;
+import common.game_data.GameInfo;
 import common.game_data.ServerGameData;
 import common.game_data.StartGamePacket;
 import common.game_data.TurnQueue;
@@ -357,10 +358,17 @@ public class ServerFacade implements IServer
      * @post Will return a signal of success or error
      */
     @Override
-    public Signal getAvailableGameInfo()
+    public Signal getAvailableGameInfo(Username user)
     {
-        // TODO: implement
-        return null;
+        List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+        for(GameInfo game: Database.SINGLETON.getAllRunningGames())
+        {
+            if(game.hasUser(user))
+            {
+                games.add(game);
+            }
+        }
+        return new Signal(SignalType.OK, games);
     }
 
     /**
