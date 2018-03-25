@@ -225,12 +225,9 @@ public class DeckFragmentPresenter
                 TrainCard card = (TrainCard) response.getObject();
                 GameModel.getInstance().replaceFaceUp(index, card);
                 presenter.replaceTrainCard(index, card);
-                if(!model.isMyTurn())
-                {
-                    ServerProxy.getInstance().turnEnded(model.getGameID(), model.getUserName());
-                }
-
-            } else
+                GameModel.getInstance().getPlayer().drewFaceUpCard(card);
+            }
+            else
             {
                 Log.d("ERROR", "onPostExecute: Error signal on draw face up");
             }
@@ -253,6 +250,7 @@ public class DeckFragmentPresenter
             if (signal.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) signal.getObject();
+                GameModel.getInstance().getPlayer().drewDeckCard(card);
 
             } else
             {
