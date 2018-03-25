@@ -76,7 +76,7 @@ public class LobbyActivity extends AppCompatActivity
         mRunningGameListAdapter = new RunningGameListAdapter();
         mRunningGameList.setAdapter(mRunningGameListAdapter);
 
-        Signal signal = ServerProxy.getInstance().getAvailableGameInfo(GameModel.getInstance().getUserName());
+        Signal signal = ServerProxy.getInstance().getAvailableGameInfo(presenter.getUser().getUsername());
         if (signal.getSignalType().equals(SignalType.OK) && signal.getObject() instanceof List)
 		{
 			// Hope the list is of GameInfo
@@ -144,7 +144,7 @@ public class LobbyActivity extends AppCompatActivity
 	public void onResume()
 	{
 		super.onResume();
-		Signal signal = ServerProxy.getInstance().getAvailableGameInfo(GameModel.getInstance().getUserName());
+		Signal signal = ServerProxy.getInstance().getAvailableGameInfo(presenter.getUser().getUsername());
 		if (signal.getSignalType().equals(SignalType.OK) && signal.getObject() instanceof List)
 		{
 			// Hope the list is of GameInfo
