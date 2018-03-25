@@ -17,6 +17,7 @@ import common.player_info.Player;
 import common.player_info.Username;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.game.GamePresenter;
+import cs340.TicketClient.lobby.LobbyModel;
 import cs340.TicketClient.lobby.LobbyPresenter;
 
 public class ClientFacade implements IClient
@@ -43,7 +44,7 @@ public class ClientFacade implements IClient
     @Override
     public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
-        LobbyPresenter.getInstance().addGames(gameList);
+        LobbyModel.getSingleton().setGames(gameList);
         return new Signal(SignalType.OK, "Accepted");
     }
 
