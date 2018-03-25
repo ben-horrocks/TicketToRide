@@ -15,6 +15,7 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.game.GamePresenter;
 import cs340.TicketClient.lobby.LobbyModel;
@@ -129,11 +130,9 @@ public class ClientFacade implements IClient
         	boolean nextTurn = player.drewDestinationCards(cards, isMyTurn);
         	if (nextTurn)
 			{
-				String methodName = "updateTurnQueue";
-				String[] paramTypes = {Username.class.getName()};
-				Object[] params = {name};
-				CommandParams nextTurnParams = new CommandParams(methodName, paramTypes, params);
-				return new Signal(SignalType.NEXT_TURN, nextTurnParams);
+				TurnEndedTask task = new TurnEndedTask();
+				task.execute(gameID, name);
+				return new Signal(SignalType.OK, "Successful next turn switch");
 			}
 			else
 			{
