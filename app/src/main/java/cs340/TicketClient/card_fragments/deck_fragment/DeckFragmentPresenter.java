@@ -1,9 +1,7 @@
 package cs340.TicketClient.card_fragments.deck_fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.SparseArray;
 
 import java.util.ArrayList;
 

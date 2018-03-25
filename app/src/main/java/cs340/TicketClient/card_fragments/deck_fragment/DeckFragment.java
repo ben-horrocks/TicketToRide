@@ -60,11 +60,14 @@ public class DeckFragment extends Fragment implements View.OnClickListener
         ArrayList<Integer> trainTypes = presenter.getFaceUpCards();
         for (int i = 0; i < faceUpCardImages.size(); i++)
 		{
+			// Scale images to same size
 			int imageID = trainTypes.get(i);
+			int width = 600;
+			int height = 400;
 			Drawable cardDrawable = getActivity().getResources().getDrawable(imageID);
 			Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
 			Drawable card = new BitmapDrawable(getActivity().getResources(),
-					Bitmap.createScaledBitmap(bitmap, 600, 400, true));
+					Bitmap.createScaledBitmap(bitmap, width, height, true));
 			faceUpCardImages.get(i).setImageDrawable(card);
 			faceUpCards.put(faceUpCardImages.get(i), presenter.getCardByID(imageID));
 		}
