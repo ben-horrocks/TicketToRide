@@ -15,6 +15,7 @@ import common.player_info.Player;
 import common.request.DrawDeckRequest;
 import common.request.DrawFaceUpRequest;
 import cs340.TicketClient.R;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
@@ -114,7 +115,7 @@ public class DeckFragmentPresenter
         DrawDeckRequest request = new DrawDeckRequest(GameModel.getInstance().getGameID(),
                                                       GameModel.getInstance().getPlayer().getUser()
                                                               .getUsername());
-        DrawDeckTask task = new DrawDeckTask();
+        DrawDeckTask task = new DrawDeckTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
 
         //change turn info
@@ -150,10 +151,6 @@ public class DeckFragmentPresenter
 
     public void DrawFaceUp(int cardNumber)
     {
-        ArrayList<TrainCard> currFaceUp =
-                (ArrayList<TrainCard>) GameModel.getInstance().getGameData().getFaceUp();
-        TrainCard pickedCard = currFaceUp.get(cardNumber);
-        GameModel.getInstance().getPlayer().getHand().add(pickedCard);
         DrawFaceUpRequest request =
                 new DrawFaceUpRequest(model.getGameID(), model.getUserName(), cardNumber);
         DrawFaceUpTask task = new DrawFaceUpTask(cardNumber, this, model);
@@ -219,13 +216,20 @@ public class DeckFragmentPresenter
         @Override
         protected void onPostExecute(Signal response)
         {
+
             super.onPostExecute(response);
             if (response.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) response.getObject();
-                GameModel.getInstance().replaceFaceUp(index, card);
+                model.replaceFaceUp(index, card);
                 presenter.replaceTrainCard(index, card);
-                GameModel.getInstance().getPlayer().drewFaceUpCard(card);
+                model.getPlayer().drewFaceUpCard(card);
+                if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
+				{
+					TurnEndedTask task = new TurnEndedTask();
+					task.execute(model.getGameID(), model.getUserName());
+					presenter.fragment.getActivity().getSupportFragmentManager().popBackStack(); // TODO: shorten
+				}
             }
             else
             {
@@ -236,6 +240,10 @@ public class DeckFragmentPresenter
 
     class DrawDeckTask extends AsyncTask<DrawDeckRequest, Integer, Signal>
     {
+    	DeckFragmentPresenter presenter;
+
+		DrawDeckTask(DeckFragmentPresenter presenter) { this.presenter = presenter; }
+
         @Override
         protected Signal doInBackground(DrawDeckRequest... drawDeckRequests)
         {
@@ -246,11 +254,18 @@ public class DeckFragmentPresenter
         @Override
         protected void onPostExecute(Signal signal)
         {
+        	GameModel model = GameModel.getInstance();
             super.onPostExecute(signal);
             if (signal.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) signal.getObject();
-                GameModel.getInstance().getPlayer().drewDeckCard(card);
+                model.getPlayer().drewDeckCard(card);
+				if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
+				{
+					TurnEndedTask task = new TurnEndedTask();
+					task.execute(model.getGameID(), model.getUserName());
+					presenter.fragment.getActivity().getSupportFragmentManager().popBackStack(); // TODO: shorten
+				}
 
             } else
             {
