@@ -80,7 +80,7 @@ public class ClientProxy implements IClient
     public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
         logger.entering("ClientProxy", "updateGameList", gameList);
-        String methodName = "startGame";
+        String methodName = "updateGameList";
         String[] paramTypes = {userNameClassName, List.class.getName()};
         Object[] params = {gameList};
         Signal signal = sendCommandToClient(user, methodName, paramTypes, params);
