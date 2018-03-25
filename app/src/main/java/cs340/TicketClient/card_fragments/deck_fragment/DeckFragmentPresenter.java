@@ -153,8 +153,8 @@ public class DeckFragmentPresenter
         GameModel.getInstance().getPlayer().getHand().add(pickedCard);
         DrawFaceUpRequest request =
                 new DrawFaceUpRequest(model.getGameID(), model.getUserName(), cardNumber);
-        DrawFaceUpTask task = new DrawFaceUpTask(cardNumber, this);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+        DrawFaceUpTask task = new DrawFaceUpTask(cardNumber, this, model);
+        task.execute(request);
 
         //change turn info
     }
@@ -186,15 +186,17 @@ public class DeckFragmentPresenter
     }
 
 
-    class DrawFaceUpTask extends AsyncTask<DrawFaceUpRequest, Integer, Signal>
+    static class DrawFaceUpTask extends AsyncTask<DrawFaceUpRequest, Integer, Signal>
     {
         int index;
         DeckFragmentPresenter presenter;
+        GameModel model;
 
-        public DrawFaceUpTask(int index, DeckFragmentPresenter presenter)
+        public DrawFaceUpTask(int index, DeckFragmentPresenter presenter, GameModel model)
         {
             this.index = index;
             this.presenter = presenter;
+            this.model = model;
         }
 
         @Override
