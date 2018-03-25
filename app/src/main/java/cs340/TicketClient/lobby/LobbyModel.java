@@ -61,7 +61,7 @@ public class LobbyModel
      * @pre none
      * @post the game list will include the new game
      */
-    void addGame(GameInfo game)
+    public void addGame(GameInfo game)
     {
         games.put(game.getID(), game);
     }
@@ -73,7 +73,7 @@ public class LobbyModel
      * @pre none
      * @post All the games in the collection will be added to the game list
      */
-    void addGames(List<GameInfo> games)
+    public void addGames(List<GameInfo> games)
     {
         for (GameInfo g : games)
         {
