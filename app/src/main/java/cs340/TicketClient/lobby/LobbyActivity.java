@@ -97,7 +97,7 @@ public class LobbyActivity extends AppCompatActivity
 				}
 			}
 			mGameListAdapter.addGames(openGames);
-			mRunningGameListAdapter.addGames(runningGames);
+			mRunningGameListAdapter.setGames(runningGames);
 		}
 
         mNewGameButton = findViewById(R.id.newGameButton);
@@ -165,7 +165,7 @@ public class LobbyActivity extends AppCompatActivity
 				}
 			}
 			mGameListAdapter.addGames(openGames);
-			mRunningGameListAdapter.addGames(runningGames);
+			mRunningGameListAdapter.setGames(runningGames);
 		}
 	}
 

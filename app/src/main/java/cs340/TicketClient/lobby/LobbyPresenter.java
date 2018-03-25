@@ -60,7 +60,7 @@ public class LobbyPresenter implements ILobbyPresenter
         model = LobbyModel.getSingleton();
     }
 
-    private void updateGameList()
+    public void updateGameList()
     {
         if (activity != null)
         {
