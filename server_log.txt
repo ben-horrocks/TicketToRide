@@ -1,10 +1,20 @@
-Mar 24, 2018 11:07:00 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:05:48 PM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 11:07:08 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:06:14 PM communicators.ServerCommunicator$1 run
 FINE: Connection received from /127.0.0.1
-Mar 24, 2018 11:07:08 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:06:14 PM communicators.ServerCommunicator$1 run
 FINE: Thread for /127.0.0.1 started
-Mar 24, 2018 11:07:08 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:06:14 PM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 11:07:08 PM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:06:14 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "register" command
+Mar 24, 2018 11:06:31 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 24, 2018 11:06:31 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 24, 2018 11:06:31 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 24, 2018 11:06:31 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 24, 2018 11:06:34 PM CS340.TicketServer.ClientThread$1 run
 FINE: Received "register" command

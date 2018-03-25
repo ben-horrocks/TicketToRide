@@ -92,6 +92,5 @@ public class ServerCommunicator
     {
         new ServerCommunicator();
         new PushTimer();
-        //chop CHOP BOIS!
     }
 }
