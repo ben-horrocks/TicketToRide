@@ -227,6 +227,7 @@ public class GameModel
 
     //Selected Edge Methods
     public Edge getSelectedEdge() {
+        //TODO change this to real funtionalit, just grabs first edge right now
         for ( Edge e : getGameData().getGameboard().getAllEdges())
         {
             return e;
