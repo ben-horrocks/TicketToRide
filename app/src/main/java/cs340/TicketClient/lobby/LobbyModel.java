@@ -149,6 +149,7 @@ public class LobbyModel
             newGames.put(g.getID(), g);
         }
         this.games = newGames;
+        LobbyPresenter.getInstance().updateGameList();
     }
 
     /**
