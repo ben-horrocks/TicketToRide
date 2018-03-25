@@ -37,11 +37,13 @@ public class HandTrainCardAdapter
     public void onBindViewHolder(HandTrainCardViewHolder holder, int position)
     {
         TrainCard trainCard = mTrainCards[position];
+        int width = 600;
+        int height = 400;
         int imageID = getTrainCardImage(trainCard.getType());
 		Drawable cardDrawable = mInflater.getContext().getResources().getDrawable(imageID);
 		Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
 		Drawable card = new BitmapDrawable(mInflater.getContext().getResources(),
-				Bitmap.createScaledBitmap(bitmap, 600, 400, true));
+				Bitmap.createScaledBitmap(bitmap, width, height, true));
         holder.myImageView.setImageDrawable(card);
     }
 
