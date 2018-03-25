@@ -196,6 +196,6 @@ public class ClientFacade implements IClient
     {
     	Player player = GameModel.getInstance().getPlayer();
         player.getTurnState().turnStarted(player);
-        return new Signal(SignalType.ERROR, "unimplemented");
+        return new Signal(SignalType.OK, "implemented startTurn *wink*");
     }
 }
