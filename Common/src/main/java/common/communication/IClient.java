@@ -18,7 +18,7 @@ public interface IClient
      *
      * @param gameList list of games to be pushed to all clients waiting in the lobby
      */
-    Signal updateGameList(List<GameInfo> gameList);
+    Signal updateGameList(Username user, List<GameInfo> gameList);
 
     /**
      * A function call for only the clients that have joined the particular game of the provided

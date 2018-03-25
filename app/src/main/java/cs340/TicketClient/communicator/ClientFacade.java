@@ -41,7 +41,7 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList)
+    public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
         LobbyPresenter.getInstance().addGames(gameList);
         return new Signal(SignalType.OK, "Accepted");
