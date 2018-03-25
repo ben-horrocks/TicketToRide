@@ -19,6 +19,7 @@ import common.communication.SignalType;
 import common.game_data.StartGamePacket;
 import common.game_data.GameInfo;
 import common.player_info.User;
+import cs340.TicketClient.async_task.GetGameInfoTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameActivity;
 import cs340.TicketClient.R;
@@ -76,29 +77,8 @@ public class LobbyActivity extends AppCompatActivity
         mRunningGameListAdapter = new RunningGameListAdapter();
         mRunningGameList.setAdapter(mRunningGameListAdapter);
 
-        Signal signal = ServerProxy.getInstance().getAvailableGameInfo(presenter.getUser().getUsername());
-        if (signal.getSignalType().equals(SignalType.OK) && signal.getObject() instanceof List)
-		{
-			// Hope the list is of GameInfo
-			@SuppressWarnings("unchecked")
-			List<GameInfo> games = (List<GameInfo>) signal.getObject();
-			ArrayList<GameInfo> runningGames = new ArrayList<>();
-			ArrayList<GameInfo> openGames = new ArrayList<>();
-			for (int i = 0; i < games.size(); i++)
-			{
-				GameInfo gameInfo = games.get(i);
-				if (gameInfo.hasUser(presenter.getUser().getUsername()))
-				{
-					runningGames.add(gameInfo);
-				}
-				else
-				{
-					openGames.add(gameInfo);
-				}
-			}
-			mGameListAdapter.setGames(openGames);
-			mRunningGameListAdapter.setGames(runningGames);
-		}
+        GetGameInfoTask task = new GetGameInfoTask(getBaseContext());
+		task.execute(LobbyPresenter.getInstance().getUser().getUsername());
 
         mNewGameButton = findViewById(R.id.newGameButton);
         //END VIEW BINDING
@@ -144,29 +124,8 @@ public class LobbyActivity extends AppCompatActivity
 	public void onResume()
 	{
 		super.onResume();
-		Signal signal = ServerProxy.getInstance().getAvailableGameInfo(presenter.getUser().getUsername());
-		if (signal.getSignalType().equals(SignalType.OK) && signal.getObject() instanceof List)
-		{
-			// Hope the list is of GameInfo
-			@SuppressWarnings("unchecked")
-			List<GameInfo> games = (List<GameInfo>) signal.getObject();
-			ArrayList<GameInfo> runningGames = new ArrayList<>();
-			ArrayList<GameInfo> openGames = new ArrayList<>();
-			for (int i = 0; i < games.size(); i++)
-			{
-				GameInfo gameInfo = games.get(i);
-				if (gameInfo.hasUser(presenter.getUser().getUsername()))
-				{
-					runningGames.add(gameInfo);
-				}
-				else
-				{
-					openGames.add(gameInfo);
-				}
-			}
-			mGameListAdapter.setGames(openGames);
-			mRunningGameListAdapter.setGames(runningGames);
-		}
+		GetGameInfoTask task = new GetGameInfoTask(getBaseContext());
+		task.execute(LobbyPresenter.getInstance().getUser().getUsername());
 	}
 
     /**
