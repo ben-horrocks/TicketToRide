@@ -143,6 +143,7 @@ public class LobbyActivity extends AppCompatActivity
             {
                 mGameListAdapter.clear();
                 List<GameInfo> games = presenter.searchGames(mSearchGameText.getText().toString());
+                /*
 				@SuppressWarnings("unchecked")
 				ArrayList<GameInfo> runningGames = new ArrayList<>();
 				ArrayList<GameInfo> openGames = new ArrayList<>();
@@ -158,8 +159,9 @@ public class LobbyActivity extends AppCompatActivity
 						openGames.add(gameInfo);
 					}
 				}
-				mGameListAdapter.setGames(openGames);
-				mRunningGameListAdapter.setGames(runningGames);
+				*/
+				mGameListAdapter.setGames(games);
+				// mRunningGameListAdapter.setGames(runningGames);
             }
         });
     }
