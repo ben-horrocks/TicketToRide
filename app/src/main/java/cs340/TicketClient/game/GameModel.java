@@ -117,9 +117,9 @@ public class GameModel
 
     // Train Card Hand Methods
     // TODO: update (or at least look at)
-    public void addTrainCard(TrainColor color)
+    public void addTrainCard(TrainCard card)
     {
-        getPlayer().getHand().add(new TrainCard(color));
+        getPlayer().getHand().add(card);
     }
 
     // TODO: update to remove specific card(s)

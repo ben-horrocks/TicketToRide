@@ -29,11 +29,6 @@ public class DeckFragmentPresenter
         this.model = GameModel.getInstance();
     }
 
-    void drawTrainCard(TrainColor trainColor)
-    {
-        model.addTrainCard(trainColor);
-    }
-
     ArrayList<Integer> getFaceUpCards()
     {
         ArrayList<TrainCard> faceUp =
@@ -247,7 +242,7 @@ public class DeckFragmentPresenter
             if (signal.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) signal.getObject();
-                GameModel.getInstance().addTrainCard(card.getType());
+                GameModel.getInstance().addTrainCard(card);
                 if(!model.isMyTurn())
                 {
                     ServerProxy.getInstance().turnEnded(model.getGameID(), model.getUserName());
