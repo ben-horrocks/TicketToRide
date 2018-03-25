@@ -202,13 +202,7 @@ public class LobbyPresenter implements ILobbyPresenter
      * @post The LobbyModel will contain entries for each game on the list. Any entries that are not
      * returned by the server, but were previously contained in the model are removed so that the
      * model only contains the updated list. Then the GUI is notified to update the displayed games.
-     *//*
-    public void fetchGames(){
-        List<GameInfo> games = new ArrayList<GameInfo>();
-        Signal s = ServerProxy.getInstance().getAvailableGameInfo();
-        games = (List<GameInfo>) s.getObject();
-        model.setGames(games);
-    }*/
+     */
     @Override
     public boolean canStartGame(GameID id)
     {
