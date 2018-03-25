@@ -198,6 +198,6 @@ public class LobbyActivity extends AppCompatActivity
     @Override
     public void onAddGame(DialogFragment frag, String newGame)
     {
-        presenter.addGame(newGame);
+        LobbyPresenter.getInstance().addGame(newGame);
     }
 }

@@ -1,20 +1,84 @@
-Mar 24, 2018 11:05:48 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:45:01 PM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 11:06:14 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:45:31 PM communicators.ServerCommunicator$1 run
 FINE: Connection received from /127.0.0.1
-Mar 24, 2018 11:06:14 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:45:31 PM communicators.ServerCommunicator$1 run
 FINE: Thread for /127.0.0.1 started
-Mar 24, 2018 11:06:14 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:45:31 PM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 11:06:14 PM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:45:31 PM CS340.TicketServer.ClientThread$1 run
 FINE: Received "register" command
-Mar 24, 2018 11:06:31 PM communicators.ServerCommunicator$1 run
-FINE: Connection received from /127.0.0.1
-Mar 24, 2018 11:06:31 PM communicators.ServerCommunicator$1 run
-FINE: Thread for /127.0.0.1 started
-Mar 24, 2018 11:06:31 PM communicators.ServerCommunicator$1 run
+Mar 24, 2018 11:45:31 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:45:31 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:45:35 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 24, 2018 11:45:35 PM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Ryan
+Mar 24, 2018 11:45:45 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /10.24.194.16
+Mar 24, 2018 11:45:45 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /10.24.194.16 started
+Mar 24, 2018 11:45:45 PM communicators.ServerCommunicator$1 run
 FINE: Waiting for socket...
-Mar 24, 2018 11:06:31 PM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:45:45 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "register" command
+Mar 24, 2018 11:45:46 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:45:46 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:45:47 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:50 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:51 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:52 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:52 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:53 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:53 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:45:53 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 24, 2018 11:46:35 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 24, 2018 11:46:35 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 24, 2018 11:46:35 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 24, 2018 11:46:35 PM CS340.TicketServer.ClientThread$1 run
 FINE: Received "login" command
-Mar 24, 2018 11:06:34 PM CS340.TicketServer.ClientThread$1 run
+Mar 24, 2018 11:46:35 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:46:35 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:47:15 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 24, 2018 11:47:15 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 24, 2018 11:47:15 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 24, 2018 11:47:15 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 24, 2018 11:47:15 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:47:15 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:47:18 PM communicators.ServerCommunicator$1 run
+FINE: Connection received from /10.24.194.16
+Mar 24, 2018 11:47:18 PM communicators.ServerCommunicator$1 run
+FINE: Thread for /10.24.194.16 started
+Mar 24, 2018 11:47:18 PM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 24, 2018 11:47:18 PM CS340.TicketServer.ClientThread$1 run
 FINE: Received "register" command
+Mar 24, 2018 11:47:19 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:47:19 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 24, 2018 11:47:53 PM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
