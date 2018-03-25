@@ -192,7 +192,7 @@ public class ServerGameData implements Serializable
                                           HandDestinationCards returned, boolean isMyTurn)
     {
         getPlayer(username).drewDestinationCards(drawn, isMyTurn);
-        //TODO: implement returning cards to the destination deck
+        this.destinations.putBackInDeck(returned.getDestinationCards());
     }
 
 
