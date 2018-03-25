@@ -201,6 +201,7 @@ public class ServerFacade implements IServer
         if (openGameAdded)
         {
             Signal signal = new Signal(SignalType.OK, serverGameData);
+            broadcastGameListChange();
             logger.exiting("ServerFacade", "addGame", signal);
             return signal;
         } else
@@ -281,6 +282,7 @@ public class ServerFacade implements IServer
             if (gameDeleted)
             {
                 database.addRunningGame(serverGameData);
+                broadcastGameListChange();
                 //Initialize player hands
                 HashMap<Username, HandTrainCards> hands = new HashMap<>();
                 HashMap<Username, HandDestinationCards> destCards = new HashMap<>();
@@ -308,8 +310,7 @@ public class ServerFacade implements IServer
                     }
 
 
-                    serverGameData
-                            .playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
+                    serverGameData.playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
                     hands.put(p.getUsername(), new HandTrainCards(hand));
                     //drawing players initial destination cards
                     List<DestinationCard> dest = serverGameData.destinationDraw();
@@ -698,5 +699,22 @@ public class ServerFacade implements IServer
         Signal signal = new Signal(SignalType.OK, user);
         logger.exiting("ServerFacade", "login", signal);
         return signal;
+    }
+
+    private void broadcastGameListChange()
+    {
+        Set<Username> users = Database.SINGLETON.getAllUsernames();
+        for(Username u: users)
+        {
+            List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+            for(GameInfo g: Database.SINGLETON.getAllRunningGames())
+            {
+                if(g.hasUser(u))
+                {
+                    games.add(g);
+                }
+            }
+            ClientProxy.getSINGLETON().updateGameList(u, games);
+        }
     }
 }

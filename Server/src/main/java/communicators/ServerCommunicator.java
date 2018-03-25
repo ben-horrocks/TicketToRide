@@ -91,6 +91,6 @@ public class ServerCommunicator
     public static void main(String[] args)
     {
         new ServerCommunicator();
-        new PushTimer();
+        //new PushTimer(); chop CHOP BOIS!
     }
 }

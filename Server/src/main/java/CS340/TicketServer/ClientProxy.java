@@ -77,17 +77,13 @@ public class ClientProxy implements IClient
     private static final String endGameClassName = EndGame.class.getName();
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList)
+    public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
         logger.entering("ClientProxy", "updateGameList", gameList);
-        ConcurrentHashMap<Username, ClientThread> threadList =
-                (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
-        Signal signal = new Signal(SignalType.UPDATE, gameList);
-        for (ClientThread thread : threadList.values())
-        {
-            thread.push(signal);
-        }
-        signal = new Signal(SignalType.OK, "Accepted");
+        String methodName = "startGame";
+        String[] paramTypes = {userNameClassName, List.class.getName()};
+        Object[] params = {gameList};
+        Signal signal = sendCommandToClient(user, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "updateGameList", signal);
         return signal;
     }
