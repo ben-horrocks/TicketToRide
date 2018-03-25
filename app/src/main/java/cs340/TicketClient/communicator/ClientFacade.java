@@ -51,7 +51,7 @@ public class ClientFacade implements IClient
     @Override
     public Signal startGame(StartGamePacket packet)
     {
-        System.out.println("Recieced StartGame packet");
+        System.out.println("Received StartGame packet");
         LobbyPresenter.getInstance().gameStarted(packet);
         System.out.println("Sending OK Signal");
         return new Signal(SignalType.OK, "Accepted");
