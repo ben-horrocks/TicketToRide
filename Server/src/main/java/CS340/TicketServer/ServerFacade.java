@@ -242,6 +242,7 @@ public class ServerFacade implements IServer
             }
             serverGameData.addPlayer(user);
             Signal signal = new Signal(SignalType.OK, serverGameData);
+            broadcastGameListChange();
             logger.exiting("ServerFacade", "joinGame", signal);
             return signal;
         }
