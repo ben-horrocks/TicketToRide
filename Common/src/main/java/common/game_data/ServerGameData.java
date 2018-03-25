@@ -9,11 +9,8 @@ import common.cards.decks.TrainCardDeck;
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
-import common.cards.TrainColor;
 import common.chat.ChatItem;
 import common.history.HistoryItem;
-import common.map.City;
-import common.map.CityName;
 import common.map.Edge;
 import common.map.EdgeGraph;
 import common.map.InitializedGameGraph;
@@ -185,7 +182,7 @@ public class ServerGameData implements Serializable
     //TODO: documentation - what is this doing?
     public void playerDrewTrainCard(String username, HandTrainCards drawn)
     {
-        getPlayer(username).drewTrainCards(drawn);
+        getPlayer(username).drewInitialTrainCards(drawn);
     }
 
     public void playerDrewDestinationCard(String username, HandDestinationCards drawn,

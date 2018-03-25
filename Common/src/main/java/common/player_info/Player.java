@@ -60,7 +60,7 @@ public class Player implements Serializable
         }
     }
 
-    public void drewTrainCards(HandTrainCards cards)
+    public void drewInitialTrainCards(HandTrainCards cards)
     {
         this.hand.addAll(cards);
     }
