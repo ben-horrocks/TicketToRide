@@ -184,12 +184,23 @@ public class LobbyActivity extends AppCompatActivity
             {
                 mGameListAdapter.clear();
                 List<GameInfo> games = presenter.searchGames(mSearchGameText.getText().toString());
-                for (int i = 0; i < games.size(); i++)
+				@SuppressWarnings("unchecked")
+				ArrayList<GameInfo> runningGames = new ArrayList<>();
+				ArrayList<GameInfo> openGames = new ArrayList<>();
+				for (int i = 0; i < games.size(); i++)
 				{
 					GameInfo gameInfo = games.get(i);
-
+					if (gameInfo.hasUser(presenter.getUser().getUsername()))
+					{
+						runningGames.add(gameInfo);
+					}
+					else
+					{
+						openGames.add(gameInfo);
+					}
 				}
-                mGameListAdapter.setGames(games);
+				mGameListAdapter.setGames(openGames);
+				mRunningGameListAdapter.setGames(runningGames);
             }
         });
     }
