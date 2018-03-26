@@ -49,6 +49,13 @@
                 android:text="DestinationCards"/>
 
             <TextView
+                android:id="@+id/trainsLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DestinationCards"/>
+
+
+            <TextView
                 android:id="@+id/drawer_player_turnQueue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

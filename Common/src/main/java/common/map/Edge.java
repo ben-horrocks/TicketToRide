@@ -96,24 +96,32 @@ public class Edge implements Serializable
 
     public int computePointValue()
     {
+        int value = 0;
         switch (this.getLength())
         {
             case 1:
-                return 1;
+                value = 1;
+                break;
             case 2:
-                return 2;
+                value = 2;
+                break;
             case 3:
-                return 4;
+                value = 4;
+                break;
             case 4:
-                return 7;
+                value = 7;
+                break;
             case 5:
-                return 10;
+                value = 10;
+                break;
             case 6:
-                return 15;
+                value = 15;
+                break;
             default:
-                return 0;
-
+                value = value;
+                break;
         }
+        return value;
     }
 
     public City getFirstCity()

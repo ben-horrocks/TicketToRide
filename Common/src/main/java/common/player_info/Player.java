@@ -38,6 +38,10 @@ public class Player implements Serializable
         this.pieces = new TrainPieces(true);
     }
 
+    public TrainPieces getPieces() {
+        return pieces;
+    }
+
     public void setPieces(TrainPieces pieces) {
         this.pieces = pieces;
     }
@@ -60,6 +64,10 @@ public class Player implements Serializable
         }
     }
 
+    public void addPoints(int num)
+    {
+        score.incrementRoutesClaimed(num);
+    }
     public void drewInitialTrainCards(HandTrainCards cards)
     {
 		this.hand.addAll(cards);
