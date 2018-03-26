@@ -3,6 +3,7 @@ package common.map;
 import java.io.Serializable;
 import java.util.*;
 
+import common.cards.TrainCard;
 import common.cards.TrainColor;
 import common.game_data.Opponent;
 import common.player_info.*;
@@ -321,4 +322,42 @@ public class Edge implements Serializable
     {
         return id;
     }
+
+	/**
+	 * @pre cards is not null
+	 * @param cards The cards
+	 * @return Yes or no
+	 */
+	public boolean canClaim(List<TrainCard> cards)
+	{
+		if (cards.size() != length) return false; // must be same length
+		if (owner != null) return false; // must be unowned
+		TrainColor color = this.color;
+		if (color.equals(TrainColor.GRAY))
+		{
+			TrainColor firstColor = cards.get(0).getType();
+			for (TrainCard card : cards)
+			{
+				if (firstColor.equals(TrainColor.LOCOMOTIVE))
+				{
+					firstColor = card.getType();
+				}
+				if (!firstColor.equals(color) && !card.getType().equals(TrainColor.LOCOMOTIVE))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			for (TrainCard card : cards)
+			{
+				if (!card.getType().equals(color) && !card.getType().equals(TrainColor.LOCOMOTIVE))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }

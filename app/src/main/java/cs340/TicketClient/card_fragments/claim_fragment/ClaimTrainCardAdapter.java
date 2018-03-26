@@ -20,10 +20,6 @@ import cs340.TicketClient.R;
 import cs340.TicketClient.card_fragments.hand_fragment.HandFragment;
 import cs340.TicketClient.game.GameModel;
 
-/**
- * Created by jhens on 3/24/2018.
- */
-
 public class ClaimTrainCardAdapter extends RecyclerView.Adapter<ClaimTrainCardAdapter.ClaimTrainCardViewHolder> {
 
     private TrainCard[] mTrainCards = new TrainCard[0];

@@ -118,6 +118,7 @@ public class Player implements Serializable
 
         return enoughTrainCars && enoughCards;
     }
+
     public boolean canClaimEdge(Edge e)
     {
         if (e.isClaimed())

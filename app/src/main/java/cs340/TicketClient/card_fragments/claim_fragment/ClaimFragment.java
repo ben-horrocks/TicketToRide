@@ -14,6 +14,7 @@ import common.cards.TrainCard;
 import cs340.TicketClient.R;
 import cs340.TicketClient.game.GameModel;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 public class ClaimFragment extends Fragment {
 
@@ -21,10 +22,9 @@ public class ClaimFragment extends Fragment {
     ClaimPresenter presenter;
     ClaimTrainCardAdapter trainAdapter;
     Button claimRoute;
+    GameModel model;
 
-    public ClaimFragment() {
-
-    }
+    public ClaimFragment() { model = GameModel.getInstance(); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,13 @@ public class ClaimFragment extends Fragment {
         claimRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (GameModel.getInstance().getQueuedCards().size() > 0) {
+                if (model.getSelectedEdge().canClaim(model.getQueuedCards())) {
                     presenter.sendClaimRequest();
                 }
+                else
+				{
+					Toast.makeText(getContext(), "Can't Claim Edge", Toast.LENGTH_SHORT).show();
+				}
             }
         });
 

@@ -1,34 +1,18 @@
 package cs340.TicketClient.game;
 
-import android.app.Activity;
-import android.support.v4.app.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import common.cards.DestinationCard;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
-import common.cards.TrainColor;
 import common.chat.ChatItem;
-import common.game_data.*;
+import common.game_data.ClientGameData;
+import common.game_data.EndGame;
+import common.game_data.GameID;
+import common.game_data.Opponent;
 import common.history.HistoryItem;
 import common.map.Edge;
-import common.player_info.Player;
-import common.player_info.User;
-import common.player_info.Username;
-import cs340.TicketClient.R;
-import cs340.TicketClient.game_menu.chat.ChatPresenter;
-import cs340.TicketClient.game_menu.history.HistoryPresenter;
-import java.util.List;
-
-import common.cards.DestinationCard;
-import common.cards.HandDestinationCards;
-import common.cards.TrainCard;
-import common.cards.TrainColor;
-import common.chat.ChatItem;
-import common.game_data.*;
-import common.history.HistoryItem;
 import common.player_info.Player;
 import common.player_info.User;
 import common.player_info.Username;
@@ -53,10 +37,7 @@ public class GameModel
         return singleton;
     }
 
-    private GameModel()
-    {
-
-    }
+    private GameModel() {}
 
     public void setQueuedCards(ArrayList<TrainCard> queuedCards) {
         this.queuedCards = queuedCards;

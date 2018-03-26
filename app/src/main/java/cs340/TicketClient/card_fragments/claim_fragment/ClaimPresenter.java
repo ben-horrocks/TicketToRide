@@ -51,17 +51,10 @@ public class ClaimPresenter implements IClaimPresenter {
         Username user = GameModel.getInstance().getUserName();
         Edge edge = GameModel.getInstance().getSelectedEdge();
         HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
-        if (GameModel.getInstance().getPlayer().canClaimEdgeWithSelected(edge, cards)) {
-            edge.setOwner(GameModel.getInstance().getPlayer());
-			ClaimTask claimTask = new ClaimTask(this, model);
-			ClaimRequest request = new ClaimRequest(id, user, edge, cards);
-			claimTask.execute(request);
-        }
-        else
-        {
-            Toast.makeText(fragment.getActivity(), "Can't Claim Route", Toast.LENGTH_SHORT).show();
-        }
-
+		edge.setOwner(GameModel.getInstance().getPlayer());
+		ClaimTask claimTask = new ClaimTask(this, model);
+		ClaimRequest request = new ClaimRequest(id, user, edge, cards);
+		claimTask.execute(request);
     }
 
 
