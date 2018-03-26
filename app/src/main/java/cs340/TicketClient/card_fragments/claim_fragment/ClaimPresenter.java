@@ -52,9 +52,6 @@ public class ClaimPresenter implements IClaimPresenter {
         Edge edge = GameModel.getInstance().getSelectedEdge();
         HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
         if (GameModel.getInstance().getPlayer().canClaimEdgeWithSelected(edge, cards)) {
-            GameModel.getInstance().getPlayer().getHand().removeAll(cards.getTrainCards());
-            GameModel.getInstance().getPlayer().getPieces().useTrainPieces(cards.size());
-            GameModel.getInstance().getPlayer().addPoints(edge.computePointValue());
             edge.setOwner(GameModel.getInstance().getPlayer());
 			ClaimTask claimTask = new ClaimTask(this, model);
 			ClaimRequest request = new ClaimRequest(id, user, edge, cards);
