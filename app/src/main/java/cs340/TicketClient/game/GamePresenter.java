@@ -96,7 +96,7 @@ public class GamePresenter
         StringBuilder sb = new StringBuilder(name + " claimed the route from " + city1 + " to " + city2);
 
         //refresh the map
-        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentByTag(MapFragment.class.getSimpleName());
         if (mapFrag != null) {
             FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
             ft.detach(mapFrag);
