@@ -227,14 +227,7 @@ public class GameModel
 
     //Selected Edge Methods
     public Edge getSelectedEdge() {
-        //TODO change this to real funtionality
-        //should just me accessor of the variable
-        for ( Edge e : getGameData().getGameboard().getAllEdges())
-        {
-            if (e.getLength() == 2)
-                return e;
-        }
-        return null;
+        return selectedEdge;
     }
 
     public void setSelectedEdge(Edge selectedEdge) {
