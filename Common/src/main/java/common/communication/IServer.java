@@ -68,7 +68,7 @@ public interface IServer
      *
      * @return Signal containing error or ok message and gameInfo object
      */
-    Signal getAvailableGameInfo();
+    Signal getAvailableGameInfo(Username user);
 
     /**
      * Debug method for pre-populating a server with data

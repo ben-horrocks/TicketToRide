@@ -15,6 +15,7 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.game_data.ClientGameData;
 import common.game_data.GameID;
+import common.game_data.GameInfo;
 import common.game_data.ServerGameData;
 import common.game_data.StartGamePacket;
 import common.game_data.TurnQueue;
@@ -200,6 +201,7 @@ public class ServerFacade implements IServer
         if (openGameAdded)
         {
             Signal signal = new Signal(SignalType.OK, serverGameData);
+            broadcastGameListChange();
             logger.exiting("ServerFacade", "addGame", signal);
             return signal;
         } else
@@ -240,6 +242,7 @@ public class ServerFacade implements IServer
             }
             serverGameData.addPlayer(user);
             Signal signal = new Signal(SignalType.OK, serverGameData);
+            broadcastGameListChange();
             logger.exiting("ServerFacade", "joinGame", signal);
             return signal;
         }
@@ -280,6 +283,7 @@ public class ServerFacade implements IServer
             if (gameDeleted)
             {
                 database.addRunningGame(serverGameData);
+                broadcastGameListChange();
                 //Initialize player hands
                 HashMap<Username, HandTrainCards> hands = new HashMap<>();
                 HashMap<Username, HandDestinationCards> destCards = new HashMap<>();
@@ -307,8 +311,7 @@ public class ServerFacade implements IServer
                     }
 
 
-                    serverGameData
-                            .playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
+                    serverGameData.playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
                     hands.put(p.getUsername(), new HandTrainCards(hand));
                     //drawing players initial destination cards
                     List<DestinationCard> dest = serverGameData.destinationDraw();
@@ -357,10 +360,17 @@ public class ServerFacade implements IServer
      * @post Will return a signal of success or error
      */
     @Override
-    public Signal getAvailableGameInfo()
+    public Signal getAvailableGameInfo(Username user)
     {
-        // TODO: implement
-        return null;
+        List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+        for(GameInfo game: Database.SINGLETON.getAllRunningGames())
+        {
+            if(game.hasUser(user))
+            {
+                games.add(game);
+            }
+        }
+        return new Signal(SignalType.OK, games);
     }
 
     /**
@@ -690,5 +700,22 @@ public class ServerFacade implements IServer
         Signal signal = new Signal(SignalType.OK, user);
         logger.exiting("ServerFacade", "login", signal);
         return signal;
+    }
+
+    private void broadcastGameListChange()
+    {
+        Set<Username> users = Database.SINGLETON.getAllUsernames();
+        for(Username u: users)
+        {
+            List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+            for(GameInfo g: Database.SINGLETON.getAllRunningGames())
+            {
+                if(g.hasUser(u))
+                {
+                    games.add(g);
+                }
+            }
+            ClientProxy.getSINGLETON().updateGameList(u, games);
+        }
     }
 }

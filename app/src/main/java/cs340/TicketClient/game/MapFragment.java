@@ -35,7 +35,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
     private Map<String, City> cities = new HashMap<>();
     private EdgeGraph edges = GameModel.getInstance().getGameData().getGameboard();
     private Set<Polyline> lines = new HashSet<>();
-    private Map<Marker, Edge> onClickMap;
+    private Map<Marker, Edge> onClickMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -437,7 +437,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                 new MarkerOptions().title(text).snippet(sb.toString()).position(position)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.invisible)));
         // .icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
-
+		onClickMap.put(marker, edge);
         return marker;
     }
 }

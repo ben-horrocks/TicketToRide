@@ -72,6 +72,11 @@ public class Database
         return null;
     }
 
+    public Set<Username> getAllUsernames()
+    {
+        return playerList.keySet();
+    }
+
     /**
      * Update a specific user in the database
      *

@@ -16,6 +16,18 @@ import common.player_info.User;
  */
 public class LobbyModel
 {
+	private static LobbyModel SINGLETON;
+
+	public static LobbyModel getSingleton()
+	{
+		if (SINGLETON == null)
+		{
+			SINGLETON = new LobbyModel();
+		}
+		return SINGLETON;
+	}
+
+
     /**
      * The list of available games on the server
      */
@@ -32,27 +44,15 @@ public class LobbyModel
     private User user;
 
     /**
-     * Default constructor
-     *
-     * @pre none
-     * @post creates a new model instance with an empty list of games
-     */
-    public LobbyModel()
-    {
-        games = new HashMap<>();
-    }
-
-    /**
      * Constructor for creating a new model with initialized games
      *
-     * @param games The map of games to be used in initialization
      * @pre the map of games must be valid on the server
      * @post creates a new model instance with the passed in values
      */
-    LobbyModel(Map<GameID, GameInfo> games)
-    {
-        this.games = games;
-    }
+    private LobbyModel()
+	{
+		games = new HashMap<>();
+	}
 
     /**
      * Adds a game to the game list
@@ -61,7 +61,7 @@ public class LobbyModel
      * @pre none
      * @post the game list will include the new game
      */
-    void addGame(GameInfo game)
+    public void addGame(GameInfo game)
     {
         games.put(game.getID(), game);
     }
@@ -73,7 +73,7 @@ public class LobbyModel
      * @pre none
      * @post All the games in the collection will be added to the game list
      */
-    void addGames(List<GameInfo> games)
+    public void addGames(List<GameInfo> games)
     {
         for (GameInfo g : games)
         {
@@ -149,6 +149,7 @@ public class LobbyModel
             newGames.put(g.getID(), g);
         }
         this.games = newGames;
+        LobbyPresenter.getInstance().updateGameList();
     }
 
     /**

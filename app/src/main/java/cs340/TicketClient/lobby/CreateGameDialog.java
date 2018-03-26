@@ -93,6 +93,6 @@ public class CreateGameDialog extends DialogFragment
          * @pre User has just asked for a new game t be created via the dialog, newGame.length >0
          * @post A new AddGameTask will have been executed to add a new game on the server.
          */
-        public void onAddGame(DialogFragment frag, String newGameName);
+        void onAddGame(DialogFragment frag, String newGameName);
     }
 }

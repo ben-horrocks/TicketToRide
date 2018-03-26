@@ -104,10 +104,10 @@ public class ServerProxy implements IServer
     }
 
     @Override
-    public Signal getAvailableGameInfo()
+    public Signal getAvailableGameInfo(Username user)
     {
-        String[] parameterTypes = {};
-        Object[] parameters = {};
+        String[] parameterTypes = {usernameClassName};
+        Object[] parameters = {user};
         CommandParams getAvailableGameInfoCommand =
                 new CommandParams("getAvailableGameInfo", parameterTypes, parameters);
         try

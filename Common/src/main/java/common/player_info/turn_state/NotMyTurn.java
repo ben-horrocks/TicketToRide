@@ -25,4 +25,7 @@ public class NotMyTurn implements ITurnState, Serializable
 
 	@Override
 	public void turnStarted(Player player) { player.setTurnState(new MyTurnNoAction()); }
+
+	@Override
+	public boolean canTakeAction() { return false; }
 }

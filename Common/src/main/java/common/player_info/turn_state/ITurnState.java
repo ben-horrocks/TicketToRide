@@ -18,4 +18,6 @@ public interface ITurnState
 	void claimEdge(Player player, Edge edge);
 
 	void turnStarted(Player player);
+
+	boolean canTakeAction();
 }
