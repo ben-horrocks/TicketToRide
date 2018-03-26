@@ -1,5 +1,8 @@
 package cs340.TicketClient.game;
 
+import android.app.Activity;
+import android.support.v4.app.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.User;
 import common.player_info.Username;
+import cs340.TicketClient.R;
 import cs340.TicketClient.game_menu.chat.ChatPresenter;
 import cs340.TicketClient.game_menu.history.HistoryPresenter;
 import java.util.List;
@@ -237,5 +241,52 @@ public class GameModel
 
     public void setSelectedEdge(Edge selectedEdge) {
         this.selectedEdge = selectedEdge;
+    }
+
+    //Claimed route edges
+    public boolean markClaimedRoute(Username username, Edge edge)
+    {
+        //Get Opponent
+        Opponent opponent = null;
+        List<Opponent> opList = gameData.getOpponents();
+        for (Opponent op : opList) {
+            if (op.getUsername().equals(username))
+            {
+                opponent = op;
+            }
+        }
+        if (opponent == null)
+        {
+            System.out.println("Could not find opponent with which to update route");
+            return false;
+        }
+
+        //Find edge in gameboard and update with opponent
+        Edge foundEdge = null;
+        List<Edge> list = gameData.getGameboard().getGraph().get(edge.getFirstCity());
+        for (Edge findEdge : list)
+        {
+            if (findEdge.equals(edge))
+            {
+                if (!findEdge.isClaimed())
+                {
+                    foundEdge = findEdge;
+                }
+            }
+        }
+        if (foundEdge == null)
+        {
+            System.out.println("Edge not found or edge is already owned. Could not mark as claimed");
+            return false;
+        }
+
+        //Update Map Fragment
+        Activity activity = presenter.getGameActivity();
+        if (activity != null) {
+            //MapFragment mapFrag = activity.getFragmentManager().findFragmentById(R.id.fragment_map);
+            //mapFrag.markClaimedEdge(foundEdge);
+        }
+
+        return true;
     }
 }

@@ -116,8 +116,11 @@ public class ClientFacade implements IClient
 
     @Override
     public Signal playerClaimedEdge(Username name, Edge edge) {
-        //TODO: implement updating opponents with the new edge
-        return new Signal(SignalType.ERROR, "unimplemented");
+        boolean routeClaimed = GameModel.getInstance().markClaimedRoute(name, edge);
+        if (routeClaimed) {
+            return new Signal(SignalType.OK, "Route claimed successfully");
+        }
+        return new Signal(SignalType.ERROR, "could not claim route");
     }
 
     @Override
