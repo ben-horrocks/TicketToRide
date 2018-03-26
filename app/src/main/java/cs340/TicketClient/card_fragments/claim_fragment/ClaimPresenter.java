@@ -17,10 +17,6 @@ import common.request.ClaimRequest;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
-/**
- * Created by jhens on 3/24/2018.
- */
-
 public class ClaimPresenter implements IClaimPresenter {
 
     private ClaimFragment fragment;

@@ -60,10 +60,14 @@ public class GamePresenter
             if (!selectedEdge.isClaimed())
             {
                 android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
-                android.support.v4.app.Fragment fragment = new ClaimFragment();
-                fm.beginTransaction().add(R.id.fragment_map, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null).commit();
+                android.support.v4.app.Fragment fragment = fm.findFragmentByTag(ClaimFragment.class.getSimpleName());
+                if (fragment == null)
+				{
+					fragment = new ClaimFragment();
+					fm.beginTransaction().add(R.id.fragment_map, fragment, ClaimFragment.class.getSimpleName())
+							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+							.addToBackStack(ClaimFragment.class.getSimpleName()).commit();
+				}
             }
             else {
                 String message = "This route is already claimed by another player.";
