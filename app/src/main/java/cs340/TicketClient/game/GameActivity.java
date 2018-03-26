@@ -69,7 +69,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             destinationViewFragment.setArguments(toDestinationVF);
             // Set the destination fragment and set the transition
             fm.beginTransaction().add(R.id.fragment_map, destinationViewFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack("map")
                     .commit();
         }
 
@@ -100,21 +100,30 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
+    	String tag;
         switch (v.getId())
         {
             case R.id.hand_button:
-                Fragment handFragment;
-                handFragment = new HandFragment();
-                fm.beginTransaction().add(R.id.fragment_map, handFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null).commit();
+            	tag = HandFragment.class.getSimpleName();
+                Fragment handFragment = fm.findFragmentByTag(tag);
+                if (handFragment == null)
+				{
+					handFragment = new HandFragment();
+					fm.beginTransaction().add(R.id.fragment_map, handFragment, tag)
+							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+							.addToBackStack(tag).commit();
+				}
                 break;
             case R.id.draw_trainCar_button:
-				Fragment drawCardFragment;
-				drawCardFragment = new DeckFragment();
-				fm.beginTransaction().add(R.id.fragment_map, drawCardFragment)
-						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-						.addToBackStack(null).commit();
+            	tag = DeckFragment.class.getSimpleName();
+				Fragment drawCardFragment = fm.findFragmentByTag(tag);
+				if (drawCardFragment == null)
+				{
+					drawCardFragment = new DeckFragment();
+					fm.beginTransaction().add(R.id.fragment_map, drawCardFragment, tag)
+							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+							.addToBackStack(tag).commit();
+				}
                 break;
             case R.id.draw_destination_button:
 				if (presenter.isMyTurn())
@@ -145,39 +154,57 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void startDestinationFragment(HandDestinationCards cards)
     {
-        Fragment destinationCardFragment;
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("cards", cards);
-        destinationCardFragment = new DestinationCardFragment();
-        destinationCardFragment.setArguments(bundle);
-        fm.beginTransaction().add(R.id.fragment_map, destinationCardFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null)
-                .commit();
+        Fragment destinationCardFragment = fm.findFragmentByTag(DestinationCardFragment.class.getSimpleName());
+        if (destinationCardFragment == null)
+		{
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("cards", cards);
+			destinationCardFragment = new DestinationCardFragment();
+			destinationCardFragment.setArguments(bundle);
+			fm.beginTransaction().add(R.id.fragment_map, destinationCardFragment,
+					DestinationCardFragment.class.getSimpleName())
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+					.addToBackStack(DestinationCardFragment.class.getSimpleName())
+					.commit();
+		}
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-
-        FragmentManager fm = getSupportFragmentManager();
         Fragment fragment;
 
         switch (item.getItemId()) // For all fragments, retain their data after being used.
         {
             case R.id.chat_btn:
-                fragment = new ChatFragment();
-                fm.beginTransaction().replace(R.id.fragment_map, fragment).addToBackStack(null)
-                        .commit();
+            	fragment = fm.findFragmentByTag(ChatFragment.class.getSimpleName());
+            	if (fragment == null)
+				{
+					fragment = new ChatFragment();
+					fm.beginTransaction().replace(R.id.fragment_map, fragment, ChatFragment.class.getSimpleName())
+							.addToBackStack(ChatFragment.class.getSimpleName())
+							.commit();
+				}
                 break;
             case R.id.hist_btn:
-                fragment = new HistoryFragment();
-                fm.beginTransaction().replace(R.id.fragment_map, fragment).addToBackStack(null)
-                        .commit();
+            	fragment = fm.findFragmentByTag(HistoryFragment.class.getSimpleName());
+            	if (fragment == null)
+				{
+					fragment = new HistoryFragment();
+					fm.beginTransaction().replace(R.id.fragment_map, fragment, HistoryFragment.class.getSimpleName())
+							.addToBackStack(HistoryFragment.class.getSimpleName())
+							.commit();
+				}
                 break;
             case R.id.player_btn:
-                fragment = new PlayerFragment();
-                fm.beginTransaction().replace(R.id.fragment_map, fragment).addToBackStack(null)
-                        .commit();
+            	fragment = fm.findFragmentByTag(PlayerFragment.class.getSimpleName());
+            	if (fragment == null)
+				{
+					fragment = new PlayerFragment();
+					fm.beginTransaction().replace(R.id.fragment_map, fragment, PlayerFragment.class.getSimpleName())
+							.addToBackStack(PlayerFragment.class.getSimpleName())
+							.commit();
+				}
                 break;
                 /* Test button functionality suspended
             case R.id.test_btn:

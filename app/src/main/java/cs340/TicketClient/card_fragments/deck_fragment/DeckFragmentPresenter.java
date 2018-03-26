@@ -1,5 +1,8 @@
 package cs340.TicketClient.card_fragments.deck_fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,6 +15,7 @@ import common.player_info.Player;
 import common.request.DrawDeckRequest;
 import common.request.DrawFaceUpRequest;
 import cs340.TicketClient.R;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
@@ -111,7 +115,7 @@ public class DeckFragmentPresenter
         DrawDeckRequest request = new DrawDeckRequest(GameModel.getInstance().getGameID(),
                                                       GameModel.getInstance().getPlayer().getUser()
                                                               .getUsername());
-        DrawDeckTask task = new DrawDeckTask();
+        DrawDeckTask task = new DrawDeckTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
 
         //change turn info
@@ -147,37 +151,39 @@ public class DeckFragmentPresenter
 
     public void DrawFaceUp(int cardNumber)
     {
-        ArrayList<TrainCard> currFaceUp =
-                (ArrayList<TrainCard>) GameModel.getInstance().getGameData().getFaceUp();
-        TrainCard pickedCard = currFaceUp.get(cardNumber);
-        GameModel.getInstance().getPlayer().getHand().add(pickedCard);
         DrawFaceUpRequest request =
                 new DrawFaceUpRequest(model.getGameID(), model.getUserName(), cardNumber);
-        DrawFaceUpTask task = new DrawFaceUpTask(cardNumber, this);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+        DrawFaceUpTask task = new DrawFaceUpTask(cardNumber, this, model);
+        task.execute(request);
 
         //change turn info
     }
 
     public void replaceTrainCard(int index, TrainCard card)
     {
-        Integer drawable = getTrainDrawable(card);
+        int imageID = getTrainDrawable(card);
+		int width = 600;
+		int height = 400;
+		Drawable cardDrawable = fragment.getActivity().getResources().getDrawable(imageID);
+		Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
+		Drawable cardResized = new BitmapDrawable(fragment.getActivity().getResources(),
+				Bitmap.createScaledBitmap(bitmap, width, height, true));
         switch (index)
         {
             case 0:
-                fragment.tCard1.setImageResource(drawable);
+                fragment.tCard1.setImageDrawable(cardResized);
                 break;
             case 1:
-                fragment.tCard2.setImageResource(drawable);
+                fragment.tCard2.setImageDrawable(cardResized);
                 break;
             case 2:
-                fragment.tCard3.setImageResource(drawable);
+                fragment.tCard3.setImageDrawable(cardResized);
                 break;
             case 3:
-                fragment.tCard4.setImageResource(drawable);
+                fragment.tCard4.setImageDrawable(cardResized);
                 break;
             case 4:
-                fragment.tCard5.setImageResource(drawable);
+                fragment.tCard5.setImageDrawable(cardResized);
                 break;
             default:
                 Log.d("Error", "replaceTrainCard: Bad Index");
@@ -186,15 +192,17 @@ public class DeckFragmentPresenter
     }
 
 
-    class DrawFaceUpTask extends AsyncTask<DrawFaceUpRequest, Integer, Signal>
+    static class DrawFaceUpTask extends AsyncTask<DrawFaceUpRequest, Integer, Signal>
     {
         int index;
         DeckFragmentPresenter presenter;
+        GameModel model;
 
-        public DrawFaceUpTask(int index, DeckFragmentPresenter presenter)
+        DrawFaceUpTask(int index, DeckFragmentPresenter presenter, GameModel model)
         {
             this.index = index;
             this.presenter = presenter;
+            this.model = model;
         }
 
         @Override
@@ -208,18 +216,22 @@ public class DeckFragmentPresenter
         @Override
         protected void onPostExecute(Signal response)
         {
+
             super.onPostExecute(response);
             if (response.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) response.getObject();
-                GameModel.getInstance().replaceFaceUp(index, card);
+                model.replaceFaceUp(index, card);
                 presenter.replaceTrainCard(index, card);
-                if(!model.isMyTurn())
-                {
-                    ServerProxy.getInstance().turnEnded(model.getGameID(), model.getUserName());
-                }
-
-            } else
+                model.getPlayer().drewFaceUpCard(card);
+                if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
+				{
+					TurnEndedTask task = new TurnEndedTask();
+					task.execute(model.getGameID(), model.getUserName());
+					presenter.fragment.getActivity().getSupportFragmentManager().popBackStack(); // TODO: shorten
+				}
+            }
+            else
             {
                 Log.d("ERROR", "onPostExecute: Error signal on draw face up");
             }
@@ -228,6 +240,10 @@ public class DeckFragmentPresenter
 
     class DrawDeckTask extends AsyncTask<DrawDeckRequest, Integer, Signal>
     {
+    	DeckFragmentPresenter presenter;
+
+		DrawDeckTask(DeckFragmentPresenter presenter) { this.presenter = presenter; }
+
         @Override
         protected Signal doInBackground(DrawDeckRequest... drawDeckRequests)
         {
@@ -238,15 +254,19 @@ public class DeckFragmentPresenter
         @Override
         protected void onPostExecute(Signal signal)
         {
+        	GameModel model = GameModel.getInstance();
             super.onPostExecute(signal);
             if (signal.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) signal.getObject();
-                GameModel.getInstance().addTrainCard(card);
-                if(!model.isMyTurn())
-                {
-                    ServerProxy.getInstance().turnEnded(model.getGameID(), model.getUserName());
-                }
+                model.getPlayer().drewDeckCard(card);
+				if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
+				{
+					TurnEndedTask task = new TurnEndedTask();
+					task.execute(model.getGameID(), model.getUserName());
+					presenter.fragment.getActivity().getSupportFragmentManager().popBackStack(); // TODO: shorten
+				}
+
             } else
             {
                 Log.d("ERROR", "onPostExecute: Error Signal on draw face up");

@@ -15,8 +15,10 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.game.GamePresenter;
+import cs340.TicketClient.lobby.LobbyModel;
 import cs340.TicketClient.lobby.LobbyPresenter;
 
 public class ClientFacade implements IClient
@@ -41,16 +43,16 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList)
+    public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
-        LobbyPresenter.getInstance().addGames(gameList);
+        LobbyModel.getSingleton().setGames(gameList);
         return new Signal(SignalType.OK, "Accepted");
     }
 
     @Override
     public Signal startGame(StartGamePacket packet)
     {
-        System.out.println("Recieced StartGame packet");
+        System.out.println("Received StartGame packet");
         LobbyPresenter.getInstance().gameStarted(packet);
         System.out.println("Sending OK Signal");
         return new Signal(SignalType.OK, "Accepted");
@@ -128,11 +130,9 @@ public class ClientFacade implements IClient
         	boolean nextTurn = player.drewDestinationCards(cards, isMyTurn);
         	if (nextTurn)
 			{
-				String methodName = "updateTurnQueue";
-				String[] paramTypes = {Username.class.getName()};
-				Object[] params = {name};
-				CommandParams nextTurnParams = new CommandParams(methodName, paramTypes, params);
-				return new Signal(SignalType.NEXT_TURN, nextTurnParams);
+				TurnEndedTask task = new TurnEndedTask();
+				task.execute(gameID, name);
+				return new Signal(SignalType.OK, "Successful next turn switch");
 			}
 			else
 			{
@@ -194,7 +194,8 @@ public class ClientFacade implements IClient
     @Override
     public Signal startTurn(Username name)
     {
-        //TODO: update turnstate
-        return new Signal(SignalType.ERROR, "unimplemented");
+    	Player player = GameModel.getInstance().getPlayer();
+        player.getTurnState().turnStarted(player);
+        return new Signal(SignalType.OK, "implemented startTurn *wink*");
     }
 }

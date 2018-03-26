@@ -62,4 +62,7 @@ public class MyTurnNoAction implements ITurnState, Serializable
 
 	@Override
 	public void turnStarted(Player player) {}
+
+	@Override
+	public boolean canTakeAction() { return true; }
 }

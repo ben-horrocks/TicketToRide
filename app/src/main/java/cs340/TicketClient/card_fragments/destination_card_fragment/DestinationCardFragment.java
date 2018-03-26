@@ -138,8 +138,4 @@ public class DestinationCardFragment extends Fragment
             confirmCards.setEnabled(false);
         }
     }
-
-	// Don't allow exiting destination card fragment
-
-    public void onBackPressed() {}
 }
