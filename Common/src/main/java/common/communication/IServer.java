@@ -16,7 +16,7 @@ public interface IServer
     String DRAW_DEST_CARDS_METHOD = "drawDestinationCards";
     String DRAW_FACE_UP_METHOD = "drawFaceUp";
     String DRAW_DECK_METHOD = "drawDeck";
-    String CLAIM_EDGE_METHOD = "claimEdge";
+    String CLAIM_EDGE_METHOD = "playerClaimedEdge";
 
 
     /**
