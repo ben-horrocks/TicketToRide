@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
@@ -43,7 +45,8 @@ public class ClaimTrainCardAdapter extends RecyclerView.Adapter<ClaimTrainCardAd
         Drawable card = new BitmapDrawable(mInflater.getContext().getResources(),
                 Bitmap.createScaledBitmap(bitmap, 600, 400, true));
         holder.myImageView.setImageDrawable(card);
-        holder.checkBox.setText(position);
+        String s = String.valueOf(position);
+        holder.checkBox.setText(s);
     }
 
     @Override
@@ -84,7 +87,7 @@ public class ClaimTrainCardAdapter extends RecyclerView.Adapter<ClaimTrainCardAd
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mTrainCards.length;
     }
 
     class ClaimTrainCardViewHolder extends RecyclerView.ViewHolder
@@ -101,16 +104,19 @@ public class ClaimTrainCardAdapter extends RecyclerView.Adapter<ClaimTrainCardAd
                 @Override
                 public void onClick(View view)
                 {
-                    int position = Integer.getInteger(checkBox.getText().toString());
+                    String s = checkBox.getText().toString();
+                    ArrayList<TrainCard> cards = GameModel.getInstance().getQueuedCards();
+                    Integer position = Integer.parseInt(s);
                     TrainCard card = GameModel.getInstance().getPlayer().getHand().get(position);
                     if (checkBox.isChecked())
                     {
-                        GameModel.getInstance().getQueuedCards().remove(card);
-                        checkBox.setChecked(false);
+
+                        GameModel.getInstance().getQueuedCards().add(card);
+                     //   checkBox.setChecked(true);
                     } else
                     {
-                        GameModel.getInstance().getQueuedCards().add(card);
-                        checkBox.setChecked(true);
+                        GameModel.getInstance().getQueuedCards().remove(card);
+                     //   checkBox.setChecked(false);
                     }
 
                 }

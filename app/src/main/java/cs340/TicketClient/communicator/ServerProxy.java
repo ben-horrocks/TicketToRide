@@ -249,7 +249,7 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName, handTrainCardClassName};
         Object[] params = {id, user, edge, spent};
-        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        CommandParams commandParams = new CommandParams("playerClaimedEdge", paramTypes, params);
         try
         {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
