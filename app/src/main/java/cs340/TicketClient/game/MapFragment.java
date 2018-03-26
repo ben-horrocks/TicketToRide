@@ -120,6 +120,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                     edgeLength.setText("Owned by: ");
                     edgeOwner.setText("\'Murrica");
                 }
+                Edge edge = onClickMap.get(marker);
+                GameModel.getInstance().setSelectedEdge(edge);
                 return v;
             }
         });
@@ -132,7 +134,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                 if (polyline.getTag() instanceof Marker)
                 {
                     Marker marker = (Marker) polyline.getTag();
-                    String snippet = marker.getSnippet();
+					Edge edge = onClickMap.get(marker);
+					GameModel.getInstance().setSelectedEdge(edge);
+					String snippet = marker.getSnippet();
                     Scanner scan = new Scanner(snippet);
                     String title = scan.nextLine();
                     String length = scan.nextLine();
