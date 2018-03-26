@@ -12,6 +12,7 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.game_data.GameID;
 import common.map.Edge;
+import common.player_info.Player;
 import common.player_info.Username;
 import common.request.ClaimRequest;
 import cs340.TicketClient.communicator.ServerProxy;
@@ -51,8 +52,9 @@ public class ClaimPresenter implements IClaimPresenter {
         GameID id = GameModel.getInstance().getGameID();
         Username user = GameModel.getInstance().getUserName();
         Edge edge = GameModel.getInstance().getSelectedEdge();
-        if (GameModel.getInstance().getPlayer().canClaimEdge(edge)) {
-            HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
+        HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
+        if (GameModel.getInstance().getPlayer().canClaimEdgeWithSelected(edge, cards)) {
+            GameModel.getInstance().getPlayer().getHand().removeAll(cards.getTrainCards());
             edge.setOwner(GameModel.getInstance().getPlayer());
             ClaimRequest request = new ClaimRequest(id, user, edge, cards);
             ClaimTask task = new ClaimTask(this);
