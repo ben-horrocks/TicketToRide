@@ -15,6 +15,7 @@ import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
 import common.request.ClaimRequest;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
@@ -37,6 +38,8 @@ public class ClaimPresenter implements IClaimPresenter {
     {
         GameModel.getInstance().getGameData().edgeClaimed(GameModel.getInstance().getSelectedEdge(),
                                                             GameModel.getInstance().getQueuedCards());
+        TurnEndedTask task = new TurnEndedTask();
+        task.execute(GameModel.getInstance().getGameID(), GameModel.getInstance().getUserName());
         //update map
         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
         fm.popBackStack();
