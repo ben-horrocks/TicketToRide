@@ -15,6 +15,7 @@ import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
 import common.request.ClaimRequest;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
@@ -26,13 +27,12 @@ public class ClaimPresenter implements IClaimPresenter {
     ClaimPresenter(ClaimFragment fragment)
     {
         this.fragment = fragment;
-        model = null;
+        model = GameModel.getInstance();
     }
 
     public void success(Edge e)
     {
-        GameModel.getInstance().getGameData().edgeClaimed(GameModel.getInstance().getSelectedEdge(),
-                                                            GameModel.getInstance().getQueuedCards());
+        model.getGameData().edgeClaimed(model.getSelectedEdge(), model.getQueuedCards());
         //update map
         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
         fm.popBackStack();
@@ -40,18 +40,18 @@ public class ClaimPresenter implements IClaimPresenter {
 
     @Override
     public HandTrainCards getPlayerTrainCards() {
-        return GameModel.getInstance().getPlayer().getHand();
+        return model.getPlayer().getHand();
     }
 
     public void sendClaimRequest()
     {
-        GameID id = GameModel.getInstance().getGameID();
-        Username user = GameModel.getInstance().getUserName();
-        Edge edge = GameModel.getInstance().getSelectedEdge();
-        HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
-        if (GameModel.getInstance().getPlayer().canClaimEdgeWithSelected(edge, cards)) {
-            GameModel.getInstance().getPlayer().getHand().removeAll(cards.getTrainCards());
-            edge.setOwner(GameModel.getInstance().getPlayer());
+        GameID id = model.getGameID();
+        Username user = model.getUserName();
+        Edge edge = model.getSelectedEdge();
+        HandTrainCards cards = new HandTrainCards(model.getQueuedCards());
+        if (model.getPlayer().canClaimEdgeWithSelected(edge, cards)) {
+            model.getPlayer().getHand().removeAll(cards.getTrainCards());
+            edge.setOwner(model.getPlayer());
             ClaimRequest request = new ClaimRequest(id, user, edge, cards);
             ClaimTask task = new ClaimTask(this);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
@@ -85,10 +85,10 @@ public class ClaimPresenter implements IClaimPresenter {
             super.onPostExecute(signal);
             if (signal.getSignalType() == SignalType.OK)
             {
-                GameModel.getInstance().setQueuedCards(new ArrayList<TrainCard>());
+                model.setQueuedCards(new ArrayList<TrainCard>());
                 presenter.success((Edge)signal.getObject());
-
-
+				TurnEndedTask task = new TurnEndedTask();
+				task.execute(model.getGameID(), model.getUserName());
             }
             else
             {

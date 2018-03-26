@@ -51,7 +51,7 @@ public class Player implements Serializable
         return this.hand;
     }
 
-    private void checkDestinationCards()
+    public void checkDestinationCards()
     {
         for (DestinationCard card : destinations.getDestinationCards())
         {
@@ -151,9 +151,7 @@ public class Player implements Serializable
 
     public void claimedEdge(Edge edge, List<TrainCard> spent)
     {
-        claimedEdges.addEdge(edge);
-        this.checkDestinationCards();
-        hand.getTrainCards().remove(spent);
+        getTurnState().claimEdge(this, edge, spent);
     }
 
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }
