@@ -1,5 +1,7 @@
 package common.player_info.turn_state;
 
+import java.util.List;
+
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.map.Edge;
@@ -15,7 +17,7 @@ public interface ITurnState
 
 	boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn);
 
-	void claimEdge(Player player, Edge edge);
+	void claimEdge(Player player, Edge edge, List<TrainCard> spent);
 
 	void turnStarted(Player player);
 

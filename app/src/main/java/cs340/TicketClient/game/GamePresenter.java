@@ -61,10 +61,14 @@ public class GamePresenter
             if (!selectedEdge.isClaimed())
             {
                 android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
-                android.support.v4.app.Fragment fragment = new ClaimFragment();
-                fm.beginTransaction().add(R.id.fragment_map, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null).commit();
+                android.support.v4.app.Fragment fragment = fm.findFragmentByTag(ClaimFragment.class.getSimpleName());
+                if (fragment == null)
+				{
+					fragment = new ClaimFragment();
+					fm.beginTransaction().add(R.id.fragment_map, fragment, ClaimFragment.class.getSimpleName())
+							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+							.addToBackStack(ClaimFragment.class.getSimpleName()).commit();
+				}
             }
             else {
                 String message = "This route is already claimed by another player.";
@@ -92,7 +96,7 @@ public class GamePresenter
         StringBuilder sb = new StringBuilder(name + " claimed the route from " + city1 + " to " + city2);
 
         //refresh the map
-        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentByTag(MapFragment.class.getSimpleName());
         if (mapFrag != null) {
             FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
             ft.detach(mapFrag);

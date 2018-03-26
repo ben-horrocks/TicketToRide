@@ -263,10 +263,8 @@ public class GameModel
         {
             if (findEdge.equals(edge))
             {
-                if (!findEdge.isClaimed())
-                {
-                    foundEdge = findEdge;
-                }
+				foundEdge = findEdge;
+				break;
             }
         }
         if (foundEdge == null)

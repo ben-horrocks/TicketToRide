@@ -19,10 +19,6 @@ import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
-/**
- * Created by jhens on 3/24/2018.
- */
-
 public class ClaimPresenter implements IClaimPresenter {
 
     private ClaimFragment fragment;
@@ -31,13 +27,12 @@ public class ClaimPresenter implements IClaimPresenter {
     ClaimPresenter(ClaimFragment fragment)
     {
         this.fragment = fragment;
-        model = null;
+        model = GameModel.getInstance();
     }
 
     public void success(Edge e)
     {
-        GameModel.getInstance().getGameData().edgeClaimed(GameModel.getInstance().getSelectedEdge(),
-                                                            GameModel.getInstance().getQueuedCards());
+        model.getGameData().edgeClaimed(model.getSelectedEdge(), model.getQueuedCards());
         TurnEndedTask task = new TurnEndedTask();
         task.execute(GameModel.getInstance().getGameID(), GameModel.getInstance().getUserName());
         //update map
@@ -47,7 +42,7 @@ public class ClaimPresenter implements IClaimPresenter {
 
     @Override
     public HandTrainCards getPlayerTrainCards() {
-        return GameModel.getInstance().getPlayer().getHand();
+        return model.getPlayer().getHand();
     }
 
     public void sendClaimRequest()
@@ -61,9 +56,6 @@ public class ClaimPresenter implements IClaimPresenter {
             GameModel.getInstance().getPlayer().getPieces().useTrainPieces(cards.size());
             GameModel.getInstance().getPlayer().addPoints(edge.computePointValue());
             edge.setOwner(GameModel.getInstance().getPlayer());
-            ClaimRequest request = new ClaimRequest(id, user, edge, cards);
-            ClaimTask task = new ClaimTask(this);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         }
         else
         {
@@ -94,10 +86,10 @@ public class ClaimPresenter implements IClaimPresenter {
             super.onPostExecute(signal);
             if (signal.getSignalType() == SignalType.OK)
             {
-                GameModel.getInstance().setQueuedCards(new ArrayList<TrainCard>());
+                model.setQueuedCards(new ArrayList<TrainCard>());
                 presenter.success((Edge)signal.getObject());
-
-
+				//TurnEndedTask task = new TurnEndedTask();
+				//task.execute(model.getGameID(), model.getUserName());
             }
             else
             {
