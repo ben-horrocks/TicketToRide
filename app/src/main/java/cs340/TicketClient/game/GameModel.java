@@ -259,11 +259,11 @@ public class GameModel
         //Find edge in gameboard and update with opponent
         Edge foundEdge = null;
         List<Edge> list = gameData.getGameboard().getGraph().get(edge.getFirstCity());
-        for (Edge findEdge : list)
+        for (Edge toFind : list)
         {
-            if (findEdge.equals(edge))
+            if (toFind.getID().equals(edge.getID()))
             {
-				foundEdge = findEdge;
+				foundEdge = toFind;
 				break;
             }
         }
