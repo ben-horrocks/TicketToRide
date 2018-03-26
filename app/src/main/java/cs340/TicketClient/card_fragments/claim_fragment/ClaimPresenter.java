@@ -33,6 +33,8 @@ public class ClaimPresenter implements IClaimPresenter {
     public void success(Edge e)
     {
         model.getGameData().edgeClaimed(model.getSelectedEdge(), model.getQueuedCards());
+        TurnEndedTask task = new TurnEndedTask();
+        task.execute(GameModel.getInstance().getGameID(), GameModel.getInstance().getUserName());
         //update map
         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
         fm.popBackStack();
@@ -87,8 +89,8 @@ public class ClaimPresenter implements IClaimPresenter {
             {
                 model.setQueuedCards(new ArrayList<TrainCard>());
                 presenter.success((Edge)signal.getObject());
-				TurnEndedTask task = new TurnEndedTask();
-				task.execute(model.getGameID(), model.getUserName());
+				//TurnEndedTask task = new TurnEndedTask();
+				//task.execute(model.getGameID(), model.getUserName());
             }
             else
             {

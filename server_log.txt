@@ -802,3 +802,267 @@ Mar 26, 2018 3:48:11 AM CS340.TicketServer.ClientThread$1 run
 FINE: Received "turnEnded" command
 Mar 26, 2018 3:48:37 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "updateTurnQueue" command to: Tester1:(
+Mar 26, 2018 3:52:36 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1:(a
+Mar 26, 2018 3:52:38 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startTurn" command to: Tester1:(
+Mar 26, 2018 3:52:38 AM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 26, 2018 3:52:41 AM CS340.TicketServer.ClientThread push
+SEVERE: /127.0.0.1 disconnected from the server
+Mar 26, 2018 3:52:41 AM CS340.TicketServer.ClientThread$1 run
+SEVERE: java.lang.InterruptedException when receiving in ClientThread
+Mar 26, 2018 3:54:16 AM communicators.ServerCommunicator$1 run
+FINE: Connection received from /127.0.0.1
+Mar 26, 2018 3:54:16 AM communicators.ServerCommunicator$1 run
+FINE: Thread for /127.0.0.1 started
+Mar 26, 2018 3:54:16 AM communicators.ServerCommunicator$1 run
+FINE: Waiting for socket...
+Mar 26, 2018 3:54:16 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "register" command
+Mar 26, 2018 3:54:17 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 26, 2018 3:54:17 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "addGame" command
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1fa
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1fa is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1fa
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1f
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1f is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1f
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1s
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1s is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1s
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester11
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester11 is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester11
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1:(a
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1:(a is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1:(a
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1sdf
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1asdff
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1asdff is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1asdff
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1 is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1:(
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1:( is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1:(
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1asdf
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1asdf is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1asdf
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1ss
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1ss is not connected!
+Mar 26, 2018 3:54:19 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1ss
+Mar 26, 2018 3:54:21 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "register" command
+Mar 26, 2018 3:54:21 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 26, 2018 3:54:21 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "joinGame" command
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1fa
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1fa is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1fa
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1f
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1f is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1f
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1sdff
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1s
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1s is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1s
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester11
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester11 is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester11
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1:(a
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1:(a is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1:(a
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1sdf
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1asdff
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1asdff is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1asdff
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1 is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1:(
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1:( is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1:(
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1asdf
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1asdf is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1asdf
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1ss
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1ss is not connected!
+Mar 26, 2018 3:54:22 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1ss
+Mar 26, 2018 3:54:25 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "login" command
+Mar 26, 2018 3:54:25 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 26, 2018 3:54:25 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "getAvailableGameInfo" command
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "startGame" command
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1fa
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1fa is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1fa
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1f
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1f is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1f
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1sdff
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1s
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1s is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1s
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester11
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester11 is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester11
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1:(a
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1:(a is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1:(a
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1sdf
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1asdff
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1asdff is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1asdff
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1 is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1:(
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1:( is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1:(
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1asdf
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1asdf is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1asdf
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateGameList" command to: Tester1ss
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: Client: Tester1ss is not connected!
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+WARNING: An error occurred when sending a "updateGameList" command to: Tester1ss
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1sdf
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startGame" command to: Tester1sdff
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1sdf
+Mar 26, 2018 3:54:26 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1sdff
+Mar 26, 2018 3:54:46 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "returnDestinationCards" command
+Mar 26, 2018 3:54:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerDrewDestinationCards" command to: Tester1sdff
+Mar 26, 2018 3:54:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "opponentDrewDestinationCards" command to: Tester1sdf
+Mar 26, 2018 3:54:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1sdf
+Mar 26, 2018 3:54:46 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "addHistoryItem" command to: Tester1sdff
+Mar 26, 2018 3:54:53 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "playerClaimedEdge" command
+Mar 26, 2018 3:54:58 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerClaimedEdge" command to: Tester1sdf
+Mar 26, 2018 3:54:58 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "turnEnded" command
+Mar 26, 2018 3:55:03 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1sdf
+Mar 26, 2018 3:55:03 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1sdff
+Mar 26, 2018 3:55:03 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startTurn" command to: Tester1sdf
+Mar 26, 2018 3:55:15 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "playerClaimedEdge" command
+Mar 26, 2018 3:55:15 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerClaimedEdge" command to: Tester1sdf
