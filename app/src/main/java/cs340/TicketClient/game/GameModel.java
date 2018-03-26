@@ -282,12 +282,11 @@ public class GameModel
             return false;
         }
 
+        //Set Owner of found Edge
+        foundEdge.setOwner(opponent);
+
         //Update Map Fragment
-        Activity activity = presenter.getGameActivity();
-        if (activity != null) {
-            //MapFragment mapFrag = activity.getFragmentManager().findFragmentById(R.id.fragment_map);
-            //mapFrag.markClaimedEdge(foundEdge);
-        }
+        presenter.refreshMapFragment();
 
         return true;
     }

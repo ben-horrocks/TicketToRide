@@ -83,6 +83,19 @@ public class GamePresenter
 
     }
 
+    void refreshMapFragment() {
+        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+        if (mapFrag != null) {
+            FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+            ft.detach(mapFrag);
+            ft.attach(mapFrag);
+            ft.commit();
+        }
+        else {
+            System.out.println("Could not refresh the map");
+        }
+    }
+
     public List<ChatItem> getChatMessages()
     {
         return model.getChatMessages();
