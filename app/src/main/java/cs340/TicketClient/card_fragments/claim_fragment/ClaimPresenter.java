@@ -56,7 +56,7 @@ public class ClaimPresenter implements IClaimPresenter {
             GameModel.getInstance().getPlayer().getPieces().useTrainPieces(cards.size());
             GameModel.getInstance().getPlayer().addPoints(edge.computePointValue());
             edge.setOwner(GameModel.getInstance().getPlayer());
-			ClaimTask claimTask = new ClaimTask(this);
+			ClaimTask claimTask = new ClaimTask(this, model);
 			ClaimRequest request = new ClaimRequest(id, user, edge, cards);
 			claimTask.execute(request);
         }
@@ -68,13 +68,15 @@ public class ClaimPresenter implements IClaimPresenter {
     }
 
 
-    class ClaimTask extends AsyncTask<ClaimRequest, Integer, Signal>
+    static class ClaimTask extends AsyncTask<ClaimRequest, Integer, Signal>
     {
         ClaimPresenter presenter;
+        GameModel model;
 
-        ClaimTask(ClaimPresenter presenter)
+        ClaimTask(ClaimPresenter presenter, GameModel model)
         {
             this.presenter = presenter;
+            this.model = model;
         }
 
         @Override
