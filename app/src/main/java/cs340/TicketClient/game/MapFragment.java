@@ -131,6 +131,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
                 if (polyline.getTag() instanceof Marker)
                 {
                     Marker marker = (Marker) polyline.getTag();
+					Edge edge = onClickMap.get(marker);
                     String snippet = marker.getSnippet();
                     Scanner scan = new Scanner(snippet);
                     String title = scan.nextLine();
