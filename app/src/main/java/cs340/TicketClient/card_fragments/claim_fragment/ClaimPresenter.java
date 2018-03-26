@@ -47,11 +47,12 @@ public class ClaimPresenter implements IClaimPresenter {
 
     public void sendClaimRequest()
     {
-        GameID id = GameModel.getInstance().getGameID();
-        Username user = GameModel.getInstance().getUserName();
-        Edge edge = GameModel.getInstance().getSelectedEdge();
-        HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
-		edge.setOwner(GameModel.getInstance().getPlayer());
+        GameID id = model.getGameID();
+        Username user = model.getUserName();
+        Edge edge = model.getSelectedEdge();
+        HandTrainCards cards = new HandTrainCards(model.getQueuedCards());
+        model.getQueuedCards().clear();
+		edge.setOwner(model.getPlayer());
 		ClaimTask claimTask = new ClaimTask(this, model);
 		ClaimRequest request = new ClaimRequest(id, user, edge, cards);
 		claimTask.execute(request);

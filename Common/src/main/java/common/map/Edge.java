@@ -342,7 +342,7 @@ public class Edge implements Serializable
 				{
 					firstColor = card.getType();
 				}
-				if (!firstColor.equals(color) && !card.getType().equals(TrainColor.LOCOMOTIVE))
+				if (!firstColor.equals(card.getType()) && !card.getType().equals(TrainColor.LOCOMOTIVE))
 				{
 					return false;
 				}
