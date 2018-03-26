@@ -59,6 +59,12 @@ public class ClientFacade implements IClient
     }
 
     @Override
+	public Signal resumeGame(Username username)
+	{
+		return new Signal(SignalType.ERROR, "implement resumeGame in ClientFacade");
+	}
+
+    @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)
     {
         ArrayList<Opponent> oppenents =
