@@ -279,7 +279,7 @@ public class GameModel
         foundEdge.setOwner(opponent);
 
         //Update Map Fragment
-        presenter.refreshMapFragment();
+        presenter.refreshMapFragment(username, foundEdge);
 
         return true;
     }

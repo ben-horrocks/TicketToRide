@@ -26,6 +26,7 @@ import common.history.HistoryItem;
 import common.player_info.Player;
 import common.map.Edge;
 import common.map.EdgeGraph;
+import common.player_info.Username;
 import common.request.DestDrawRequest;
 import cs340.TicketClient.R;
 import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
@@ -83,13 +84,23 @@ public class GamePresenter
 
     }
 
-    void refreshMapFragment() {
+    void refreshMapFragment(Username username, Edge edge) {
+        //get info for toast
+        String name = username.toString();
+        String city1 = edge.getFirstCity().getCityName();
+        String city2 = edge.getSecondCity().getCityName();
+        StringBuilder sb = new StringBuilder(name + " claimed the route from " + city1 + " to " + city2);
+
+        //refresh the map
         android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_map);
         if (mapFrag != null) {
             FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
             ft.detach(mapFrag);
             ft.attach(mapFrag);
             ft.commit();
+
+            //notify user of claimed route
+            Toast.makeText(activity, sb.toString(), Toast.LENGTH_SHORT).show();
         }
         else {
             System.out.println("Could not refresh the map");
