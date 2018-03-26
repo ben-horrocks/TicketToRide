@@ -169,7 +169,7 @@ public class ClientFacade implements IClient
         try
         {
             GameModel.getInstance().addHistoryItem(item);
-            return new Signal(SignalType.OK, "history Updated");
+            return new Signal(SignalType.HISTORY, "history Updated");
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());
