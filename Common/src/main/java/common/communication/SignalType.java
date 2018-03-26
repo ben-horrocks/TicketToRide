@@ -5,5 +5,5 @@ package common.communication;
  */
 public enum SignalType
 {
-    ERROR, OK, UPDATE, START_GAME, NEXT_TURN
+    ERROR, OK, UPDATE, START_GAME, NEXT_TURN, HISTORY
 }

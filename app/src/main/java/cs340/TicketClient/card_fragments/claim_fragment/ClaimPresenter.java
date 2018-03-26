@@ -2,6 +2,7 @@ package cs340.TicketClient.card_fragments.claim_fragment;
 
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class ClaimPresenter implements IClaimPresenter {
         model = null;
     }
 
-    public void success()
+    public void success(Edge e)
     {
         GameModel.getInstance().getGameData().edgeClaimed(GameModel.getInstance().getSelectedEdge(),
                                                             GameModel.getInstance().getQueuedCards());
@@ -50,10 +51,18 @@ public class ClaimPresenter implements IClaimPresenter {
         GameID id = GameModel.getInstance().getGameID();
         Username user = GameModel.getInstance().getUserName();
         Edge edge = GameModel.getInstance().getSelectedEdge();
-        HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
-        ClaimRequest request = new ClaimRequest(id, user, edge, cards);
-        ClaimTask task = new ClaimTask(this);
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+        if (GameModel.getInstance().getPlayer().canClaimEdge(edge)) {
+            HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
+            edge.setOwner(GameModel.getInstance().getPlayer());
+            ClaimRequest request = new ClaimRequest(id, user, edge, cards);
+            ClaimTask task = new ClaimTask(this);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+        }
+        else
+        {
+            Toast.makeText(fragment.getActivity(), "Can't Claim Route", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -79,7 +88,7 @@ public class ClaimPresenter implements IClaimPresenter {
             if (signal.getSignalType() == SignalType.OK)
             {
                 GameModel.getInstance().setQueuedCards(new ArrayList<TrainCard>());
-                presenter.success();
+                presenter.success((Edge)signal.getObject());
 
 
             }
