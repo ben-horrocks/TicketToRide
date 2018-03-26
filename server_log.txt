@@ -1798,3 +1798,27 @@ Mar 26, 2018 4:17:03 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "updateTurnQueue" command to: Tester1g
 Mar 26, 2018 4:17:03 AM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "startTurn" command to: Tester1g
+Mar 26, 2018 4:19:09 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "playerClaimedEdge" command
+Mar 26, 2018 4:19:09 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerClaimedEdge" command to: Tester1go
+Mar 26, 2018 4:19:09 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "turnEnded" command
+Mar 26, 2018 4:19:09 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1go
+Mar 26, 2018 4:19:09 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1g
+Mar 26, 2018 4:19:28 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startTurn" command to: Tester1go
+Mar 26, 2018 4:19:56 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "playerClaimedEdge" command
+Mar 26, 2018 4:19:56 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "playerClaimedEdge" command to: Tester1go
+Mar 26, 2018 4:19:56 AM CS340.TicketServer.ClientThread$1 run
+FINE: Received "turnEnded" command
+Mar 26, 2018 4:19:56 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1go
+Mar 26, 2018 4:19:56 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "updateTurnQueue" command to: Tester1g
+Mar 26, 2018 4:20:27 AM CS340.TicketServer.ClientProxy sendCommandToClient
+FINE: Sending "startTurn" command to: Tester1g
