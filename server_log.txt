@@ -64,3 +64,5 @@ Mar 24, 2018 6:56:59 PM CS340.TicketServer.ClientProxy sendCommandToClient
 FINE: Sending "addHistoryItem" command to: Tester
 Mar 24, 2018 7:05:38 PM CS340.TicketServer.ClientThread push
 SEVERE: /10.24.196.46 disconnected from the server
+Mar 24, 2018 7:10:28 PM CS340.TicketServer.ClientThread push
+SEVERE: /10.24.217.201 disconnected from the server
