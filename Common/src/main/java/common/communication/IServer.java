@@ -101,4 +101,5 @@ public interface IServer
 
     Signal returnToLobby(Username user);
 
+    Signal resumeGame(GameID gameID, Username username);
 }

@@ -255,6 +255,11 @@ public class LobbyPresenter implements ILobbyPresenter
 
     }
 
+    public void resumeGame(GameID id)
+	{
+
+	}
+
     public void gameStarted(StartGamePacket packet)
     {
         activity.startGame(packet);
