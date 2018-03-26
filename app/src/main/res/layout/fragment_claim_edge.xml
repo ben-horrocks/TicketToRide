@@ -6,42 +6,27 @@
     android:background="@color/colorEdgeWhite"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/destinationCard_hand_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Claim!"
             android:id="@+id/submit_claim_button"
-            android:enabled="false"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/trainCard_hand_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/destinationCard_hand_layout"
-        android:orientation="vertical">
+            />
 
         <TextView
             android:text="Train Cards"
+            android:id="@+id/header_for_trainCards"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/submit_claim_button"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ClaimTrainCards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/header_for_trainCards"
             android:orientation="horizontal">
 
         </android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
 
 </RelativeLayout>

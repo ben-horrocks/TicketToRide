@@ -230,7 +230,8 @@ public class GameModel
         //TODO change this to real funtionalit, just grabs first edge right now
         for ( Edge e : getGameData().getGameboard().getAllEdges())
         {
-            return e;
+            if (e.getLength() == 2)
+                return e;
         }
         return null;
     }
