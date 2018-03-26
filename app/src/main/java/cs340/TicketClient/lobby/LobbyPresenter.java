@@ -17,7 +17,7 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyActivity activity;
     private LobbyModel model;
 
-    private static LobbyPresenter singleton = new LobbyPresenter();
+    private static LobbyPresenter singleton;
 
     /**
      * A method that initializes the singleton object
@@ -41,6 +41,10 @@ public class LobbyPresenter implements ILobbyPresenter
      */
     public static LobbyPresenter getInstance()
     {
+    	if (singleton == null)
+		{
+			singleton = new LobbyPresenter();
+		}
         return singleton;
     }
 
@@ -57,10 +61,10 @@ public class LobbyPresenter implements ILobbyPresenter
     private LobbyPresenter(LobbyActivity activity)
     {
         this.activity = activity;
-        model = new LobbyModel(new HashMap<GameID, GameInfo>());
+        model = LobbyModel.getSingleton();
     }
 
-    private void updateGameList()
+    public void updateGameList()
     {
         if (activity != null)
         {
@@ -202,13 +206,7 @@ public class LobbyPresenter implements ILobbyPresenter
      * @post The LobbyModel will contain entries for each game on the list. Any entries that are not
      * returned by the server, but were previously contained in the model are removed so that the
      * model only contains the updated list. Then the GUI is notified to update the displayed games.
-     *//*
-    public void fetchGames(){
-        List<GameInfo> games = new ArrayList<GameInfo>();
-        Signal s = ServerProxy.getInstance().getAvailableGameInfo();
-        games = (List<GameInfo>) s.getObject();
-        model.setGames(games);
-    }*/
+     */
     @Override
     public boolean canStartGame(GameID id)
     {
@@ -257,6 +255,11 @@ public class LobbyPresenter implements ILobbyPresenter
 
     }
 
+    public void resumeGame(GameID id)
+	{
+
+	}
+
     public void gameStarted(StartGamePacket packet)
     {
         activity.startGame(packet);
@@ -283,7 +286,7 @@ public class LobbyPresenter implements ILobbyPresenter
     {
         try
         {
-            return model.getGame(id).getUsers().contains(model.getUser());
+            return model.getGame(id).hasUser(model.getUser().getUsername());
         } catch (LobbyModel.GameNotFoundException e)
         {
             Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
@@ -291,8 +294,7 @@ public class LobbyPresenter implements ILobbyPresenter
         return false;
     }
 
-    void setUser(User user)
-    {
-        model.setUser(user);
-    }
+    void setUser(User user) { model.setUser(user); }
+
+    User getUser() { return model.getUser(); }
 }

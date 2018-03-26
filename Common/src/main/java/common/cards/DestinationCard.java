@@ -9,6 +9,7 @@ public class DestinationCard implements Serializable
 {
     private String city1, city2;
     private int pointValue;
+    private boolean complete;
 
     /**
      * @param city1  The name of the "start" city.
@@ -22,6 +23,15 @@ public class DestinationCard implements Serializable
         this.city1 = city1;
         this.city2 = city2;
         this.pointValue = points;
+        this.complete = false;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
+    public boolean isComplete() {
+        return complete;
     }
 
     public String getCity1()

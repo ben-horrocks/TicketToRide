@@ -19,7 +19,7 @@ public class PushTimer
         @Override
         public void run()
         {
-            ClientProxy.getSINGLETON().updateGameList(Database.SINGLETON.getAllOpenGames());
+//            ClientProxy.getSINGLETON().updateGameList(Database.SINGLETON.getAllOpenGames());
         }
 
         @Override

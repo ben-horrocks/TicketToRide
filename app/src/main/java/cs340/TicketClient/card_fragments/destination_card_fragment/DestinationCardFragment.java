@@ -138,5 +138,4 @@ public class DestinationCardFragment extends Fragment
             confirmCards.setEnabled(false);
         }
     }
-
 }

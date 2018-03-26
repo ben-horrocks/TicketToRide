@@ -15,14 +15,19 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.game_data.ClientGameData;
 import common.game_data.GameID;
+import common.game_data.GameInfo;
 import common.game_data.ServerGameData;
 import common.game_data.StartGamePacket;
+import common.game_data.TurnQueue;
 import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
+import common.player_info.Player;
+import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
+import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -197,6 +202,7 @@ public class ServerFacade implements IServer
         if (openGameAdded)
         {
             Signal signal = new Signal(SignalType.OK, serverGameData);
+            broadcastGameListChange();
             logger.exiting("ServerFacade", "addGame", signal);
             return signal;
         } else
@@ -237,6 +243,7 @@ public class ServerFacade implements IServer
             }
             serverGameData.addPlayer(user);
             Signal signal = new Signal(SignalType.OK, serverGameData);
+            broadcastGameListChange();
             logger.exiting("ServerFacade", "joinGame", signal);
             return signal;
         }
@@ -277,6 +284,7 @@ public class ServerFacade implements IServer
             if (gameDeleted)
             {
                 database.addRunningGame(serverGameData);
+                broadcastGameListChange();
                 //Initialize player hands
                 HashMap<Username, HandTrainCards> hands = new HashMap<>();
                 HashMap<Username, HandDestinationCards> destCards = new HashMap<>();
@@ -284,13 +292,27 @@ public class ServerFacade implements IServer
                 {
                     //drawing the players hand
                     ArrayList<TrainCard> hand = new ArrayList<>();
-                    for (int i = 0; i < 4; i++)
+                    if (serverGameData.getName().equals("test"))
                     {
-                        hand.add(serverGameData.drawFromTrainDeck());
+                        for (int i = 0; i < 10; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                        for (Player player : serverGameData.getPlayers())
+                        {
+                            player.setPieces(new TrainPieces(false));
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
                     }
 
-                    serverGameData
-                            .playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
+
+                    serverGameData.playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
                     hands.put(p.getUsername(), new HandTrainCards(hand));
                     //drawing players initial destination cards
                     List<DestinationCard> dest = serverGameData.destinationDraw();
@@ -333,16 +355,32 @@ public class ServerFacade implements IServer
         return signal;
     }
 
-    /**
+	@Override
+	public Signal resumeGame(GameID gameID, Username username)
+	{
+		logger.entering("ServerFacade", "resumeGame", new Object[]{gameID, username});
+		// TODO: implement
+		logger.exiting("ServerFacade", "resumeGame");
+		return new Signal(SignalType.ERROR, "Implement resumeGame in ServerFacade");
+	}
+
+	/**
      * @return A signal specifying whether or not the function worked.
      * @pre Parameters must be non-null
      * @post Will return a signal of success or error
      */
     @Override
-    public Signal getAvailableGameInfo()
+    public Signal getAvailableGameInfo(Username user)
     {
-        // TODO: implement
-        return null;
+        List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+        for(GameInfo game: Database.SINGLETON.getAllRunningGames())
+        {
+            if(game.hasUser(user))
+            {
+                games.add(game);
+            }
+        }
+        return new Signal(SignalType.OK, games);
     }
 
     /**
@@ -406,9 +444,10 @@ public class ServerFacade implements IServer
         Database database = Database.SINGLETON;
         ServerGameData game = database.getRunningGameByID(id);
         //Tell the game to update
-        game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards);
+		boolean isMyTurn = game.getTurnQueue().isMyTurn(user);
+        game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards, isMyTurn);
         //Tell the clients to update
-        ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards);
+        ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards, id);
         Set<User> otherPlayers = game.getUsers();
 		User agent = database.getPlayer(user);
         otherPlayers.remove(agent);
@@ -569,13 +608,13 @@ public class ServerFacade implements IServer
      * @post Will return a signal of success or error
      */
     @Override
-    public Signal claimEdge(GameID id, Username user, Edge edge)
+    public Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent)
     {
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
-        game.edgeClaimed(edge);
+        game.edgeClaimed(edge,spent.getTrainCards());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
         opponents.remove(Database.SINGLETON.getPlayer(user));
@@ -625,19 +664,68 @@ public class ServerFacade implements IServer
         {
             ClientProxy.getSINGLETON().lastTurn(u.getUsername());
         }
+        game.lastTurn();
         Signal signal = new Signal(SignalType.OK, "LastTurn");
         logger.exiting("ServerFacade", "lastTurn", signal);
         return signal;
     }
 
+    public Signal nextTurn(GameID gameID)
+	{
+		ServerGameData game = Database.SINGLETON.getRunningGameByID(gameID);
+		game.nextTurn();
+		for (User u : game.getUsers())
+		{
+			Signal s = ClientProxy.getSINGLETON().updateTurnQueue(u.getUsername());
+			if (s.getSignalType().equals(SignalType.ERROR))
+			{
+				logger.exiting("ServerFacade", "nextTurn", s);
+				return s;
+			}
+		}
+        ClientProxy.getSINGLETON().startTurn(game.getNextPlayer());
+		Signal signal = new Signal(SignalType.OK, "TurnQueues updated");
+		logger.exiting("ServerFacade", "nextTurn", signal);
+		return signal;
+	}
+
     public Signal turnEnded(GameID id, Username name)
     {
         logger.entering("ServerFacade", "turnEnded", id);
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-        //TODO:Username nextPlayer = game.nextTurn();
-        //TODO:ClientProxy.getSINGLETON().startTurn(nextPlayer);
-        Signal signal = new Signal(SignalType.OK, "LastTurn");
+        if(game.isLastTurn())
+        {
+            ServerFacade.getSINGLETON().lastTurn(id);
+        }
+        nextTurn(id);
+        Signal signal = new Signal(SignalType.OK, "turnEnded");
         logger.exiting("ServerFacade", "turnEnded", signal);
         return signal;
+    }
+
+    @Override
+    public Signal returnToLobby(Username user)
+    {
+        logger.entering("ServerFacade", "returnToLobby", user);
+        Signal signal = new Signal(SignalType.OK, user);
+        logger.exiting("ServerFacade", "login", signal);
+        return signal;
+    }
+
+	private void broadcastGameListChange()
+    {
+        Set<Username> users = Database.SINGLETON.getAllUsernames();
+        for(Username u: users)
+        {
+            List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+            for(GameInfo g: Database.SINGLETON.getAllRunningGames())
+            {
+                if(g.hasUser(u))
+                {
+                    games.add(g);
+                }
+            }
+            ClientProxy.getSINGLETON().updateGameList(u, games);
+        }
     }
 }

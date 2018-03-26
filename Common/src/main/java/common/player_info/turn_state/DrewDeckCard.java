@@ -1,6 +1,7 @@
 package common.player_info.turn_state;
 
 import java.io.Serializable;
+import java.util.List;
 
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
@@ -34,14 +35,14 @@ public class DrewDeckCard implements ITurnState, Serializable
 	}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
-	{
-
-	}
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn) { return false; }
 
 	@Override
-	public void claimEdge(Player player, Edge edge) {}
+	public void claimEdge(Player player, Edge edge, List<TrainCard> spent) {}
 
 	@Override
 	public void turnStarted(Player player) {}
+
+	@Override
+	public boolean canTakeAction() { return true; }
 }

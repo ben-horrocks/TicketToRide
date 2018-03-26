@@ -105,9 +105,14 @@ public class ClientThread extends Thread
                                 result = (Signal) message;
                                 if (result.getSignalType().equals(SignalType.NEXT_TURN))
 								{
-
+									CommandParams params = (CommandParams)result.getObject();
+									Command command = new Command(params, ClientProxy.class.getName());
+									command.execute();
 								}
-                                setSignalFromClient(result);
+								if (result.getSignalType() != SignalType.HISTORY)
+								{
+									setSignalFromClient(result);
+								}
                             }
                             else
                             {

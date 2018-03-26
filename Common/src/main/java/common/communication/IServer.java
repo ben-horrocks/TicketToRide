@@ -1,6 +1,7 @@
 package common.communication;
 
 import common.cards.HandDestinationCards;
+import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.game_data.GameID;
 import common.map.Edge;
@@ -15,7 +16,7 @@ public interface IServer
     String DRAW_DEST_CARDS_METHOD = "drawDestinationCards";
     String DRAW_FACE_UP_METHOD = "drawFaceUp";
     String DRAW_DECK_METHOD = "drawDeck";
-    String CLAIM_EDGE_METHOD = "claimEdge";
+    String CLAIM_EDGE_METHOD = "playerClaimedEdge";
 
 
     /**
@@ -67,7 +68,7 @@ public interface IServer
      *
      * @return Signal containing error or ok message and gameInfo object
      */
-    Signal getAvailableGameInfo();
+    Signal getAvailableGameInfo(Username user);
 
     /**
      * Debug method for pre-populating a server with data
@@ -92,10 +93,13 @@ public interface IServer
 
     Signal drawDestinationCards(GameID id, Username user);
 
-    Signal claimEdge(GameID id, Username user, Edge edge);
+    Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent);
 
     Signal lastTurn(GameID id);
 
     Signal turnEnded(GameID id, Username user);
 
+    Signal returnToLobby(Username user);
+
+    Signal resumeGame(GameID gameID, Username username);
 }

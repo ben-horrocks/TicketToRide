@@ -3,8 +3,7 @@ package common.communication;
 import java.util.List;
 
 import common.chat.ChatItem;
-import common.game_data.GameInfo;
-import common.game_data.StartGamePacket;
+import common.game_data.*;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.history.HistoryItem;
@@ -19,7 +18,7 @@ public interface IClient
      *
      * @param gameList list of games to be pushed to all clients waiting in the lobby
      */
-    Signal updateGameList(List<GameInfo> gameList);
+    Signal updateGameList(Username user, List<GameInfo> gameList);
 
     /**
      * A function call for only the clients that have joined the particular game of the provided
@@ -43,7 +42,7 @@ public interface IClient
 
     Signal playerClaimedEdge(Username name, Edge edge);
 
-    Signal playerDrewDestinationCards(Username name, HandDestinationCards cards);
+    Signal playerDrewDestinationCards(Username name, HandDestinationCards cards, GameID gameID);
 
     Signal addChatItem(Username name, ChatItem item);
 
@@ -51,7 +50,11 @@ public interface IClient
 
     Signal lastTurn(Username name);
 
-    Signal gameEnded(Username name);
+    Signal updateTurnQueue(Username username);
+
+    Signal gameEnded(Username name, EndGame players);
 
     Signal startTurn(Username name);
+
+    Signal resumeGame(Username username);
 }

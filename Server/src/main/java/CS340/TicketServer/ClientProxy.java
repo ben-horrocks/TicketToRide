@@ -6,8 +6,7 @@ import java.util.logging.Logger;
 
 import common.chat.ChatItem;
 import common.communication.CommandParams;
-import common.game_data.GameInfo;
-import common.game_data.StartGamePacket;
+import common.game_data.*;
 import common.communication.IClient;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
@@ -74,19 +73,17 @@ public class ClientProxy implements IClient
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String historyItemClassName = HistoryItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
+    private static final String gameIDClassName = GameID.class.getName();
+    private static final String endGameClassName = EndGame.class.getName();
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList)
+    public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
         logger.entering("ClientProxy", "updateGameList", gameList);
-        ConcurrentHashMap<Username, ClientThread> threadList =
-                (ConcurrentHashMap<Username, ClientThread>) ServerCommunicator.getThreads();
-        Signal signal = new Signal(SignalType.UPDATE, gameList);
-        for (ClientThread thread : threadList.values())
-        {
-            thread.push(signal);
-        }
-        signal = new Signal(SignalType.OK, "Accepted");
+        String methodName = "updateGameList";
+        String[] paramTypes = {userNameClassName, List.class.getName()};
+        Object[] params = {user, gameList};
+        Signal signal = sendCommandToClient(user, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "updateGameList", signal);
         return signal;
     }
@@ -104,6 +101,12 @@ public class ClientProxy implements IClient
         logger.exiting("ClientProxy", "startGame", signal);
         return signal;
     }
+
+    @Override
+	public Signal resumeGame(Username username)
+	{
+		return new Signal(SignalType.ERROR, "Implement resumeGame in clientProxy");
+	}
 
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)
@@ -145,12 +148,12 @@ public class ClientProxy implements IClient
     }
 
     @Override
-    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards)
+    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards, GameID gameID)
     {
-        logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards});
+        logger.entering("ClientProxy", "playerDrewDestinationCards", new Object[]{name, cards, gameID});
         String methodName = "playerDrewDestinationCards";
-        String[] paramTypes = {userNameClassName, handDestinationCardsClassName};
-        Object[] params = {name, cards};
+        String[] paramTypes = {userNameClassName, handDestinationCardsClassName, gameIDClassName};
+        Object[] params = {name, cards, gameID};
         Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "playerDrewDestinationCards", signal);
         return signal;
@@ -193,6 +196,30 @@ public class ClientProxy implements IClient
     }
 
     @Override
+    public Signal updateTurnQueue(Username username)
+	{
+		logger.entering("ClientProxy", "playerClaimedEdge", username);
+		String methodName = "updateTurnQueue";
+		String[] paramTypes = {userNameClassName};
+		Object[] params = {username};
+		Signal signal = sendCommandToClient(username, methodName, paramTypes, params);
+		logger.exiting("ClientProxy", "updateTurnQueue", signal);
+		return signal;
+	}
+
+    @Override
+    public Signal gameEnded(Username name, EndGame players)
+    {
+        logger.entering("ClientProxy", "gameEnded", name);
+        String methodName = "gameEnded";
+        String[] paramTypes = {endGameClassName};
+        Object[] params = {players};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "updateTurnQueue", signal);
+        return signal;
+    }
+
+    @Override
     public Signal lastTurn(Username name)
     {
         logger.entering("ClientProxy", "lastTurn", new Object[]{name});
@@ -201,18 +228,6 @@ public class ClientProxy implements IClient
         Object[] params = {name};
         Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "lastTurn", signal);
-        return signal;
-    }
-
-    @Override
-    public Signal gameEnded(Username name)
-    {
-        logger.entering("ClientProxy", "gameEnded", new Object[]{name});
-        String methodName = "gameEnded";
-        String[] paramTypes = {userNameClassName};
-        Object[] params = {name};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
-        logger.exiting("ClientProxy", "gameEnded", signal);
         return signal;
     }
 

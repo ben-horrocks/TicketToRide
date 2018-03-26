@@ -2,6 +2,8 @@ package common.player_info.turn_state;
 
 import common.cards.HandDestinationCards;
 import java.io.Serializable;
+import java.util.List;
+
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
@@ -44,20 +46,27 @@ public class MyTurnNoAction implements ITurnState, Serializable
 	}
 
 	@Override
-	public void drawDestinationCards(Player player, HandDestinationCards pickedCards)
+	public boolean drawDestinationCards(Player player, HandDestinationCards pickedCards, boolean isMyTurn)
 	{
 		player.getDestinationCards().addAll(pickedCards);
 		player.setTurnState(new NotMyTurn());
+
+		return true;
 	}
 
 	@Override
-	public void claimEdge(Player player, Edge edge)
+	public void claimEdge(Player player, Edge edge, List<TrainCard> spent)
 	{
 		EdgeGraph edgeGraph = player.getClaimedEdges();
 		edgeGraph.addEdge(edge);
+		player.checkDestinationCards();
+		player.getHand().getTrainCards().removeAll(spent);
 		player.setTurnState(new NotMyTurn());
 	}
 
 	@Override
 	public void turnStarted(Player player) {}
+
+	@Override
+	public boolean canTakeAction() { return true; }
 }

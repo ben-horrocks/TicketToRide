@@ -82,14 +82,16 @@ public class ClientCommunicator
                             if (received instanceof Signal)
                             {
                                 Signal signal = (Signal) received;
+                                /*
                                 if (signal.getSignalType() == SignalType.UPDATE &&
                                     signal.getObject() instanceof List)
                                 {
                                     // Hope that the List of type UPDATE has GameInfo Objects
                                     @SuppressWarnings("unchecked") List<GameInfo> infoList =
                                             (List<GameInfo>) signal.getObject();
-                                    ClientFacade.getSINGLETON().updateGameList(infoList);
-                                } else if (signal.getSignalType() == SignalType.START_GAME)
+                                    ClientFacade.getSINGLETON().updateGameList(, infoList);
+
+                                } else*/ if (signal.getSignalType() == SignalType.START_GAME)
                                 {
                                     //c.startGame(((ServerGameData)signal.getObject()).getId());
                                 } else
@@ -214,6 +216,7 @@ public class ClientCommunicator
     {
         if (socket.isConnected())
         {
+            setSignalFromServer(null);
             if (server.read.getState() == Thread.State.NEW)
             {
                 server.read.start();

@@ -3,10 +3,12 @@ package common.player_info;
 import java.io.Serializable;
 import java.util.*;
 
+import common.cards.DestinationCard;
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
+import common.game_data.Point;
 import common.map.City;
 import common.map.Edge;
 import common.map.EdgeGraph;
@@ -19,7 +21,7 @@ public class Player implements Serializable
     private HandTrainCards hand;
     private HandDestinationCards destinations;
     private PlayerColor color;
-    private int score;
+    private Point score;
     private EdgeGraph claimedEdges;
     private TrainPieces pieces;
     private ITurnState turnState;
@@ -30,9 +32,18 @@ public class Player implements Serializable
         this.hand = new HandTrainCards();
         this.destinations = new HandDestinationCards();
         this.color = color;
-        this.score = 0;
+        this.score = new Point();
         this.claimedEdges = new EdgeGraph();
         this.turnState = new InitialDestinationCardDraw();
+        this.pieces = new TrainPieces(true);
+    }
+
+    public TrainPieces getPieces() {
+        return pieces;
+    }
+
+    public void setPieces(TrainPieces pieces) {
+        this.pieces = pieces;
     }
 
     public String getName() { return this.user.getStringUserName(); }
@@ -44,62 +55,122 @@ public class Player implements Serializable
         return this.hand;
     }
 
-    public void drewTrainCards(HandTrainCards cards)
+    public void checkDestinationCards()
     {
-        this.hand.addAll(cards);
+        for (DestinationCard card : destinations.getDestinationCards())
+        {
+            if (!card.isComplete())
+                card.setComplete(EdgeGraph.findRoute(claimedEdges.getAllEdges(), card.getCity1(), card.getCity2()));
+        }
     }
+
+    public void addPoints(int num)
+    {
+        score.incrementRoutesClaimed(num);
+    }
+    public void drewInitialTrainCards(HandTrainCards cards)
+    {
+		this.hand.addAll(cards);
+    }
+
+    public void drewDeckCard(TrainCard card)
+	{
+		getTurnState().drawFromDeck(this, card);
+	}
 
     public void drewFaceUpCard(TrainCard trainCard) {  getTurnState().drawFaceUp(this, trainCard); }
 
-    public void claimedEdge(Edge edge)
+    public boolean canClaimEdgeWithSelected(Edge e, HandTrainCards cards)
     {
-        if (canClaimEdge(edge))
+        if (e.isClaimed())
         {
-            claimedEdges.addEdge(edge);
-            ArrayList<TrainCard> toRemove = new ArrayList<>();
-            for (int i = 0; i < edge.getLength(); i++)
-            {
-                for (TrainCard t : hand.getTrainCards())
-                {
-                    if (t.getType() == edge.getColor())
-                    {
-                        toRemove.add(t);
-                        break;
-                    }
-                }
-            }
-            hand.getTrainCards().removeAll(toRemove);
+            return false;
         }
-        //TODO if the newly claimed edge completed a destination card add points and remove the card
+        Map<TrainColor, Integer> coloredCardMap;
+        coloredCardMap = cards.getColorCounts();
+
+        int wildCards = 0;
+        if(coloredCardMap.get(TrainColor.GRAY) != null)
+            wildCards = coloredCardMap.get(TrainColor.GRAY);
+
+        boolean enoughCards = false; //NEVER ENOUGH!!!
+        switch(e.getColor())
+        {
+            //if the edge is colorless we need to see if any sets of a single color are enough to claim the route
+            case GRAY:
+                for(TrainColor color: coloredCardMap.keySet())
+                {
+                    int correctColorCards = coloredCardMap.get(color);
+                    enoughCards = correctColorCards + wildCards >= e.getLength();
+                    if(enoughCards) //if we have enough cards we can stop checking
+                        break;
+                }
+                //if we get here without breaking mid-loop then enoughCards = false
+                break;
+
+            //otherwise we just check the specific color
+            default:
+                int correctColorCards = coloredCardMap.get(e.getColor());
+                enoughCards = correctColorCards + wildCards >= e.getLength();
+                break;
+        }
+        boolean enoughTrainCars = pieces.getNumTrainPieces() >= e.getLength();
+
+        return enoughTrainCars && enoughCards;
+    }
+    public boolean canClaimEdge(Edge e)
+    {
+        if (e.isClaimed())
+        {
+            return false;
+        }
+        Map<TrainColor, Integer> coloredCardMap;
+        coloredCardMap = hand.getColorCounts();
+
+        int wildCards = 0;
+        if(coloredCardMap.get(TrainColor.LOCOMOTIVE) != null)
+            wildCards = coloredCardMap.get(TrainColor.LOCOMOTIVE);
+
+        boolean enoughCards = false; //NEVER ENOUGH!!!
+        switch(e.getColor())
+        {
+            //if the edge is colorless we need to see if any sets of a single color are enough to claim the route
+            case GRAY:
+                for(TrainColor color: coloredCardMap.keySet())
+                {
+                    int correctColorCards = coloredCardMap.get(color);
+                    enoughCards = correctColorCards + wildCards >= e.getLength();
+                    if(enoughCards) //if we have enough cards we can stop checking
+                        break;
+                }
+                //if we get here without breaking mid-loop then enoughCards = false
+                break;
+
+            //otherwise we just check the specific color
+            default:
+                int correctColorCards = coloredCardMap.get(e.getColor());
+                enoughCards = correctColorCards + wildCards >= e.getLength();
+                break;
+        }
+        boolean enoughTrainCars = pieces.getNumTrainPieces() >= e.getLength();
+
+        return enoughTrainCars && enoughCards;
+    }
+
+    public void claimedEdge(Edge edge, List<TrainCard> spent)
+    {
+        getTurnState().claimEdge(this, edge, spent);
     }
 
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }
 
 	public ITurnState getTurnState() { return turnState; }
 
-    private boolean canClaimEdge(Edge edge)
-    {
-        return numCardsOfColor(edge.getColor()) >= edge.getLength();
-    }
-
-    private int numCardsOfColor(TrainColor color)
-    {
-        int sum = 0;
-        for (TrainCard t : hand.getTrainCards())
-        {
-            if (t.getType() == color)
-            {
-                sum++;
-            }
-        }
-        return sum;
-    }
-
     public HandDestinationCards getDestinationCards() { return this.destinations; }
 
-    public void drewDestinationCards(HandDestinationCards cards)
+    public boolean drewDestinationCards(HandDestinationCards cards, boolean isMyTurn)
     {
-        getTurnState().drawDestinationCards(this, cards);
+        return getTurnState().drawDestinationCards(this, cards, isMyTurn);
     }
 
     public PlayerColor getColor()
@@ -109,12 +180,12 @@ public class Player implements Serializable
 
     public int getScore()
     {
-        return this.score;
+        return this.score.getRoutesClaimedPoints();
     }
 
-    public void addPoints(int points)
+    public Point getPoints()
     {
-        this.score += points;
+        return this.score;
     }
 
     public EdgeGraph getClaimedEdges()
@@ -166,6 +237,11 @@ public class Player implements Serializable
         }
         }
         return longestPath;
+    }
+
+    public Username getUsername()
+    {
+        return user.getUsername();
     }
 
 }

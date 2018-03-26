@@ -1,9 +1,3 @@
-/**
- * LobbyActivity.java
- * Author: Ben Horrocks
- * Date of Last Commit: 11 February, 2018
- * Notes: Need to thoroughly test
- */
 package cs340.TicketClient.lobby;
 
 import android.app.DialogFragment;
@@ -17,13 +11,19 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import common.communication.Signal;
+import common.communication.SignalType;
 import common.game_data.StartGamePacket;
 import common.game_data.GameInfo;
 import common.player_info.User;
+import cs340.TicketClient.async_task.GetGameInfoTask;
+import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameActivity;
 import cs340.TicketClient.R;
+import cs340.TicketClient.game.GameModel;
 
 /**
  * LobbyActivity
@@ -42,9 +42,11 @@ public class LobbyActivity extends AppCompatActivity
     private EditText mSearchGameText;
     private ImageView mClearSearch;
     private RecyclerView mGameList;
+    private RecyclerView mRunningGameList;
     private GameListAdapter mGameListAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RunningGameListAdapter mRunningGameListAdapter;
     private Button mNewGameButton;
+    private LobbyPresenter presenter = LobbyPresenter.getInstance();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -52,23 +54,32 @@ public class LobbyActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_lobby);
 
-        //Initalize Lobby Presenter Singleton with reference to this activity for callbacks.
+        //Initialize Lobby Presenter Singleton with reference to this activity for callbacks.
         LobbyPresenter.setActivity(this);
         Bundle extras = this.getIntent().getExtras();
         if (extras != null)
         {
             User user = (User) extras.get("user");
-            LobbyPresenter.getInstance().setUser(user);
+            presenter.setUser(user);
 
         }
         //VIEW BINDING
         mSearchGameText = (EditText) this.findViewById(R.id.SearchText);
         mClearSearch = (ImageView) this.findViewById(R.id.ClearSearch);
-        mGameList = (RecyclerView) this.findViewById(R.id.GameList);
-        mLayoutManager = new LinearLayoutManager(this);
-        mGameList.setLayoutManager(mLayoutManager);
-        mGameListAdapter = new GameListAdapter();
-        mGameList.setAdapter(mGameListAdapter);
+
+        mGameList = (RecyclerView) this.findViewById(R.id.OpenGameList);
+		mGameList.setLayoutManager(new LinearLayoutManager(this));
+		mGameListAdapter = new GameListAdapter();
+		mGameList.setAdapter(mGameListAdapter);
+
+        mRunningGameList = (RecyclerView) this.findViewById(R.id.YourGameList);
+        mRunningGameList.setLayoutManager(new LinearLayoutManager(this));
+        mRunningGameListAdapter = new RunningGameListAdapter();
+        mRunningGameList.setAdapter(mRunningGameListAdapter);
+
+        GetGameInfoTask task = new GetGameInfoTask(getBaseContext());
+		task.execute(LobbyPresenter.getInstance().getUser().getUsername());
+
         mNewGameButton = findViewById(R.id.newGameButton);
         //END VIEW BINDING
 
@@ -76,10 +87,7 @@ public class LobbyActivity extends AppCompatActivity
         mSearchGameText.addTextChangedListener(new TextWatcher()
         {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
@@ -87,24 +95,18 @@ public class LobbyActivity extends AppCompatActivity
                 mGameListAdapter.clear();
                 if (charSequence.length() > 0)
                 {
-                    List<GameInfo> games =
-                            LobbyPresenter.getInstance().searchGames(charSequence.toString());
-                    mGameListAdapter.addGames(games);
+                    List<GameInfo> games = presenter.searchGames(charSequence.toString());
+                    mGameListAdapter.setGames(games);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable)
-            {
-            }
+            public void afterTextChanged(Editable editable) {}
         });
         mClearSearch.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
-            {
-                mSearchGameText.setText("");
-            }
+            public void onClick(View view) { mSearchGameText.setText(""); }
         });
         mNewGameButton.setOnClickListener(new View.OnClickListener()
         {
@@ -118,10 +120,18 @@ public class LobbyActivity extends AppCompatActivity
         //END LISTENERS
     }
 
+    @Override
+	public void onResume()
+	{
+		super.onResume();
+		GetGameInfoTask task = new GetGameInfoTask(getBaseContext());
+		task.execute(LobbyPresenter.getInstance().getUser().getUsername());
+	}
+
     /**
      * Abstract: Callback from presenter to update ServerGameData List.
      *
-     * @pre Server has successfully sent nerw gameList
+     * @pre Server has successfully sent new gameList
      * @post The game list will be displayed with the Search filter still applied
      */
     public void updateGameList()
@@ -132,9 +142,26 @@ public class LobbyActivity extends AppCompatActivity
             public void run()
             {
                 mGameListAdapter.clear();
-                List<GameInfo> games = LobbyPresenter.getInstance()
-                        .searchGames(mSearchGameText.getText().toString());
-                mGameListAdapter.addGames(games);
+                List<GameInfo> games = presenter.searchGames(mSearchGameText.getText().toString());
+                /*
+				@SuppressWarnings("unchecked")
+				ArrayList<GameInfo> runningGames = new ArrayList<>();
+				ArrayList<GameInfo> openGames = new ArrayList<>();
+				for (int i = 0; i < games.size(); i++)
+				{
+					GameInfo gameInfo = games.get(i);
+					if (gameInfo.hasUser(presenter.getUser().getUsername()))
+					{
+						runningGames.add(gameInfo);
+					}
+					else
+					{
+						openGames.add(gameInfo);
+					}
+				}
+				*/
+				mGameListAdapter.setGames(games);
+				// mRunningGameListAdapter.setGames(runningGames);
             }
         });
     }

@@ -1,5 +1,9 @@
 package cs340.TicketClient.game;
 
+import android.app.Activity;
+import android.support.v4.app.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import common.cards.DestinationCard;
@@ -7,9 +11,23 @@ import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
 import common.chat.ChatItem;
-import common.game_data.ClientGameData;
-import common.game_data.GameID;
-import common.game_data.Opponent;
+import common.game_data.*;
+import common.history.HistoryItem;
+import common.map.Edge;
+import common.player_info.Player;
+import common.player_info.User;
+import common.player_info.Username;
+import cs340.TicketClient.R;
+import cs340.TicketClient.game_menu.chat.ChatPresenter;
+import cs340.TicketClient.game_menu.history.HistoryPresenter;
+import java.util.List;
+
+import common.cards.DestinationCard;
+import common.cards.HandDestinationCards;
+import common.cards.TrainCard;
+import common.cards.TrainColor;
+import common.chat.ChatItem;
+import common.game_data.*;
 import common.history.HistoryItem;
 import common.player_info.Player;
 import common.player_info.User;
@@ -22,6 +40,9 @@ public class GameModel
     private ClientGameData gameData;
     private static GameModel singleton;
     private HandDestinationCards initialDCards;
+    GamePresenter presenter;
+    private ArrayList<TrainCard> queuedCards = new ArrayList<>();
+    Edge selectedEdge;
 
     public static GameModel getInstance()
     {
@@ -32,14 +53,30 @@ public class GameModel
         return singleton;
     }
 
-    private GameModel() {}
+    private GameModel()
+    {
+
+    }
+
+    public void setQueuedCards(ArrayList<TrainCard> queuedCards) {
+        this.queuedCards = queuedCards;
+    }
+
+    public ArrayList<TrainCard> getQueuedCards() {
+        return queuedCards;
+    }
 
     // Game Methods
     public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
 
     public ClientGameData getGameData() { return gameData; }
 
-    public void setInitialDCards(HandDestinationCards initialDCards) { this.initialDCards = initialDCards; }
+    public void setPresenter(GamePresenter presenter)
+    {
+        this.presenter = presenter;
+    }
+
+    public void setInitialDCards(HandDestinationCards initialDCards) {this.initialDCards = initialDCards; }
 
     public GameID getGameID() { return gameData.getId(); }
 
@@ -84,9 +121,9 @@ public class GameModel
 
     // Train Card Hand Methods
     // TODO: update (or at least look at)
-    public void addTrainCard(TrainColor color)
+    public void addTrainCard(TrainCard card)
     {
-        getPlayer().getHand().add(new TrainCard(color));
+        getPlayer().getHand().add(card);
     }
 
     // TODO: update to remove specific card(s)
@@ -107,6 +144,11 @@ public class GameModel
     {
         getPlayer().getDestinationCards().add(card);
     }
+
+    public void addDestinationCards(HandDestinationCards cards)
+	{
+		getPlayer().getDestinationCards().addAll(cards.getDestinationCards());
+	}
 
     // TODO: update to remove specific card(s)
     public void removeDestCard()
@@ -182,8 +224,61 @@ public class GameModel
 
     public void nextTurn() { gameData.nextTurn(); }
 
-    public void addPoints(int number)
+    public void endGame(EndGame players)
     {
-        getPlayer().addPoints(number);
+        presenter.endGame(players);
+    }
+
+    //Selected Edge Methods
+    public Edge getSelectedEdge() {
+        return selectedEdge;
+    }
+
+    public void setSelectedEdge(Edge selectedEdge) {
+        this.selectedEdge = selectedEdge;
+    }
+
+    //Claimed route edges
+    public boolean markClaimedRoute(Username username, Edge edge)
+    {
+        //Get Opponent
+        Opponent opponent = null;
+        List<Opponent> opList = gameData.getOpponents();
+        for (Opponent op : opList) {
+            if (op.getUsername().equals(username))
+            {
+                opponent = op;
+            }
+        }
+        if (opponent == null)
+        {
+            System.out.println("Could not find opponent with which to update route");
+            return false;
+        }
+
+        //Find edge in gameboard and update with opponent
+        Edge foundEdge = null;
+        List<Edge> list = gameData.getGameboard().getGraph().get(edge.getFirstCity());
+        for (Edge findEdge : list)
+        {
+            if (findEdge.equals(edge))
+            {
+				foundEdge = findEdge;
+				break;
+            }
+        }
+        if (foundEdge == null)
+        {
+            System.out.println("Edge not found or edge is already owned. Could not mark as claimed");
+            return false;
+        }
+
+        //Set Owner of found Edge
+        foundEdge.setOwner(opponent);
+
+        //Update Map Fragment
+        presenter.refreshMapFragment(username, foundEdge);
+
+        return true;
     }
 }

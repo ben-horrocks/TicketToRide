@@ -3,10 +3,9 @@ package cs340.TicketClient.communicator;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.game_data.Opponent;
+import common.communication.CommandParams;
+import common.game_data.*;
 import common.chat.ChatItem;
-import common.game_data.GameInfo;
-import common.game_data.StartGamePacket;
 import common.communication.IClient;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
@@ -16,7 +15,10 @@ import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.game.GameModel;
+import cs340.TicketClient.game.GamePresenter;
+import cs340.TicketClient.lobby.LobbyModel;
 import cs340.TicketClient.lobby.LobbyPresenter;
 
 public class ClientFacade implements IClient
@@ -41,20 +43,26 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal updateGameList(List<GameInfo> gameList)
+    public Signal updateGameList(Username user, List<GameInfo> gameList)
     {
-        LobbyPresenter.getInstance().addGames(gameList);
+        LobbyModel.getSingleton().setGames(gameList);
         return new Signal(SignalType.OK, "Accepted");
     }
 
     @Override
     public Signal startGame(StartGamePacket packet)
     {
-        System.out.println("Recieced StartGame packet");
+        System.out.println("Received StartGame packet");
         LobbyPresenter.getInstance().gameStarted(packet);
         System.out.println("Sending OK Signal");
         return new Signal(SignalType.OK, "Accepted");
     }
+
+    @Override
+	public Signal resumeGame(Username username)
+	{
+		return new Signal(SignalType.ERROR, "implement resumeGame in ClientFacade");
+	}
 
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)
@@ -114,18 +122,31 @@ public class ClientFacade implements IClient
 
     @Override
     public Signal playerClaimedEdge(Username name, Edge edge) {
-        //TODO: implement updating opponents with the new edge
-        return new Signal(SignalType.ERROR, "unimplemented");
+        boolean routeClaimed = GameModel.getInstance().markClaimedRoute(name, edge);
+        if (routeClaimed) {
+            return new Signal(SignalType.OK, "Route claimed successfully");
+        }
+        return new Signal(SignalType.ERROR, "could not claim route");
     }
 
     @Override
-    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards)
+    public Signal playerDrewDestinationCards(Username name, HandDestinationCards cards, GameID gameID)
     {
         try
         {
         	Player player = GameModel.getInstance().getPlayer();
-        	player.drewDestinationCards(cards);
-        	return new Signal(SignalType.NEXT_TURN, "Destination Cards added successfully");
+        	boolean isMyTurn = GameModel.getInstance().isMyTurn();
+        	boolean nextTurn = player.drewDestinationCards(cards, isMyTurn);
+        	if (nextTurn)
+			{
+				TurnEndedTask task = new TurnEndedTask();
+				task.execute(gameID, name);
+				return new Signal(SignalType.OK, "Successful next turn switch");
+			}
+			else
+			{
+				return new Signal(SignalType.OK, "Destination Cards added successfully");
+			}
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());
@@ -151,7 +172,7 @@ public class ClientFacade implements IClient
         try
         {
             GameModel.getInstance().addHistoryItem(item);
-            return new Signal(SignalType.OK, "history Updated");
+            return new Signal(SignalType.HISTORY, "history Updated");
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());
@@ -162,20 +183,28 @@ public class ClientFacade implements IClient
     public Signal lastTurn(Username name)
     {
         //TODO: implement Last Turn (Probably popping up a toast)
-        return new Signal(SignalType.ERROR, "uniplemented");
+        return new Signal(SignalType.ERROR, "unimplemented");
     }
 
-    @Override
-    public Signal gameEnded(Username name)
+	@Override
+	public Signal updateTurnQueue(Username username)
+	{
+		GameModel.getInstance().nextTurn();
+		return new Signal(SignalType.OK, "TurnQueue for " + username + " updated.");
+	}
+
+	@Override
+    public Signal gameEnded(Username name, EndGame players)
     {
-        //TODO: implement changing to the endgame fragment/activity
-        return new Signal(SignalType.ERROR, "uniplemented");
+//        call game Presenter here
+        return new Signal(SignalType.ERROR, "unimplemented");
     }
 
     @Override
     public Signal startTurn(Username name)
     {
-        //TODO: update turnstate
-        return new Signal(SignalType.ERROR, "uniplemented");
+    	Player player = GameModel.getInstance().getPlayer();
+        player.getTurnState().turnStarted(player);
+        return new Signal(SignalType.OK, "implemented startTurn *wink*");
     }
 }

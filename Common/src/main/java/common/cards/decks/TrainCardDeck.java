@@ -27,7 +27,7 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
         shuffle();
         for (int x = 0; x < 5; x++)
         {
-            faceUpCards.add(x, drawFaceDown());
+            faceUpCards.add(drawFaceDown());
         }
     }
 
