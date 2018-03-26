@@ -148,6 +148,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
         });
     }
 
+    public void markClaimedEdge(Edge edge) {
+
+    }
+
     private void makeCityMarkers()
     {
         final LatLng LOS_ANGELES = new LatLng(34.052234, -118.243685);
