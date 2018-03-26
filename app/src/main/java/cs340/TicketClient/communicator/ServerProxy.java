@@ -307,5 +307,23 @@ public class ServerProxy implements IServer
         }
     }
 
+	@Override
+	public Signal resumeGame(GameID gameID, Username username)
+	{
+		/*
+		String[] parameterTypes = {gameIDClassname, usernameClassName};
+		Object[] parameters = { gameID, username };
+		CommandParams startGameCommand = new CommandParams("resumeGame", parameterTypes, parameters);
+		try
+		{
+			return (Signal) ClientCommunicator.getSingleton().send(startGameCommand);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		*/
+		return new Signal(SignalType.ERROR, "Implement resumeGame in serverProxy");
+	}
+
 }
     
