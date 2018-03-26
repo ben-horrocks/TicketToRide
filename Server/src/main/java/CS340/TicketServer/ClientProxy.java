@@ -103,6 +103,12 @@ public class ClientProxy implements IClient
     }
 
     @Override
+	public Signal resumeGame(Username username)
+	{
+		return new Signal(SignalType.ERROR, "Implement resumeGame in clientProxy");
+	}
+
+    @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)
     {
         // int in logger may break things

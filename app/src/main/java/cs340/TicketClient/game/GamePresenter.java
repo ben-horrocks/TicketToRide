@@ -1,5 +1,6 @@
 package cs340.TicketClient.game;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import common.history.HistoryItem;
 import common.player_info.Player;
 import common.map.Edge;
 import common.map.EdgeGraph;
+import common.player_info.Username;
 import common.request.DestDrawRequest;
 import cs340.TicketClient.R;
 import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
@@ -59,10 +61,14 @@ public class GamePresenter
             if (!selectedEdge.isClaimed())
             {
                 android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
-                android.support.v4.app.Fragment fragment = new ClaimFragment();
-                fm.beginTransaction().add(R.id.fragment_map, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null).commit();
+                android.support.v4.app.Fragment fragment = fm.findFragmentByTag(ClaimFragment.class.getSimpleName());
+                if (fragment == null)
+				{
+					fragment = new ClaimFragment();
+					fm.beginTransaction().add(R.id.fragment_map, fragment, ClaimFragment.class.getSimpleName())
+							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+							.addToBackStack(ClaimFragment.class.getSimpleName()).commit();
+				}
             }
             else {
                 String message = "This route is already claimed by another player.";
@@ -74,58 +80,35 @@ public class GamePresenter
             Toast.makeText(activity.getBaseContext(), message, Toast.LENGTH_SHORT).show();
             //todo: reset player state
         }
-
-//        //get routes
-//        EdgeGraph allRoutes = model.getGameData().getGameboard();
-//        //get player's train cards
-//        HandTrainCards trainCards = model.getGameData().getPlayer().getHand();
-//        //get player's destinations cards
-//        HandDestinationCards destinationCards = model.getGameData().getPlayer().getDestinationCards();
-//
-//        //Routes which can be claimed
-//        EdgeGraph claimableRoutes = new EdgeGraph();
-//
-//        //Routes which can be claimed and are a destination card
-//        EdgeGraph destinationClaimableRoutes = new EdgeGraph();
-//
-//        //Figure out which routes the player can claim
-//        for (Edge edge : allRoutes.getAllEdges())
-//        {
-//            if (!edge.isClaimed())
-//            {
-//                //check player's train cards to see if can claim
-//                ArrayList<TrainCard> cardsToUse = new ArrayList<>();
-//                for (TrainCard card : trainCards.getTrainCards())
-//                {
-//                    if (card.getType().equals(edge.getColor()))
-//                    {
-//                        cardsToUse.add(card);
-//                    }
-//                }
-//                //If the size of cardsToUse is sufficient for the edge, then this route can be claimed
-//                if (edge.getLength() == cardsToUse.size())
-//                {
-//                    //Check whether the city is a destination card the player has
-//                    for (DestinationCard destinationCard : destinationCards.getDestinationCards())
-//                    {
-//                        boolean city1Check = destinationCard.getCity1().equals(edge.getFirstCity()) || destinationCard.getCity1().equals(edge.getSecondCity());
-//                        boolean city2Check = destinationCard.getCity2().equals(edge.getFirstCity()) || destinationCard.getCity2().equals(edge.getSecondCity());
-//                        if (city1Check && city2Check)
-//                        {
-//                            destinationClaimableRoutes.addEdge(edge);
-//                        } else {
-//                            claimableRoutes.addEdge(edge);
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
     void claimRoute(TrainColor color, int number) throws InsufficientCardsException
     {
         // TODO: implement
 
+    }
+
+    void refreshMapFragment(Username username, Edge edge) {
+        //get info for toast
+        String name = username.toString();
+        String city1 = edge.getFirstCity().getCityName();
+        String city2 = edge.getSecondCity().getCityName();
+        StringBuilder sb = new StringBuilder(name + " claimed the route from " + city1 + " to " + city2);
+
+        //refresh the map
+        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentByTag(MapFragment.class.getSimpleName());
+        if (mapFrag != null) {
+            FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+            ft.detach(mapFrag);
+            ft.attach(mapFrag);
+            ft.commit();
+
+            //notify user of claimed route
+            Toast.makeText(activity, sb.toString(), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            System.out.println("Could not refresh the map");
+        }
     }
 
     public List<ChatItem> getChatMessages()
@@ -213,6 +196,14 @@ public class GamePresenter
 
         }
     }
+
+    public Activity getGameActivity() {
+	    if (activity != null) {
+            return activity;
+        }
+        return null;
+    }
+
 
     public void endGame(EndGame players)
     {

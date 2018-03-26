@@ -249,7 +249,7 @@ public class ServerProxy implements IServer
     {
         String[] paramTypes = {gameIDClassname, usernameClassName, edgeClassName, handTrainCardClassName};
         Object[] params = {id, user, edge, spent};
-        CommandParams commandParams = new CommandParams("drawFaceUp", paramTypes, params);
+        CommandParams commandParams = new CommandParams("playerClaimedEdge", paramTypes, params);
         try
         {
             Signal s = (Signal) ClientCommunicator.getSingleton().send(commandParams);
@@ -306,6 +306,24 @@ public class ServerProxy implements IServer
             return new Signal(SignalType.ERROR, e.getMessage());
         }
     }
+
+	@Override
+	public Signal resumeGame(GameID gameID, Username username)
+	{
+		/*
+		String[] parameterTypes = {gameIDClassname, usernameClassName};
+		Object[] parameters = { gameID, username };
+		CommandParams startGameCommand = new CommandParams("resumeGame", parameterTypes, parameters);
+		try
+		{
+			return (Signal) ClientCommunicator.getSingleton().send(startGameCommand);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		*/
+		return new Signal(SignalType.ERROR, "Implement resumeGame in serverProxy");
+	}
 
 }
     

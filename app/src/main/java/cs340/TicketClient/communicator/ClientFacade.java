@@ -59,6 +59,12 @@ public class ClientFacade implements IClient
     }
 
     @Override
+	public Signal resumeGame(Username username)
+	{
+		return new Signal(SignalType.ERROR, "implement resumeGame in ClientFacade");
+	}
+
+    @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)
     {
         ArrayList<Opponent> oppenents =
@@ -116,8 +122,11 @@ public class ClientFacade implements IClient
 
     @Override
     public Signal playerClaimedEdge(Username name, Edge edge) {
-        //TODO: implement updating opponents with the new edge
-        return new Signal(SignalType.ERROR, "unimplemented");
+        boolean routeClaimed = GameModel.getInstance().markClaimedRoute(name, edge);
+        if (routeClaimed) {
+            return new Signal(SignalType.OK, "Route claimed successfully");
+        }
+        return new Signal(SignalType.ERROR, "could not claim route");
     }
 
     @Override
@@ -163,7 +172,7 @@ public class ClientFacade implements IClient
         try
         {
             GameModel.getInstance().addHistoryItem(item);
-            return new Signal(SignalType.OK, "history Updated");
+            return new Signal(SignalType.HISTORY, "history Updated");
         } catch (Exception e)
         {
             return new Signal(SignalType.ERROR, e.getMessage());

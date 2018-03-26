@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import cs340.TicketClient.R;
+import cs340.TicketClient.game.GameModel;
 
 public class PlayerFragment extends Fragment
 {
@@ -20,6 +21,7 @@ public class PlayerFragment extends Fragment
     private TextView mPlayerDestinationCards;
     private TextView mTurnQueue;
     private TextView mOpponentInfo;
+    private TextView mTrains;
     private Button mExitButton;
 
     @Override
@@ -52,6 +54,10 @@ public class PlayerFragment extends Fragment
         mPlayerTrainCards = (TextView) v.findViewById(R.id.drawer_player_train_cards);
         text = presenter.getTrainCards();
         mPlayerTrainCards.setText(text);
+
+        mTrains = v.findViewById(R.id.drawer_player_train_cards);
+        text = "Trains left: "+ GameModel.getInstance().getPlayer().getTrainPiecesRemaining();
+        mTrains.setText(text);
 
         mPlayerDestinationCards = (TextView) v.findViewById(R.id.drawer_player_destination_cards);
         text = presenter.getDestinationCards();

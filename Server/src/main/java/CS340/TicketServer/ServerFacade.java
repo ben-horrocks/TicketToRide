@@ -27,6 +27,7 @@ import common.player_info.Player;
 import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
+import communicators.ServerCommunicator;
 
 public class ServerFacade implements IServer
 {
@@ -354,7 +355,16 @@ public class ServerFacade implements IServer
         return signal;
     }
 
-    /**
+	@Override
+	public Signal resumeGame(GameID gameID, Username username)
+	{
+		logger.entering("ServerFacade", "resumeGame", new Object[]{gameID, username});
+		// TODO: implement
+		logger.exiting("ServerFacade", "resumeGame");
+		return new Signal(SignalType.ERROR, "Implement resumeGame in ServerFacade");
+	}
+
+	/**
      * @return A signal specifying whether or not the function worked.
      * @pre Parameters must be non-null
      * @post Will return a signal of success or error
@@ -696,13 +706,13 @@ public class ServerFacade implements IServer
     @Override
     public Signal returnToLobby(Username user)
     {
-        logger.entering("ServerFacade", "returnToLobby");
+        logger.entering("ServerFacade", "returnToLobby", user);
         Signal signal = new Signal(SignalType.OK, user);
         logger.exiting("ServerFacade", "login", signal);
         return signal;
     }
 
-    private void broadcastGameListChange()
+	private void broadcastGameListChange()
     {
         Set<Username> users = Database.SINGLETON.getAllUsernames();
         for(Username u: users)

@@ -1,6 +1,7 @@
 package common.player_info.turn_state;
 
 import java.io.Serializable;
+import java.util.List;
 
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
@@ -36,7 +37,7 @@ public class InitialDestinationCardDraw implements ITurnState, Serializable
 	}
 
 	@Override
-	public void claimEdge(Player player, Edge edge) {}
+	public void claimEdge(Player player, Edge edge, List<TrainCard> spent) {}
 
 	@Override
 	public void turnStarted(Player player) {}

@@ -38,6 +38,10 @@ public class Player implements Serializable
         this.pieces = new TrainPieces(true);
     }
 
+    public TrainPieces getPieces() {
+        return pieces;
+    }
+
     public void setPieces(TrainPieces pieces) {
         this.pieces = pieces;
     }
@@ -51,7 +55,7 @@ public class Player implements Serializable
         return this.hand;
     }
 
-    private void checkDestinationCards()
+    public void checkDestinationCards()
     {
         for (DestinationCard card : destinations.getDestinationCards())
         {
@@ -60,6 +64,10 @@ public class Player implements Serializable
         }
     }
 
+    public void addPoints(int num)
+    {
+        score.incrementRoutesClaimed(num);
+    }
     public void drewInitialTrainCards(HandTrainCards cards)
     {
 		this.hand.addAll(cards);
@@ -72,6 +80,44 @@ public class Player implements Serializable
 
     public void drewFaceUpCard(TrainCard trainCard) {  getTurnState().drawFaceUp(this, trainCard); }
 
+    public boolean canClaimEdgeWithSelected(Edge e, HandTrainCards cards)
+    {
+        if (e.isClaimed())
+        {
+            return false;
+        }
+        Map<TrainColor, Integer> coloredCardMap;
+        coloredCardMap = cards.getColorCounts();
+
+        int wildCards = 0;
+        if(coloredCardMap.get(TrainColor.GRAY) != null)
+            wildCards = coloredCardMap.get(TrainColor.GRAY);
+
+        boolean enoughCards = false; //NEVER ENOUGH!!!
+        switch(e.getColor())
+        {
+            //if the edge is colorless we need to see if any sets of a single color are enough to claim the route
+            case GRAY:
+                for(TrainColor color: coloredCardMap.keySet())
+                {
+                    int correctColorCards = coloredCardMap.get(color);
+                    enoughCards = correctColorCards + wildCards >= e.getLength();
+                    if(enoughCards) //if we have enough cards we can stop checking
+                        break;
+                }
+                //if we get here without breaking mid-loop then enoughCards = false
+                break;
+
+            //otherwise we just check the specific color
+            default:
+                int correctColorCards = coloredCardMap.get(e.getColor());
+                enoughCards = correctColorCards + wildCards >= e.getLength();
+                break;
+        }
+        boolean enoughTrainCars = pieces.getNumTrainPieces() >= e.getLength();
+
+        return enoughTrainCars && enoughCards;
+    }
     public boolean canClaimEdge(Edge e)
     {
         if (e.isClaimed())
@@ -113,9 +159,7 @@ public class Player implements Serializable
 
     public void claimedEdge(Edge edge, List<TrainCard> spent)
     {
-        claimedEdges.addEdge(edge);
-        this.checkDestinationCards();
-        hand.getTrainCards().remove(spent);
+        getTurnState().claimEdge(this, edge, spent);
     }
 
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }

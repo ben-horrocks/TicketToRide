@@ -55,4 +55,6 @@ public interface IClient
     Signal gameEnded(Username name, EndGame players);
 
     Signal startTurn(Username name);
+
+    Signal resumeGame(Username username);
 }
