@@ -50,7 +50,6 @@ public class ClaimPresenter implements IClaimPresenter {
     {
         GameID id = GameModel.getInstance().getGameID();
         Username user = GameModel.getInstance().getUserName();
-        //TODO change this
         Edge edge = GameModel.getInstance().getSelectedEdge();
         if (GameModel.getInstance().getPlayer().canClaimEdge(edge)) {
             HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());

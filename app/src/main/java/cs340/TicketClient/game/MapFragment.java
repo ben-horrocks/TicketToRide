@@ -128,6 +128,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback
             @Override
             public void onPolylineClick(Polyline polyline)
             {
+                //TODO make associated edge the selectededge in gameModel
                 if (polyline.getTag() instanceof Marker)
                 {
                     Marker marker = (Marker) polyline.getTag();
