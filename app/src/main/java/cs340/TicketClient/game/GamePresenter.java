@@ -88,9 +88,9 @@ public class GamePresenter
 
     }
 
-    void refreshMapFragment(Username username, Edge edge) {
+    void refreshMapFragment(Edge edge) {
         //get info for toast
-        String name = username.toString();
+        String name = edge.getOwner().toString();
         String city1 = edge.getFirstCity().getCityName();
         String city2 = edge.getSecondCity().getCityName();
         StringBuilder sb = new StringBuilder(name + " claimed the route from " + city1 + " to " + city2);

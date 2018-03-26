@@ -239,13 +239,13 @@ public class GameModel
     }
 
     //Claimed route edges
-    public boolean markClaimedRoute(Username username, Edge edge)
+    public boolean markClaimedRoute(Edge edge)
     {
         //Get Opponent
         Opponent opponent = null;
         List<Opponent> opList = gameData.getOpponents();
         for (Opponent op : opList) {
-            if (op.getUsername().equals(username))
+            if (op.getUsername().equals(edge.getOwner()))
             {
                 opponent = op;
             }
@@ -277,7 +277,7 @@ public class GameModel
         foundEdge.setOwner(opponent);
 
         //Update Map Fragment
-        presenter.refreshMapFragment(username, foundEdge);
+        presenter.refreshMapFragment(foundEdge);
 
         return true;
     }
