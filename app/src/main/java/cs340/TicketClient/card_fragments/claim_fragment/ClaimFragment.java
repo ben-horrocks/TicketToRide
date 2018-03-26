@@ -41,6 +41,7 @@ public class ClaimFragment extends Fragment {
         trainCardsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         trainAdapter = new ClaimTrainCardAdapter(getActivity(), trainCards);
         trainCardsRecyclerView.setAdapter(trainAdapter);
+		model.getQueuedCards().clear();
         claimRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
