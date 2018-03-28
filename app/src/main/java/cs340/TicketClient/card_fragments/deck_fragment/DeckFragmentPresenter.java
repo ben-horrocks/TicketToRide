@@ -17,6 +17,7 @@ import common.request.DrawFaceUpRequest;
 import cs340.TicketClient.R;
 import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
+import cs340.TicketClient.game.GameActivity;
 import cs340.TicketClient.game.GameModel;
 
 import static common.communication.SignalType.OK;
@@ -25,11 +26,13 @@ public class DeckFragmentPresenter
 {
 
     private DeckFragment fragment;
+    private GameActivity activity;
     private GameModel model;
 
     DeckFragmentPresenter(DeckFragment fragment)
     {
         this.fragment = fragment;
+        this.activity = (GameActivity) fragment.getActivity();
         this.model = GameModel.getInstance();
     }
 
@@ -164,7 +167,7 @@ public class DeckFragmentPresenter
         int imageID = getTrainDrawable(card);
 		int width = 600;
 		int height = 400;
-		Drawable cardDrawable = fragment.getActivity().getResources().getDrawable(imageID);
+		Drawable cardDrawable = activity.getResources().getDrawable(imageID);
 		Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
 		Drawable cardResized = new BitmapDrawable(fragment.getActivity().getResources(),
 				Bitmap.createScaledBitmap(bitmap, width, height, true));
@@ -228,7 +231,7 @@ public class DeckFragmentPresenter
 				{
 					TurnEndedTask task = new TurnEndedTask();
 					task.execute(model.getGameID(), model.getUserName());
-					presenter.fragment.getActivity().getSupportFragmentManager().popBackStack(); // TODO: shorten
+					presenter.activity.getSupportFragmentManager().popBackStack(); // TODO: shorten
 				}
             }
             else
@@ -264,7 +267,7 @@ public class DeckFragmentPresenter
 				{
 					TurnEndedTask task = new TurnEndedTask();
 					task.execute(model.getGameID(), model.getUserName());
-					presenter.fragment.getActivity().getSupportFragmentManager().popBackStack(); // TODO: shorten
+					presenter.activity.getSupportFragmentManager().popBackStack(); // TODO: shorten
 				}
 
             } else
