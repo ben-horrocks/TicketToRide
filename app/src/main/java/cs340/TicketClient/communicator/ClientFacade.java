@@ -122,7 +122,7 @@ public class ClientFacade implements IClient
 
     @Override
     public Signal playerClaimedEdge(Username name, Edge edge) {
-        boolean routeClaimed = GameModel.getInstance().markClaimedRoute(name, edge);
+        boolean routeClaimed = GameModel.getInstance().markClaimedRoute(edge);
         if (routeClaimed) {
             return new Signal(SignalType.OK, "Route claimed successfully");
         }

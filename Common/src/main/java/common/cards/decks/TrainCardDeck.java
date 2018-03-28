@@ -25,10 +25,7 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
         discard = new ArrayList<>();
         deck = addTrainCards();
         shuffle();
-        for (int x = 0; x < 5; x++)
-        {
-            faceUpCards.add(drawFaceDown());
-        }
+
     }
 
     @Override
@@ -95,6 +92,35 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
             deck.add(discard.get(0));
             discard.remove(0);
         }
+    }
+
+    private void checkFaceUpCards()
+    {
+        int numLocomotiveCards = 0;
+        for (TrainCard card : faceUpCards)
+        {
+            if (card.getType() == TrainColor.GRAY)
+            {
+                numLocomotiveCards++;
+            }
+        }
+        if (numLocomotiveCards >= 3)
+        {
+            discard.addAll(faceUpCards);
+            faceUpCards.clear();
+            drawInitialFaceUp();
+        }
+    }
+
+
+
+    private void drawInitialFaceUp()
+    {
+        for (int x = 0; x < 5; x++)
+        {
+            faceUpCards.add(drawFaceDown());
+        }
+        checkFaceUpCards();
     }
 
     private List<TrainCard> addTrainCards()

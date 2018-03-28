@@ -3,6 +3,7 @@ package common.map;
 import java.io.Serializable;
 import java.util.*;
 
+import common.cards.TrainCard;
 import common.cards.TrainColor;
 import common.game_data.Opponent;
 import common.player_info.*;
@@ -96,24 +97,32 @@ public class Edge implements Serializable
 
     public int computePointValue()
     {
+        int value = 0;
         switch (this.getLength())
         {
             case 1:
-                return 1;
+                value = 1;
+                break;
             case 2:
-                return 2;
+                value = 2;
+                break;
             case 3:
-                return 4;
+                value = 4;
+                break;
             case 4:
-                return 7;
+                value = 7;
+                break;
             case 5:
-                return 10;
+                value = 10;
+                break;
             case 6:
-                return 15;
+                value = 15;
+                break;
             default:
-                return 0;
-
+                value = value;
+                break;
         }
+        return value;
     }
 
     public City getFirstCity()
@@ -313,4 +322,43 @@ public class Edge implements Serializable
     {
         return id;
     }
+
+	/**
+	 * @pre cards is not null
+	 * @param cards The cards
+	 * @return Yes or no
+	 */
+	public boolean canClaim(List<TrainCard> cards)
+	{
+		if (cards.size() != length) return false; // must be same length
+		if (owner != null) return false; // must be unowned
+		TrainColor color = this.color;
+		if (color.equals(TrainColor.GRAY))
+		{
+			TrainColor firstColor = cards.get(0).getType();
+			for (TrainCard card : cards)
+			{
+				if (firstColor.equals(TrainColor.GRAY))
+				{
+					firstColor = card.getType();
+				}
+				if (!firstColor.equals(card.getType()) && !card.getType().equals(TrainColor.GRAY))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+
+			for (TrainCard card : cards)
+			{
+				if (!card.getType().equals(color) && !card.getType().equals(TrainColor.GRAY))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }

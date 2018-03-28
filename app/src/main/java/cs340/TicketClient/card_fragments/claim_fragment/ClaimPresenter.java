@@ -19,10 +19,6 @@ import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game.GameModel;
 
-/**
- * Created by jhens on 3/24/2018.
- */
-
 public class ClaimPresenter implements IClaimPresenter {
 
     private ClaimFragment fragment;
@@ -31,13 +27,12 @@ public class ClaimPresenter implements IClaimPresenter {
     ClaimPresenter(ClaimFragment fragment)
     {
         this.fragment = fragment;
-        model = null;
+        model = GameModel.getInstance();
     }
 
     public void success(Edge e)
     {
-        GameModel.getInstance().getGameData().edgeClaimed(GameModel.getInstance().getSelectedEdge(),
-                                                            GameModel.getInstance().getQueuedCards());
+        model.getGameData().edgeClaimed(model.getSelectedEdge(), model.getQueuedCards());
         TurnEndedTask task = new TurnEndedTask();
         task.execute(GameModel.getInstance().getGameID(), GameModel.getInstance().getUserName());
         //update map
@@ -47,37 +42,31 @@ public class ClaimPresenter implements IClaimPresenter {
 
     @Override
     public HandTrainCards getPlayerTrainCards() {
-        return GameModel.getInstance().getPlayer().getHand();
+        return model.getPlayer().getHand();
     }
 
     public void sendClaimRequest()
     {
-        GameID id = GameModel.getInstance().getGameID();
-        Username user = GameModel.getInstance().getUserName();
-        Edge edge = GameModel.getInstance().getSelectedEdge();
-        HandTrainCards cards = new HandTrainCards(GameModel.getInstance().getQueuedCards());
-        if (GameModel.getInstance().getPlayer().canClaimEdgeWithSelected(edge, cards)) {
-            GameModel.getInstance().getPlayer().getHand().removeAll(cards.getTrainCards());
-            edge.setOwner(GameModel.getInstance().getPlayer());
-            ClaimRequest request = new ClaimRequest(id, user, edge, cards);
-            ClaimTask task = new ClaimTask(this);
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
-        }
-        else
-        {
-            Toast.makeText(fragment.getActivity(), "Can't Claim Route", Toast.LENGTH_SHORT).show();
-        }
-
+        GameID id = model.getGameID();
+        Username user = model.getUserName();
+        Edge edge = model.getSelectedEdge();
+        HandTrainCards cards = new HandTrainCards(model.getQueuedCards());
+		edge.setOwner(model.getPlayer());
+		ClaimTask claimTask = new ClaimTask(this, model);
+		ClaimRequest request = new ClaimRequest(id, user, edge, cards);
+		claimTask.execute(request);
     }
 
 
-    class ClaimTask extends AsyncTask<ClaimRequest, Integer, Signal>
+    static class ClaimTask extends AsyncTask<ClaimRequest, Integer, Signal>
     {
         ClaimPresenter presenter;
+        GameModel model;
 
-        ClaimTask(ClaimPresenter presenter)
+        ClaimTask(ClaimPresenter presenter, GameModel model)
         {
             this.presenter = presenter;
+            this.model = model;
         }
 
         @Override
@@ -92,10 +81,10 @@ public class ClaimPresenter implements IClaimPresenter {
             super.onPostExecute(signal);
             if (signal.getSignalType() == SignalType.OK)
             {
-                GameModel.getInstance().setQueuedCards(new ArrayList<TrainCard>());
+                model.setQueuedCards(new ArrayList<TrainCard>());
                 presenter.success((Edge)signal.getObject());
-
-
+				//TurnEndedTask task = new TurnEndedTask();
+				//task.execute(model.getGameID(), model.getUserName());
             }
             else
             {

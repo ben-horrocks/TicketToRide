@@ -2,6 +2,8 @@ package common.player_info.turn_state;
 
 import common.cards.HandDestinationCards;
 import java.io.Serializable;
+import java.util.List;
+
 import common.cards.HandTrainCards;
 import common.cards.TrainCard;
 import common.cards.TrainColor;
@@ -18,7 +20,7 @@ public class MyTurnNoAction implements ITurnState, Serializable
 	@Override
 	public void drawFaceUp(Player player, TrainCard trainCard)
 	{
-		if (trainCard.getType().equals(TrainColor.LOCOMOTIVE))
+		if (trainCard.getType().equals(TrainColor.GRAY))
 		{
 			drawFaceUpLocomotive(player);
 		}
@@ -31,7 +33,7 @@ public class MyTurnNoAction implements ITurnState, Serializable
 	public void drawFaceUpLocomotive(Player player)
 	{
 		HandTrainCards hand = player.getHand();
-		hand.add(new TrainCard(TrainColor.LOCOMOTIVE));
+		hand.add(new TrainCard(TrainColor.GRAY));
 		player.setTurnState(new NotMyTurn());
 	}
 
@@ -53,10 +55,13 @@ public class MyTurnNoAction implements ITurnState, Serializable
 	}
 
 	@Override
-	public void claimEdge(Player player, Edge edge)
+	public void claimEdge(Player player, Edge edge, List<TrainCard> spent)
 	{
-		EdgeGraph edgeGraph = player.getClaimedEdges();
-		edgeGraph.addEdge(edge);
+		player.getClaimedEdges().addEdge(edge);
+		player.checkDestinationCards();
+		player.getHand().getTrainCards().removeAll(spent);
+		player.getPieces().useTrainPieces(spent.size());
+		player.addPoints(edge.computePointValue());
 		player.setTurnState(new NotMyTurn());
 	}
 

@@ -38,6 +38,10 @@ public class Player implements Serializable
         this.pieces = new TrainPieces(true);
     }
 
+    public TrainPieces getPieces() {
+        return pieces;
+    }
+
     public void setPieces(TrainPieces pieces) {
         this.pieces = pieces;
     }
@@ -51,7 +55,7 @@ public class Player implements Serializable
         return this.hand;
     }
 
-    private void checkDestinationCards()
+    public void checkDestinationCards()
     {
         for (DestinationCard card : destinations.getDestinationCards())
         {
@@ -60,6 +64,10 @@ public class Player implements Serializable
         }
     }
 
+    public void addPoints(int num)
+    {
+        score.incrementRoutesClaimed(num);
+    }
     public void drewInitialTrainCards(HandTrainCards cards)
     {
 		this.hand.addAll(cards);
@@ -110,6 +118,7 @@ public class Player implements Serializable
 
         return enoughTrainCars && enoughCards;
     }
+
     public boolean canClaimEdge(Edge e)
     {
         if (e.isClaimed())
@@ -120,8 +129,8 @@ public class Player implements Serializable
         coloredCardMap = hand.getColorCounts();
 
         int wildCards = 0;
-        if(coloredCardMap.get(TrainColor.LOCOMOTIVE) != null)
-            wildCards = coloredCardMap.get(TrainColor.LOCOMOTIVE);
+        if(coloredCardMap.get(TrainColor.GRAY) != null)
+            wildCards = coloredCardMap.get(TrainColor.GRAY);
 
         boolean enoughCards = false; //NEVER ENOUGH!!!
         switch(e.getColor())
@@ -151,9 +160,7 @@ public class Player implements Serializable
 
     public void claimedEdge(Edge edge, List<TrainCard> spent)
     {
-        claimedEdges.addEdge(edge);
-        this.checkDestinationCards();
-        hand.getTrainCards().remove(spent);
+        getTurnState().claimEdge(this, edge, spent);
     }
 
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }

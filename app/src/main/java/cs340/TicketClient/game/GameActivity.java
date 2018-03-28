@@ -68,8 +68,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             destinationViewFragment = new DestinationCardFragment();
             destinationViewFragment.setArguments(toDestinationVF);
             // Set the destination fragment and set the transition
-            fm.beginTransaction().add(R.id.fragment_map, destinationViewFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack("map")
+            fm.beginTransaction().add(R.id.fragment_map, destinationViewFragment, MapFragment.class.getSimpleName())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(MapFragment.class.getSimpleName())
                     .commit();
         }
 
