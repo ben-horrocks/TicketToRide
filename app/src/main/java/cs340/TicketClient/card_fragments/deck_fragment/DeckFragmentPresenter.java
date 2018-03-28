@@ -88,7 +88,7 @@ public class DeckFragmentPresenter
             case R.drawable.traincard_green:
                 return new TrainCard(TrainColor.GREEN);
             case R.drawable.traincard_locomotive:
-                return new TrainCard(TrainColor.LOCOMOTIVE);
+                return new TrainCard(TrainColor.GRAY);
             case R.drawable.traincard_orange:
                 return new TrainCard(TrainColor.ORANGE);
             case R.drawable.traincard_pink:

@@ -19,7 +19,7 @@ public class DrewFaceUpCard implements ITurnState, Serializable
 	@Override
 	public void drawFaceUp(Player player, TrainCard trainCard)
 	{
-		if (trainCard.getType().equals(TrainColor.LOCOMOTIVE))
+		if (trainCard.getType().equals(TrainColor.GRAY))
 		{
 			drawFaceUpLocomotive(player);
 			return;

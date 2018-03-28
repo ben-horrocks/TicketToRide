@@ -69,8 +69,6 @@ public class HandTrainCardAdapter
                 return R.drawable.traincard_yellow;
             case GRAY:
                 return R.drawable.traincard_locomotive;
-            case LOCOMOTIVE:
-                return R.drawable.traincard_locomotive;
             default:
                 System.out.println("No TrainCardImage for that Color");
                 return 0;

@@ -129,8 +129,8 @@ public class Player implements Serializable
         coloredCardMap = hand.getColorCounts();
 
         int wildCards = 0;
-        if(coloredCardMap.get(TrainColor.LOCOMOTIVE) != null)
-            wildCards = coloredCardMap.get(TrainColor.LOCOMOTIVE);
+        if(coloredCardMap.get(TrainColor.GRAY) != null)
+            wildCards = coloredCardMap.get(TrainColor.GRAY);
 
         boolean enoughCards = false; //NEVER ENOUGH!!!
         switch(e.getColor())

@@ -338,11 +338,11 @@ public class Edge implements Serializable
 			TrainColor firstColor = cards.get(0).getType();
 			for (TrainCard card : cards)
 			{
-				if (firstColor.equals(TrainColor.LOCOMOTIVE))
+				if (firstColor.equals(TrainColor.GRAY))
 				{
 					firstColor = card.getType();
 				}
-				if (!firstColor.equals(card.getType()) && !card.getType().equals(TrainColor.LOCOMOTIVE))
+				if (!firstColor.equals(card.getType()) && !card.getType().equals(TrainColor.GRAY))
 				{
 					return false;
 				}
@@ -350,9 +350,10 @@ public class Edge implements Serializable
 		}
 		else
 		{
+
 			for (TrainCard card : cards)
 			{
-				if (!card.getType().equals(color) && !card.getType().equals(TrainColor.LOCOMOTIVE))
+				if (!card.getType().equals(color) && !card.getType().equals(TrainColor.GRAY))
 				{
 					return false;
 				}
