@@ -44,10 +44,21 @@ public class DestinationCardDeck implements Serializable
     public List<DestinationCard> draw()
     {
         List<DestinationCard> drawnCards = new ArrayList<>();
-        for (int x = 0; x < 3; x++)
+        if(deck.size() >= 3)
         {
-            drawnCards.add(deck.get(0));
-            deck.remove(0);
+            for (int x = 0; x < 3; x++)
+            {
+                drawnCards.add(deck.get(0));
+                deck.remove(0);
+            }
+        }
+        else
+        {
+            while(deck.size()>0)
+            {
+                drawnCards.add(deck.get(0));
+                deck.remove(0);
+            }
         }
         return drawnCards;
     }
