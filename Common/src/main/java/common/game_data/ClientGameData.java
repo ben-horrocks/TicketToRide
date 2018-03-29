@@ -182,4 +182,10 @@ public class ClientGameData implements IGameData, Serializable
         this.chat.add(m);
     }
 
+    public Boolean canClaimDoubleEdge(Edge edge)
+    {
+        int numplayers = 1 + opponents.size(); //opponents plus current player
+        return gameboard.canClaimDoubleEdge(edge, numplayers, player.getUsername());
+    }
+
 }

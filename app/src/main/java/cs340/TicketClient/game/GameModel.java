@@ -262,4 +262,18 @@ public class GameModel
 
         return true;
     }
+
+    public Boolean canClaim()
+    {
+        if(!selectedEdge.canClaim(queuedCards))
+        {
+            return false;
+        }
+        if(selectedEdge.isDoubleEdge()) //check some extra stuff if it is a double edge
+        {
+            return gameData.canClaimDoubleEdge(selectedEdge);
+        }
+        return true;
+    }
+
 }

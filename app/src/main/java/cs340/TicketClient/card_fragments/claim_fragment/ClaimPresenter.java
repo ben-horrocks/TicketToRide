@@ -47,6 +47,7 @@ public class ClaimPresenter implements IClaimPresenter {
 
     public void sendClaimRequest()
     {
+
         GameID id = model.getGameID();
         Username user = model.getUserName();
         Edge edge = model.getSelectedEdge();
