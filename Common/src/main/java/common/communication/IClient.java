@@ -35,11 +35,11 @@ public interface IClient
      * @param name   the username for the opponent who drew the card(s)
      * @param amount the amount of cards drawn
      */
-    Signal opponentDrewDestinationCards(Username name, int amount);
+    Signal opponentDrewDestinationCards(Username recipient, Username opponent, int amount);
 
-    Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement);
+    Signal opponentDrewFaceUpCard(Username recipient, Username opponent, int index, TrainCard replacement);
 
-    Signal opponentDrewDeckCard(Username name);
+    Signal opponentDrewDeckCard(Username recipient, Username opponent);
 
     Signal playerClaimedEdge(Username name, Edge edge);
 

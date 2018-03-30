@@ -123,40 +123,40 @@ public class ClientProxy implements IClient
     }
 
     @Override
-    public Signal opponentDrewDestinationCards(Username name, int amount)
+    public Signal opponentDrewDestinationCards(Username recipient, Username opponent, int amount)
     {
         // int in logger may break things
-        logger.entering("ClientProxy", "opponentDrewDestinationCards", new Object[]{name, amount});
+        logger.entering("ClientProxy", "opponentDrewDestinationCards", new Object[]{recipient, opponent, amount});
         String methodName = "opponentDrewDestinationCards";
-        String[] paramTypes = {userNameClassName, intClassName};
-        Object[] params = {name, amount};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        String[] paramTypes = {userNameClassName, userNameClassName, intClassName};
+        Object[] params = {recipient, opponent, amount};
+        Signal signal = sendCommandToClient(recipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "opponentDrewDestinationCards", signal);
         return signal;
     }
 
     @Override
-    public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement)
+    public Signal opponentDrewFaceUpCard(Username recipient, Username opponent, int index, TrainCard replacement)
     {
         // int in logger may break things
         logger.entering("ClientProxy", "opponentDrewFaceUpCard",
-                        new Object[]{name, index, replacement});
+                        new Object[]{recipient, opponent, index, replacement});
         String methodName = "opponentDrewFaceUpCard";
-        String[] paramTypes = {userNameClassName, intClassName, trainCardClassName};
-        Object[] params = {name, index, replacement};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        String[] paramTypes = {userNameClassName, userNameClassName, intClassName, trainCardClassName};
+        Object[] params = {recipient, opponent, index, replacement};
+        Signal signal = sendCommandToClient(recipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "opponentDrewFaceUpCard", signal);
         return signal;
     }
 
     @Override
-    public Signal opponentDrewDeckCard(Username name)
+    public Signal opponentDrewDeckCard(Username recipient, Username opponent)
     {
-        logger.entering("ClientProxy", "opponentDrewDeckCard", name);
+        logger.entering("ClientProxy", "opponentDrewDeckCard", recipient);
         String methodName = "opponentDrewDeckCard";
-        String[] paramTypes = {userNameClassName};
-        Object[] params = {name};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        String[] paramTypes = {userNameClassName, userNameClassName};
+        Object[] params = {recipient, opponent};
+        Signal signal = sendCommandToClient(recipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "opponentDrewDeckCard", signal);
         return signal;
     }

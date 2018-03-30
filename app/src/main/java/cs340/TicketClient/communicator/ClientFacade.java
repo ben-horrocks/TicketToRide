@@ -73,14 +73,14 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal opponentDrewDestinationCards(Username name, int amount)
+    public Signal opponentDrewDestinationCards(Username recipient, Username opponent, int amount)
     {
         GameModel.getInstance().decrementDestinationCount(amount);
         ArrayList<Opponent> oppenents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
         for (Opponent op : oppenents)
         {
-            if (op.getUsername().toString().equals(name.toString()))
+            if (op.getUsername().equals(opponent))
             {
                 op.incrementDestinationCards(amount);
                 return new Signal(SignalType.OK, "Added to Opponent Dcard count correctly");
@@ -90,7 +90,7 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement)
+    public Signal opponentDrewFaceUpCard(Username recipient, Username opponent, int index, TrainCard replacement)
     {
         ArrayList<Opponent> opponents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
@@ -98,7 +98,7 @@ public class ClientFacade implements IClient
         {
             for (Opponent op : opponents)
             {
-                if (op.getUsername().toString().equals(name.toString()))
+                if (op.getUsername().equals(opponent))
                 {
                     op.incrementTrainCards(1);
                     break;
@@ -113,13 +113,13 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal opponentDrewDeckCard(Username name)
+    public Signal opponentDrewDeckCard(Username recipient, Username opponent)
     {
         ArrayList<Opponent> opponents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
         for (Opponent op : opponents)
         {
-            if (!op.getUsername().toString().equals(name.toString()))
+            if (!op.getUsername().equals(opponent))
             {
                 op.incrementTrainCards(1);
                 return new Signal(SignalType.OK, "Opponent's traincards incremented");
