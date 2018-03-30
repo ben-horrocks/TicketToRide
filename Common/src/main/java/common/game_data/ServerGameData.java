@@ -151,7 +151,7 @@ public class ServerGameData implements Serializable
     }
 
 
-    private Player getPlayer(String name)
+    public Player getPlayer(String name)
     {
         for (Player p : players)
         {
