@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.communication.CommandParams;
 import common.game_data.*;
@@ -107,6 +108,11 @@ public class ClientProxy implements IClient
 	{
 		return new Signal(SignalType.ERROR, "Implement resumeGame in clientProxy");
 	}
+
+    @Override
+    public Signal updateFaceUpCards(HandTrainCards newFaceUps) {
+        return null;
+    }
 
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)

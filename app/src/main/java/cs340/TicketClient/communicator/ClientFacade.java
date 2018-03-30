@@ -3,6 +3,7 @@ package cs340.TicketClient.communicator;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.cards.HandTrainCards;
 import common.communication.CommandParams;
 import common.game_data.*;
 import common.chat.ChatItem;
@@ -63,6 +64,11 @@ public class ClientFacade implements IClient
 	{
 		return new Signal(SignalType.ERROR, "implement resumeGame in ClientFacade");
 	}
+
+    @Override
+    public Signal updateFaceUpCards(HandTrainCards newFaceUps) {
+        return new Signal (SignalType.ERROR, "unimplemented");
+    }
 
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)

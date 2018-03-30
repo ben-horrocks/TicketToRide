@@ -535,6 +535,8 @@ public class ServerFacade implements IServer
         return signal;
     }
 
+
+
     /**
      * Update the database with the destination card draw and notify all clients.
      *

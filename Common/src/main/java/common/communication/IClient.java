@@ -2,6 +2,7 @@ package common.communication;
 
 import java.util.List;
 
+import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.game_data.*;
 import common.cards.HandDestinationCards;
@@ -57,4 +58,6 @@ public interface IClient
     Signal startTurn(Username name);
 
     Signal resumeGame(Username username);
+
+    Signal updateFaceUpCards(HandTrainCards newFaceUps);
 }
