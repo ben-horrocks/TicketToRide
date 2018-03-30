@@ -633,6 +633,7 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
         game.edgeClaimed(edge,spent.getTrainCards());
+        game.getPlayer(user.getName()).getPieces().useTrainPieces(edge.getLength());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
         opponents.remove(Database.SINGLETON.getPlayer(user));
