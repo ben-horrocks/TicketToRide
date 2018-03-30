@@ -232,12 +232,8 @@ public class ClientCommunicator
             return result;
         } else
         {
-<<<<<<< HEAD
         	reconnectSocket();
             return new Signal(SignalType.ERROR, "Attempting reconnection to server...");
-=======
-            return new Signal(SignalType.ERROR, "Not connected to server.");
->>>>>>> d21516ead780cd1bd812b757e1b93ac53ca92aca
         }
     }
 
@@ -251,7 +247,6 @@ public class ClientCommunicator
         server.write(object);
     }
 
-<<<<<<< HEAD
     private void reconnectSocket()
 	{
 		try
@@ -265,8 +260,6 @@ public class ClientCommunicator
 		}
 	}
 
-=======
->>>>>>> d21516ead780cd1bd812b757e1b93ac53ca92aca
     /**
      * Closes the socket held by the ClientCommunicator.
      */
