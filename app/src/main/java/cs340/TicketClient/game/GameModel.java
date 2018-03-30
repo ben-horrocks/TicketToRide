@@ -265,7 +265,7 @@ public class GameModel
 
         return true;
     }
-    
+
     public boolean canClaimSelectedEdge()
     {
         /*Data Setup*/
@@ -279,6 +279,7 @@ public class GameModel
         /*check auto-fails*/
         if(toClaim.getOwner() != null) return false;
         if(toClaim.getLength() != cards.size()) return false;
+        if(toClaim.getLength() > getPlayer().getTrainPiecesRemaining()) return false;
         if(!doubleEdgeClaimChecks(agent, toClaim, totalPlayers)) return false;
 
         /*start comparing cards*/
