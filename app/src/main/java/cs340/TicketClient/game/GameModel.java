@@ -244,33 +244,6 @@ public class GameModel
         return false;
     }
 
-    public boolean canClaimSelectedEdge()
-    {
-        /*Data Setup*/
-        Username agent = getPlayer().getUsername(); //The person trying to claim
-        List<TrainCard> cards = queuedCards;
-        Edge toClaim = selectedEdge; //rename for readability
-        final TrainColor edgeColor = toClaim.getColor();
-        final TrainColor wild = TrainColor.GRAY;
-        int totalPlayers = 1 + gameData.getOpponents().size();
-
-        /*check auto-fails*/
-        if(toClaim.getOwner() != null) return false;
-        if(toClaim.getLength() != cards.size()) return false;
-        if(toClaim.getLength() > getPlayer().getTrainPiecesRemaining()) return false;
-        if(!doubleEdgeClaimChecks(agent, toClaim, totalPlayers)) return false;
-
-        /*start comparing cards*/
-        if(edgeColor.equals(wild))
-        {
-            return grayEdgeClaimCheck(cards);
-        }
-        else
-        {
-            return coloredEdgeClaimCheck(cards, edgeColor);
-        }
-    }
-
     private boolean doubleEdgeClaimChecks(Username agent, Edge toClaim, int totalPlayers)
     {
         if(!toClaim.isDoubleEdge()) return true;
