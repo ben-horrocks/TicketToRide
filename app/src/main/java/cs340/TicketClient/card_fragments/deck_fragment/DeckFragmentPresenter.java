@@ -7,9 +7,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import common.cards.TrainCard;
-import common.cards.TrainColor;
+import common.cards.*;
 import common.communication.Signal;
 import common.player_info.Player;
 import common.request.DrawDeckRequest;
@@ -28,8 +28,22 @@ public class DeckFragmentPresenter
     private DeckFragment fragment;
     private GameActivity activity;
     private GameModel model;
+    private static DeckFragmentPresenter singleton;
 
-    DeckFragmentPresenter(DeckFragment fragment)
+    public static DeckFragmentPresenter getInstance()
+    {
+        if(singleton == null)
+        {
+            singleton = new DeckFragmentPresenter();
+        }
+        return singleton;
+    }
+
+    private DeckFragmentPresenter()
+    {
+    }
+
+    public void setFragment(DeckFragment fragment)
     {
         this.fragment = fragment;
         this.activity = (GameActivity) fragment.getActivity();
@@ -194,6 +208,48 @@ public class DeckFragmentPresenter
         }
     }
 
+    public void refreshFaceUpCards(final List<TrainCard> cards)
+    {
+        if(activity != null)
+        {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int x = 0; x < cards.size(); x++) {
+                        TrainCard card = cards.get(x);
+                        int imageID = getTrainDrawable(card);
+                        int width = 600;
+                        int height = 400;
+                        Drawable cardDrawable = activity.getResources().getDrawable(imageID);
+                        Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
+                        Drawable cardResized = new BitmapDrawable(fragment.getActivity().getResources(),
+                                Bitmap.createScaledBitmap(bitmap, width, height, true));
+                        switch (x) {
+                            case 0:
+                                fragment.tCard1.setImageDrawable(cardResized);
+                                break;
+                            case 1:
+                                fragment.tCard2.setImageDrawable(cardResized);
+                                break;
+                            case 2:
+                                fragment.tCard3.setImageDrawable(cardResized);
+                                break;
+                            case 3:
+                                fragment.tCard4.setImageDrawable(cardResized);
+                                break;
+                            case 4:
+                                fragment.tCard5.setImageDrawable(cardResized);
+                                break;
+                            default:
+                                Log.d("Error", "replaceTrainCard: Bad Index");
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+
+    }
 
     static class DrawFaceUpTask extends AsyncTask<DrawFaceUpRequest, Integer, Signal>
     {
@@ -224,8 +280,6 @@ public class DeckFragmentPresenter
             if (response.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) response.getObject();
-                model.replaceFaceUp(index, card);
-                presenter.replaceTrainCard(index, card);
                 model.getPlayer().drewFaceUpCard(card);
                 if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
 				{

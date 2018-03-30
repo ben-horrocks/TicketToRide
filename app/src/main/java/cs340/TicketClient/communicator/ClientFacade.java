@@ -3,6 +3,7 @@ package cs340.TicketClient.communicator;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.cards.HandTrainCards;
 import common.communication.CommandParams;
 import common.game_data.*;
 import common.chat.ChatItem;
@@ -16,6 +17,7 @@ import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
 import cs340.TicketClient.async_task.TurnEndedTask;
+import cs340.TicketClient.card_fragments.deck_fragment.DeckFragmentPresenter;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.game.GamePresenter;
 import cs340.TicketClient.lobby.LobbyModel;
@@ -65,14 +67,20 @@ public class ClientFacade implements IClient
 	}
 
     @Override
-    public Signal opponentDrewDestinationCards(Username name, int amount)
+    public Signal updateFaceUpCards(Username name, HandTrainCards newFaceUps) {
+        GameModel.getInstance().updateFaceUpCards(newFaceUps.getTrainCards());
+        return new Signal(SignalType.OK, "Updated Face Up Cards");
+    }
+
+    @Override
+    public Signal opponentDrewDestinationCards(Username recipient, Username opponent, int amount)
     {
         GameModel.getInstance().decrementDestinationCount(amount);
         ArrayList<Opponent> oppenents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
         for (Opponent op : oppenents)
         {
-            if (op.getUsername().toString().equals(name.toString()))
+            if (op.getUsername().equals(opponent))
             {
                 op.incrementDestinationCards(amount);
                 return new Signal(SignalType.OK, "Added to Opponent Dcard count correctly");
@@ -82,7 +90,7 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement)
+    public Signal opponentDrewFaceUpCard(Username recipient, Username opponent, int index, TrainCard replacement)
     {
         ArrayList<Opponent> opponents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
@@ -90,7 +98,7 @@ public class ClientFacade implements IClient
         {
             for (Opponent op : opponents)
             {
-                if (op.getUsername().toString().equals(name.toString()))
+                if (op.getUsername().equals(opponent))
                 {
                     op.incrementTrainCards(1);
                     break;
@@ -105,13 +113,13 @@ public class ClientFacade implements IClient
     }
 
     @Override
-    public Signal opponentDrewDeckCard(Username name)
+    public Signal opponentDrewDeckCard(Username recipient, Username opponent)
     {
         ArrayList<Opponent> opponents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
         for (Opponent op : opponents)
         {
-            if (!op.getUsername().toString().equals(name.toString()))
+            if (!op.getUsername().equals(opponent))
             {
                 op.incrementTrainCards(1);
                 return new Signal(SignalType.OK, "Opponent's traincards incremented");

@@ -90,6 +90,7 @@ public class ServerGameData implements Serializable
 
     public List<TrainCard> getFaceUpCards() { return deck.getFaceUpCards(); }
 
+
     public List<HistoryItem> getHistory() { return history; }
 
     public TrainCard drawFromTrainDeck() { return deck.drawFaceDown(); }

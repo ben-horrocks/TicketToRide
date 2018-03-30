@@ -65,6 +65,11 @@ public class ClientGameData implements IGameData, Serializable
         return faceUp;
     }
 
+    public void setFaceUpCards(List<TrainCard> cards)
+    {
+        faceUp = cards;
+    }
+
     public GameID getId()
     {
         return id;

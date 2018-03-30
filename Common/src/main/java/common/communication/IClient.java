@@ -2,6 +2,7 @@ package common.communication;
 
 import java.util.List;
 
+import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.game_data.*;
 import common.cards.HandDestinationCards;
@@ -34,11 +35,11 @@ public interface IClient
      * @param name   the username for the opponent who drew the card(s)
      * @param amount the amount of cards drawn
      */
-    Signal opponentDrewDestinationCards(Username name, int amount);
+    Signal opponentDrewDestinationCards(Username recipient, Username opponent, int amount);
 
-    Signal opponentDrewFaceUpCard(Username name, int index, TrainCard replacement);
+    Signal opponentDrewFaceUpCard(Username recipient, Username opponent, int index, TrainCard replacement);
 
-    Signal opponentDrewDeckCard(Username name);
+    Signal opponentDrewDeckCard(Username recipient, Username opponent);
 
     Signal playerClaimedEdge(Username name, Edge edge);
 
@@ -57,4 +58,6 @@ public interface IClient
     Signal startTurn(Username name);
 
     Signal resumeGame(Username username);
+
+    Signal updateFaceUpCards(Username username, HandTrainCards newFaceUps);
 }

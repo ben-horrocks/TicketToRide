@@ -158,8 +158,9 @@ public class ClientThread extends Thread
                             if (object != null)
                             {
                                 logger.finer("Putting object in message blocking queue");
+                                messages.put(object);
                             }
-                            messages.put(object);
+
                         } catch (IOException e)
                         {
                             /* Quietly Ignore EOF exceptions */

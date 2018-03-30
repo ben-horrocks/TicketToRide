@@ -96,7 +96,7 @@ public class GamePresenter
         StringBuilder sb = new StringBuilder(name + " claimed the route from " + city1 + " to " + city2);
 
         //refresh the map
-        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentByTag(MapFragment.class.getSimpleName());
+        android.support.v4.app.Fragment mapFrag = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_map);
         if (mapFrag != null) {
             FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
             ft.detach(mapFrag);
@@ -104,7 +104,7 @@ public class GamePresenter
             ft.commit();
 
             //notify user of claimed route
-            Toast.makeText(activity, sb.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mapFrag.getContext(), sb.toString(), Toast.LENGTH_SHORT).show();
         }
         else {
             System.out.println("Could not refresh the map");

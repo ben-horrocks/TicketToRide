@@ -26,7 +26,7 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 {
     Map<ImageView, TrainCard> faceUpCards = new HashMap<>();
     Button drawDeck;
-    DeckFragmentPresenter presenter;
+
     ImageView tCard1;
 	ImageView tCard2;
 	ImageView tCard3;
@@ -55,9 +55,10 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 		faceUpCardImages.add(tCard5);
         drawDeck = v.findViewById(R.id.drawButton);
 
-        presenter = new DeckFragmentPresenter(this);
+        DeckFragmentPresenter.getInstance();
+        DeckFragmentPresenter.getInstance().setFragment(this);
 
-        ArrayList<Integer> trainTypes = presenter.getFaceUpCards();
+        ArrayList<Integer> trainTypes = DeckFragmentPresenter.getInstance().getFaceUpCards();
         for (int i = 0; i < faceUpCardImages.size(); i++)
 		{
 			// Scale images to same size
@@ -69,7 +70,7 @@ public class DeckFragment extends Fragment implements View.OnClickListener
 			Drawable card = new BitmapDrawable(getActivity().getResources(),
 					Bitmap.createScaledBitmap(bitmap, width, height, true));
 			faceUpCardImages.get(i).setImageDrawable(card);
-			faceUpCards.put(faceUpCardImages.get(i), presenter.getCardByID(imageID));
+			faceUpCards.put(faceUpCardImages.get(i), DeckFragmentPresenter.getInstance().getCardByID(imageID));
 		}
 
 		drawDeck.setOnClickListener(this);
@@ -84,26 +85,26 @@ public class DeckFragment extends Fragment implements View.OnClickListener
     @Override
 	public void onClick(View view)
 	{
-		if (presenter.isMyTurn())
+		if (DeckFragmentPresenter.getInstance().isMyTurn())
 		{
 			if (view.getId() == R.id.drawButton)
 			{
-				presenter.DrawDeck();
+				DeckFragmentPresenter.getInstance().DrawDeck();
 			}
 			else
 			{
 				ImageView imageView = (ImageView) view;
 				TrainCard trainCard = faceUpCards.get(imageView);
 				if(imageView == tCard1)
-					presenter.DrawFaceUp(0);
+					DeckFragmentPresenter.getInstance().DrawFaceUp(0);
 				if(imageView == tCard2)
-					presenter.DrawFaceUp(1);
+					DeckFragmentPresenter.getInstance().DrawFaceUp(1);
 				if(imageView == tCard3)
-					presenter.DrawFaceUp(2);
+					DeckFragmentPresenter.getInstance().DrawFaceUp(2);
 				if(imageView == tCard4)
-					presenter.DrawFaceUp(3);
+					DeckFragmentPresenter.getInstance().DrawFaceUp(3);
 				if(imageView == tCard5)
-					presenter.DrawFaceUp(4);
+					DeckFragmentPresenter.getInstance().DrawFaceUp(4);
 
 			}
 		}

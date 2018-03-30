@@ -165,4 +165,9 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
         }
         return cards;
     }
+
+    public void setFaceUpCards(List<TrainCard> faceUpCards)
+    {
+        this.faceUpCards = faceUpCards;
+    }
 }
