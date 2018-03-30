@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.*;
 
 import common.cards.HandDestinationCards;
+import common.player_info.turn_state.InitialDestinationCardDraw;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.R;
 
@@ -57,19 +58,42 @@ public class DestinationCardFragment extends Fragment
         }
 
         //dCards = presenter.getDCards();
-        String path1 =
-                dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                dCards.get(0).getPointValue();
-        String path2 =
-                dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
-                dCards.get(1).getPointValue();
-        String path3 =
-                dCards.get(2).getCity1() + " -> " + dCards.get(2).getCity2() + "\n Points: " +
-                dCards.get(2).getPointValue();
-
-        card1View.setText(path1);
-        card2View.setText(path2);
-        card3View.setText(path3);
+        if (dCards.size() == 3) {
+            String path1 =
+                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                            dCards.get(0).getPointValue();
+            String path2 =
+                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
+                            dCards.get(1).getPointValue();
+            String path3 =
+                    dCards.get(2).getCity1() + " -> " + dCards.get(2).getCity2() + "\n Points: " +
+                            dCards.get(2).getPointValue();
+            card1View.setText(path1);
+            card2View.setText(path2);
+            card3View.setText(path3);
+        }
+        else if (dCards.size() == 2)
+        {
+            String path1 =
+                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                            dCards.get(0).getPointValue();
+            String path2 =
+                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
+                            dCards.get(1).getPointValue();
+            card1View.setText(path1);
+            card2View.setText(path2);
+        }
+        else if (dCards.size() == 1)
+        {
+            String path1 =
+                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                            dCards.get(0).getPointValue();
+            card1View.setText(path1);
+        }
+        else
+        {
+            Toast.makeText(this.getActivity(), "No Destination Cards Left", Toast.LENGTH_SHORT).show();
+        }
 
         String s = "There are " + GameModel.getInstance().getGameData().getDestinationCardsLeft() +
                    " Destination Cards left";
@@ -133,7 +157,7 @@ public class DestinationCardFragment extends Fragment
         if (numSelected >= 2)
         {
             confirmCards.setEnabled(true);
-        } else
+        } else if (numSelected >= 1 && GameModel.getInstance().getPlayer().getTurnState() instanceof InitialDestinationCardDraw)
         {
             confirmCards.setEnabled(false);
         }

@@ -45,7 +45,7 @@ public class ClaimFragment extends Fragment {
         claimRoute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (model.getSelectedEdge().canClaim(model.getQueuedCards())) {
+                if (model.canClaimSelectedEdge()) {
                     presenter.sendClaimRequest();
                 }
                 else

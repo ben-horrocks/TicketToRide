@@ -2,16 +2,19 @@ package cs340.TicketClient.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import common.cards.DestinationCard;
 import common.cards.HandDestinationCards;
 import common.cards.TrainCard;
+import common.cards.TrainColor;
 import common.chat.ChatItem;
 import common.game_data.ClientGameData;
 import common.game_data.EndGame;
 import common.game_data.GameID;
 import common.game_data.Opponent;
 import common.history.HistoryItem;
+import common.map.City;
 import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.User;
@@ -260,6 +263,93 @@ public class GameModel
         //Update Map Fragment
         presenter.refreshMapFragment(foundEdge);
 
+        return true;
+    }
+
+    public Boolean canClaim()
+    {
+        if(!selectedEdge.canClaim(queuedCards))
+        {
+            return false;
+        }
+        if(selectedEdge.isDoubleEdge()) //check some extra stuff if it is a double edge
+        {
+            return gameData.canClaimDoubleEdge(selectedEdge);
+        }
+        return true;
+    }
+
+    public boolean canClaimSelectedEdge()
+    {
+        /*Data Setup*/
+        Username agent = getPlayer().getUsername(); //The person trying to claim
+        List<TrainCard> cards = queuedCards;
+        Edge toClaim = selectedEdge; //rename for readability
+        final TrainColor edgeColor = toClaim.getColor();
+        final TrainColor wild = TrainColor.GRAY;
+        int totalPlayers = 1 + gameData.getOpponents().size();
+
+        /*check auto-fails*/
+        if(toClaim.getOwner() != null) return false;
+        if(toClaim.getLength() != cards.size()) return false;
+        if(!doubleEdgeClaimChecks(agent, toClaim, totalPlayers)) return false;
+
+        /*start comparing cards*/
+        if(edgeColor.equals(wild))
+        {
+            return grayEdgeClaimCheck(cards);
+        }
+        else
+        {
+            return coloredEdgeClaimCheck(cards, edgeColor);
+        }
+    }
+
+    private boolean doubleEdgeClaimChecks(Username agent, Edge toClaim, int totalPlayers)
+    {
+        if(!toClaim.isDoubleEdge()) return true;
+        Map<City,List<Edge>> map = gameData.getGameboard().getGraph();
+        List<Edge> edgesConnectedToSecondCity = map.get(toClaim.getSecondCity());
+        Edge twin = null;
+        for(Edge edge : edgesConnectedToSecondCity)
+        {
+            if(toClaim.getFirstCity().equals(edge.getSecondCity()))
+            {
+                twin = edge;
+                break;
+            }
+        }
+        if(twin == null) return true; //hopefully never gets here, but if you messed up registering edges the game must go on
+        boolean notManyPlayers = totalPlayers == 2 || totalPlayers == 3;
+        if(notManyPlayers && twin.getOwner() != null) return false;
+        if(twin.getOwner().equals(agent)) return false;
+        return true;
+    }
+
+    private boolean grayEdgeClaimCheck(List<TrainCard> cards) {
+        final TrainColor wild = TrainColor.GRAY;
+        TrainColor cardSetColor = cards.get(0).getType();
+        for (TrainCard card : cards)
+        {
+            TrainColor cardColor = card.getType();
+            if (cardSetColor.equals(wild))
+            {
+                cardSetColor = cardColor;
+            }
+            boolean matches = cardColor.equals(cardSetColor) || cardColor.equals(wild);
+            if(!matches) return false;
+        }
+        return true;
+    }
+
+    private boolean coloredEdgeClaimCheck(List<TrainCard> cards, final TrainColor edgeColor) {
+        final TrainColor wild = TrainColor.GRAY;
+        for (TrainCard card : cards)
+        {
+            TrainColor cardColor = card.getType();
+            boolean matches = cardColor.equals(edgeColor) || cardColor.equals(wild);
+            if(!matches) return false;
+        }
         return true;
     }
 }
