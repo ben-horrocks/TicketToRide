@@ -88,8 +88,11 @@ public class GamePresenter
 
     }
 
+<<<<<<< HEAD
     boolean playerHasRestrictedAction() { return model.getPlayer().hasRestrictedAction(); }
 
+=======
+>>>>>>> d21516ead780cd1bd812b757e1b93ac53ca92aca
     void refreshMapFragment(Edge edge) {
         //get info for toast
         String name = edge.getOwner().toString();
