@@ -19,6 +19,7 @@ import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.User;
 import common.player_info.Username;
+import cs340.TicketClient.card_fragments.deck_fragment.DeckFragmentPresenter;
 import cs340.TicketClient.game_menu.chat.ChatPresenter;
 import cs340.TicketClient.game_menu.history.HistoryPresenter;
 
@@ -99,6 +100,12 @@ public class GameModel
     public void replaceFaceUp(int index, TrainCard replacement)
     {
         gameData.getFaceUp().set(index, replacement);
+    }
+
+    public void updateFaceUpCards(List<TrainCard>cards)
+    {
+        gameData.setFaceUpCards(cards);
+        DeckFragmentPresenter.getInstance().refreshFaceUpCards(cards);
     }
 
     public int getTrainCardDeckSize() { return gameData.getTrainCardsLeft(); }

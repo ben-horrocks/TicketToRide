@@ -17,6 +17,7 @@ import common.map.Edge;
 import common.player_info.Player;
 import common.player_info.Username;
 import cs340.TicketClient.async_task.TurnEndedTask;
+import cs340.TicketClient.card_fragments.deck_fragment.DeckFragmentPresenter;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.game.GamePresenter;
 import cs340.TicketClient.lobby.LobbyModel;
@@ -67,7 +68,8 @@ public class ClientFacade implements IClient
 
     @Override
     public Signal updateFaceUpCards(Username name, HandTrainCards newFaceUps) {
-        return new Signal (SignalType.ERROR, "unimplemented");
+        GameModel.getInstance().updateFaceUpCards(newFaceUps.getTrainCards());
+        return new Signal(SignalType.OK, "Updated Face Up Cards");
     }
 
     @Override
