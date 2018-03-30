@@ -529,6 +529,20 @@ public class ServerFacade implements IServer
                 return s;
             }
         }
+
+        //update everyone's FaceUpCards
+        HandTrainCards faceUps = new HandTrainCards(game.getFaceUpCards());
+        ClientProxy.getSINGLETON().updateFaceUpCards(user, faceUps);
+        for(User u :otherUsers)
+        {
+            Signal s =
+                    ClientProxy.getSINGLETON().updateFaceUpCards(u.getUsername(), faceUps);
+            if (s.getSignalType().equals(SignalType.ERROR))
+            {
+                logger.exiting("ServerFacade", "drawFaceUp", s);
+                return s;
+            }
+        }
         //Give the card to the requester
         Signal signal = new Signal(SignalType.OK, card);
         logger.exiting("ServerFacade", "drawFaceUp", signal);
