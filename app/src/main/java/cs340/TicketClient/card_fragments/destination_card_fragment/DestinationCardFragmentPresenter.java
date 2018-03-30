@@ -2,7 +2,9 @@ package cs340.TicketClient.card_fragments.destination_card_fragment;
 
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
+import android.widget.CheckBox;
 
+import common.cards.DestinationCard;
 import common.request.SendCardsRequest;
 import common.cards.HandDestinationCards;
 import common.communication.Signal;
@@ -63,26 +65,18 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
     {
         HandDestinationCards selected = new HandDestinationCards();
         HandDestinationCards returned = new HandDestinationCards();
-        if (fragment.card1Check.isChecked())
+        int index = 0;
+        for(CheckBox box : fragment.checkBoxes)
         {
-            selected.add(fragment.dCards.get(0));
-        } else
-        {
-            returned.add(fragment.dCards.get(0));
-        }
-        if (fragment.card2Check.isChecked())
-        {
-            selected.add(fragment.dCards.get(1));
-        } else
-        {
-            returned.add(fragment.dCards.get(1));
-        }
-        if (fragment.card3Check.isChecked())
-        {
-            selected.add(fragment.dCards.get(2));
-        } else
-        {
-            returned.add(fragment.dCards.get(2));
+            DestinationCard card = fragment.dCards.get(index);
+            if(box.isChecked() && card != null)
+            {
+                selected.add(fragment.dCards.get(index));
+            } else
+            {
+                returned.add(fragment.dCards.get(index));
+            }
+            index++;
         }
         GameID id = model.getGameID();
         Username user = model.getUserName();

@@ -29,7 +29,13 @@ public class HandDestinationCards implements Serializable
 
     public DestinationCard get(int position)
     {
-        return destinationCards.get(position);
+        try
+        {
+            return destinationCards.get(position);
+        }catch (IndexOutOfBoundsException e)
+        {
+            return null;
+        }
     }
 
     public void addAll(Collection<DestinationCard> cards)

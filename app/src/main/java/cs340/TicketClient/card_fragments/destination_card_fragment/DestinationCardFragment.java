@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.*;
 
+import common.cards.DestinationCard;
 import common.cards.HandDestinationCards;
 import common.player_info.turn_state.InitialDestinationCardDraw;
 import cs340.TicketClient.game.GameModel;
@@ -12,13 +13,8 @@ import cs340.TicketClient.R;
 
 public class DestinationCardFragment extends Fragment
 {
-
-    TextView card1View;
-    TextView card2View;
-    TextView card3View;
-    CheckBox card1Check;
-    CheckBox card2Check;
-    CheckBox card3Check;
+    TextView[] cardViews;
+    CheckBox[] checkBoxes;
     Button confirmCards;
     HandDestinationCards dCards;
     DestinationCardFragmentPresenter presenter;
@@ -41,12 +37,31 @@ public class DestinationCardFragment extends Fragment
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_destination_card, container, false);
-        card1View = view.findViewById(R.id.card1View);
-        card2View = view.findViewById(R.id.card2View);
-        card3View = view.findViewById(R.id.card3View);
-        card1Check = view.findViewById(R.id.card1);
-        card2Check = view.findViewById(R.id.card2);
-        card3Check = view.findViewById(R.id.card3);
+
+        int[] cardIDs = {R.id.card1View, R.id.card2View, R.id.card3View};
+        cardViews = new TextView[3];
+        for(int i = 0; i < cardViews.length; i++)
+        {
+            cardViews[i] = view.findViewById(cardIDs[i]);
+        }
+
+        int[] checkIDs = {R.id.card1, R.id.card2, R.id.card3};
+        checkBoxes = new CheckBox[3];
+        for(int i = 0; i < checkBoxes.length; i++)
+        {
+            checkBoxes[i] = view.findViewById(checkIDs[i]);
+            checkBoxes[i].setOnClickListener
+            (
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v) {
+                        toggleButton();
+                    }
+                }
+            );
+        }
+
         confirmCards = view.findViewById(R.id.confirmButton);
         toggleButton();
         presenter = new DestinationCardFragmentPresenter(this);
@@ -57,80 +72,29 @@ public class DestinationCardFragment extends Fragment
             dCards = (HandDestinationCards) extras.get("cards");
         }
 
-        card1Check.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                toggleButton();
-            }
-        });
-
-        card2Check.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                toggleButton();
-            }
-        });
-
-        card3Check.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                toggleButton();
-            }
-        });
-
         //dCards = presenter.getDCards();
-        if (dCards.size() == 3) {
-            String path1 =
-                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                            dCards.get(0).getPointValue();
-            String path2 =
-                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
-                            dCards.get(1).getPointValue();
-            String path3 =
-                    dCards.get(2).getCity1() + " -> " + dCards.get(2).getCity2() + "\n Points: " +
-                            dCards.get(2).getPointValue();
-            card1View.setText(path1);
-            card2View.setText(path2);
-            card3View.setText(path3);
-        }
-        else if (dCards.size() == 2)
+        int numCards = 0; //have to count cards because for some reason dCards sometimes has null cards
+        for(int i = 0; i < 3; i++)
         {
-            String path1 =
-                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                            dCards.get(0).getPointValue();
-            String path2 =
-                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
-                            dCards.get(1).getPointValue();
-            card1View.setText(path1);
-            card2View.setText(path2);
-            card3View.setText("");
-            card3Check.setClickable(false);
+            DestinationCard card = dCards.get(i);
+            if(card != null)
+            {
+                String start = card.getCity1();
+                String end = card.getCity2();
+                int points = card.getPointValue();
+                String path = start + " -> " + end + "\n Points: " + points;
+                cardViews[i].setText(path);
+                checkBoxes[i].setClickable(true);
+                numCards++;
+            }
+            else
+            {
+                cardViews[i].setText("");
+                checkBoxes[i].setClickable(false);
+            }
         }
-        else if (dCards.size() == 1)
+        if(numCards == 0)
         {
-            String path1 =
-                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                            dCards.get(0).getPointValue();
-            card1View.setText(path1);
-            card2View.setText("");
-            card2Check.setClickable(false);
-            card3View.setText("");
-            card3Check.setClickable(false);
-        }
-        else
-        {
-            card1View.setText("");
-            card1Check.setClickable(false);
-            card2View.setText("");
-            card2Check.setClickable(false);
-            card3View.setText("");
-            card3Check.setClickable(false);
             Toast.makeText(this.getActivity(), "No Destination Cards Left", Toast.LENGTH_SHORT).show();
         }
 
@@ -155,17 +119,9 @@ public class DestinationCardFragment extends Fragment
     void toggleButton()
     {
         int numSelected = 0;
-        if (card1Check.isChecked())
+        for(CheckBox box : checkBoxes)
         {
-            numSelected++;
-        }
-        if (card2Check.isChecked())
-        {
-            numSelected++;
-        }
-        if (card3Check.isChecked())
-        {
-            numSelected++;
+            if(box.isChecked()) numSelected++;
         }
         if (numSelected >= 2)
         {
