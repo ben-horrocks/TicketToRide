@@ -232,45 +232,16 @@ public class GameModel
     //Claimed route edges
     public boolean markClaimedRoute(Edge edge)
     {
-        //Get Opponent
-        Opponent opponent = null;
-        List<Opponent> opList = gameData.getOpponents();
-        for (Opponent op : opList) {
-            if (op.getUsername().equals(edge.getOwner()))
-            {
-                opponent = op;
-            }
-        }
-        if (opponent == null)
-        {
-            System.out.println("Could not find opponent with which to update route");
-            return false;
-        }
 
-        //Find edge in gameboard and update with opponent
-        Edge foundEdge = null;
-        List<Edge> list = gameData.getGameboard().getGraph().get(edge.getFirstCity());
-        for (Edge toFind : list)
-        {
-            if (toFind.getID().equals(edge.getID()))
-            {
-				foundEdge = toFind;
-				break;
-            }
-        }
-        if (foundEdge == null)
-        {
-            System.out.println("Edge not found or edge is already owned. Could not mark as claimed");
-            return false;
-        }
-
-        //Set Owner of found Edge
-        foundEdge.setOwner(opponent);
+        Edge foundEdge = gameData.markClaimedEdge(edge);
 
         //Update Map Fragment
-        presenter.refreshMapFragment(foundEdge);
-
-        return true;
+        if (foundEdge != null)
+        {
+            presenter.refreshMapFragment(foundEdge);
+            return true;
+        }
+        return false;
     }
 
     public boolean canClaimSelectedEdge()

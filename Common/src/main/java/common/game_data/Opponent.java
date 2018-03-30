@@ -2,9 +2,11 @@ package common.game_data;
 
 import java.io.Serializable;
 
+import common.map.Edge;
 import common.map.EdgeGraph;
 import common.player_info.Player;
 import common.player_info.PlayerColor;
+import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -19,6 +21,7 @@ public class Opponent implements Serializable
     private PlayerColor color;
     private int score;
     private EdgeGraph claimedEdges;
+    private TrainPieces mTrainPieces;
 
     public Opponent(User user, PlayerColor color)
     {
@@ -28,6 +31,7 @@ public class Opponent implements Serializable
         this.color = color;
         this.score = 0;
         this.claimedEdges = new EdgeGraph();
+        this.mTrainPieces = new TrainPieces(true);
     }
 
     public void incrementDestinationCards(int number)
@@ -48,6 +52,7 @@ public class Opponent implements Serializable
         this.color = player.getColor();
         this.score = player.getScore();
         this.claimedEdges = player.getClaimedEdges();
+        this.mTrainPieces = player.getPieces();
     }
 
     public String getName()
@@ -108,5 +113,17 @@ public class Opponent implements Serializable
     public EdgeGraph getClaimedEdges()
     {
         return this.claimedEdges;
+    }
+
+    public TrainPieces getTrainPieces() { return mTrainPieces; }
+
+    public void setTrainPieces(TrainPieces trainPieces) { mTrainPieces = trainPieces; }
+
+    public boolean subtractTrainCarsForEdge(Edge edge) {
+        if (mTrainPieces.getNumTrainPieces() > edge.getLength()) {
+            mTrainPieces.useTrainPieces(edge.getLength());
+            return true;
+        }
+        return false;
     }
 }
