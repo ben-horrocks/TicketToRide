@@ -183,7 +183,7 @@ public class DeckFragmentPresenter
 		int height = 400;
 		Drawable cardDrawable = activity.getResources().getDrawable(imageID);
 		Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
-		Drawable cardResized = new BitmapDrawable(fragment.getActivity().getResources(),
+		Drawable cardResized = new BitmapDrawable(activity.getResources(),
 				Bitmap.createScaledBitmap(bitmap, width, height, true));
         switch (index)
         {
