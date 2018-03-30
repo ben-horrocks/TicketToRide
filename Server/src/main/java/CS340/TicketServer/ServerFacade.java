@@ -454,7 +454,7 @@ public class ServerFacade implements IServer
         for (User u : otherPlayers)
         {
             Signal s = ClientProxy.getSINGLETON()
-                    .opponentDrewDestinationCards(u.getUsername(), pickedCards.size());
+                    .opponentDrewDestinationCards(u.getUsername(), user,  pickedCards.size());
             if (s.getSignalType().equals(SignalType.ERROR))
             {
                 logger.exiting("ServerFacade", "returnDestinationCards", s);
@@ -522,7 +522,7 @@ public class ServerFacade implements IServer
         for (User u : otherUsers)
         {
             Signal s =
-                    ClientProxy.getSINGLETON().opponentDrewFaceUpCard(u.getUsername(), index, card);
+                    ClientProxy.getSINGLETON().opponentDrewFaceUpCard(u.getUsername(), user, index, card);
             if (s.getSignalType().equals(SignalType.ERROR))
             {
                 logger.exiting("ServerFacade", "drawFaceUp", s);
@@ -597,7 +597,7 @@ public class ServerFacade implements IServer
         otherUsers.remove(Database.SINGLETON.getPlayer(user));
         for (User u : otherUsers)
         {
-            Signal s = ClientProxy.getSINGLETON().opponentDrewDeckCard(u.getUsername());
+            Signal s = ClientProxy.getSINGLETON().opponentDrewDeckCard(u.getUsername(), user);
             if (s.getSignalType().equals(SignalType.ERROR))
             {
                 logger.exiting("ServerFacade", "drawDeck", s);
