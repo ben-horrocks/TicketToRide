@@ -41,9 +41,6 @@ public class DeckFragmentPresenter
 
     private DeckFragmentPresenter()
     {
-        this.fragment = fragment;
-        this.activity = (GameActivity) fragment.getActivity();
-        this.model = GameModel.getInstance();
     }
 
     public void setFragment(DeckFragment fragment)
