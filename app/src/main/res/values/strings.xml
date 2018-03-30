@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">TicketToRide</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="screen_name">ScreenName</string>
+    <string name="password">Password</string>
+    <string name="new_game">New Game</string>
+    <string name="remove_search_text">Remove Search Text</string>
+    <string name="game_activity">Game Activity</string>
+    <string name="new_game_confirm">New Game</string>
+    <string name="new_game_cancel">Cancel</string>
+    <string name="start_game">Start Game</string>
+    <string name="draw_destination_card">Draw\nDestination\nCard</string>
+    <string name="draw_train_card">Draw\nTrain Card</string>
+    <string name="claim_route">Claim Route</string>
+    <string name="hand">Hand</string>
+    <string name="title_activity_game">Game</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm_selection">confirm selection</string>
+    <string name="city1_city2"><![CDATA[city1 -> city2]]></string>
+
+    <!-- MENU ITEM STRINGS -->
+    <string name="chat_btn">Chat</string>
+    <string name="hist_btn">History</string>
+    <string name="test_btn">Test</string>
+
+    <!-- CHAT STRINGS -->
+    <string name="chat_title">Game Chat</string>
+    <string name="chat_hint">Type message here...</string>
+
+    <!-- HISTORY STRINGS -->
+    <string name="hist_title">Game History</string>
+
+    <!-- END GAME ACTIVITY STRINGS -->
+    <string name="game_over">Game Over!</string>
+    <string name="return_to_lobby">Return to Lobby</string>
+    <string name="winner_text">Winner:</string>
+
+</resources>
