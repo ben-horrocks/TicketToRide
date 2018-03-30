@@ -66,7 +66,7 @@ public class ClientFacade implements IClient
 	}
 
     @Override
-    public Signal updateFaceUpCards(HandTrainCards newFaceUps) {
+    public Signal updateFaceUpCards(Username name, HandTrainCards newFaceUps) {
         return new Signal (SignalType.ERROR, "unimplemented");
     }
 

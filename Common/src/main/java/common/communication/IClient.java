@@ -59,5 +59,5 @@ public interface IClient
 
     Signal resumeGame(Username username);
 
-    Signal updateFaceUpCards(HandTrainCards newFaceUps);
+    Signal updateFaceUpCards(Username username, HandTrainCards newFaceUps);
 }

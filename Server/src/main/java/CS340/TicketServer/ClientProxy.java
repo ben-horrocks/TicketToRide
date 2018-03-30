@@ -71,6 +71,7 @@ public class ClientProxy implements IClient
     private static final String trainCardClassName = TrainCard.class.getName();
     private static final String handDestinationCardsClassName =
             HandDestinationCards.class.getName();
+    private static final String handTrainCardsClassName = HandDestinationCards.class.getName();
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String historyItemClassName = HistoryItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();
@@ -110,8 +111,15 @@ public class ClientProxy implements IClient
 	}
 
     @Override
-    public Signal updateFaceUpCards(HandTrainCards newFaceUps) {
-        return null;
+    public Signal updateFaceUpCards(Username name, HandTrainCards newFaceUps) {
+        logger.entering("ClientProxy", "updateFaceUpCards", newFaceUps);
+        //Get the recipient for the packet and find their thread
+        String methodName = "updateFaceUpCards";
+        String[] paramTypes = {userNameClassName, handTrainCardsClassName};
+        Object[] params = {name, newFaceUps};
+        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        logger.exiting("ClientProxy", "updateFaceUpCards", signal);
+        return signal;
     }
 
     @Override
