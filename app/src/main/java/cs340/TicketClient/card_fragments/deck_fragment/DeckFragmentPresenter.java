@@ -217,33 +217,7 @@ public class DeckFragmentPresenter
                 public void run() {
                     for (int x = 0; x < cards.size(); x++) {
                         TrainCard card = cards.get(x);
-                        int imageID = getTrainDrawable(card);
-                        int width = 600;
-                        int height = 400;
-                        Drawable cardDrawable = activity.getResources().getDrawable(imageID);
-                        Bitmap bitmap = ((BitmapDrawable) cardDrawable).getBitmap();
-                        Drawable cardResized = new BitmapDrawable(fragment.getActivity().getResources(),
-                                Bitmap.createScaledBitmap(bitmap, width, height, true));
-                        switch (x) {
-                            case 0:
-                                fragment.tCard1.setImageDrawable(cardResized);
-                                break;
-                            case 1:
-                                fragment.tCard2.setImageDrawable(cardResized);
-                                break;
-                            case 2:
-                                fragment.tCard3.setImageDrawable(cardResized);
-                                break;
-                            case 3:
-                                fragment.tCard4.setImageDrawable(cardResized);
-                                break;
-                            case 4:
-                                fragment.tCard5.setImageDrawable(cardResized);
-                                break;
-                            default:
-                                Log.d("Error", "replaceTrainCard: Bad Index");
-                                break;
-                        }
+                        DeckFragmentPresenter.getInstance().replaceTrainCard(x, card);
                     }
                 }
             });
