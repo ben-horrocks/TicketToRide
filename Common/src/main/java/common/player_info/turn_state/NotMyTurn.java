@@ -30,4 +30,7 @@ public class NotMyTurn implements ITurnState, Serializable
 
 	@Override
 	public boolean canTakeAction() { return false; }
+
+	@Override
+	public boolean hasRestrictedAction() { return true; }
 }

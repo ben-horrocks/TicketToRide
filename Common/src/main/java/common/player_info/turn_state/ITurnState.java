@@ -22,4 +22,6 @@ public interface ITurnState
 	void turnStarted(Player player);
 
 	boolean canTakeAction();
+
+	boolean hasRestrictedAction();
 }
