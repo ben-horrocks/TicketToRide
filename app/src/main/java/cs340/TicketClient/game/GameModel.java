@@ -340,6 +340,7 @@ public class GameModel
        }
        if(cardsToUse.size() == length)
        {
+           gameData.getPlayer().getHand().removeAll(cardsToUse);
            return cardsToUse;
        } else if( cardsToUse.size() < length)
        {
@@ -349,7 +350,8 @@ public class GameModel
                wilds.remove(0);
                if(cardsToUse.size() == length)
                {
-                    return cardsToUse;
+                   gameData.getPlayer().getHand().removeAll(cardsToUse);
+                   return cardsToUse;
                }
            }
        }

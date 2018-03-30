@@ -4,6 +4,8 @@ package CS340.TicketServer;
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.xml.crypto.Data;
+
 import common.chat.ChatItem;
 import common.communication.CommandParams;
 import common.communication.IServer;

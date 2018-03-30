@@ -97,6 +97,7 @@ public class HandTrainCards implements Serializable
         return temp;
     }
 
+
     public TrainCard[] toArray()
     {
         return trainCards.toArray(new TrainCard[size()]);
