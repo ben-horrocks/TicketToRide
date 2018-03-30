@@ -57,50 +57,6 @@ public class DestinationCardFragment extends Fragment
             dCards = (HandDestinationCards) extras.get("cards");
         }
 
-        //dCards = presenter.getDCards();
-        if (dCards.size() == 3) {
-            String path1 =
-                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                            dCards.get(0).getPointValue();
-            String path2 =
-                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
-                            dCards.get(1).getPointValue();
-            String path3 =
-                    dCards.get(2).getCity1() + " -> " + dCards.get(2).getCity2() + "\n Points: " +
-                            dCards.get(2).getPointValue();
-            card1View.setText(path1);
-            card2View.setText(path2);
-            card3View.setText(path3);
-        }
-        else if (dCards.size() == 2)
-        {
-            String path1 =
-                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                            dCards.get(0).getPointValue();
-            String path2 =
-                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
-                            dCards.get(1).getPointValue();
-            card1View.setText(path1);
-            card2View.setText(path2);
-        }
-        else if (dCards.size() == 1)
-        {
-            String path1 =
-                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
-                            dCards.get(0).getPointValue();
-            card1View.setText(path1);
-        }
-        else
-        {
-            Toast.makeText(this.getActivity(), "No Destination Cards Left", Toast.LENGTH_SHORT).show();
-        }
-
-        String s = "There are " + GameModel.getInstance().getGameData().getDestinationCardsLeft() +
-                   " Destination Cards left";
-        TextView destinationCardsLeft = view.findViewById(R.id.DestinationDeckSize);
-        destinationCardsLeft.setText(s);
-
-
         card1Check.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -127,6 +83,63 @@ public class DestinationCardFragment extends Fragment
                 toggleButton();
             }
         });
+
+        //dCards = presenter.getDCards();
+        if (dCards.size() == 3) {
+            String path1 =
+                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                            dCards.get(0).getPointValue();
+            String path2 =
+                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
+                            dCards.get(1).getPointValue();
+            String path3 =
+                    dCards.get(2).getCity1() + " -> " + dCards.get(2).getCity2() + "\n Points: " +
+                            dCards.get(2).getPointValue();
+            card1View.setText(path1);
+            card2View.setText(path2);
+            card3View.setText(path3);
+        }
+        else if (dCards.size() == 2)
+        {
+            String path1 =
+                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                            dCards.get(0).getPointValue();
+            String path2 =
+                    dCards.get(1).getCity1() + " -> " + dCards.get(1).getCity2() + "\n Points: " +
+                            dCards.get(1).getPointValue();
+            card1View.setText(path1);
+            card2View.setText(path2);
+            card3View.setText("");
+            card3Check.setClickable(false);
+        }
+        else if (dCards.size() == 1)
+        {
+            String path1 =
+                    dCards.get(0).getCity1() + " -> " + dCards.get(0).getCity2() + "\n Points: " +
+                            dCards.get(0).getPointValue();
+            card1View.setText(path1);
+            card2View.setText("");
+            card2Check.setClickable(false);
+            card3View.setText("");
+            card3Check.setClickable(false);
+        }
+        else
+        {
+            card1View.setText("");
+            card1Check.setClickable(false);
+            card2View.setText("");
+            card2Check.setClickable(false);
+            card3View.setText("");
+            card3Check.setClickable(false);
+            Toast.makeText(this.getActivity(), "No Destination Cards Left", Toast.LENGTH_SHORT).show();
+        }
+
+        String s = "There are " + GameModel.getInstance().getGameData().getDestinationCardsLeft() +
+                   " Destination Cards left";
+        TextView destinationCardsLeft = view.findViewById(R.id.DestinationDeckSize);
+        destinationCardsLeft.setText(s);
+
+
 
         confirmCards.setOnClickListener(new View.OnClickListener()
         {
@@ -157,7 +170,11 @@ public class DestinationCardFragment extends Fragment
         if (numSelected >= 2)
         {
             confirmCards.setEnabled(true);
-        } else if (numSelected >= 1 && GameModel.getInstance().getPlayer().getTurnState() instanceof InitialDestinationCardDraw)
+        } else if (numSelected >= 1 && !(GameModel.getInstance().getPlayer().getTurnState() instanceof InitialDestinationCardDraw))
+        {
+            confirmCards.setEnabled(true);
+        }
+        else
         {
             confirmCards.setEnabled(false);
         }
