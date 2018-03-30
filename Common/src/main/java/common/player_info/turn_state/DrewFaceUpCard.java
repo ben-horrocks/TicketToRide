@@ -51,4 +51,7 @@ public class DrewFaceUpCard implements ITurnState, Serializable
 
 	@Override
 	public boolean canTakeAction() { return true; }
+
+	@Override
+	public boolean hasRestrictedAction() { return true; }
 }

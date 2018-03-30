@@ -32,7 +32,7 @@ public class ClaimPresenter implements IClaimPresenter {
 
     public void success(Edge e)
     {
-        model.getGameData().edgeClaimed(model.getSelectedEdge(), model.getQueuedCards());
+        model.getGameData().edgeClaimed(e, model.getQueuedCards());
         TurnEndedTask task = new TurnEndedTask();
         task.execute(GameModel.getInstance().getGameID(), GameModel.getInstance().getUserName());
         //update map
@@ -82,8 +82,8 @@ public class ClaimPresenter implements IClaimPresenter {
             super.onPostExecute(signal);
             if (signal.getSignalType() == SignalType.OK)
             {
-                model.setQueuedCards(new ArrayList<TrainCard>());
                 presenter.success((Edge)signal.getObject());
+				model.setQueuedCards(new ArrayList<TrainCard>());
 				//TurnEndedTask task = new TurnEndedTask();
 				//task.execute(model.getGameID(), model.getUserName());
             }

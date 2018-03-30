@@ -23,8 +23,7 @@ public class MyTurnNoAction implements ITurnState, Serializable
 		if (trainCard.getType().equals(TrainColor.GRAY))
 		{
 			drawFaceUpLocomotive(player);
-		}
-		else
+		} else
 		{
 			HandTrainCards hand = player.getHand();
 			hand.add(trainCard);
@@ -73,4 +72,7 @@ public class MyTurnNoAction implements ITurnState, Serializable
 
 	@Override
 	public boolean canTakeAction() { return true; }
+
+	@Override
+	public boolean hasRestrictedAction() { return false; }
 }
