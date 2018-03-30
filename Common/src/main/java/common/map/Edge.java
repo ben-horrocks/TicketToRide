@@ -322,43 +322,4 @@ public class Edge implements Serializable
     {
         return id;
     }
-
-	/**
-	 * @pre cards is not null
-	 * @param cards The cards
-	 * @return Yes or no
-	 */
-	public boolean canClaim(List<TrainCard> cards)
-	{
-		if (cards.size() != length) return false; // must be same length
-		if (owner != null) return false; // must be unowned
-		TrainColor color = this.color;
-		if (color.equals(TrainColor.GRAY))
-		{
-			TrainColor firstColor = cards.get(0).getType();
-			for (TrainCard card : cards)
-			{
-				if (firstColor.equals(TrainColor.GRAY))
-				{
-					firstColor = card.getType();
-				}
-				if (!firstColor.equals(card.getType()) && !card.getType().equals(TrainColor.GRAY))
-				{
-					return false;
-				}
-			}
-		}
-		else
-		{
-
-			for (TrainCard card : cards)
-			{
-				if (!card.getType().equals(color) && !card.getType().equals(TrainColor.GRAY))
-				{
-					return false;
-				}
-			}
-		}
-		return true;
-	}
 }
