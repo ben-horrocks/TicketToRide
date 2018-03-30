@@ -280,8 +280,6 @@ public class DeckFragmentPresenter
             if (response.getSignalType() == OK)
             {
                 TrainCard card = (TrainCard) response.getObject();
-                model.replaceFaceUp(index, card);
-                presenter.replaceTrainCard(index, card);
                 model.getPlayer().drewFaceUpCard(card);
                 if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
 				{
