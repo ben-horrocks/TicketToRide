@@ -265,20 +265,7 @@ public class GameModel
 
         return true;
     }
-
-    public Boolean canClaim()
-    {
-        if(!selectedEdge.canClaim(queuedCards))
-        {
-            return false;
-        }
-        if(selectedEdge.isDoubleEdge()) //check some extra stuff if it is a double edge
-        {
-            return gameData.canClaimDoubleEdge(selectedEdge);
-        }
-        return true;
-    }
-
+    
     public boolean canClaimSelectedEdge()
     {
         /*Data Setup*/
@@ -322,7 +309,7 @@ public class GameModel
         if(twin == null) return true; //hopefully never gets here, but if you messed up registering edges the game must go on
         boolean notManyPlayers = totalPlayers == 2 || totalPlayers == 3;
         if(notManyPlayers && twin.getOwner() != null) return false;
-        if(twin.getOwner().equals(agent)) return false;
+        if(twin.getOwner()!= null && twin.getOwner().equals(agent)) return false;
         return true;
     }
 

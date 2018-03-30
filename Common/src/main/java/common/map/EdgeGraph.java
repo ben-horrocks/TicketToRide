@@ -178,39 +178,4 @@ public class EdgeGraph implements Serializable
         }
         return sb.toString();
     }
-
-    public Boolean canClaimDoubleEdge(Edge edge, int numplayers, Username claimingUser)
-    {
-        if(!edge.isDoubleEdge())
-        {
-            return true;
-        }
-        Edge doubleEdge = null;
-        List<Edge> edges = graph.get(edge.getFirstCity());
-        for(Edge thisedge : edges)
-        {
-            if(edge.getFirstCity() == thisedge.getSecondCity() && edge.getSecondCity() == thisedge.getFirstCity())
-            {
-                doubleEdge = thisedge;
-                break;
-            }
-        }
-        if(doubleEdge == null)
-        {
-            return null;
-        }
-        if(numplayers == 2 || numplayers == 3) //can't claim double edges when number of players is 2 or 3.
-        {
-           if(doubleEdge.getOwner() != null)
-           {
-               return false;
-           }
-        }
-        if(claimingUser == doubleEdge.getOwner()) //can't own both sections of a double edge
-        {
-            return false;
-        }
-        return true;
-    }
-
 }
