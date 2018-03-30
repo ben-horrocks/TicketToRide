@@ -67,6 +67,7 @@ public class ClientFacade implements IClient
     @Override
     public Signal opponentDrewDestinationCards(Username name, int amount)
     {
+        GameModel.getInstance().decrementDestinationCount(amount);
         ArrayList<Opponent> oppenents =
                 (ArrayList<Opponent>) GameModel.getInstance().getOpponents();
         for (Opponent op : oppenents)
@@ -74,7 +75,6 @@ public class ClientFacade implements IClient
             if (op.getUsername().toString().equals(name.toString()))
             {
                 op.incrementDestinationCards(amount);
-                GameModel.getInstance().decrementDestinationCount(amount);
                 return new Signal(SignalType.OK, "Added to Opponent Dcard count correctly");
             }
         }
@@ -137,6 +137,7 @@ public class ClientFacade implements IClient
         	Player player = GameModel.getInstance().getPlayer();
         	boolean isMyTurn = GameModel.getInstance().isMyTurn();
         	boolean nextTurn = player.drewDestinationCards(cards, isMyTurn);
+        	GameModel.getInstance().decrementDestinationCount(cards.size());
         	if (nextTurn)
 			{
 				TurnEndedTask task = new TurnEndedTask();
