@@ -153,8 +153,8 @@ public class ClientGameData implements IGameData, Serializable
         //Set Owner of found Edge
         foundEdge.setOwner(opponent);
 
-        //subtract the appropriate number of train cars from opponent
-        opponent.subtractTrainCarsForEdge(foundEdge);
+        //subtract the appropriate number of train cars & cards from opponent
+        opponent.decrementCardsAndCarsForEdge(foundEdge);
 
         return foundEdge;
     }

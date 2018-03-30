@@ -119,10 +119,14 @@ public class Opponent implements Serializable
 
     public void setTrainPieces(TrainPieces trainPieces) { mTrainPieces = trainPieces; }
 
-    public boolean subtractTrainCarsForEdge(Edge edge) {
+    public boolean decrementCardsAndCarsForEdge(Edge edge) {
         if (mTrainPieces.getNumTrainPieces() > edge.getLength()) {
             mTrainPieces.useTrainPieces(edge.getLength());
-            return true;
+            if (numberHandCards > edge.getLength()) {
+                numberHandCards -= edge.getLength();
+                return true;
+            }
+            return false;
         }
         return false;
     }
