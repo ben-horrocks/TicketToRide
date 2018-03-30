@@ -1,5 +1,7 @@
 package cs340.TicketClient.game;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -331,4 +333,8 @@ public class GameModel
        throw new GamePresenter.InsufficientCardsException();
     }
 
+    public void lastTurn()
+    {
+        Toast.makeText(presenter.getGameActivity(), "Last Turn!", Toast.LENGTH_SHORT).show();
+    }
 }

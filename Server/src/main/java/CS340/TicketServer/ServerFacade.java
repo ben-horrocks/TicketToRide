@@ -714,6 +714,7 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         if(game.isLastTurn())
         {
+            game.lastTurn();
             ServerFacade.getSINGLETON().lastTurn(id);
         }
         nextTurn(id);
