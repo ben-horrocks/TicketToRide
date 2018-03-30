@@ -24,9 +24,12 @@ public class MyTurnNoAction implements ITurnState, Serializable
 		{
 			drawFaceUpLocomotive(player);
 		}
-		HandTrainCards hand = player.getHand();
-		hand.add(trainCard);
-		player.setTurnState(new DrewFaceUpCard());
+		else
+		{
+			HandTrainCards hand = player.getHand();
+			hand.add(trainCard);
+			player.setTurnState(new DrewFaceUpCard());
+		}
 	}
 
 	@Override
