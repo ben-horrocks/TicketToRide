@@ -29,8 +29,8 @@ import common.request.ClaimRequest;
 import common.request.DestDrawRequest;
 import cs340.TicketClient.R;
 import cs340.TicketClient.async_task.TurnEndedTask;
-import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
-import cs340.TicketClient.card_fragments.claim_fragment.ClaimPresenter;
+//import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
+//import cs340.TicketClient.card_fragments.claim_fragment.ClaimPresenter;
 import cs340.TicketClient.communicator.ServerProxy;
 
 public class GamePresenter
@@ -145,6 +145,7 @@ public class GamePresenter
     void claimRoute(Edge selectedEdge, TrainColor selectedColor) throws InsufficientCardsException
     {
         List<TrainCard> cards = model.canClaimRoute(selectedColor, selectedEdge.getLength());
+        selectedEdge.setOwner(model.getPlayer());
         ClaimRequest req = new ClaimRequest(model.getGameID(), model.getUserName(), selectedEdge, new HandTrainCards(cards));
         ClaimTask task = new ClaimTask(model);
         task.execute(req);
