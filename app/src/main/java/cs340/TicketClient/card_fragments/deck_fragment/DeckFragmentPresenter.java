@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -253,14 +254,24 @@ public class DeckFragmentPresenter
             super.onPostExecute(response);
             if (response.getSignalType() == OK)
             {
-                TrainCard card = (TrainCard) response.getObject();
-                model.getPlayer().drewFaceUpCard(card);
-                if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
-				{
-					TurnEndedTask task = new TurnEndedTask();
-					task.execute(model.getGameID(), model.getUserName());
-					presenter.activity.getSupportFragmentManager().popBackStack(); // TODO: shorten
-				}
+                try
+                {
+                    if(response.getObject() instanceof String)
+                    {
+                        Log.d("Error", "Unexpected Response: " + response.getObject());
+                    }
+                    TrainCard card = (TrainCard) response.getObject();
+                    model.getPlayer().drewFaceUpCard(card);
+                    if (!model.getPlayer().getTurnState().canTakeAction()) // TODO: shorten
+                    {
+                        TurnEndedTask task = new TurnEndedTask();
+                        task.execute(model.getGameID(), model.getUserName());
+                        presenter.activity.getSupportFragmentManager().popBackStack(); // TODO: shorten
+                    }
+                }catch(ClassCastException e)
+                {
+                    Log.e("ERROR", e.getMessage(), e);
+                }
             }
             else
             {
