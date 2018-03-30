@@ -25,7 +25,7 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
         discard = new ArrayList<>();
         deck = addTrainCards();
         shuffle();
-
+        drawInitialFaceUp();
     }
 
     @Override
