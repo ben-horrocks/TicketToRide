@@ -73,6 +73,8 @@ public class Player implements Serializable
 		this.hand.addAll(cards);
     }
 
+    public boolean hasRestrictedAction() { return getTurnState().hasRestrictedAction(); }
+
     public void drewDeckCard(TrainCard card)
 	{
 		getTurnState().drawFromDeck(this, card);

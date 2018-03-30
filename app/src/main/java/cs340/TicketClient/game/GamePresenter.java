@@ -87,6 +87,7 @@ public class GamePresenter
         // TODO: implement
 
     }
+    boolean playerHasRestrictedAction() { return model.getPlayer().hasRestrictedAction(); }
 
     void refreshMapFragment(Edge edge) {
         //get info for toast

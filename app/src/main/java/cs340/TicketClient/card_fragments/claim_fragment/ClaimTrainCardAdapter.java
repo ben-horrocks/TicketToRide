@@ -41,8 +41,7 @@ public class ClaimTrainCardAdapter extends RecyclerView.Adapter<ClaimTrainCardAd
         Drawable card = new BitmapDrawable(mInflater.getContext().getResources(),
                 Bitmap.createScaledBitmap(bitmap, 600, 400, true));
         holder.myImageView.setImageDrawable(card);
-        String s = String.valueOf(position);
-        holder.checkBox.setText(s);
+        holder.id = position;
     }
 
     @Override
@@ -88,30 +87,32 @@ public class ClaimTrainCardAdapter extends RecyclerView.Adapter<ClaimTrainCardAd
     class ClaimTrainCardViewHolder extends RecyclerView.ViewHolder
     {
         ImageView myImageView;
-        CheckBox checkBox;
-
+        ImageView mIsSelected;
+        boolean checked = false;
+        int id;
         public ClaimTrainCardViewHolder(View view)
         {
             super(view);
             myImageView = itemView.findViewById(R.id.hand_claimcard_image);
-            checkBox = itemView.findViewById(R.id.cardCheck);
-            checkBox.setOnClickListener(new View.OnClickListener() {
+            mIsSelected = itemView.findViewById(R.id.cardCheck);
+            mIsSelected.setImageResource(R.drawable.unchecked);
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
                 {
-                    String s = checkBox.getText().toString();
                     ArrayList<TrainCard> cards = GameModel.getInstance().getQueuedCards();
-                    Integer position = Integer.parseInt(s);
-                    TrainCard card = GameModel.getInstance().getPlayer().getHand().get(position);
-                    if (checkBox.isChecked())
+                    TrainCard card = GameModel.getInstance().getPlayer().getHand().get(id);
+                    if (!checked)
                     {
 
-                        GameModel.getInstance().getQueuedCards().add(card);
-                     //   checkBox.setChecked(true);
+                        cards.add(card);
+                        mIsSelected.setImageResource(R.drawable.checked);
+                        checked = true;
                     } else
                     {
-                        GameModel.getInstance().getQueuedCards().remove(card);
-                     //   checkBox.setChecked(false);
+                        cards.remove(card);
+                        mIsSelected.setImageResource(R.drawable.unchecked);
+                        checked = false;
                     }
 
                 }

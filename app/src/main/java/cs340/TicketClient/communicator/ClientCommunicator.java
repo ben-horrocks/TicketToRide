@@ -232,7 +232,8 @@ public class ClientCommunicator
             return result;
         } else
         {
-            return new Signal(SignalType.ERROR, "Not connected to server.");
+        	reconnectSocket();
+            return new Signal(SignalType.ERROR, "Attempting reconnection to server...");
         }
     }
 
@@ -245,6 +246,19 @@ public class ClientCommunicator
     {
         server.write(object);
     }
+
+    private void reconnectSocket()
+	{
+		try
+		{
+			socket.connect(new InetSocketAddress(SERVER_HOST, 8080), 5000);
+			server = new ConnectionToServer(socket);
+		}
+		catch (IOException e)
+		{
+			System.err.println("Failed to reconnect to socket");
+		}
+	}
 
     /**
      * Closes the socket held by the ClientCommunicator.

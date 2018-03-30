@@ -126,14 +126,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 				}
                 break;
             case R.id.draw_destination_button:
-				if (presenter.isMyTurn())
+				if (!presenter.playerHasRestrictedAction())
 				{
 					// Gets initial dest cards OR gets 3 new ones.
 					presenter.getDestinationCards();
 				}
                 break;
             case R.id.claim_route_button:
-            	if (presenter.isMyTurn())
+            	if (!presenter.playerHasRestrictedAction())
 				{
 					presenter.startClaimRouteOption();
 					System.out.println("To implement... lol");
