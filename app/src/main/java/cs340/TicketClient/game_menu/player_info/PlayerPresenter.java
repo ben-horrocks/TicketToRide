@@ -161,6 +161,8 @@ public class PlayerPresenter
             sb.append(text);
             text = "\tScore: " + opponent.getScore() + "\n";
             sb.append(text);
+            text = "\tTrain Cars: " + opponent.getTrainPieces().getNumTrainPieces() + "\n";
+            sb.append(text);
             text = "\tTrain Cards: " + opponent.getNumberHandCards() + "\n";
             sb.append(text);
             text = "\tDestination Cards: " + opponent.getDestinationCardCount() + "\n";

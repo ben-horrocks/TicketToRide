@@ -1,5 +1,7 @@
 package cs340.TicketClient.game;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -232,72 +234,16 @@ public class GameModel
     //Claimed route edges
     public boolean markClaimedRoute(Edge edge)
     {
-        //Get Opponent
-        Opponent opponent = null;
-        List<Opponent> opList = gameData.getOpponents();
-        for (Opponent op : opList) {
-            if (op.getUsername().equals(edge.getOwner()))
-            {
-                opponent = op;
-            }
-        }
-        if (opponent == null)
-        {
-            System.out.println("Could not find opponent with which to update route");
-            return false;
-        }
 
-        //Find edge in gameboard and update with opponent
-        Edge foundEdge = null;
-        List<Edge> list = gameData.getGameboard().getGraph().get(edge.getFirstCity());
-        for (Edge toFind : list)
-        {
-            if (toFind.getID().equals(edge.getID()))
-            {
-				foundEdge = toFind;
-				break;
-            }
-        }
-        if (foundEdge == null)
-        {
-            System.out.println("Edge not found or edge is already owned. Could not mark as claimed");
-            return false;
-        }
-
-        //Set Owner of found Edge
-        foundEdge.setOwner(opponent);
+        Edge foundEdge = gameData.markClaimedEdge(edge);
 
         //Update Map Fragment
-        presenter.refreshMapFragment(foundEdge);
-
-        return true;
-    }
-
-    public boolean canClaimSelectedEdge()
-    {
-        /*Data Setup*/
-        Username agent = getPlayer().getUsername(); //The person trying to claim
-        List<TrainCard> cards = queuedCards;
-        Edge toClaim = selectedEdge; //rename for readability
-        final TrainColor edgeColor = toClaim.getColor();
-        final TrainColor wild = TrainColor.GRAY;
-        int totalPlayers = 1 + gameData.getOpponents().size();
-
-        /*check auto-fails*/
-        if(toClaim.getOwner() != null) return false;
-        if(toClaim.getLength() != cards.size()) return false;
-        if(toClaim.getLength() > getPlayer().getTrainPiecesRemaining()) return false;
-        if(!doubleEdgeClaimChecks(agent, toClaim, totalPlayers)) return false;
-
-        /*start comparing cards*/
-        if(edgeColor.equals(wild))
+        if (foundEdge != null)
         {
-            return grayEdgeClaimCheck(cards);
+            presenter.refreshMapFragment(foundEdge);
+            return true;
         }
-        else
-        {
-            return coloredEdgeClaimCheck(cards, edgeColor);
-        }
+        return false;
     }
 
     private boolean doubleEdgeClaimChecks(Username agent, Edge toClaim, int totalPlayers)
@@ -346,5 +292,49 @@ public class GameModel
             if(!matches) return false;
         }
         return true;
+    }
+
+    public List<TrainCard> canClaimRoute(TrainColor color, int length) throws GamePresenter.InsufficientCardsException
+    {
+       List<TrainCard> cards = gameData.getPlayer().getHand().getTrainCards();
+       List<TrainCard> cardsToUse = new ArrayList<>();
+       List<TrainCard> wilds = new ArrayList<>();
+       for(TrainCard card : cards)
+       {
+            if(card.getType() == color)
+            {
+                cardsToUse.add(card);
+                if(cardsToUse.size() == length)
+                {
+                    break;
+                }
+            } else if (card.getType() == TrainColor.GRAY)
+            {
+                wilds.add(card);
+            }
+       }
+       if(cardsToUse.size() == length)
+       {
+           gameData.getPlayer().getHand().removeAll(cardsToUse);
+           return cardsToUse;
+       } else if( cardsToUse.size() < length)
+       {
+           while (wilds.size() > 0)
+           {
+               cardsToUse.add(wilds.get(0));
+               wilds.remove(0);
+               if(cardsToUse.size() == length)
+               {
+                   gameData.getPlayer().getHand().removeAll(cardsToUse);
+                   return cardsToUse;
+               }
+           }
+       }
+       throw new GamePresenter.InsufficientCardsException();
+    }
+
+    public void lastTurn()
+    {
+        Toast.makeText(presenter.getGameActivity(), "Last Turn!", Toast.LENGTH_SHORT).show();
     }
 }

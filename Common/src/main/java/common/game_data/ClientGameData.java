@@ -116,6 +116,49 @@ public class ClientGameData implements IGameData, Serializable
         this.gameboard.claimed(edge);
     }
 
+    public Edge markClaimedEdge(Edge edge)
+    {
+        //Get Opponent
+        Opponent opponent = null;
+        List<Opponent> opList = getOpponents();
+        for (Opponent op : opList) {
+            if (op.getUsername().equals(edge.getOwner()))
+            {
+                opponent = op;
+            }
+        }
+        if (opponent == null)
+        {
+            System.out.println("Could not find opponent with which to update route");
+            return null;
+        }
+
+        //Find edge in gameboard and update with opponent
+        Edge foundEdge = null;
+        List<Edge> list = getGameboard().getGraph().get(edge.getFirstCity());
+        for (Edge toFind : list)
+        {
+            if (toFind.getID().equals(edge.getID()))
+            {
+                foundEdge = toFind;
+                break;
+            }
+        }
+        if (foundEdge == null)
+        {
+            System.out.println("Edge not found or edge is already owned. Could not mark as claimed");
+            return null;
+        }
+
+        //Set Owner of found Edge
+        foundEdge.setOwner(opponent);
+
+        //subtract the appropriate number of train cars & cards from opponent
+        opponent.decrementCardsAndCarsForEdge(foundEdge);
+
+        return foundEdge;
+    }
+
     private Opponent getOpponent(Username username)
     {
         for (Opponent o : opponents)

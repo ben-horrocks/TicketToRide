@@ -31,6 +31,19 @@
     <string name="chat_title">Game Chat</string>
     <string name="chat_hint">Type message here...</string>
 
+    <!-- CLAIM ROUTE DIALOG-->
+    <string name="claimRouteTitle">Select A Train Color</string>
+    <string-array name="trainColors">
+        <item name="pink">pink</item>
+        <item name="white">white</item>
+        <item name="blue">blue</item>
+        <item name="yellow">yellow</item>
+        <item name="orange">orange</item>
+        <item name="black">black</item>
+        <item name="red">red</item>
+        <item name="green">green</item>
+    </string-array>
+
     <!-- HISTORY STRINGS -->
     <string name="hist_title">Game History</string>
 

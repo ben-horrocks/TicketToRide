@@ -1,5 +1,7 @@
 package cs340.TicketClient.communicator;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -191,7 +193,7 @@ public class ClientFacade implements IClient
     @Override
     public Signal lastTurn(Username name)
     {
-        //TODO: implement Last Turn (Probably popping up a toast)
+        GameModel.getInstance().lastTurn();
         return new Signal(SignalType.ERROR, "unimplemented");
     }
 

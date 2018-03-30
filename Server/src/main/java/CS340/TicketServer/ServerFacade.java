@@ -4,6 +4,8 @@ package CS340.TicketServer;
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.xml.crypto.Data;
+
 import common.chat.ChatItem;
 import common.communication.CommandParams;
 import common.communication.IServer;
@@ -631,6 +633,7 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
         game.edgeClaimed(edge,spent.getTrainCards());
+        game.getPlayer(user.getName()).getPieces().useTrainPieces(edge.getLength());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
         opponents.remove(Database.SINGLETON.getPlayer(user));
@@ -711,6 +714,7 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         if(game.isLastTurn())
         {
+            game.lastTurn();
             ServerFacade.getSINGLETON().lastTurn(id);
         }
         nextTurn(id);
