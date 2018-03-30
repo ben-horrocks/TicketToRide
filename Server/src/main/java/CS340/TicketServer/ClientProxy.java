@@ -71,7 +71,7 @@ public class ClientProxy implements IClient
     private static final String trainCardClassName = TrainCard.class.getName();
     private static final String handDestinationCardsClassName =
             HandDestinationCards.class.getName();
-    private static final String handTrainCardsClassName = HandDestinationCards.class.getName();
+    private static final String handTrainCardsClassName = HandTrainCards.class.getName();
     private static final String chatItemClassName = ChatItem.class.getName();
     private static final String historyItemClassName = HistoryItem.class.getName();
     private static final String edgeClassName = Edge.class.getName();

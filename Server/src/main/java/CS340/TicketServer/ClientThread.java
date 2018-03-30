@@ -160,7 +160,7 @@ public class ClientThread extends Thread
                                 logger.finer("Putting object in message blocking queue");
                                 messages.put(object);
                             }
-                            
+
                         } catch (IOException e)
                         {
                             /* Quietly Ignore EOF exceptions */
