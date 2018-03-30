@@ -16,6 +16,8 @@ import cs340.TicketClient.game.GameModel;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class ClaimFragment extends Fragment {
 
     RecyclerView trainCardsRecyclerView;
@@ -37,10 +39,14 @@ public class ClaimFragment extends Fragment {
         claimRoute = v.findViewById(R.id.submit_claim_button);
         trainCardsRecyclerView = v.findViewById(R.id.ClaimTrainCards);
         presenter = new ClaimPresenter(this);
-        TrainCard trainCards[] = presenter.getPlayerTrainCards().toArray();
+        List<TrainCard> trainCards = presenter.getPlayerTrainCards().getTrainCards();
         trainCardsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        trainAdapter = new ClaimTrainCardAdapter(getActivity(), trainCards);
+        trainAdapter = new ClaimTrainCardAdapter();
         trainCardsRecyclerView.setAdapter(trainAdapter);
+        for(TrainCard card : trainCards)
+        {
+            trainAdapter.add(card);
+        }
 		model.getQueuedCards().clear();
         claimRoute.setOnClickListener(new View.OnClickListener() {
             @Override

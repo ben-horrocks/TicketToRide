@@ -347,4 +347,42 @@ public class GameModel
         }
         return true;
     }
+
+    public List<TrainCard> canClaimRoute(TrainColor color, int length) throws GamePresenter.InsufficientCardsException
+    {
+       List<TrainCard> cards = gameData.getPlayer().getHand().getTrainCards();
+       List<TrainCard> cardsToUse = new ArrayList<>();
+       List<TrainCard> wilds = new ArrayList<>();
+       for(TrainCard card : cards)
+       {
+            if(card.getType() == color)
+            {
+                cardsToUse.add(card);
+                if(cardsToUse.size() == length)
+                {
+                    break;
+                }
+            } else if (card.getType() == TrainColor.GRAY)
+            {
+                wilds.add(card);
+            }
+       }
+       if(cardsToUse.size() == length)
+       {
+           return cardsToUse;
+       } else if( cardsToUse.size() < length)
+       {
+           while (wilds.size() > 0)
+           {
+               cardsToUse.add(wilds.get(0));
+               wilds.remove(0);
+               if(cardsToUse.size() == length)
+               {
+                    return cardsToUse;
+               }
+           }
+       }
+       throw new GamePresenter.InsufficientCardsException();
+    }
+
 }

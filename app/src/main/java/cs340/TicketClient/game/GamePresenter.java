@@ -1,10 +1,9 @@
 package cs340.TicketClient.game;
 
-import android.app.Activity;
-import android.app.FragmentManager;
+import android.app.*;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
@@ -20,16 +19,18 @@ import common.cards.HandDestinationCards;
 import common.cards.TrainColor;
 import common.communication.Signal;
 import common.communication.SignalType;
-import common.game_data.EndGame;
-import common.game_data.StartGamePacket;
+import common.game_data.*;
 import common.history.HistoryItem;
 import common.player_info.Player;
 import common.map.Edge;
 import common.map.EdgeGraph;
 import common.player_info.Username;
+import common.request.ClaimRequest;
 import common.request.DestDrawRequest;
 import cs340.TicketClient.R;
+import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
+import cs340.TicketClient.card_fragments.claim_fragment.ClaimPresenter;
 import cs340.TicketClient.communicator.ServerProxy;
 
 public class GamePresenter
@@ -38,7 +39,7 @@ public class GamePresenter
     private GameActivity activity;
     private GameModel model;
 
-    class InsufficientCardsException extends Exception {}
+    static class InsufficientCardsException extends Exception {}
 
     GamePresenter(GameActivity gameActivity)
     {
@@ -55,20 +56,79 @@ public class GamePresenter
 
     void startClaimRouteOption()
     {
-        Edge selectedEdge = model.getSelectedEdge();
+        final Edge selectedEdge = model.getSelectedEdge();
         if (selectedEdge != null)
         {
             if (!selectedEdge.isClaimed())
             {
-                android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
-                android.support.v4.app.Fragment fragment = fm.findFragmentByTag(ClaimFragment.class.getSimpleName());
-                if (fragment == null)
-				{
-					fragment = new ClaimFragment();
-					fm.beginTransaction().add(R.id.fragment_map, fragment, ClaimFragment.class.getSimpleName())
-							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-							.addToBackStack(ClaimFragment.class.getSimpleName()).commit();
-				}
+                if(selectedEdge.getColor() == TrainColor.GRAY)
+                {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+                    dialog.setTitle(R.string.claimRouteTitle).setItems(R.array.trainColors, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            TrainColor color;
+                            switch(i)
+                            {
+                                case 0:
+                                    color = TrainColor.PINK;
+                                    break;
+                                case 1:
+                                    color = TrainColor.WHITE;
+                                    break;
+                                case 2:
+                                    color = TrainColor.BLUE;
+                                    break;
+                                case 3:
+                                    color = TrainColor.YELLOW;
+                                    break;
+                                case 4:
+                                    color = TrainColor.ORANGE;
+                                    break;
+                                case 5:
+                                    color = TrainColor.BLACK;
+                                    break;
+                                case 6:
+                                    color = TrainColor.RED;
+                                    break;
+                                case 7:
+                                    color = TrainColor.GREEN;
+                                    break;
+                                default:
+                                    Toast.makeText(activity, "BAD COLOR SELECTION", Toast.LENGTH_SHORT).show();
+                                    color = TrainColor.LIGHT_GRAY;
+                            }
+                            try
+                            {
+                                claimRoute(selectedEdge, color);
+                            } catch (InsufficientCardsException e)
+                            {
+                                Toast.makeText(activity, "Not Enough Cards", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    dialog.show();
+                    //make dialog to get color user wants to use
+                } else
+                {
+                    try
+                    {
+                        claimRoute(selectedEdge, selectedEdge.getColor());
+                    } catch (InsufficientCardsException e)
+                    {
+                        Toast.makeText(activity, "Not Enough Cards", Toast.LENGTH_SHORT).show();
+                    }
+                }
+//                android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
+//                android.support.v4.app.Fragment fragment = fm.findFragmentByTag(ClaimFragment.class.getSimpleName());
+//                if (fragment == null)
+//				{
+//					fragment = new ClaimFragment();
+//					fm.beginTransaction().add(R.id.fragment_map, fragment, ClaimFragment.class.getSimpleName())
+//							.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//							.addToBackStack(ClaimFragment.class.getSimpleName()).commit();
+//				}
             }
             else {
                 String message = "This route is already claimed by another player.";
@@ -82,11 +142,15 @@ public class GamePresenter
         }
     }
 
-    void claimRoute(TrainColor color, int number) throws InsufficientCardsException
+    void claimRoute(Edge selectedEdge, TrainColor selectedColor) throws InsufficientCardsException
     {
-        // TODO: implement
-
+        List<TrainCard> cards = model.canClaimRoute(selectedColor, selectedEdge.getLength());
+        ClaimRequest req = new ClaimRequest(model.getGameID(), model.getUserName(), selectedEdge, new HandTrainCards(cards));
+        ClaimTask task = new ClaimTask(model);
+        task.execute(req);
     }
+
+
     boolean playerHasRestrictedAction() { return model.getPlayer().hasRestrictedAction(); }
 
     void refreshMapFragment(Edge edge) {
@@ -210,4 +274,52 @@ public class GamePresenter
     {
         activity.endGame(players);
     }
+
+    public void sendClaimRequest()
+    {
+
+        GameID id = model.getGameID();
+        Username user = model.getUserName();
+        Edge edge = model.getSelectedEdge();
+        HandTrainCards cards = new HandTrainCards(model.getQueuedCards());
+        edge.setOwner(model.getPlayer());
+        ClaimTask claimTask = new ClaimTask(model);
+        ClaimRequest request = new ClaimRequest(id, user, edge, cards);
+        claimTask.execute(request);
+    }
+
+
+    class ClaimTask extends AsyncTask<ClaimRequest, Integer, Signal>
+    {
+
+        ClaimTask(GameModel model)
+        {
+        }
+
+        @Override
+        protected Signal doInBackground(ClaimRequest... claimRequests) {
+            ClaimRequest r = claimRequests[0];
+            return ServerProxy.getInstance().playerClaimedEdge(r.getId(), r.getUser(),
+                                                               r.getEdge(), r.getCards());
+        }
+
+        @Override
+        protected void onPostExecute(Signal signal) {
+            super.onPostExecute(signal);
+            if (signal.getSignalType() == SignalType.OK)
+            {
+                Edge edge = (Edge) signal.getObject();
+                model.getGameData().edgeClaimed(edge, model.getQueuedCards());
+                TurnEndedTask task = new TurnEndedTask();
+                task.execute(GameModel.getInstance().getGameID(), GameModel.getInstance().getUserName());
+                //update map
+                refreshMapFragment(edge);
+            }
+            else
+            {
+                //MAKE CANT CLAIM TOAST
+            }
+        }
+    }
+
 }
