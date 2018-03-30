@@ -209,6 +209,7 @@ public class ServerGameData implements Serializable
 
     public boolean isLastTurn()
     {
+        computeLongestRoute();
         Player currentPlayer = getPlayer(turnQueue.peek());
         if (currentPlayer.getTrainPiecesRemaining() == 2 ||
             currentPlayer.getTrainPiecesRemaining() == 1 ||

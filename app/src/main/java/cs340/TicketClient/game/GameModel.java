@@ -2,37 +2,31 @@ package cs340.TicketClient.game;
 
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import common.cards.DestinationCard;
-import common.cards.HandDestinationCards;
-import common.cards.TrainCard;
-import common.cards.TrainColor;
+import common.cards.*;
 import common.chat.ChatItem;
-import common.game_data.ClientGameData;
-import common.game_data.EndGame;
-import common.game_data.GameID;
-import common.game_data.Opponent;
+import common.game_data.*;
 import common.history.HistoryItem;
 import common.map.City;
 import common.map.Edge;
-import common.player_info.Player;
-import common.player_info.User;
-import common.player_info.Username;
+import common.player_info.*;
 import cs340.TicketClient.card_fragments.deck_fragment.DeckFragmentPresenter;
 import cs340.TicketClient.game_menu.chat.ChatPresenter;
 import cs340.TicketClient.game_menu.history.HistoryPresenter;
 
 public class GameModel
 {
-    private ClientGameData gameData;
     private static GameModel singleton;
-    private HandDestinationCards initialDCards;
     GamePresenter presenter;
-    private ArrayList<TrainCard> queuedCards = new ArrayList<>();
     Edge selectedEdge;
+    private ClientGameData gameData;
+    private HandDestinationCards initialDCards;
+    private ArrayList<TrainCard> queuedCards = new ArrayList<>();
+
+    private GameModel()
+    {
+    }
 
     public static GameModel getInstance()
     {
@@ -43,36 +37,53 @@ public class GameModel
         return singleton;
     }
 
-    private GameModel() {}
-
-    public void setQueuedCards(ArrayList<TrainCard> queuedCards) {
-        this.queuedCards = queuedCards;
-    }
-
-    public ArrayList<TrainCard> getQueuedCards() {
+    public ArrayList<TrainCard> getQueuedCards()
+    {
         return queuedCards;
     }
 
-    // Game Methods
-    public void setGameData(ClientGameData gameData) { this.gameData = gameData; }
+    public void setQueuedCards(ArrayList<TrainCard> queuedCards)
+    {
+        this.queuedCards = queuedCards;
+    }
 
-    public ClientGameData getGameData() { return gameData; }
+    public ClientGameData getGameData()
+    {
+        return gameData;
+    }
+
+    // Game Methods
+    public void setGameData(ClientGameData gameData)
+    {
+        this.gameData = gameData;
+    }
 
     public void setPresenter(GamePresenter presenter)
     {
         this.presenter = presenter;
     }
 
-    public void setInitialDCards(HandDestinationCards initialDCards) {this.initialDCards = initialDCards; }
-
-    public GameID getGameID() { return gameData.getId(); }
+    public GameID getGameID()
+    {
+        return gameData.getId();
+    }
 
     // Player and Opponent Methods
-    public Player getPlayer() { return gameData.getPlayer(); }
+    public Player getPlayer()
+    {
+        return gameData.getPlayer();
+    }
 
-	public Username getUserName() { User user = getPlayer().getUser(); return user.getUsername(); }
+    public Username getUserName()
+    {
+        User user = getPlayer().getUser();
+        return user.getUsername();
+    }
 
-    public List<Opponent> getOpponents() { return gameData.getOpponents(); }
+    public List<Opponent> getOpponents()
+    {
+        return gameData.getOpponents();
+    }
 
     // TODO: update to get correct opponent
     public void addTrainToOpponent(int number)
@@ -104,13 +115,16 @@ public class GameModel
         gameData.getFaceUp().set(index, replacement);
     }
 
-    public void updateFaceUpCards(List<TrainCard>cards)
+    public void updateFaceUpCards(List<TrainCard> cards)
     {
         gameData.setFaceUpCards(cards);
         DeckFragmentPresenter.getInstance().refreshFaceUpCards(cards);
     }
 
-    public int getTrainCardDeckSize() { return gameData.getTrainCardsLeft(); }
+    public int getTrainCardDeckSize()
+    {
+        return gameData.getTrainCardsLeft();
+    }
 
     // Train Card Hand Methods
     // TODO: update (or at least look at)
@@ -120,16 +134,36 @@ public class GameModel
     }
 
     // TODO: update to remove specific card(s)
-    public void removeTrainCard() { getPlayer().getHand().remove(0); }
+    public void removeTrainCard()
+    {
+        getPlayer().getHand().remove(0);
+    }
 
     // Destination Card Deck Methods
-    public void decrementDestinationCount(int count) { gameData.decDestinationCardsLeft(count); }
+    public void decrementDestinationCount(int count)
+    {
+        gameData.decDestinationCardsLeft(count);
+    }
 
-    public HandDestinationCards getInitialDCards() { return initialDCards; }
+    public HandDestinationCards getInitialDCards()
+    {
+        return initialDCards;
+    }
 
-    public void updateDDeckCount(int number) { gameData.decDestinationCardsLeft(number); }
+    public void setInitialDCards(HandDestinationCards initialDCards)
+    {
+        this.initialDCards = initialDCards;
+    }
 
-    public void clearDCards() { initialDCards = null; }
+    public void updateDDeckCount(int number)
+    {
+        gameData.decDestinationCardsLeft(number);
+    }
+
+    public void clearDCards()
+    {
+        initialDCards = null;
+    }
 
     // Destination Hand Methods
     // TODO: update (or at least look at)
@@ -139,9 +173,9 @@ public class GameModel
     }
 
     public void addDestinationCards(HandDestinationCards cards)
-	{
-		getPlayer().getDestinationCards().addAll(cards.getDestinationCards());
-	}
+    {
+        getPlayer().getDestinationCards().addAll(cards.getDestinationCards());
+    }
 
     // TODO: update to remove specific card(s)
     public void removeDestCard()
@@ -215,7 +249,10 @@ public class GameModel
         return gameData.isMyTurn();
     }
 
-    public void nextTurn() { gameData.nextTurn(); }
+    public void nextTurn()
+    {
+        gameData.nextTurn();
+    }
 
     public void endGame(EndGame players)
     {
@@ -223,11 +260,13 @@ public class GameModel
     }
 
     //Selected Edge Methods
-    public Edge getSelectedEdge() {
+    public Edge getSelectedEdge()
+    {
         return selectedEdge;
     }
 
-    public void setSelectedEdge(Edge selectedEdge) {
+    public void setSelectedEdge(Edge selectedEdge)
+    {
         this.selectedEdge = selectedEdge;
     }
 
@@ -248,26 +287,39 @@ public class GameModel
 
     private boolean doubleEdgeClaimChecks(Username agent, Edge toClaim, int totalPlayers)
     {
-        if(!toClaim.isDoubleEdge()) return true;
-        Map<City,List<Edge>> map = gameData.getGameboard().getGraph();
+        if (!toClaim.isDoubleEdge())
+        {
+            return true;
+        }
+        Map<City, List<Edge>> map = gameData.getGameboard().getGraph();
         List<Edge> edgesConnectedToSecondCity = map.get(toClaim.getSecondCity());
         Edge twin = null;
-        for(Edge edge : edgesConnectedToSecondCity)
+        for (Edge edge : edgesConnectedToSecondCity)
         {
-            if(toClaim.getFirstCity().equals(edge.getSecondCity()))
+            if (toClaim.getFirstCity().equals(edge.getSecondCity()))
             {
                 twin = edge;
                 break;
             }
         }
-        if(twin == null) return true; //hopefully never gets here, but if you messed up registering edges the game must go on
+        if (twin == null)
+        {
+            return true; //hopefully never gets here, but if you messed up registering edges the game must go on
+        }
         boolean notManyPlayers = totalPlayers == 2 || totalPlayers == 3;
-        if(notManyPlayers && twin.getOwner() != null) return false;
-        if(twin.getOwner()!= null && twin.getOwner().equals(agent)) return false;
+        if (notManyPlayers && twin.getOwner() != null)
+        {
+            return false;
+        }
+        if (twin.getOwner() != null && twin.getOwner().equals(agent))
+        {
+            return false;
+        }
         return true;
     }
 
-    private boolean grayEdgeClaimCheck(List<TrainCard> cards) {
+    private boolean grayEdgeClaimCheck(List<TrainCard> cards)
+    {
         final TrainColor wild = TrainColor.GRAY;
         TrainColor cardSetColor = cards.get(0).getType();
         for (TrainCard card : cards)
@@ -278,33 +330,41 @@ public class GameModel
                 cardSetColor = cardColor;
             }
             boolean matches = cardColor.equals(cardSetColor) || cardColor.equals(wild);
-            if(!matches) return false;
+            if (!matches)
+            {
+                return false;
+            }
         }
         return true;
     }
 
-    private boolean coloredEdgeClaimCheck(List<TrainCard> cards, final TrainColor edgeColor) {
+    private boolean coloredEdgeClaimCheck(List<TrainCard> cards, final TrainColor edgeColor)
+    {
         final TrainColor wild = TrainColor.GRAY;
         for (TrainCard card : cards)
         {
             TrainColor cardColor = card.getType();
             boolean matches = cardColor.equals(edgeColor) || cardColor.equals(wild);
-            if(!matches) return false;
+            if (!matches)
+            {
+                return false;
+            }
         }
         return true;
     }
 
-    public List<TrainCard> canClaimRoute(TrainColor color, int length) throws GamePresenter.InsufficientCardsException
+    public List<TrainCard> canClaimRoute(TrainColor color, int length)
+            throws GamePresenter.InsufficientCardsException
     {
-       List<TrainCard> cards = gameData.getPlayer().getHand().getTrainCards();
-       List<TrainCard> cardsToUse = new ArrayList<>();
-       List<TrainCard> wilds = new ArrayList<>();
-       for(TrainCard card : cards)
-       {
-            if(card.getType() == color)
+        List<TrainCard> cards = gameData.getPlayer().getHand().getTrainCards();
+        List<TrainCard> cardsToUse = new ArrayList<>();
+        List<TrainCard> wilds = new ArrayList<>();
+        for (TrainCard card : cards)
+        {
+            if (card.getType() == color)
             {
                 cardsToUse.add(card);
-                if(cardsToUse.size() == length)
+                if (cardsToUse.size() == length)
                 {
                     break;
                 }
@@ -312,25 +372,25 @@ public class GameModel
             {
                 wilds.add(card);
             }
-       }
-       if(cardsToUse.size() == length)
-       {
-           gameData.getPlayer().getHand().removeAll(cardsToUse);
-           return cardsToUse;
-       } else if( cardsToUse.size() < length)
-       {
-           while (wilds.size() > 0)
-           {
-               cardsToUse.add(wilds.get(0));
-               wilds.remove(0);
-               if(cardsToUse.size() == length)
-               {
-                   gameData.getPlayer().getHand().removeAll(cardsToUse);
-                   return cardsToUse;
-               }
-           }
-       }
-       throw new GamePresenter.InsufficientCardsException();
+        }
+        if (cardsToUse.size() == length)
+        {
+            gameData.getPlayer().getHand().removeAll(cardsToUse);
+            return cardsToUse;
+        } else if (cardsToUse.size() < length)
+        {
+            while (wilds.size() > 0)
+            {
+                cardsToUse.add(wilds.get(0));
+                wilds.remove(0);
+                if (cardsToUse.size() == length)
+                {
+                    gameData.getPlayer().getHand().removeAll(cardsToUse);
+                    return cardsToUse;
+                }
+            }
+        }
+        throw new GamePresenter.InsufficientCardsException();
     }
 
     public void lastTurn()
