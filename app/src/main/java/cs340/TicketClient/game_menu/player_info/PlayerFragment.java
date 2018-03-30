@@ -20,8 +20,10 @@ public class PlayerFragment extends Fragment
     private TextView mPlayerTrainCards;
     private TextView mPlayerDestinationCards;
     private TextView mTurnQueue;
+    private TextView mTrainCardsLeft;
     private TextView mOpponentInfo;
     private TextView mTrains;
+    private TextView mDcardsLeft;
     private Button mExitButton;
 
     @Override
@@ -51,13 +53,21 @@ public class PlayerFragment extends Fragment
         text = "Score: " + presenter.getPlayerPoints();
         mPlayerScore.setText(text);
 
+        mTrains = v.findViewById(R.id.playerTrainsLeft);
+        text = "Trains Left: " + GameModel.getInstance().getPlayer().getTrainPiecesRemaining();
+        mTrains.setText(text);
+
         mPlayerTrainCards = (TextView) v.findViewById(R.id.drawer_player_train_cards);
         text = presenter.getTrainCards();
         mPlayerTrainCards.setText(text);
 
-        mTrains = v.findViewById(R.id.drawer_player_train_cards);
-        text = "Trains left: "+ GameModel.getInstance().getPlayer().getTrainPiecesRemaining();
-        mTrains.setText(text);
+        mDcardsLeft = v.findViewById(R.id.DcardsLeft);
+        text = "Destination Cards Left: "+ GameModel.getInstance().getGameData().getDestinationCardsLeft();
+        mDcardsLeft.setText(text);
+
+        mTrainCardsLeft = v.findViewById(R.id.train_cardsLeft);
+        text = "Train Cards Left: " + GameModel.getInstance().getGameData().getTrainCardsLeft();
+        mTrainCardsLeft.setText(text);
 
         mPlayerDestinationCards = (TextView) v.findViewById(R.id.drawer_player_destination_cards);
         text = presenter.getDestinationCards();

@@ -37,10 +37,22 @@
                 android:text="Points"/>
 
             <TextView
+                android:id="@+id/playerTrainsLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TrainCards"/>
+
+            <TextView
                 android:id="@+id/drawer_player_train_cards"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TrainCards"/>
+
+            <TextView
+                android:id="@+id/train_cardsLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="cards left"/>
 
             <TextView
                 android:id="@+id/drawer_player_destination_cards"
@@ -49,7 +61,7 @@
                 android:text="DestinationCards"/>
 
             <TextView
-                android:id="@+id/trainsLeft"
+                android:id="@+id/DcardsLeft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="DestinationCards"/>
