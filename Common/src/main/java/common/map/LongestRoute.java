@@ -1,11 +1,12 @@
 package common.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import common.player_info.Username;
 
-public class LongestRoute
+public class LongestRoute implements Serializable
 {
     List<Username> longestRouteOwners = new ArrayList<>();
     int length = 0;

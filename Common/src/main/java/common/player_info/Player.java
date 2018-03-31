@@ -208,6 +208,8 @@ public class Player implements Serializable
 
     public int computeLongestPath()
     {
+        if (claimedEdges.getAllEdges().size()  == 0)
+            return 0;
         Set<Edge> unusedEdges = claimedEdges.getAllEdges();
         int longestPath = 0;
         List<City> endCities = Edge.findCitiesWithNumEdges(unusedEdges, 1);

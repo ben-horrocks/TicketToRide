@@ -87,11 +87,17 @@ public class EdgeGraph implements Serializable
 
     private static boolean existEdge(Set<Edge> graph, String city1, String city2)
     {
+
         for (Edge e : graph)
         {
-            if (e.getFirstCity().getCityName().equals(city1) && e.getSecondCity().getCityName().equals(city2)
-                    || e.getSecondCity().getCityName().equals(city2) && e.getFirstCity().getCityName().equals(city1))
+            String s1 = e.getFirstCity().getCityName();
+            String s2 = e.getSecondCity().getCityName();
+            if (e.getFirstCity().getCityName().equals(city1) && e.getSecondCity().getCityName().equals(city2))
             {
+                return true;
+            }
+            if(e.getSecondCity().getCityName().equals(city2) && e.getFirstCity().getCityName().equals(city1)) {
+
                 return true;
             }
         }
@@ -100,14 +106,16 @@ public class EdgeGraph implements Serializable
 
     public static boolean findRoute(Set<Edge> left, String city1, String city2)
     {
+        Set<Edge> thisLeft = left;
         boolean runningTruth = false;
         if (existEdge(left, city1, city2))
             return true;
         else
         {
-            for (Edge e : left)
+            for (Edge e : thisLeft)
             {
-                if (e.getFirstCity().toString().equals(city1))
+                String s = e.getFirstCity().getCityName();
+                if (e.getFirstCity().getCityName().equals(city1))
                 {
                     left.remove(e);
                     runningTruth = findRoute(left, e.getSecondCity().getCityName(), city2);
@@ -117,7 +125,7 @@ public class EdgeGraph implements Serializable
                     }
                     left.add(e);
                 }
-                else if(e.getSecondCity().toString().equals(city1))
+                else if(e.getSecondCity().getCityName().equals(city1))
                 {
                     left.remove(e);
                     runningTruth = findRoute(left, e.getFirstCity().getCityName(), city2);

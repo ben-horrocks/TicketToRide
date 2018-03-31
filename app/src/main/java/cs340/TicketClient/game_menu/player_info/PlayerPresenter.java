@@ -138,8 +138,17 @@ public class PlayerPresenter
         for (DestinationCard card : player.getDestinationCards().getDestinationCards())
         {
             String text = "\t" + card.getCity1() + " to " + card.getCity2() + ": " +
-                          card.getPointValue() + "\n";
+                          card.getPointValue();
             sb.append(text);
+            if (card.isComplete())
+            {
+                text = " Complete\n";
+                sb.append(text);
+            }
+            else
+            {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

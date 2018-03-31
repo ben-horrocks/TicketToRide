@@ -48,6 +48,7 @@ public class ServerGameData implements Serializable
         this.gameBoard = new InitializedGameGraph();
         this.chat = new ArrayList<>();
         this.history = new ArrayList<>();
+        longestRoute = new LongestRoute();
     }
 
     private void createTurnQueue() { turnQueue = new TurnQueue(getUserNames()); }
