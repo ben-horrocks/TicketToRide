@@ -632,6 +632,8 @@ public class ServerFacade implements IServer
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        Player player = game.getPlayer(user.getName());
+        player.addPoints(edge.computePointValue());
         //Update GameData
         game.edgeClaimed(edge,spent.getTrainCards());
         //Alert Opponents
@@ -704,6 +706,10 @@ public class ServerFacade implements IServer
 		}
 		if (game.getNextPlayer() == null)
         {
+            for (Player p : game.getPlayers())
+            {
+                p.getPoints().setDestinationPoints(p.getDestinationCards());
+            }
             EndGame(gameID);
             return new Signal(SignalType.OK, "ENDING Game");
         }

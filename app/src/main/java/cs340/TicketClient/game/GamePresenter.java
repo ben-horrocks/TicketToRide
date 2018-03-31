@@ -274,7 +274,12 @@ public class GamePresenter
 
     public void makeToast(String s)
     {
-        Toast.makeText(getGameActivity(), "Last Turn!", Toast.LENGTH_SHORT).show();
+        getGameActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getGameActivity(), "Last Turn!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

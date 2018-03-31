@@ -2,6 +2,7 @@ package cs340.TicketClient.end_game;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.sax.EndElementListener;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,8 @@ public class EndGameActivity extends AppCompatActivity
         mPlayerListAdapter = new EndPlayerAdapter();
         mPlayerList.setAdapter(mPlayerListAdapter);
         mReturnToLobbyButton = findViewById(R.id.return_to_lobby_button);
-        EndGame players;
+        mWinnername = findViewById(R.id.winner_name);
+        EndGame players = null;
         Bundle extras = this.getIntent().getExtras();
         if(extras != null) {
             players = (EndGame) extras.get("players");
@@ -47,6 +49,19 @@ public class EndGameActivity extends AppCompatActivity
             //log that we didn't get the data we need
             Toast.makeText(this, "CANNOT GET PLAYERS", Toast.LENGTH_LONG).show();
         }
+
+        EndGame.EndGamePlayer top = null;
+        for (EndGame.EndGamePlayer p : players.getPlayers())
+        {
+            if (top == null)
+                top =p;
+            else if (p.getTotalPoints() > top.getTotalPoints())
+            {
+                top = p;
+            }
+        }
+
+        mWinnername.setText(top.getUsername());
 
         mReturnToLobbyButton.setOnClickListener(new View.OnClickListener() {
             @Override

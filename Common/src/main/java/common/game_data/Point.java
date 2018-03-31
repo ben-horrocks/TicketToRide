@@ -2,6 +2,9 @@ package common.game_data;
 
 import java.io.Serializable;
 
+import common.cards.DestinationCard;
+import common.cards.HandDestinationCards;
+
 public class Point implements Serializable
 {
     private int destinationCardPoints = 0;
@@ -21,6 +24,19 @@ public class Point implements Serializable
     public int getRoutesClaimedPoints()
     {
         return routesClaimedPoints;
+    }
+
+    public void setDestinationPoints(HandDestinationCards cards)
+    {
+        for (DestinationCard card : cards.toArray())
+        {
+            if (card.isComplete())
+            {
+                destinationCardPoints += card.getPointValue();
+            }
+            else
+                destinationCardPoints -= card.getPointValue();
+        }
     }
 
     public void incrementRoutesClaimed(int points)
