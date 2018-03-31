@@ -1,17 +1,21 @@
 package cs340.TicketClient.game;
 
+import android.os.AsyncTask;
+import android.os.Looper;
 import android.widget.Toast;
 
 import java.util.*;
 
 import common.cards.*;
 import common.chat.ChatItem;
+import common.communication.Signal;
 import common.game_data.*;
 import common.history.HistoryItem;
 import common.map.City;
 import common.map.Edge;
 import common.player_info.*;
 import cs340.TicketClient.card_fragments.deck_fragment.DeckFragmentPresenter;
+import cs340.TicketClient.communicator.ServerProxy;
 import cs340.TicketClient.game_menu.chat.ChatPresenter;
 import cs340.TicketClient.game_menu.history.HistoryPresenter;
 
@@ -252,6 +256,10 @@ public class GameModel
     public void nextTurn()
     {
         gameData.nextTurn();
+        if (gameData.getTurnQueue().size() == 0)
+        {
+
+        }
     }
 
     public void endGame(EndGame players)
@@ -395,6 +403,21 @@ public class GameModel
 
     public void lastTurn()
     {
-        Toast.makeText(presenter.getGameActivity(), "Last Turn!", Toast.LENGTH_SHORT).show();
+        gameData.getTurnQueue().lastTurn();
+        presenter.makeToast("Last Turn!");
+    }
+
+
+    class EndGameTask extends AsyncTask<Void, Integer, Signal>
+    {
+        @Override
+        protected Signal doInBackground(Void... voids) {
+            return ServerProxy.getInstance().EndGame(getGameID());
+        }
+
+        @Override
+        protected void onPostExecute(Signal signal) {
+            super.onPostExecute(signal);
+        }
     }
 }

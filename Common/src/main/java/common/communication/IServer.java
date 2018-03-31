@@ -28,6 +28,8 @@ public interface IServer
      */
     Signal login(String username, String password);
 
+    Signal EndGame(GameID id);
+
     /**
      * registers a new player with the given credentials, rejects invalid or preexiting credentials
      *

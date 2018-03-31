@@ -26,6 +26,7 @@ import common.map.Edge;
 import common.player_info.AuthToken;
 import common.player_info.Password;
 import common.player_info.Player;
+import common.player_info.PlayerList;
 import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
@@ -633,7 +634,6 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
         game.edgeClaimed(edge,spent.getTrainCards());
-        game.getPlayer(user.getName()).getPieces().useTrainPieces(edge.getLength());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
         opponents.remove(Database.SINGLETON.getPlayer(user));
@@ -702,17 +702,35 @@ public class ServerFacade implements IServer
 				return s;
 			}
 		}
+		if (game.getNextPlayer() == null)
+        {
+            EndGame(gameID);
+            return new Signal(SignalType.OK, "ENDING Game");
+        }
         ClientProxy.getSINGLETON().startTurn(game.getNextPlayer());
 		Signal signal = new Signal(SignalType.OK, "TurnQueues updated");
 		logger.exiting("ServerFacade", "nextTurn", signal);
 		return signal;
 	}
 
+
+    @Override
+    public Signal EndGame(GameID id) {
+        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        PlayerList players = new PlayerList((ArrayList<Player>)game.getPlayers());
+        Signal s = null;
+        for (User u : game.getUsers())
+        {
+           s = ClientProxy.getSINGLETON().EndGame(u.getUsername(), players);
+        }
+        return s;
+    }
+
     public Signal turnEnded(GameID id, Username name)
     {
         logger.entering("ServerFacade", "turnEnded", id);
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-        if(game.isLastTurn())
+        if(game.isLastTurn() && !game.getTurnQueue().getLastTurn())
         {
             game.lastTurn();
             ServerFacade.getSINGLETON().lastTurn(id);

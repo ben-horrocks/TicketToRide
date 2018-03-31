@@ -60,7 +60,11 @@ public class TurnQueue implements Serializable
 	 */
 	public int size() { return queue.size(); }
 
-	public void lastTurn()
+    public Boolean getLastTurn() {
+        return lastTurn;
+    }
+
+    public void lastTurn()
     {
         lastTurn = true;
     }

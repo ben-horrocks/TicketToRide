@@ -109,8 +109,8 @@ public class ClientCommunicator
                                 Command command = new Command(params, ClientFacade.class.getName());
                                 Signal result = (Signal) command.execute();
                                 server.write(result); // push(result);
-                                System.out.println(
-                                        "Signal sent to server: " + result.getSignalType());
+  //                              System.out.println(
+//                                        "Signal sent to server: " + result.getSignalType());
                             }
 
                         } catch (InterruptedException e)

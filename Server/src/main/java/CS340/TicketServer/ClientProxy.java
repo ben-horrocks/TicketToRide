@@ -15,6 +15,8 @@ import common.communication.Signal;
 import common.communication.SignalType;
 import common.history.HistoryItem;
 import common.map.Edge;
+import common.player_info.PlayerList;
+import common.player_info.User;
 import common.player_info.Username;
 import communicators.ServerCommunicator;
 
@@ -287,4 +289,14 @@ public class ClientProxy implements IClient
         logger.exiting("ClientProxy", "sendCommandToClient", signal);
         return signal;
     }
+
+    @Override
+    public Signal EndGame(Username user, PlayerList playerList) {
+        String[] parameterTypes = {Username.class.getName(),PlayerList.class.getName()};
+        Object[] parameters = {user, playerList};
+        CommandParams endGameCommand = new CommandParams("EndGame", parameterTypes, parameters);
+        Signal signal = sendCommandToClient(user, "EndGame", parameterTypes, parameters);
+        return signal;
+    }
 }
+

@@ -17,6 +17,7 @@ import common.communication.SignalType;
 import common.history.HistoryItem;
 import common.map.Edge;
 import common.player_info.Player;
+import common.player_info.PlayerList;
 import common.player_info.Username;
 import cs340.TicketClient.async_task.TurnEndedTask;
 import cs340.TicketClient.card_fragments.deck_fragment.DeckFragmentPresenter;
@@ -217,5 +218,11 @@ public class ClientFacade implements IClient
     	Player player = GameModel.getInstance().getPlayer();
         player.getTurnState().turnStarted(player);
         return new Signal(SignalType.OK, "implemented startTurn *wink*");
+    }
+
+    @Override
+    public Signal EndGame(Username user, PlayerList playerList) {
+        GameModel.getInstance().endGame(new EndGame(playerList.getPlayers()));
+        return new Signal(SignalType.OK, "implemented EndGame *wink*");
     }
 }

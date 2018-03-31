@@ -24,7 +24,7 @@ public class EndGame implements Serializable
         return players;
     }
 
-    public class EndGamePlayer
+    public class EndGamePlayer implements Serializable
     {
         Username username;
         Point point;

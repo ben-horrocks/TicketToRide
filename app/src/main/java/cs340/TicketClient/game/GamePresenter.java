@@ -272,6 +272,11 @@ public class GamePresenter
         return null;
     }
 
+    public void makeToast(String s)
+    {
+        Toast.makeText(getGameActivity(), "Last Turn!", Toast.LENGTH_SHORT).show();
+    }
+
 
     public void endGame(EndGame players)
     {
