@@ -25,7 +25,7 @@ public class Point implements Serializable
 
     public void incrementRoutesClaimed(int points)
     {
-        routesClaimedPoints += routesClaimedPoints;
+        routesClaimedPoints += points;
     }
 
     public int computeFinalPoints()

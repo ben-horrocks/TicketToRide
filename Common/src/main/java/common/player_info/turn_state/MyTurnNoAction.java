@@ -63,7 +63,6 @@ public class MyTurnNoAction implements ITurnState, Serializable
 		player.checkDestinationCards();
 		player.getHand().getTrainCards().removeAll(spent);
 		player.getPieces().useTrainPieces(spent.size());
-		player.addPoints(edge.computePointValue());
 		player.setTurnState(new NotMyTurn());
 	}
 

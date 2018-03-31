@@ -124,6 +124,7 @@ public class Opponent implements Serializable
             mTrainPieces.useTrainPieces(edge.getLength());
             if (numberHandCards > edge.getLength()) {
                 numberHandCards -= edge.getLength();
+                addPoints(edge.computePointValue());
                 return true;
             }
             return false;

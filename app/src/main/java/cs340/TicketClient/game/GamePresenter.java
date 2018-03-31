@@ -147,6 +147,7 @@ public class GamePresenter
         List<TrainCard> cards = model.canClaimRoute(selectedColor, selectedEdge.getLength());
         selectedEdge.setOwner(model.getPlayer());
         model.getPlayer().getPieces().useTrainPieces(selectedEdge.getLength());
+        model.getPlayer().addPoints(selectedEdge.computePointValue());
         ClaimRequest req = new ClaimRequest(model.getGameID(), model.getUserName(), selectedEdge, new HandTrainCards(cards));
         ClaimTask task = new ClaimTask(model);
         task.execute(req);

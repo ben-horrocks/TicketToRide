@@ -162,6 +162,7 @@ public class Player implements Serializable
 
     public void claimedEdge(Edge edge, List<TrainCard> spent)
     {
+        ITurnState state = getTurnState();
         getTurnState().claimEdge(this, edge, spent);
     }
 

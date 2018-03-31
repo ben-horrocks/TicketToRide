@@ -210,7 +210,7 @@ public class ServerGameData implements Serializable
 
     public boolean isLastTurn()
     {
-        computeLongestRoute();
+ //       computeLongestRoute(); TODO: fix this so it doesn't break the program
         Player currentPlayer = getPlayer(turnQueue.peek());
         if (currentPlayer.getTrainPiecesRemaining() == 2 ||
             currentPlayer.getTrainPiecesRemaining() == 1 ||
