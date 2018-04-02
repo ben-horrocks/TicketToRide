@@ -164,8 +164,6 @@ public class Player implements Serializable
     {
         ITurnState state = getTurnState();
         getTurnState().claimEdge(this, edge, spent);
-        claimedEdges.addEdge(edge);
-        pieces.useTrainPieces(edge.getLength());
     }
 
 	public void setTurnState(ITurnState turnState) { this.turnState = turnState; }
