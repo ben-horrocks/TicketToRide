@@ -59,7 +59,7 @@ public class GamePresenter
         final Edge selectedEdge = model.getSelectedEdge();
         if (selectedEdge != null)
         {
-            if (!selectedEdge.isClaimed())
+            if (!selectedEdge.isClaimed() && model.doubleEdgeClaimChecks(model.getUserName(), selectedEdge))
             {
                 if(selectedEdge.getColor() == TrainColor.GRAY)
                 {

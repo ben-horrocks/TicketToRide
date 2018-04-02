@@ -293,7 +293,7 @@ public class GameModel
         return false;
     }
 
-    private boolean doubleEdgeClaimChecks(Username agent, Edge toClaim, int totalPlayers)
+    public boolean doubleEdgeClaimChecks(Username agent, Edge toClaim)
     {
         if (!toClaim.isDoubleEdge())
         {
@@ -314,7 +314,8 @@ public class GameModel
         {
             return true; //hopefully never gets here, but if you messed up registering edges the game must go on
         }
-        boolean notManyPlayers = totalPlayers == 2 || totalPlayers == 3;
+        int totalPlayers = gameData.getOpponents().size() + 1;
+        boolean notManyPlayers = (totalPlayers == 2 || totalPlayers == 3);
         if (notManyPlayers && twin.getOwner() != null)
         {
             return false;
@@ -323,7 +324,7 @@ public class GameModel
         {
             return false;
         }
-        return true;
+00        return true;
     }
 
     private boolean grayEdgeClaimCheck(List<TrainCard> cards)
