@@ -571,6 +571,10 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
         List<DestinationCard> cards = game.destinationDraw();
+        if(cards.size() == 0)
+        {
+            Signal signal = new Signal(SignalType.ERROR, "No more Destination Cards");
+        }
         HandDestinationCards hand = new HandDestinationCards(cards);
         //Give the Cards to the requester
         Signal signal = new Signal(SignalType.OK, hand);
