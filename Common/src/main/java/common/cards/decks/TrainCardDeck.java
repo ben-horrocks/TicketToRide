@@ -34,6 +34,7 @@ public class TrainCardDeck implements ITrainCardDeck, Serializable
         TrainCard card = faceUpCards.get(index);
         faceUpCards.remove(index);
         faceUpCards.add(index, drawFaceDown());
+        checkFaceUpCards();
         return card;
     }
 
