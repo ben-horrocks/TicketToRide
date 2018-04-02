@@ -755,9 +755,13 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         if(game.isLastTurn() && !lastTurnEmmitted)
         {
+            nextTurn(id);
             game.lastTurn();
             lastTurnEmmitted = true;
             ServerFacade.getSINGLETON().lastTurn(id);
+            Signal signal = new Signal(SignalType.OK, "turnEnded");
+            logger.exiting("ServerFacade", "turnEnded", signal);
+            return signal;
         }
         nextTurn(id);
         Signal signal = new Signal(SignalType.OK, "turnEnded");
