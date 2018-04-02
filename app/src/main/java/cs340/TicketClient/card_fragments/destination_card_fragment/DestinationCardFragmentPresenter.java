@@ -83,6 +83,7 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
         SendCardsRequest request = new SendCardsRequest(id, user, selected, returned);
         SendCardsTask task = new SendCardsTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+        fragment.getTheActivity().setFrag(null);
         FragmentManager fm = fragment.getActivity().getSupportFragmentManager();
         fm.beginTransaction().remove(fragment).commit();
     }
@@ -123,10 +124,12 @@ public class DestinationCardFragmentPresenter implements IDestinationCardFragmen
             super.onPostExecute(signal);
             if (signal.getSignalType() == OK)
             {
+                presenter.fragment.getTheActivity().setFrag(null);
                 FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
                 fm.popBackStack();
             } else
             {
+                presenter.fragment.getTheActivity().setFrag(null);
                 System.out.printf("error back from return destination cards");
                 FragmentManager fm = presenter.fragment.getActivity().getSupportFragmentManager();
                 fm.popBackStack();

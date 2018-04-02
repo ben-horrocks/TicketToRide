@@ -30,6 +30,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleMap googleMap;
     private User user;
     private GamePresenter presenter;
+    private DestinationCardFragment frag = null;
     final FragmentManager fm = this.getSupportFragmentManager();
 
     @Override
@@ -248,6 +249,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         makeLargerToast(sb.toString());
     }
 
+    public void setFrag(DestinationCardFragment frag) {
+        this.frag = frag;
+    }
+
     /**
      * Display the order in which turns will be taken. Mainly for testing.
      *
@@ -311,5 +316,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("players", players);
         intent.putExtra("user", user);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (frag != null)
+        {
+            Toast.makeText(this, "Cannot go back after drawing Destination cards", Toast.LENGTH_SHORT).show();
+        }
+        else
+            super.onBackPressed();
     }
 }

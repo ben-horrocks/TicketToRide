@@ -79,4 +79,10 @@ public class EndGameActivity extends AppCompatActivity
         intent.putExtra("user", user);
         startActivity(intent);
     }
+
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

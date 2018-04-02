@@ -8,6 +8,7 @@ import android.widget.*;
 import common.cards.DestinationCard;
 import common.cards.HandDestinationCards;
 import common.player_info.turn_state.InitialDestinationCardDraw;
+import cs340.TicketClient.game.GameActivity;
 import cs340.TicketClient.game.GameModel;
 import cs340.TicketClient.R;
 
@@ -18,6 +19,7 @@ public class DestinationCardFragment extends Fragment
     Button confirmCards;
     HandDestinationCards dCards;
     DestinationCardFragmentPresenter presenter;
+    GameActivity activity;
 
     public DestinationCardFragment()
     {
@@ -35,6 +37,8 @@ public class DestinationCardFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        activity = (GameActivity)getActivity();
+        activity.setFrag(this);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_destination_card, container, false);
 
@@ -116,6 +120,10 @@ public class DestinationCardFragment extends Fragment
         return view;
     }
 
+    public GameActivity getTheActivity() {
+        return activity;
+    }
+
     void toggleButton()
     {
         int numSelected = 0;
@@ -135,4 +143,6 @@ public class DestinationCardFragment extends Fragment
             confirmCards.setEnabled(false);
         }
     }
+
+
 }
