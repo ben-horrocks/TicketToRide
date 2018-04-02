@@ -305,7 +305,7 @@ public class ServerFacade implements IServer
                         {
                             player.setPieces(new TrainPieces(5));
                         }
-                    } else if(serverGameData.getName().equals("test"))
+                    } else if(serverGameData.getName().equals("test1"))
                     {
                         for (int i = 0; i < 50; i++)
                         {

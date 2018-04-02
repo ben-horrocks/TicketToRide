@@ -31,7 +31,7 @@ public class Opponent implements Serializable
         this.color = color;
         this.score = 0;
         this.claimedEdges = new EdgeGraph();
-        this.mTrainPieces = new TrainPieces(true);
+        this.mTrainPieces = new TrainPieces();
     }
 
     public void incrementDestinationCards(int number)
