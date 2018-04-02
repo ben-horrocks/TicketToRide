@@ -45,7 +45,8 @@ public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.view
         holder.playerName.setText(player.getUsername());
         holder.playerRouteClaimedPoints.setText(Integer.toString(player.getRoutesClaimedPoints()));
         holder.playerLongestRoutePoints.setText(Integer.toString(player.getLongestPathPoints()));
-        holder.playerCompletedDestinationPoints.setText(Integer.toString(player.getDestinationCardPoints()));
+        holder.playerCompletedDestinationPoints.setText(Integer.toString(player.getCompleteDestinationCardPoints()));
+        holder.playerIncompleteDestinationPoints.setText(Integer.toString(player.getIncompleteDestinationCardPoints()));
         holder.playerTotalPoints.setText(Integer.toString(player.getTotalPoints()));
 
     }
@@ -92,6 +93,7 @@ public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.view
         public TextView playerRouteClaimedPoints;
         public TextView playerLongestRoutePoints;
         public TextView playerCompletedDestinationPoints;
+        public TextView playerIncompleteDestinationPoints;
         public TextView playerTotalPoints;
 
         public viewHolder(View itemView)
@@ -102,6 +104,7 @@ public class EndPlayerAdapter extends RecyclerView.Adapter<EndPlayerAdapter.view
             playerRouteClaimedPoints = (TextView) itemView.findViewById(R.id.end_player_claimed_routes_points);
             playerLongestRoutePoints = (TextView) itemView.findViewById(R.id.end_player_longest_route_points);
             playerCompletedDestinationPoints = (TextView) itemView.findViewById(R.id.end_player_completed_destination_points);
+            playerIncompleteDestinationPoints = (TextView) itemView.findViewById(R.id.end_player_incompleted_destination_points);
             playerTotalPoints = (TextView) itemView.findViewById(R.id.end_player_points);
             //END VIEW BINDING
 

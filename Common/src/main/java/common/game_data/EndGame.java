@@ -50,7 +50,7 @@ public class EndGame implements Serializable
             return point.getRoutesClaimedPoints();
         }
 
-        public int getDestinationCardPoints()
+        public int getCompleteDestinationCardPoints()
         {
             return point.getDestinationCardPoints();
         }
@@ -58,6 +58,11 @@ public class EndGame implements Serializable
         public int getLongestPathPoints()
         {
             return point.getLongestPathPoints();
+        }
+
+        public int getIncompleteDestinationCardPoints()
+        {
+            return point.getIncompleteDestincationCardPoints();
         }
 
         public int getTotalPoints()
