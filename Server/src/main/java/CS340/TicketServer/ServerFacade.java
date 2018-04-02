@@ -303,7 +303,17 @@ public class ServerFacade implements IServer
                         }
                         for (Player player : serverGameData.getPlayers())
                         {
-                            player.setPieces(new TrainPieces(false));
+                            player.setPieces(new TrainPieces(5));
+                        }
+                    } else if(serverGameData.getName().equals("test"))
+                    {
+                        for (int i = 0; i < 50; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                        for (Player player : serverGameData.getPlayers())
+                        {
+                            player.setPieces(new TrainPieces(15));
                         }
                     }
                     else

@@ -217,7 +217,12 @@ public class Player implements Serializable
         Set<Edge> usedEdges = new HashSet<>();
         for(City city : endCities)
         {
-            Edge edge = Edge.findEdgesWithCity(unusedEdges, city).get(0);
+            List<Edge> cityEdges = Edge.findEdgesWithCity(unusedEdges, city);
+            if(cityEdges.size() == 0)
+            {
+                continue;
+            }
+            Edge edge = cityEdges.get(0);
             unusedEdges.remove(edge);
             if(!usedEdges.contains(edge))
             {
