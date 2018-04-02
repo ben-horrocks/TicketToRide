@@ -324,7 +324,7 @@ public class GameModel
         {
             return false;
         }
-00        return true;
+        return true;
     }
 
     private boolean grayEdgeClaimCheck(List<TrainCard> cards)
