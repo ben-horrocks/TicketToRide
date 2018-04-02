@@ -574,6 +574,8 @@ public class ServerFacade implements IServer
         if(cards.size() == 0)
         {
             Signal signal = new Signal(SignalType.ERROR, "No more Destination Cards");
+            logger.exiting("ServerFacade", "drawDestinationCards", signal);
+            return signal;
         }
         HandDestinationCards hand = new HandDestinationCards(cards);
         //Give the Cards to the requester
