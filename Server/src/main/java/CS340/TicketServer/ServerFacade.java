@@ -41,6 +41,7 @@ public class ServerFacade implements IServer
     private static volatile ServerFacade SINGLETON;
     private static final Object mutex = new Object();
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
+    private boolean lastTurnEmmitted = false;
 
     /**
      * Default constructor for the serverFacade class
@@ -752,9 +753,10 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "turnEnded", id);
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-        if(game.isLastTurn() && !game.getTurnQueue().getLastTurn())
+        if(game.isLastTurn() && !lastTurnEmmitted)
         {
             game.lastTurn();
+            lastTurnEmmitted = true;
             ServerFacade.getSINGLETON().lastTurn(id);
         }
         nextTurn(id);
