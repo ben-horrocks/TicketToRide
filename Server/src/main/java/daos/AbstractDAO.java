@@ -5,11 +5,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Connection;
 
 import common.player_info.User;
 
 abstract class AbstractDAO
 {
+	Connection connection;
+	AbstractDAO(Connection connection)
+	{
+		this.connection = connection;
+	}
+
 	abstract boolean createTable();
 	abstract boolean deleteTable();
 	public void clearTable()

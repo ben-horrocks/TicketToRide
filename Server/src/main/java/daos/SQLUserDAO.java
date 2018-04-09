@@ -17,11 +17,10 @@ import common.player_info.Username;
 public class SQLUserDAO extends AbstractDAO implements IUserDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
-	private Connection connection;
 
 	public SQLUserDAO(Connection connection)
 	{
-		this.connection = connection;
+		super(connection);
 	}
 
 	private static class UserEntry
@@ -80,7 +79,8 @@ public class SQLUserDAO extends AbstractDAO implements IUserDAO
 	{
 		logger.entering("SQLUserDAO", "addNewUser", user);
 		final String INSERT_USER =
-				"INSERT INTO Users (" + UserEntry.COLUMN_NAME_USERNAME +
+				"INSERT INTO " + UserEntry.TABLE_NAME +
+						" (" + UserEntry.COLUMN_NAME_USERNAME +
 						", " + UserEntry.COLUMN_NAME_USER +
 						") VALUES (?,?)";
 		try
