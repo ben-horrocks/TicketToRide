@@ -12,4 +12,7 @@ abstract class AbstractDAO
 		deleteTable();
 		createTable();
 	}
+
+	// Helpful link for inserting/retrieving objects from DAO by turning them into byte[]
+	// http://www.rgagnon.com/javadetails/java-0117.html
 }

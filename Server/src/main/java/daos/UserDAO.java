@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -80,6 +81,25 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		return true;
 	}
 
+	private byte[] objectToByteArray(Object object) throws IOException
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		User user = (User)object;
+		oos.writeObject(user);
+		oos.close();
+		return baos.toByteArray();
+	}
+
+	private Object byteArrayToObject(byte[] bytes) throws IOException, ClassNotFoundException
+	{
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		ObjectInputStream inputStream = new ObjectInputStream(bais);
+		Object object = inputStream.readObject();
+		inputStream.close();
+		return object;
+	}
+
 	@Override
 	public boolean addNewUser(User user)
 	{
@@ -90,15 +110,12 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 						") VALUES (?,?)";
 		try
 		{
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(user);
-			byte[] userAsBytes = baos.toByteArray();
-			ByteArrayInputStream bais = new ByteArrayInputStream(userAsBytes);
+			byte[] userAsBytes = objectToByteArray(user);
+			// ByteArrayInputStream bais = new ByteArrayInputStream(userAsBytes);
 
 			PreparedStatement statement = connection.prepareStatement(INSERT_USER);
 			statement.setString(1, user.getStringUserName());
-			statement.setBinaryStream(2, bais, userAsBytes.length);
+			statement.setObject(2, userAsBytes);
 			statement.executeUpdate();
 		}
 		catch (SQLException | IOException e)
@@ -126,16 +143,14 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 			ResultSet rs = statement.executeQuery();
 			if (rs.next())
 			{
-				byte[] buf = rs.getBytes(1);
-				if (buf == null)
+				byte[] bytes = rs.getBytes(1);
+				if (bytes == null)
 				{
 					logger.fine("Nothing found with username: " + username);
 				}
 				else
 				{
-					ByteArrayInputStream bais = new ByteArrayInputStream(buf);
-					ObjectInputStream inputStream = new ObjectInputStream(bais);
-					User user = (User)inputStream.readObject();
+					User user = (User)byteArrayToObject(bytes);
 					rs.close();
 					statement.close();
 					logger.exiting("UserDAO", "getUser", user);
@@ -155,18 +170,79 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 	@Override
 	public List<User> getAllUsers()
 	{
+		logger.entering("UserDAO", "getAllUsers");
+		final String GET_USERS =
+				"SELECT " + UserEntry.COLUMN_NAME_USER +
+						" FROM " + UserEntry.TABLE_NAME;
+		try
+		{
+			List<User> users = new ArrayList<>();
+			PreparedStatement statement = connection.prepareStatement(GET_USERS);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+			{
+				byte[] bytes = rs.getBytes(1);
+				User user = (User)byteArrayToObject(bytes);
+				users.add(user);
+			}
+			logger.exiting("UserDAO", "getAllUsers", users);
+			return users;
+		}
+		catch (SQLException | IOException | ClassNotFoundException e)
+		{
+			logger.warning(e + " - getting all users");
+			e.printStackTrace();
+		}
+		logger.exiting("UserDAO", "getAllUsers", null);
 		return null;
 	}
 
 	@Override
 	public boolean updateUser(User user)
 	{
+		logger.entering("UserDAO", "updateUser", user);
+		final String UPDATE_USER =
+				"UPDATE " + UserEntry.TABLE_NAME +
+						" SET " + UserEntry.COLUMN_NAME_USER + " = ?" +
+						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
+		try
+		{
+			PreparedStatement statement = connection.prepareStatement(UPDATE_USER);
+			byte[] userAsBytes = objectToByteArray(user);
+			statement.setObject(1, userAsBytes);
+			statement.setString(2, user.getStringUserName());
+			statement.executeUpdate();
+			logger.exiting("UserDAO", "updateUser", true);
+			return true;
+		}
+		catch (SQLException | IOException e)
+		{
+			logger.warning(e + " - updating User - " + user);
+		}
+		logger.exiting("UserDAO", "updateUser", false);
 		return false;
 	}
 
 	@Override
 	public boolean deleteUser(User user)
 	{
+		logger.entering("UserDAO", "deleteUser", user);
+		final String DELETE_USER =
+				"DELETE FROM " + UserEntry.TABLE_NAME +
+						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
+		try
+		{
+			PreparedStatement statement = connection.prepareStatement(DELETE_USER);
+			statement.setObject(1, user.getStringUserName());
+			statement.executeUpdate();
+			logger.exiting("UserDAO", "deleteUser", true);
+			return true;
+		}
+		catch (SQLException e)
+		{
+			logger.warning(e + " - deleting User - " + user);
+		}
+		logger.exiting("UserDAO", "deleteUser", false);
 		return false;
 	}
 }
