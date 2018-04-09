@@ -6,11 +6,12 @@ public class TrainPieces implements Serializable
 {
     private int numTrainPieces;
 
-    public TrainPieces(Boolean bool) {
-        if (bool)
+    public TrainPieces() {
             numTrainPieces = 45;
-        else
-            numTrainPieces = 5;
+    }
+
+    public TrainPieces(int numTrainPieces) {
+        this.numTrainPieces = numTrainPieces;
     }
 
     public int getNumTrainPieces() { return numTrainPieces; }

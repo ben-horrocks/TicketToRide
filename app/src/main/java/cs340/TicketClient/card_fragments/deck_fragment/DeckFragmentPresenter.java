@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.InvalidClassException;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.List;
 import common.cards.*;
 import common.communication.Signal;
 import common.player_info.Player;
+import common.player_info.turn_state.DrewDeckCard;
+import common.player_info.turn_state.DrewFaceUpCard;
 import common.request.DrawDeckRequest;
 import common.request.DrawFaceUpRequest;
 import cs340.TicketClient.R;
@@ -169,12 +172,20 @@ public class DeckFragmentPresenter
 
     public void DrawFaceUp(int cardNumber)
     {
+        boolean isLocomotive = model.getGameData().getFaceUp().get(cardNumber).getType().equals(TrainColor.GRAY);
+        boolean hasDrawnCard = model.getPlayer().getTurnState() instanceof DrewFaceUpCard ||
+                               model.getPlayer().getTurnState() instanceof DrewDeckCard;
+
+        if (hasDrawnCard && isLocomotive) {
+            String errMsg = "You cannot draw a locomotive as your second card";
+            Toast.makeText(activity, errMsg, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         DrawFaceUpRequest request =
                 new DrawFaceUpRequest(model.getGameID(), model.getUserName(), cardNumber);
         DrawFaceUpTask task = new DrawFaceUpTask(cardNumber, this, model);
         task.execute(request);
-
-        //change turn info
     }
 
     public void replaceTrainCard(int index, TrainCard card)

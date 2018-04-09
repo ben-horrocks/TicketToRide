@@ -35,7 +35,7 @@ public class Player implements Serializable
         this.score = new Point();
         this.claimedEdges = new EdgeGraph();
         this.turnState = new InitialDestinationCardDraw();
-        this.pieces = new TrainPieces(true);
+        this.pieces = new TrainPieces();
     }
 
     public TrainPieces getPieces() {
@@ -163,6 +163,11 @@ public class Player implements Serializable
     public void claimedEdge(Edge edge, List<TrainCard> spent)
     {
         ITurnState state = getTurnState();
+        claimedEdges.addEdge(edge);
+        checkDestinationCards();
+        hand.getTrainCards().removeAll(spent);
+        pieces.useTrainPieces(spent.size());
+
         getTurnState().claimEdge(this, edge, spent);
     }
 
@@ -217,7 +222,12 @@ public class Player implements Serializable
         Set<Edge> usedEdges = new HashSet<>();
         for(City city : endCities)
         {
-            Edge edge = Edge.findEdgesWithCity(unusedEdges, city).get(0);
+            List<Edge> cityEdges = Edge.findEdgesWithCity(unusedEdges, city);
+            if(cityEdges.size() == 0)
+            {
+                continue;
+            }
+            Edge edge = cityEdges.get(0);
             unusedEdges.remove(edge);
             if(!usedEdges.contains(edge))
             {

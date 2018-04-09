@@ -59,10 +59,6 @@ public class MyTurnNoAction implements ITurnState, Serializable
 	@Override
 	public void claimEdge(Player player, Edge edge, List<TrainCard> spent)
 	{
-		player.getClaimedEdges().addEdge(edge);
-		player.checkDestinationCards();
-		player.getHand().getTrainCards().removeAll(spent);
-		player.getPieces().useTrainPieces(spent.size());
 		player.setTurnState(new NotMyTurn());
 	}
 

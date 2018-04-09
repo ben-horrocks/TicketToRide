@@ -59,7 +59,7 @@ public class GamePresenter
         final Edge selectedEdge = model.getSelectedEdge();
         if (selectedEdge != null)
         {
-            if (!selectedEdge.isClaimed())
+            if (!selectedEdge.isClaimed() && model.doubleEdgeClaimChecks(model.getUserName(), selectedEdge))
             {
                 if(selectedEdge.getColor() == TrainColor.GRAY)
                 {
@@ -259,7 +259,7 @@ public class GamePresenter
                 }
             } else
             {
-                System.out.println(signal.getObject());
+                Toast.makeText(gameActivity, (String) signal.getObject(), Toast.LENGTH_SHORT).show();
             }
 
         }

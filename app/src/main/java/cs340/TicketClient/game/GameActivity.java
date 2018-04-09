@@ -137,7 +137,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             	if (!presenter.playerHasRestrictedAction())
 				{
 					presenter.startClaimRouteOption();
-					System.out.println("To implement... lol");
 				}
                 break;
             default:

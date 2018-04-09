@@ -10,6 +10,7 @@ public class Point implements Serializable
     private int destinationCardPoints = 0;
     private int longestPathPoints = 0;
     private int routesClaimedPoints = 0;
+    private int incompleteDestincationCardPoints;
 
     public int getDestinationCardPoints()
     {
@@ -26,6 +27,11 @@ public class Point implements Serializable
         return routesClaimedPoints;
     }
 
+    public int getIncompleteDestincationCardPoints()
+    {
+        return incompleteDestincationCardPoints;
+    }
+
     public void setDestinationPoints(HandDestinationCards cards)
     {
         for (DestinationCard card : cards.toArray())
@@ -35,7 +41,7 @@ public class Point implements Serializable
                 destinationCardPoints += card.getPointValue();
             }
             else
-                destinationCardPoints -= card.getPointValue();
+                incompleteDestincationCardPoints -= card.getPointValue();
         }
     }
 
@@ -46,6 +52,6 @@ public class Point implements Serializable
 
     public int computeFinalPoints()
     {
-        return destinationCardPoints + longestPathPoints + routesClaimedPoints;
+        return destinationCardPoints + longestPathPoints + routesClaimedPoints + incompleteDestincationCardPoints;
     }
 }

@@ -210,7 +210,7 @@ public class ServerGameData implements Serializable
 
     public boolean isLastTurn()
     {
- //       computeLongestRoute(); TODO: fix this so it doesn't break the program
+        computeLongestRoute();
         Player currentPlayer = getPlayer(turnQueue.peek());
         if (currentPlayer.getTrainPiecesRemaining() == 2 ||
             currentPlayer.getTrainPiecesRemaining() == 1 ||
@@ -245,5 +245,10 @@ public class ServerGameData implements Serializable
             }
         }
         longestRoute.setLongestRoute(longestPathOwners, longestPathLength);
+    }
+
+    public LongestRoute getLongestRoute()
+    {
+        return longestRoute;
     }
 }

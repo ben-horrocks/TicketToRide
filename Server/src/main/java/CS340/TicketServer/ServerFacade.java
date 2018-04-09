@@ -41,6 +41,7 @@ public class ServerFacade implements IServer
     private static volatile ServerFacade SINGLETON;
     private static final Object mutex = new Object();
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
+    private boolean lastTurnEmmitted = false;
 
     /**
      * Default constructor for the serverFacade class
@@ -303,7 +304,17 @@ public class ServerFacade implements IServer
                         }
                         for (Player player : serverGameData.getPlayers())
                         {
-                            player.setPieces(new TrainPieces(false));
+                            player.setPieces(new TrainPieces(5));
+                        }
+                    } else if(serverGameData.getName().equals("test1"))
+                    {
+                        for (int i = 0; i < 50; i++)
+                        {
+                            hand.add(serverGameData.drawFromTrainDeck());
+                        }
+                        for (Player player : serverGameData.getPlayers())
+                        {
+                            player.setPieces(new TrainPieces(15));
                         }
                     }
                     else
@@ -571,6 +582,12 @@ public class ServerFacade implements IServer
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         //Update GameData
         List<DestinationCard> cards = game.destinationDraw();
+        if(cards.size() == 0)
+        {
+            Signal signal = new Signal(SignalType.ERROR, "No more Destination Cards");
+            logger.exiting("ServerFacade", "drawDestinationCards", signal);
+            return signal;
+        }
         HandDestinationCards hand = new HandDestinationCards(cards);
         //Give the Cards to the requester
         Signal signal = new Signal(SignalType.OK, hand);
@@ -736,10 +753,15 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "turnEnded", id);
         ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
-        if(game.isLastTurn() && !game.getTurnQueue().getLastTurn())
+        if(game.isLastTurn() && !lastTurnEmmitted)
         {
+            nextTurn(id);
             game.lastTurn();
+            lastTurnEmmitted = true;
             ServerFacade.getSINGLETON().lastTurn(id);
+            Signal signal = new Signal(SignalType.OK, "turnEnded");
+            logger.exiting("ServerFacade", "turnEnded", signal);
+            return signal;
         }
         nextTurn(id);
         Signal signal = new Signal(SignalType.OK, "turnEnded");

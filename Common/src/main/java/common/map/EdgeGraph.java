@@ -106,34 +106,35 @@ public class EdgeGraph implements Serializable
 
     public static boolean findRoute(Set<Edge> left, String city1, String city2)
     {
-        Set<Edge> thisLeft = left;
+        Set<Edge> edgesLeft = new HashSet<>();
+        edgesLeft.addAll(left);
         boolean runningTruth = false;
         if (existEdge(left, city1, city2))
             return true;
         else
         {
-            for (Edge e : thisLeft)
+            for (Edge e : left)
             {
                 String s = e.getFirstCity().getCityName();
                 if (e.getFirstCity().getCityName().equals(city1))
                 {
-                    left.remove(e);
-                    runningTruth = findRoute(left, e.getSecondCity().getCityName(), city2);
+                    edgesLeft.remove(e);
+                    runningTruth = findRoute(edgesLeft, e.getSecondCity().getCityName(), city2);
                     if (runningTruth)
                     {
                         return true;
                     }
-                    left.add(e);
+                    edgesLeft.add(e);
                 }
                 else if(e.getSecondCity().getCityName().equals(city1))
                 {
-                    left.remove(e);
-                    runningTruth = findRoute(left, e.getFirstCity().getCityName(), city2);
+                    edgesLeft.remove(e);
+                    runningTruth = findRoute(edgesLeft, e.getFirstCity().getCityName(), city2);
                     if (runningTruth)
                     {
                         return true;
                     }
-                    left.add(e);
+                    edgesLeft.add(e);
                 }
             }
             return false;
