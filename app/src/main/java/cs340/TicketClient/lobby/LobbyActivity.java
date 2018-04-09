@@ -16,6 +16,7 @@ import java.util.List;
 
 import common.communication.Signal;
 import common.communication.SignalType;
+import common.game_data.ClientGameData;
 import common.game_data.StartGamePacket;
 import common.game_data.GameInfo;
 import common.player_info.User;
@@ -201,5 +202,12 @@ public class LobbyActivity extends AppCompatActivity
     public void onAddGame(DialogFragment frag, String newGame)
     {
         LobbyPresenter.getInstance().addGame(newGame);
+    }
+
+    public void resumeGame(ClientGameData game)
+    {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("resumeGame", game);
+        startActivity(intent);
     }
 }

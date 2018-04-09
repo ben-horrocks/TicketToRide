@@ -130,6 +130,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
                 @Override
                 public void onClick(View view)
                 {
+                    if (LobbyPresenter.getInstance().isInGame(id))
+                    {
+                        LobbyPresenter.getInstance().resumeGame(id);
+                    }
                     if (LobbyPresenter.getInstance().isMyGame(id))
                     {
                         LobbyPresenter.getInstance().startGame(id);
