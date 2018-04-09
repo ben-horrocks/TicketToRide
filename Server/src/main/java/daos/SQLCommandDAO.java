@@ -21,12 +21,8 @@ import common.game_data.GameID;
 public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
 
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
-    private Connection connection;
 
-    public SQLCommandDAO(Connection connection)
-    {
-        this.connection = connection;
-    }
+    public SQLCommandDAO(Connection connection) { super(connection); }
 
     private static class CommandEntry
     {
@@ -84,6 +80,11 @@ public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
 
         //get game id from provided command
         GameID id = getGameIdFromCommand(command);
+        if (id == null) {
+            logger.warning("did not find id for command: " + command);
+            logger.exiting("SQLCommandDAO", "addNewCommand", false);
+            return false;
+        }
 
         try
         {
@@ -144,16 +145,6 @@ public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
     }
 
     @Override
-    public List<Command> getAllCommands(Command command) {
-        return null;
-    }
-
-    @Override
-    public boolean updateCommand(Command command) {
-        return false;
-    }
-
-    @Override
     public boolean deleteCommandsByGameId(GameID id) {
         logger.entering("SQLCommandDAO", "deleteCommandsByGameId", id);
         final String DELETE_COMMANDS =
@@ -185,5 +176,6 @@ public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
                 id = ((GameID) command.getParameters()[i]);
             }
         }
+        return id;
     }
 }

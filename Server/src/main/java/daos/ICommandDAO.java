@@ -12,5 +12,6 @@ import common.game_data.GameID;
 public interface ICommandDAO
 {
 	boolean addNewCommand(Command command);
-	List<Command> getAllCommands(Command command);
+	public List<Command> getCommandsByGameId(GameID id);
+	public boolean deleteCommandsByGameId(GameID id);
 }
