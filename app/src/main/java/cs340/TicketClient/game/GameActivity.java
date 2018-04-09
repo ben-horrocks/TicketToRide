@@ -49,6 +49,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 StartGamePacket packet = (StartGamePacket) extras.get("packet");
                 presenter.fillModel(packet);
             }
+            else if (extras.get("packet") instanceof ClientGameData)
+            {
+                ClientGameData data = (ClientGameData)extras.get("packet");
+                presenter.fillModel(data);
+            }
         }
 
         // Start up the google map
@@ -62,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         // Start the game off by having the player pick their destination cards
         Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
-        if (destinationViewFragment == null)
+        if (destinationViewFragment == null && presenter.getDestinationCards() != null)
         {
             Bundle toDestinationVF = new Bundle();
             toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
@@ -326,7 +331,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         else
         {
-
+            presenter.exitGame();
             super.onBackPressed();
         }
     }

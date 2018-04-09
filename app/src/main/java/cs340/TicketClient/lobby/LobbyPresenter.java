@@ -1,18 +1,26 @@
 package cs340.TicketClient.lobby;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 import common.communication.Signal;
+import common.communication.SignalType;
+import common.game_data.ClientGameData;
 import common.game_data.GameID;
 import common.game_data.GameInfo;
 import common.game_data.StartGamePacket;
 import common.player_info.User;
+import common.player_info.Username;
 import common.request.ResumeRequest;
 import cs340.TicketClient.async_task.*;
+import cs340.TicketClient.communicator.ServerProxy;
+import cs340.TicketClient.game.GameActivity;
 
 public class LobbyPresenter implements ILobbyPresenter
 {
@@ -260,7 +268,10 @@ public class LobbyPresenter implements ILobbyPresenter
 
     public void resumeGame(GameID id)
 	{
-
+	    User user = model.getUser();
+	    ResumeRequest request = new ResumeRequest(user, id);
+	    ResumeGameTask task = new ResumeGameTask(activity);
+	    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
 	}
 
     public void gameStarted(StartGamePacket packet)
@@ -285,6 +296,25 @@ public class LobbyPresenter implements ILobbyPresenter
         return false;
     }
 
+    boolean isInGame(GameID id)
+    {
+        try
+        {
+            Boolean isStarted = model.getGame(id).isStarted();
+            Set<Username> user = model.getGame(id).getUsers();
+            for(Username name : user)
+            {
+                if (name.getName().equals(getUser().getUsername().getName())) {
+                    return isStarted;
+                }
+            }
+        } catch (LobbyModel.GameNotFoundException e)
+        {
+            Toast.makeText(activity, "GAME NOT FOUND", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
     boolean hasJoinedGame(GameID id)
     {
         try
@@ -301,23 +331,39 @@ public class LobbyPresenter implements ILobbyPresenter
 
     User getUser() { return model.getUser(); }
 
-    public void resumeGame()
-    {
-        User user = model.getUser();
-
-    }
-
-
     class ResumeGameTask extends AsyncTask<ResumeRequest, Integer, Signal>
     {
+        private LobbyActivity activity;
+
+        public ResumeGameTask(LobbyActivity activity)
+        {
+            this.activity = activity;
+        }
         @Override
         protected Signal doInBackground(ResumeRequest... resumeRequests) {
-            return null;
+            ResumeRequest request = resumeRequests[0];
+            return ServerProxy.getInstance().resumeGame(request.getUser(), request.getId());
         }
 
         @Override
         protected void onPostExecute(Signal signal) {
-            super.onPostExecute(signal);
+
+
+            if (signal.getSignalType() == SignalType.ERROR) {
+                if (activity != null) {
+                    try
+                    {
+                        ClientGameData data = (ClientGameData) signal.getObject();
+                        activity.resumeGame(data);
+
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Error starting game in AsyncTask: " + signal.getObject());
+                }
+            }
         }
     }
 }

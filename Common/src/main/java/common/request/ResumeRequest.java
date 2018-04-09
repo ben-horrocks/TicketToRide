@@ -16,4 +16,12 @@ public class ResumeRequest {
         this.user = user;
         this.id = id;
     }
+
+    public GameID getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

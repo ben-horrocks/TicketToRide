@@ -56,6 +56,13 @@ public class GamePresenter
         model.setInitialDCards(packet.getInitialDestinationCards());
     }
 
+    public void fillModel(ClientGameData data)
+    {
+        model.setGameData(data);
+        model.setInitialDCards(null);
+    }
+
+
     void startClaimRouteOption()
     {
         final Edge selectedEdge = model.getSelectedEdge();

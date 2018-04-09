@@ -13,6 +13,7 @@ public class GameInfo implements Serializable
     private String name;
     private String creatorName;
     private Set<Username> users;
+    private boolean started;
 
     public GameInfo(ServerGameData g)
     {
@@ -24,6 +25,7 @@ public class GameInfo implements Serializable
         {
             users.add(u.getUsername());
         }
+        this.started = g.isGameStarted();
     }
 
     public GameInfo(GameID id, String name, String creatorName, Set<User> users)
@@ -36,6 +38,7 @@ public class GameInfo implements Serializable
         {
             this.users.add(u.getUsername());
         }
+        this.started = false;
     }
 
     public GameID getID()
@@ -79,5 +82,9 @@ public class GameInfo implements Serializable
         boolean enoughPlayers = users.size() > 1;
         boolean tooManyPlayers = users.size() > 5;
         return correctPlayer && enoughPlayers && !tooManyPlayers;
+    }
+
+    public boolean isStarted() {
+        return started;
     }
 }
