@@ -46,13 +46,13 @@ public class Command implements Serializable
         createParameterTypes();
     }
 
-	/*
+
     public String getMethodName() { return methodName; }
 
 	public String[] getParameterTypeNames() { return parameterTypeNames; }
 
 	public Object[] getParameters() { return parameters; }
-	*/
+
 
     public String toString()
     {

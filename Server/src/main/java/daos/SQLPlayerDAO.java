@@ -36,7 +36,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 		logger.entering("SQLPlayerDAO", "createTable");
 		final String CREATE_PLAYER_TABLE =
 				"CREATE TABLE " + PlayerEntry.TABLE_NAME + " ('" +
-						PlayerEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL UNIQUE, '" +
+						PlayerEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL, '" +
 						PlayerEntry.COLUMN_NAME_PLAYER + "' BLOB NOT NULL UNIQUE, " +
 						"PRIMARY KEY('" + PlayerEntry.COLUMN_NAME_USERNAME + "') )";
 		try
@@ -67,7 +67,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 			logger.exiting("SQLPlayerDAO", "deleteTable", false);
 			return false;
 		}
-		logger.exiting("SQLUserDAO", "deleteTable", true);
+		logger.exiting("SQLPlayerDAO", "deleteTable", true);
 		return true;
 	}
 
