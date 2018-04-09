@@ -1,10 +1,6 @@
 package daos;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,9 +14,6 @@ import CS340.TicketServer.LogKeeper;
 import common.player_info.User;
 import common.player_info.Username;
 
-/**
- * Created by Kavika F.
- */
 public class UserDAO extends AbstractDAO implements IUserDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
@@ -31,7 +24,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		this.connection = connection;
 	}
 
-	static class UserEntry
+	private static class UserEntry
 	{
 		static final String TABLE_NAME = "Users";
 		static final String COLUMN_NAME_USERNAME = "username";
@@ -45,7 +38,8 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		final String CREATE_USERS_TABLE =
 				"CREATE TABLE " + UserEntry.TABLE_NAME + " ( '" +
 						UserEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL UNIQUE, '" +
-						UserEntry.COLUMN_NAME_USER + "' BLOB NOT NULL UNIQUE, PRIMARY KEY('username') )";
+						UserEntry.COLUMN_NAME_USER + "' BLOB NOT NULL UNIQUE, " +
+						"PRIMARY KEY(' " + UserEntry.COLUMN_NAME_USERNAME + "') )";
 		try
 		{
 			Statement statement = connection.createStatement();
@@ -81,25 +75,6 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		return true;
 	}
 
-	private byte[] objectToByteArray(Object object) throws IOException
-	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		User user = (User)object;
-		oos.writeObject(user);
-		oos.close();
-		return baos.toByteArray();
-	}
-
-	private Object byteArrayToObject(byte[] bytes) throws IOException, ClassNotFoundException
-	{
-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-		ObjectInputStream inputStream = new ObjectInputStream(bais);
-		Object object = inputStream.readObject();
-		inputStream.close();
-		return object;
-	}
-
 	@Override
 	public boolean addNewUser(User user)
 	{
@@ -111,7 +86,6 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		try
 		{
 			byte[] userAsBytes = objectToByteArray(user);
-			// ByteArrayInputStream bais = new ByteArrayInputStream(userAsBytes);
 
 			PreparedStatement statement = connection.prepareStatement(INSERT_USER);
 			statement.setString(1, user.getStringUserName());
@@ -218,6 +192,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		catch (SQLException | IOException e)
 		{
 			logger.warning(e + " - updating User - " + user);
+			e.printStackTrace();
 		}
 		logger.exiting("UserDAO", "updateUser", false);
 		return false;
@@ -241,6 +216,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		catch (SQLException e)
 		{
 			logger.warning(e + " - deleting User - " + user);
+			e.printStackTrace();
 		}
 		logger.exiting("UserDAO", "deleteUser", false);
 		return false;
