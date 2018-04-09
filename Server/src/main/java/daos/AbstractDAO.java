@@ -8,9 +8,6 @@ import java.io.ObjectOutputStream;
 
 import common.player_info.User;
 
-/**
- * Created by Kavika F.
- */
 abstract class AbstractDAO
 {
 	abstract boolean createTable();

@@ -14,12 +14,12 @@ import CS340.TicketServer.LogKeeper;
 import common.player_info.Player;
 import common.player_info.Username;
 
-public class PlayerDAO extends AbstractDAO implements IPlayerDAO
+public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 	private Connection connection;
 
-	public PlayerDAO(Connection connection)
+	public SQLPlayerDAO(Connection connection)
 	{
 		this.connection = connection;
 	}
@@ -34,7 +34,7 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 	@Override
 	boolean createTable()
 	{
-		logger.entering("PlayerDAO", "createTable");
+		logger.entering("SQLPlayerDAO", "createTable");
 		final String CREATE_PLAYER_TABLE =
 				"CREATE TABLE " + PlayerEntry.TABLE_NAME + " ('" +
 						PlayerEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL UNIQUE, '" +
@@ -47,7 +47,7 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 		} catch (SQLException e)
 		{
 			logger.warning(e + " - creating table " + PlayerEntry.TABLE_NAME);
-			logger.exiting("PlayerDAO", "createTable", false);
+			logger.exiting("SQLPlayerDAO", "createTable", false);
 			return false;
 		}
 		return true;
@@ -56,7 +56,7 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 	@Override
 	boolean deleteTable()
 	{
-		logger.entering("PlayerDAO", "deleteTable");
+		logger.entering("SQLPlayerDAO", "deleteTable");
 		final String DELETE_PLAYER_TABLE = "DROP TABLE " + PlayerEntry.TABLE_NAME;
 		try
 		{
@@ -65,17 +65,17 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 		} catch (SQLException e)
 		{
 			logger.warning(e + " - deleting table " + PlayerEntry.TABLE_NAME);
-			logger.exiting("PlayerDAO", "deleteTable", false);
+			logger.exiting("SQLPlayerDAO", "deleteTable", false);
 			return false;
 		}
-		logger.exiting("UserDAO", "deleteTable", true);
+		logger.exiting("SQLUserDAO", "deleteTable", true);
 		return true;
 	}
 
 	@Override
 	public boolean addNewPlayer(Player player)
 	{
-		logger.entering("PlayerDAO", "addNewPlayer", player);
+		logger.entering("SQLPlayerDAO", "addNewPlayer", player);
 		final String INSERT_PLAYER =
 				"INSERT INTO Player (" + PlayerEntry.COLUMN_NAME_USERNAME +
 						", " + PlayerEntry.COLUMN_NAME_PLAYER +
@@ -90,17 +90,17 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 		} catch (SQLException | IOException e)
 		{
 			logger.warning(e + " - adding new player " + player);
-			logger.exiting("PlayerDAO", "addNewPlayer", false);
+			logger.exiting("SQLPlayerDAO", "addNewPlayer", false);
 			return false;
 		}
-		logger.exiting("PlayerDAO", "addNewPlayer", true);
+		logger.exiting("SQLPlayerDAO", "addNewPlayer", true);
 		return true;
 	}
 
 	@Override
 	public Player getPlayer(Username username)
 	{
-		logger.entering("PlayerDAO", "getPlayer", username);
+		logger.entering("SQLPlayerDAO", "getPlayer", username);
 		final String GET_PLAYER =
 				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
 						" FROM " + PlayerEntry.TABLE_NAME +
@@ -121,7 +121,7 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 					Player player = (Player) byteArrayToObject(bytes);
 					rs.close();
 					statement.close();
-					logger.exiting("PlayerDAO", "getPlayer", player);
+					logger.exiting("SQLPlayerDAO", "getPlayer", player);
 					return player;
 				}
 			}
@@ -130,14 +130,14 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 			logger.warning(e + " - getting player " + username);
 			e.printStackTrace();
 		}
-		logger.exiting("PlayerDAO", "getPlayer", null);
+		logger.exiting("SQLPlayerDAO", "getPlayer", null);
 		return null;
 	}
 
 	@Override
 	public List<Player> getAllPlayers()
 	{
-		logger.entering("PlayerDAO", "getAllPlayers");
+		logger.entering("SQLPlayerDAO", "getAllPlayers");
 		final String GET_PLAYERS =
 				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
 						" FROM " + PlayerEntry.TABLE_NAME;
@@ -152,21 +152,21 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 				Player player = (Player) byteArrayToObject(bytes);
 				players.add(player);
 			}
-			logger.exiting("PlayerDAO", "getAllPlayers", players);
+			logger.exiting("SQLPlayerDAO", "getAllPlayers", players);
 			return players;
 		} catch (SQLException | IOException | ClassNotFoundException e)
 		{
 			logger.warning(e + " - getting all players");
 			e.printStackTrace();
 		}
-		logger.exiting("PlayerDAO", "getAllPlayers", null);
+		logger.exiting("SQLPlayerDAO", "getAllPlayers", null);
 		return null;
 	}
 
 	@Override
 	public boolean updatePlayer(Player player)
 	{
-		logger.entering("PlayerDAO", "updatePlayer", player);
+		logger.entering("SQLPlayerDAO", "updatePlayer", player);
 		final String UPDATE_PLAYER =
 				"UPDATE " + PlayerEntry.TABLE_NAME +
 						" SET " + PlayerEntry.COLUMN_NAME_PLAYER + " = ?" +
@@ -178,21 +178,21 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 			statement.setObject(1, playerAsBytes);
 			statement.setString(2, player.getName());
 			statement.executeUpdate();
-			logger.exiting("PlayerDAO", "updatePlayer", true);
+			logger.exiting("SQLPlayerDAO", "updatePlayer", true);
 			return true;
 		} catch (SQLException | IOException e)
 		{
 			logger.warning(e + " - updating player - " + player);
 			e.printStackTrace();
 		}
-		logger.exiting("PlayerDAO", "updatePlayer", false);
+		logger.exiting("SQLPlayerDAO", "updatePlayer", false);
 		return false;
 	}
 
 	@Override
 	public boolean deletePlayer(Player player)
 	{
-		logger.entering("PlayerDAO", "deletePlayer", player);
+		logger.entering("SQLPlayerDAO", "deletePlayer", player);
 		final String DELETE_PLAYER =
 				"DELETE FROM " + PlayerEntry.TABLE_NAME +
 						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ?";
@@ -201,14 +201,14 @@ public class PlayerDAO extends AbstractDAO implements IPlayerDAO
 			PreparedStatement statement = connection.prepareStatement(DELETE_PLAYER);
 			statement.setObject(1, player.getName());
 			statement.executeUpdate();
-			logger.exiting("PlayerDAO", "deletePlayer", true);
+			logger.exiting("SQLPlayerDAO", "deletePlayer", true);
 			return true;
 		} catch (SQLException e)
 		{
 			logger.warning(e + " - deleting player - " + player);
 			e.printStackTrace();
 		}
-		logger.exiting("PlayerDAO", "deletePlayer", false);
+		logger.exiting("SQLPlayerDAO", "deletePlayer", false);
 		return false;
 	}
 }
