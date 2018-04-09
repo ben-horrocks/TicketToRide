@@ -17,6 +17,7 @@ abstract class AbstractDAO
 		deleteTable();
 		createTable();
 	}
+
 	byte[] objectToByteArray(Object object) throws IOException
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
