@@ -17,11 +17,10 @@ import common.player_info.Username;
 public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
-	private Connection connection;
 
 	public SQLPlayerDAO(Connection connection)
 	{
-		this.connection = connection;
+		super(connection);
 	}
 
 	private static class PlayerEntry

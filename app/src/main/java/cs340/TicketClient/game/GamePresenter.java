@@ -24,9 +24,11 @@ import common.history.HistoryItem;
 import common.player_info.Player;
 import common.map.Edge;
 import common.map.EdgeGraph;
+import common.player_info.User;
 import common.player_info.Username;
 import common.request.ClaimRequest;
 import common.request.DestDrawRequest;
+import common.request.ExitRequest;
 import cs340.TicketClient.R;
 import cs340.TicketClient.async_task.TurnEndedTask;
 //import cs340.TicketClient.card_fragments.claim_fragment.ClaimFragment;
@@ -53,6 +55,13 @@ public class GamePresenter
         model.setGameData(packet.getClientGameData());
         model.setInitialDCards(packet.getInitialDestinationCards());
     }
+
+    public void fillModel(ClientGameData data)
+    {
+        model.setGameData(data);
+        model.setInitialDCards(null);
+    }
+
 
     void startClaimRouteOption()
     {
@@ -301,6 +310,15 @@ public class GamePresenter
         claimTask.execute(request);
     }
 
+    public void exitGame()
+    {
+        Username user = GameModel.getInstance().getUserName();
+        GameID id = GameModel.getInstance().getGameID();
+        ExitRequest request = new ExitRequest(user, id);
+        ExitTask task = new ExitTask();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+    }
+
 
     class ClaimTask extends AsyncTask<ClaimRequest, Integer, Signal>
     {
@@ -335,4 +353,17 @@ public class GamePresenter
         }
     }
 
+    class ExitTask extends AsyncTask<ExitRequest, Integer, Signal>
+    {
+        @Override
+        protected Signal doInBackground(ExitRequest... exitRequests) {
+            ExitRequest request = exitRequests[0];
+            return ServerProxy.getInstance().exitGame(request.getUsername(), request.getId());
+        }
+
+        @Override
+        protected void onPostExecute(Signal signal) {
+            super.onPostExecute(signal);
+        }
+    }
 }
