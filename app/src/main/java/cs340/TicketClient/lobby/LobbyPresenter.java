@@ -1,14 +1,17 @@
 package cs340.TicketClient.lobby;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.*;
 
+import common.communication.Signal;
 import common.game_data.GameID;
 import common.game_data.GameInfo;
 import common.game_data.StartGamePacket;
 import common.player_info.User;
+import common.request.ResumeRequest;
 import cs340.TicketClient.async_task.*;
 
 public class LobbyPresenter implements ILobbyPresenter
@@ -297,4 +300,24 @@ public class LobbyPresenter implements ILobbyPresenter
     void setUser(User user) { model.setUser(user); }
 
     User getUser() { return model.getUser(); }
+
+    public void resumeGame()
+    {
+        User user = model.getUser();
+
+    }
+
+
+    class ResumeGameTask extends AsyncTask<ResumeRequest, Integer, Signal>
+    {
+        @Override
+        protected Signal doInBackground(ResumeRequest... resumeRequests) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Signal signal) {
+            super.onPostExecute(signal);
+        }
+    }
 }

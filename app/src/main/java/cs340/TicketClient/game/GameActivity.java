@@ -325,6 +325,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Cannot go back after drawing Destination cards", Toast.LENGTH_SHORT).show();
         }
         else
+        {
+
             super.onBackPressed();
+        }
     }
 }

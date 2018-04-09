@@ -341,13 +341,33 @@ public class ServerProxy implements IServer
         return null;
     }
 
-    public Signal exitGame(User user, GameID id)
+    public Signal exitGame(Username user, GameID id)
     {
+        String[] parameterTypes = {usernameClassName, gameIDClassname};
+        Object[] parameters = {user, id};
+        CommandParams exitGameCommand = new CommandParams("exitGame", parameterTypes, parameters);
+        try
+        {
+            return (Signal) ClientCommunicator.getSingleton().send(exitGameCommand);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         return null;
     }
 
     public Signal resumeGame(User user, GameID id)
     {
+        String[] parameterTypes = {User.class.getName(), gameIDClassname};
+        Object[] parameters = {user, id};
+        CommandParams resumeGameCommand = new CommandParams("resumeGame", parameterTypes, parameters);
+        try
+        {
+            return (Signal) ClientCommunicator.getSingleton().send(resumeGameCommand);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         return null;
     }
 

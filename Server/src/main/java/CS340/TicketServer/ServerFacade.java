@@ -795,7 +795,7 @@ public class ServerFacade implements IServer
         }
     }
 
-    public Signal exitGame(User user, GameID id)
+    public Signal exitGame(Username user, GameID id)
     {
         return null;
     }
