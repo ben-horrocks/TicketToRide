@@ -11,8 +11,5 @@ import common.communication.Command;
 public interface ICommandDAO
 {
 	boolean addNewCommand(Command command);
-	Command getCommand(Command command);
 	List<Command> getAllCommands(Command command);
-	boolean updateCommand(Command command);
-	boolean deleteCommand(Command command);
 }

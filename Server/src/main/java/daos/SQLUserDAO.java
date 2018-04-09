@@ -1,10 +1,6 @@
 package daos;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,20 +14,17 @@ import CS340.TicketServer.LogKeeper;
 import common.player_info.User;
 import common.player_info.Username;
 
-/**
- * Created by Kavika F.
- */
-public class UserDAO extends AbstractDAO implements IUserDAO
+public class SQLUserDAO extends AbstractDAO implements IUserDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 	private Connection connection;
 
-	public UserDAO(Connection connection)
+	public SQLUserDAO(Connection connection)
 	{
 		this.connection = connection;
 	}
 
-	static class UserEntry
+	private static class UserEntry
 	{
 		static final String TABLE_NAME = "Users";
 		static final String COLUMN_NAME_USERNAME = "username";
@@ -41,11 +34,12 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 	@Override
 	boolean createTable()
 	{
-		logger.entering("UserDAO", "createTable");
+		logger.entering("SQLUserDAO", "createTable");
 		final String CREATE_USERS_TABLE =
 				"CREATE TABLE " + UserEntry.TABLE_NAME + " ( '" +
 						UserEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL UNIQUE, '" +
-						UserEntry.COLUMN_NAME_USER + "' BLOB NOT NULL UNIQUE, PRIMARY KEY('username') )";
+						UserEntry.COLUMN_NAME_USER + "' BLOB NOT NULL UNIQUE, " +
+						"PRIMARY KEY(' " + UserEntry.COLUMN_NAME_USERNAME + "') )";
 		try
 		{
 			Statement statement = connection.createStatement();
@@ -54,17 +48,17 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		catch (SQLException e)
 		{
 			logger.warning(e + " - creating table " + UserEntry.TABLE_NAME);
-			logger.exiting("UserDAO", "createTable", false);
+			logger.exiting("SQLUserDAO", "createTable", false);
 			return false;
 		}
-		logger.exiting("UserDAO", "createTable", true);
+		logger.exiting("SQLUserDAO", "createTable", true);
 		return true;
 	}
 
 	@Override
 	boolean deleteTable()
 	{
-		logger.entering("UserDAO", "deleteTable");
+		logger.entering("SQLUserDAO", "deleteTable");
 		final String DELETE_USERS_TABLE = "DROP TABLE " + UserEntry.TABLE_NAME;
 		try
 		{
@@ -74,36 +68,17 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		catch (SQLException e)
 		{
 			logger.warning(e + " - deleting table " + UserEntry.TABLE_NAME);
-			logger.exiting("UserDAO", "deleteTable", false);
+			logger.exiting("SQLUserDAO", "deleteTable", false);
 			return false;
 		}
-		logger.exiting("UserDAO", "deleteTable", true);
+		logger.exiting("SQLUserDAO", "deleteTable", true);
 		return true;
-	}
-
-	private byte[] objectToByteArray(Object object) throws IOException
-	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		User user = (User)object;
-		oos.writeObject(user);
-		oos.close();
-		return baos.toByteArray();
-	}
-
-	private Object byteArrayToObject(byte[] bytes) throws IOException, ClassNotFoundException
-	{
-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-		ObjectInputStream inputStream = new ObjectInputStream(bais);
-		Object object = inputStream.readObject();
-		inputStream.close();
-		return object;
 	}
 
 	@Override
 	public boolean addNewUser(User user)
 	{
-		logger.entering("UserDAO", "addNewUser", user);
+		logger.entering("SQLUserDAO", "addNewUser", user);
 		final String INSERT_USER =
 				"INSERT INTO Users (" + UserEntry.COLUMN_NAME_USERNAME +
 						", " + UserEntry.COLUMN_NAME_USER +
@@ -111,7 +86,6 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		try
 		{
 			byte[] userAsBytes = objectToByteArray(user);
-			// ByteArrayInputStream bais = new ByteArrayInputStream(userAsBytes);
 
 			PreparedStatement statement = connection.prepareStatement(INSERT_USER);
 			statement.setString(1, user.getStringUserName());
@@ -121,17 +95,17 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 		catch (SQLException | IOException e)
 		{
 			logger.warning(e + " - adding new user " + user.getStringUserName());
-			logger.exiting("UserDAO", "addNewUser", false);
+			logger.exiting("SQLUserDAO", "addNewUser", false);
 			return false;
 		}
-		logger.exiting("UserDAO", "addNewUser", true);
+		logger.exiting("SQLUserDAO", "addNewUser", true);
 		return true;
 	}
 
 	@Override
 	public User getUser(Username username)
 	{
-		logger.entering("UserDAO", "getUser", username);
+		logger.entering("SQLUserDAO", "getUser", username);
 		final String GET_USER =
 				"SELECT " + UserEntry.COLUMN_NAME_USER +
 						" FROM " + UserEntry.TABLE_NAME +
@@ -153,7 +127,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 					User user = (User)byteArrayToObject(bytes);
 					rs.close();
 					statement.close();
-					logger.exiting("UserDAO", "getUser", user);
+					logger.exiting("SQLUserDAO", "getUser", user);
 					return user;
 				}
 			}
@@ -163,14 +137,14 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 			logger.warning(e + " - getting user " + username);
 			e.printStackTrace();
 		}
-		logger.exiting("UserDAO", "getUser", null);
+		logger.exiting("SQLUserDAO", "getUser", null);
 		return null;
 	}
 
 	@Override
 	public List<User> getAllUsers()
 	{
-		logger.entering("UserDAO", "getAllUsers");
+		logger.entering("SQLUserDAO", "getAllUsers");
 		final String GET_USERS =
 				"SELECT " + UserEntry.COLUMN_NAME_USER +
 						" FROM " + UserEntry.TABLE_NAME;
@@ -185,7 +159,7 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 				User user = (User)byteArrayToObject(bytes);
 				users.add(user);
 			}
-			logger.exiting("UserDAO", "getAllUsers", users);
+			logger.exiting("SQLUserDAO", "getAllUsers", users);
 			return users;
 		}
 		catch (SQLException | IOException | ClassNotFoundException e)
@@ -193,14 +167,14 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 			logger.warning(e + " - getting all users");
 			e.printStackTrace();
 		}
-		logger.exiting("UserDAO", "getAllUsers", null);
+		logger.exiting("SQLUserDAO", "getAllUsers", null);
 		return null;
 	}
 
 	@Override
 	public boolean updateUser(User user)
 	{
-		logger.entering("UserDAO", "updateUser", user);
+		logger.entering("SQLUserDAO", "updateUser", user);
 		final String UPDATE_USER =
 				"UPDATE " + UserEntry.TABLE_NAME +
 						" SET " + UserEntry.COLUMN_NAME_USER + " = ?" +
@@ -212,21 +186,22 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 			statement.setObject(1, userAsBytes);
 			statement.setString(2, user.getStringUserName());
 			statement.executeUpdate();
-			logger.exiting("UserDAO", "updateUser", true);
+			logger.exiting("SQLUserDAO", "updateUser", true);
 			return true;
 		}
 		catch (SQLException | IOException e)
 		{
 			logger.warning(e + " - updating User - " + user);
+			e.printStackTrace();
 		}
-		logger.exiting("UserDAO", "updateUser", false);
+		logger.exiting("SQLUserDAO", "updateUser", false);
 		return false;
 	}
 
 	@Override
 	public boolean deleteUser(User user)
 	{
-		logger.entering("UserDAO", "deleteUser", user);
+		logger.entering("SQLUserDAO", "deleteUser", user);
 		final String DELETE_USER =
 				"DELETE FROM " + UserEntry.TABLE_NAME +
 						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
@@ -235,14 +210,15 @@ public class UserDAO extends AbstractDAO implements IUserDAO
 			PreparedStatement statement = connection.prepareStatement(DELETE_USER);
 			statement.setObject(1, user.getStringUserName());
 			statement.executeUpdate();
-			logger.exiting("UserDAO", "deleteUser", true);
+			logger.exiting("SQLUserDAO", "deleteUser", true);
 			return true;
 		}
 		catch (SQLException e)
 		{
 			logger.warning(e + " - deleting User - " + user);
+			e.printStackTrace();
 		}
-		logger.exiting("UserDAO", "deleteUser", false);
+		logger.exiting("SQLUserDAO", "deleteUser", false);
 		return false;
 	}
 }
