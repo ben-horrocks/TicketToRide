@@ -772,4 +772,15 @@ public class ServerFacade implements IServer
             ClientProxy.getSINGLETON().updateGameList(u, games);
         }
     }
+
+    public Signal exitGame(User user, GameID id)
+    {
+        return null;
+    }
+
+    public Signal resumeGame(User user, GameID id)
+    {
+        return null;
+    }
+
 }

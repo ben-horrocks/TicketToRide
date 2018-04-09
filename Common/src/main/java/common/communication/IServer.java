@@ -30,6 +30,10 @@ public interface IServer
 
     Signal EndGame(GameID id);
 
+    Signal exitGame(User user, GameID id);
+
+    Signal resumeGame(User username, GameID id);
+
     /**
      * registers a new player with the given credentials, rejects invalid or preexiting credentials
      *

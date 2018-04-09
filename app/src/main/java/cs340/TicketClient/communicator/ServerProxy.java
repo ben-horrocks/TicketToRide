@@ -341,5 +341,15 @@ public class ServerProxy implements IServer
         return null;
     }
 
+    public Signal exitGame(User user, GameID id)
+    {
+        return null;
+    }
+
+    public Signal resumeGame(User user, GameID id)
+    {
+        return null;
+    }
+
 }
     
