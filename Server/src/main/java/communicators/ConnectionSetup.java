@@ -11,7 +11,7 @@ import CS340.TicketServer.LogKeeper;
 /**
  * A class to setup a connection to the database.
  */
-class ConnectionSetup
+public class ConnectionSetup
 {
 	private ConnectionSetup() {}
 	private static Logger logger = LogKeeper.getSingleton().getLogger();
@@ -20,7 +20,7 @@ class ConnectionSetup
 	 * Sets up a connection to the database.
 	 * @return Returns the connection made.
 	 */
-	static Connection setup()
+	public static Connection setup()
 	{
 		logger.entering("ConnectionSetup", "setup");
 		try
