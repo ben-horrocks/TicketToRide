@@ -335,4 +335,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        presenter.exitGame();
+        super.onDestroy();
+    }
 }
