@@ -23,6 +23,7 @@ public class EndGamePresenter implements IEndGamePresenter
         ReturnToLobbyTask task = new ReturnToLobbyTask();
         Username[] obj = {user};
         task.execute(obj);
+        activity.goToLobby();
         //implement return to lobby here
     }
 
@@ -32,16 +33,6 @@ public class EndGamePresenter implements IEndGamePresenter
         protected Signal doInBackground(Username[] arrayLists)
         {
             return ServerProxy.getInstance().returnToLobby(arrayLists[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Signal signal)
-        {
-            super.onPostExecute(signal);
-            if(signal.getSignalType() == SignalType.OK)
-            {
-                activity.goToLobby();
-            }
         }
     }
 

@@ -747,6 +747,7 @@ public class ServerFacade implements IServer
         {
            s = ClientProxy.getSINGLETON().EndGame(u.getUsername(), players);
         }
+        Database.SINGLETON.deleteOpenGame(game);
         return s;
     }
 
