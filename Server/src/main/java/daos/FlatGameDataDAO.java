@@ -45,11 +45,11 @@ public class FlatGameDataDAO implements IGameDataDAO
     }
 
     @Override
-    public ServerGameData getGameData(ServerGameData gameData)
+    public ServerGameData getGameData(GameID id)
     {
         logger.entering("FlatGameDataDAO", "getGameData");
         //Why do we need to get a game data if we already have it???
-        return gameData;
+        return null;
     }
 
     @Override

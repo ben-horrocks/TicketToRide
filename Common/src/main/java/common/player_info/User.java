@@ -10,6 +10,7 @@ public class User implements Serializable
     private Username username;
     private Password password;
     private AuthToken token;
+    private boolean inGame;
 
     /**
      * @param username   The username for this user.
@@ -52,6 +53,14 @@ public class User implements Serializable
     public void setToken(AuthToken token)
     {
         this.token = token;
+    }
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 
     @Override
