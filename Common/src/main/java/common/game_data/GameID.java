@@ -12,6 +12,8 @@ public class GameID implements Serializable
         this.id = generateNewId();
     }
 
+    public GameID(String id) {this.id = id;}
+
     public String getId()
     {
         return id;
