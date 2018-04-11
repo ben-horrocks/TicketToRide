@@ -1,9 +1,15 @@
 package daos;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,19 +24,37 @@ import common.player_info.Username;
 public class FlatUserDAO implements IUserDAO
 {
 
-    private Map<Username, User> users = new HashMap<>();
+    private Map<Username, User> users;
 
-    private static final String  PATH = "database" + File.separator + "FlatFile" + File.separator + "User";
+    private static final String  PATH = "database" + File.separator
+                                      + "FlatFile" + File.separator
+                                      + "User";
+    private static final String EXTENSION = ".usr";
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
     private static final String LOGGER_TAG = "FlatUserDAO";
-    private static FlatUserDAO SINGLETON;
 
-    synchronized public FlatUserDAO getSINGLETON()
-    {
-        if(SINGLETON == null){
-            SINGLETON = new FlatUserDAO();
+    public FlatUserDAO() throws IOException {
+        this.users = new HashMap<>();
+        File userDirectory = new File(PATH);
+        if(!userDirectory.isDirectory())
+            throw new FileSystemException(PATH, null, PATH + " is not a directory!");
+        for(File file : userDirectory.listFiles())
+        {
+            if(file.isFile() && file.canRead())
+            {
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
+                User input = null;
+                try
+                {
+                    input = (User) is.readObject();
+                } catch (ClassNotFoundException | ClassCastException e) {
+                    throw new IOException("Error reading " + file.getName() + " as a User. Abort import!", e);
+                }
+
+                Username name = input.getUsername();
+                users.put(name, input);
+            }
         }
-        return SINGLETON;
     }
 
     @Override
@@ -42,12 +66,12 @@ public class FlatUserDAO implements IUserDAO
             logger.log(Level.WARNING, "That user already exists. Perhaps you meant to update instead?");
             return false;
         }
-        File newGame = new File(PATH + user.getUsername().toString());
+        File newUserFile = new File(createFilenameFromUsername(user.getUsername()));
         try
         {
-            newGame.createNewFile();
-            newGame.setWritable(true);
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(newGame));
+            newUserFile.createNewFile();
+            newUserFile.setWritable(true);
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(newUserFile));
             os.writeObject(user);
             os.close();
         } catch (IOException e)
@@ -57,7 +81,7 @@ public class FlatUserDAO implements IUserDAO
             return false;
         }
         users.put(user.getUsername(), user);
-        logger.exiting(LOGGER_TAG, "addNewUser");
+        logger.exiting(LOGGER_TAG, "addNewUser", true);
         return true;
     }
 
@@ -86,12 +110,53 @@ public class FlatUserDAO implements IUserDAO
     @Override
     public boolean updateUser(User user)
     {
-        return false;
+        logger.entering(LOGGER_TAG, "updateUser", user);
+        if(users.get(user.getUsername()) == null)
+        {
+            logger.log(Level.WARNING, "That user doesn't already exist. Perhaps you meant to add instead?");
+            return false;
+        }
+        File updatedUserFile = new File(createFilenameFromUsername(user.getUsername()));
+        ObjectOutputStream os = null;
+        try
+        {
+            os = new ObjectOutputStream(new FileOutputStream(updatedUserFile, false));
+            os.writeObject(user);
+            os.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        users.put(user.getUsername(), user);
+        logger.exiting(LOGGER_TAG, "updateUser", true);
+        return true;
     }
 
     @Override
     public boolean deleteUser(User user)
     {
-        return false;
+        logger.entering(LOGGER_TAG, "deleteUser", user);
+        if(users.get(user.getUsername()) == null)
+        {
+            logger.log(Level.SEVERE, "That user doesn't already exist.");
+            return false;
+        }
+        File oldUser = new File(createFilenameFromUsername(user.getUsername()));
+        try
+        {
+            oldUser.delete();
+        } catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        users.remove(user.getUsername());
+        logger.exiting(LOGGER_TAG, "deleteUser", true);
+        return true;
+    }
+
+    private String createFilenameFromUsername(Username name)
+    {
+        return PATH + File.separator + name.toString() + EXTENSION;
     }
 }
