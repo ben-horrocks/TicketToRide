@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import CS340.TicketServer.LogKeeper;
+import common.game_data.GameID;
 import common.game_data.ServerGameData;
 
 /**
@@ -105,14 +106,14 @@ public class SQLGameDataDAO extends AbstractDAO implements IGameDataDAO
 	}
 
 	@Override
-	public ServerGameData getGameData(ServerGameData gameData)
+	public ServerGameData getGameData(GameID id)
 	{
-		logger.entering("SQLGameDataDAO", "getGameData", gameData);
+		logger.entering("SQLGameDataDAO", "getGameData", id);
 		final String GET_GAME_DATA =
 				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
 						" FROM " + DataEntry.TABLE_NAME +
 						" WHERE " + DataEntry.COLUMN_NAME_GAME_ID + " = ?";
-		String gameID = gameData.getId().getId();
+		String gameID = id.getId();
 		try
 		{
 			PreparedStatement statement = connection.prepareStatement(GET_GAME_DATA);
