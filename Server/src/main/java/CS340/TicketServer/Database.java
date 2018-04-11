@@ -53,6 +53,13 @@ public class Database
         return true;
     }
 
+    boolean setUserInGame(Username username, boolean bool)
+    {
+        User u = playerList.get(username);
+        u.setInGame(bool);
+        return true;
+    }
+
     /**
      * Gets a specific player from the database, according
      * to the username object key

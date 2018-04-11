@@ -337,6 +337,7 @@ public class ServerFacade implements IServer
                 logger.finest("Entering StartGame Alert Loop");
                 for (User u : serverGameData.getUsers())
                 {
+                    u.setInGame(true);
                     //create ClientGameData
                     ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
                     //create the packet
@@ -746,6 +747,7 @@ public class ServerFacade implements IServer
         {
            s = ClientProxy.getSINGLETON().EndGame(u.getUsername(), players);
         }
+        Database.SINGLETON.deleteOpenGame(game);
         return s;
     }
 
@@ -797,12 +799,15 @@ public class ServerFacade implements IServer
 
     public Signal exitGame(Username user, GameID id)
     {
-        return null;
+        Database.SINGLETON.setUserInGame(user, false);
+        return new Signal(SignalType.OK, "User exited");
     }
 
     public Signal resumeGame(User user, GameID id)
     {
-        return null;
+        ServerGameData game = Database.SINGLETON.getOpenGameByID(id);
+        ClientGameData resumeGame = new ClientGameData(game, user.getUsername());
+        return new Signal(SignalType.OK, resumeGame);
     }
 
 }

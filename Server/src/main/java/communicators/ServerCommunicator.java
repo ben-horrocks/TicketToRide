@@ -29,7 +29,8 @@ public class ServerCommunicator
              */
 
             @SuppressWarnings("ConstantConditions")
-            /* SuppressWarning for the .accept() method. I'm handling NullableExceptions */ public void run()
+			/* SuppressWarning for the .accept() method. I'm handling NullableExceptions */
+			public void run()
             {
                 ServerSocket serverSocket = null;
                 Socket socket;

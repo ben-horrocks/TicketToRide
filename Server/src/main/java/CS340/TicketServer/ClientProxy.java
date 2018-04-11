@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import javax.xml.crypto.Data;
+
 import common.cards.HandTrainCards;
 import common.chat.ChatItem;
 import common.communication.CommandParams;
@@ -262,6 +264,14 @@ public class ClientProxy implements IClient
     private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes,
                                        Object[] params)
     {
+        User u = Database.SINGLETON.getPlayer(client);
+        if (!u.isInGame())
+        {
+            if (!methodName.equals("updateGameList") && !methodName.equals("startGame"))
+            {
+                return new Signal(SignalType.ERROR, "Client cannot receive game updates");
+            }
+        }
         logger.entering("ClientProxy", "sendCommandToClient",
                         new Object[]{client, methodName, paramTypes, params});
         logger.fine("Sending \"" + methodName + "\" command to: " + client.getName());
