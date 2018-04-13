@@ -1,6 +1,7 @@
 package daos;
 
 import java.io.*;
+import java.nio.file.FileSystemException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,9 +13,10 @@ import common.game_data.ServerGameData;
 public class FlatGameDataDAO implements IGameDataDAO
 {
 
-    private Map<GameID, ServerGameData> games = new HashMap<>();
+    private Map<GameID, ServerGameData> games;
 
     private static final String  GAMEDATAPATH = "database" + File.separator + "FlatFile" + File.separator + "GameData";
+    private static final String suffix = ".game";
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
     private static FlatGameDataDAO SINGLETON;
 
@@ -26,6 +28,36 @@ public class FlatGameDataDAO implements IGameDataDAO
         return SINGLETON;
     }
 
+    public FlatGameDataDAO() throws IOException
+    {
+        games = new HashMap<>();
+        File FlatGameDirectory = new File(GAMEDATAPATH);
+        if(!FlatGameDirectory.exists())
+        {
+            throw new FileSystemException(GAMEDATAPATH, null, GAMEDATAPATH + "Doesn't Exist!");
+        } else if(!FlatGameDirectory.isDirectory())
+        {
+            throw new FileSystemException(GAMEDATAPATH, null, GAMEDATAPATH + "is not a directory!");
+        }
+        for (File game : FlatGameDirectory.listFiles())
+        {
+            if(game.isFile() && game.canRead())
+            {
+                GameID id = new GameID(game.getName());
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(game));
+                ServerGameData gameData = null;
+                try
+                {
+                    gameData = (ServerGameData) is.readObject(); //turn the file into a player
+                } catch (ClassNotFoundException | ClassCastException e) {
+                    throw new IOException("Error reading " + game.getName() + " as a Game. Abort import!", e);
+                }
+                games.put(id, gameData);
+            }
+
+        }
+    }
+
     @Override
     public boolean addNewGameData(ServerGameData gameData)
     {
@@ -35,7 +67,7 @@ public class FlatGameDataDAO implements IGameDataDAO
             logger.log(Level.WARNING, "That game already exists. Perhaps you meant to update instead?");
             return false;
         }
-        File newGame = new File(GAMEDATAPATH + gameData.getId().getId());
+        File newGame = new File(GAMEDATAPATH + gameData.getId().getId() + suffix);
         try
         {
             newGame.createNewFile();
@@ -86,7 +118,12 @@ public class FlatGameDataDAO implements IGameDataDAO
             logger.log(Level.WARNING, "That game doesn't already exist. Perhaps you meant to add instead?");
             return false;
         }
-        File newGame = new File(GAMEDATAPATH + gameData.getId().getId());
+        File newGame = new File(GAMEDATAPATH + gameData.getId().getId() + suffix);
+        if(!newGame.exists())
+        {
+            logger.log(Level.SEVERE, "Unable to find " + newGame.getName() + "in the file system.");
+            return false;
+        }
         ObjectOutputStream os = null;
         try
         {
@@ -113,6 +150,11 @@ public class FlatGameDataDAO implements IGameDataDAO
             return false;
         }
         File newGame = new File(GAMEDATAPATH + gameData.getId().getId());
+        if(!newGame.exists())
+        {
+            logger.log(Level.SEVERE, "Unable to find " + newGame.getName() + "in the file system.");
+            return false;
+        }
         try
         {
             newGame.delete();
