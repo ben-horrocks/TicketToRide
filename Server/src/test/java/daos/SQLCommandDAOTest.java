@@ -1,4 +1,4 @@
-import static org.junit.Assert.*;
+package daos;
 
 /**
  * Created by Carter on 4/11/18.

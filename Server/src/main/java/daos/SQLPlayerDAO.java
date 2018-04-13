@@ -15,7 +15,7 @@ import common.game_data.GameID;
 import common.player_info.Player;
 import common.player_info.Username;
 
-public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
+public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
