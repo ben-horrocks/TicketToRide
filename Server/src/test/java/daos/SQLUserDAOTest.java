@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.player_info.Password;
 import common.player_info.User;
@@ -80,7 +82,7 @@ public class SQLUserDAOTest
 			}
 			else
 			{
-				System.out.println("No such table... Good!");
+				System.out.println("No such table... Good! Means it was deleted.");
 			}
 		}
 		catch (SQLException e)
@@ -101,35 +103,38 @@ public class SQLUserDAOTest
 		Password password = new Password(pw);
 		User user = new User(username, password);
 		boolean success = dao.addNewUser(user);
-		assert(success);
+		assertTrue(success);
 
 		username = new Username(anotherTest);
 		password = new Password(panda);
 		user = new User(username, password);
 		success = dao.addNewUser(user);
-		assert(success);
+		assertTrue(success);
 
 		username = new Username(test);
 		password = new Password(pw);
 		User dbUser = dao.getUser(username);
 		user = new User(username, password);
-		assert(dbUser.equals(user));
+		assertTrue(dbUser.equals(user));
 
 		username = new Username(anotherTest);
 		password = new Password(panda);
 		dbUser = dao.getUser(username);
 		user = new User(username, password);
-		assert(dbUser.equals(user));
+		assertTrue(dbUser.equals(user));
 	}
 
 	@Test
 	public void getUser()
 	{
+		addNewUser();
 	}
 
 	@Test
 	public void getAllUsers()
 	{
+		List<User> users = new ArrayList<>();
+
 	}
 
 	@Test

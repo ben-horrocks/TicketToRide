@@ -1,3 +1,5 @@
+package daos;
+
 import static org.junit.Assert.*;
 
 /**

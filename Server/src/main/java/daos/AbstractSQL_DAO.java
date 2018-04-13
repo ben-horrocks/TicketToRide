@@ -9,17 +9,19 @@ import java.sql.Connection;
 
 import common.player_info.User;
 
-abstract class AbstractDAO
+abstract class AbstractSQL_DAO implements IDAO
 {
 	Connection connection;
-	AbstractDAO(Connection connection)
+	AbstractSQL_DAO(Connection connection)
 	{
 		this.connection = connection;
 	}
 
 	abstract boolean createTable();
 	abstract boolean deleteTable();
-	public void clearTable()
+
+	@Override
+	public void clearData()
 	{
 		deleteTable();
 		createTable();

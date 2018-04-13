@@ -18,7 +18,7 @@ import common.game_data.GameID;
  * Created by Carter on 4/9/18.
  */
 
-public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
+public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
 

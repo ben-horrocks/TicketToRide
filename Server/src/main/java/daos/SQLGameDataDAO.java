@@ -17,7 +17,7 @@ import common.game_data.ServerGameData;
 /**
  * Created by Kavika F.
  */
-public class SQLGameDataDAO extends AbstractDAO implements IGameDataDAO
+public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 

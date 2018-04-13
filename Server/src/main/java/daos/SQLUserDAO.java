@@ -14,7 +14,7 @@ import CS340.TicketServer.LogKeeper;
 import common.player_info.User;
 import common.player_info.Username;
 
-public class SQLUserDAO extends AbstractDAO implements IUserDAO
+public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
