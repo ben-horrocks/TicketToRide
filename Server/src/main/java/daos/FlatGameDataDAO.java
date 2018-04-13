@@ -25,7 +25,7 @@ public class FlatGameDataDAO implements IGameDataDAO
         File FlatGameDirectory = new File(GAMEDATAPATH);
         if(!FlatGameDirectory.exists())
         {
-            throw new FileSystemException(GAMEDATAPATH, null, GAMEDATAPATH + "Doesn't Exist!");
+            new File(GAMEDATAPATH).mkdir();
         } else if(!FlatGameDirectory.isDirectory())
         {
             throw new FileSystemException(GAMEDATAPATH, null, GAMEDATAPATH + "is not a directory!");
@@ -58,7 +58,7 @@ public class FlatGameDataDAO implements IGameDataDAO
             logger.log(Level.WARNING, "That game already exists. Perhaps you meant to update instead?");
             return false;
         }
-        File newGame = new File(GAMEDATAPATH + gameData.getId().getId() + suffix);
+        File newGame = new File(getGameFileName(gameData.getId()));
         try
         {
             newGame.createNewFile();
@@ -109,7 +109,7 @@ public class FlatGameDataDAO implements IGameDataDAO
             logger.log(Level.WARNING, "That game doesn't already exist. Perhaps you meant to add instead?");
             return false;
         }
-        File newGame = new File(GAMEDATAPATH + gameData.getId().getId() + suffix);
+        File newGame = new File(getGameFileName(gameData.getId()));
         if(!newGame.exists())
         {
             logger.log(Level.SEVERE, "Unable to find " + newGame.getName() + "in the file system.");
@@ -140,7 +140,7 @@ public class FlatGameDataDAO implements IGameDataDAO
             logger.log(Level.SEVERE, "That game doesn't already exist.");
             return false;
         }
-        File newGame = new File(GAMEDATAPATH + gameData.getId().getId());
+        File newGame = new File(getGameFileName(gameData.getId()));
         if(!newGame.exists())
         {
             logger.log(Level.SEVERE, "Unable to find " + newGame.getName() + "in the file system.");
@@ -156,5 +156,10 @@ public class FlatGameDataDAO implements IGameDataDAO
         games.remove(gameData.getId());
         logger.exiting("FlatGameDataDAO", "deleteGameData");
         return true;
+    }
+
+    private String getGameFileName(GameID id)
+    {
+        return GAMEDATAPATH + File.separator + id.getId() + suffix;
     }
 }

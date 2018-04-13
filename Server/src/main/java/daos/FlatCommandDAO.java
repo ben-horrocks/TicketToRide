@@ -10,10 +10,6 @@ import CS340.TicketServer.LogKeeper;
 import common.communication.Command;
 import common.game_data.GameID;
 
-/**
- * Created by Ben_D on 4/9/2018.
- */
-
 public class FlatCommandDAO implements ICommandDAO
 {
     private Map<GameID, List<Command>> commands = new HashMap<>();
@@ -27,7 +23,7 @@ public class FlatCommandDAO implements ICommandDAO
         File FlatGameDirectory = new File(COMMANDPATH);
         if(!FlatGameDirectory.exists())
         {
-            throw new FileSystemException(COMMANDPATH, null, COMMANDPATH + "Doesn't Exist!");
+            new File(COMMANDPATH).mkdir();
         } else if(!FlatGameDirectory.isDirectory())
         {
             throw new FileSystemException(COMMANDPATH, null, COMMANDPATH + "is not a directory!");
@@ -68,8 +64,8 @@ public class FlatCommandDAO implements ICommandDAO
         List<Command> cmds = commands.get(id);
         if(cmds == null)
         {
-            new File(COMMANDPATH + id.getId()).mkdir();
-            File file = new File(COMMANDPATH + id.getId() + "_0" + suffix);
+            new File(getDirectoryFileName(id)).mkdir();
+            File file = new File(getCommandFileName(id, 0));
             try
             {
                 file.createNewFile();
@@ -88,7 +84,7 @@ public class FlatCommandDAO implements ICommandDAO
         } else
         {
             int commandNum = cmds.size();
-            File file = new File(COMMANDPATH + id.getId() + "_" + Integer.toString(commandNum) + suffix);
+            File file = new File(getCommandFileName(id, commandNum));
             try
             {
                 file.createNewFile();
@@ -125,7 +121,7 @@ public class FlatCommandDAO implements ICommandDAO
             logger.log(Level.WARNING, "That gameID doesn't already exist in the database.");
             return false;
         }
-        File dir = new File(COMMANDPATH + id + suffix);
+        File dir = new File(getDirectoryFileName(id));
         if(!dir.exists() || !dir.isDirectory())
         {
             logger.log(Level.SEVERE, "COULD FIND COMMANDS TO DELETE.");
@@ -153,4 +149,13 @@ public class FlatCommandDAO implements ICommandDAO
         return id;
     }
 
+    private String getDirectoryFileName(GameID id)
+    {
+        return COMMANDPATH + File.separator + id.getId();
+    }
+
+    private String getCommandFileName(GameID id, int num)
+    {
+        return COMMANDPATH + File.separator + id.getId() + File.separator + Integer.toString(num);
+    }
 }
