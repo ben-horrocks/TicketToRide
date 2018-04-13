@@ -37,6 +37,11 @@ public class FlatPlayerDAO implements IPlayerDAO
     public FlatPlayerDAO() throws IOException{
         this.players = new HashMap<>();
         File playerDirectory = new File(PATH);
+        if(!playerDirectory.exists())
+        {
+            playerDirectory.mkdir();
+            return;
+        }
         if(!playerDirectory.isDirectory())
             throw new FileSystemException(PATH, null, PATH + " is not a directory!");
         for(File folder : playerDirectory.listFiles()) //for each folder in the directory
