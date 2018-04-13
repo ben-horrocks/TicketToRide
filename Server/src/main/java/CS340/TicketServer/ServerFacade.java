@@ -682,6 +682,7 @@ public class ServerFacade implements IServer
         if (item.shouldReport())
         {
             ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
+            game.addHistoryItem(item);
             Set<User> players = game.getUsers();
             for (User u : players)
             {
