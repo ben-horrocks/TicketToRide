@@ -187,7 +187,7 @@ public class FlatPlayerDAO implements IPlayerDAO
         try
         {
             oldPlayer.delete();
-            gameFolder.delete(); // if it was the last player this will work, otherwise it will fail
+            gameFolder.delete(); // if it was the last player this will work, otherwise it will just return false
         } catch(Exception e)
         {
             e.printStackTrace();
