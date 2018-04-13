@@ -23,7 +23,7 @@ public class SQLUserDAO extends AbstractDAO implements IUserDAO
 		super(connection);
 	}
 
-	private static class UserEntry
+	static class UserEntry
 	{
 		static final String TABLE_NAME = "Users";
 		static final String COLUMN_NAME_USERNAME = "username";

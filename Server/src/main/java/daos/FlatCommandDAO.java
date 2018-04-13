@@ -1,7 +1,11 @@
 package daos;
 
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import CS340.TicketServer.LogKeeper;
 import common.communication.Command;
 import common.game_data.GameID;
 
@@ -11,21 +15,110 @@ import common.game_data.GameID;
 
 public class FlatCommandDAO implements ICommandDAO
 {
+    private Map<GameID, List<Command>> commands = new HashMap<>();
+    private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
+    private static final Logger logger= LogKeeper.getSingleton().getLogger();
+    private static FlatCommandDAO SINGLETON;
+
+    synchronized public FlatCommandDAO getSINGLETON()
+    {
+        if(SINGLETON == null){
+            SINGLETON = new FlatCommandDAO();
+        }
+        return SINGLETON;
+    }
+
     @Override
     public boolean addNewCommand(Command command)
     {
-        return false;
+        logger.entering("FlatCommandDAO","addNewCommand");
+        GameID id = getGameIdFromCommand(command);
+        List<Command> cmds = commands.get(id);
+        if(cmds == null)
+        {
+            new File(COMMANDPATH + id.getId()).mkdir();
+            File file = new File(COMMANDPATH + id.getId() + "_0");
+            try
+            {
+                file.createNewFile();
+                file.setWritable(true);
+                ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
+                os.writeObject(command);
+                os.close();
+            } catch(IOException e)
+            {
+                e.printStackTrace();
+                return false;
+            }
+            List<Command> newCommands = new ArrayList<>();
+            newCommands.add(command);
+            commands.put(id, newCommands);
+        } else
+        {
+            int commandNum = cmds.size();
+            File file = new File(COMMANDPATH + id.getId() + "_" + Integer.toString(commandNum));
+            try
+            {
+                file.createNewFile();
+                file.setWritable(true);
+                ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
+                os.writeObject(command);
+                os.close();
+            } catch(IOException e)
+            {
+                e.printStackTrace();
+                return false;
+            }
+            cmds.add(command);
+        }
+        logger.exiting("FlatCommandDAO","addNewCommand");
+        return true;
     }
 
     @Override
     public List<Command> getCommandsByGameId(GameID id)
     {
-        return null;
+        logger.entering("FlatCommandDAO","addNewCommand");
+        List<Command> cmds = commands.get(id);
+        logger.exiting("FlatCommandDAO","addNewCommand");
+        return cmds;
     }
 
     @Override
     public boolean deleteCommandsByGameId(GameID id)
     {
+        logger.entering("FlatCommandDAO","addNewCommand");
+        if(commands.get(id) == null)
+        {
+            logger.log(Level.WARNING, "That gameID doesn't already exist in the database.");
+            return false;
+        }
+        File dir = new File(COMMANDPATH + id);
+        if(!dir.exists() || !dir.isDirectory())
+        {
+            logger.log(Level.SEVERE, "COULD FIND COMMANDS TO DELETE.");
+            return false;
+        }
+        //We have to delete each individual file before we can delete the directory.
+        for(File file : dir.listFiles())
+        {
+            file.delete();
+        }
+        dir.delete();
+        commands.remove(id);
+        logger.exiting("FlatCommandDAO","addNewCommand");
         return false;
     }
+
+    private GameID getGameIdFromCommand(Command command) {
+        String[] typeNames = command.getParameterTypeNames();
+        GameID id = null;
+        for (int i = 0; i < typeNames.length; i++) {
+            if (typeNames[i].equals(GameID.class.getName())) {
+                id = ((GameID) command.getParameters()[i]);
+            }
+        }
+        return id;
+    }
+
 }
