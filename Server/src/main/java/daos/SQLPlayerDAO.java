@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import CS340.TicketServer.LogKeeper;
+import common.game_data.GameID;
 import common.player_info.Player;
 import common.player_info.Username;
 
@@ -29,6 +30,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 		static final String COLUMN_NAME_USERNAME = "username";
 		static final String COLUMN_NAME_PLAYER = "player";
 	}
+
 
 	@Override
 	boolean createTable()
