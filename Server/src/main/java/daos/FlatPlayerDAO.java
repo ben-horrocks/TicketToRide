@@ -177,10 +177,12 @@ public class FlatPlayerDAO implements IPlayerDAO
             logger.log(Level.SEVERE, "That user doesn't already exist.");
             return false;
         }
-        File oldUser = new File(createFilenameFor(game, player.getUsername()));
+        File oldPlayer = new File(createFilenameFor(game, player.getUsername()));
+        File gameFolder = new File(createFilenameFor(game));
         try
         {
-            oldUser.delete();
+            oldPlayer.delete();
+            gameFolder.delete(); // if it was the last player this will work, otherwise it will fail
         } catch(Exception e)
         {
             e.printStackTrace();
