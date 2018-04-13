@@ -33,7 +33,7 @@ public class ConnectionSetup
 			logger.severe(e + ": Class not found - Connection Setup");
 			e.printStackTrace();
 		}
-		String dbName = "Server\\src\\main\\java\\database" + File.separator + "TTR_SQLite_DB.db";
+		String dbName = "src\\main\\java\\database" + File.separator + "TTR_SQLite_DB.db";
 		String connectionURL = "jdbc:sqlite:" + dbName;
 
 		Connection connection = null;

@@ -36,6 +36,11 @@ public class FlatUserDAO implements IUserDAO
     public FlatUserDAO() throws IOException {
         this.users = new HashMap<>();
         File userDirectory = new File(PATH);
+        if(!userDirectory.exists())
+        {
+            userDirectory.mkdir();
+            return;
+        }
         if(!userDirectory.isDirectory())
             throw new FileSystemException(PATH, null, PATH + " is not a directory!");
         for(File file : userDirectory.listFiles())

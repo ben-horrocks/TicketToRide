@@ -74,7 +74,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 	}
 
 	@Override
-	public boolean addNewPlayer(Player player)
+	public boolean addNewPlayer(GameID gameID, Player player)
 	{
 		logger.entering("SQLPlayerDAO", "addNewPlayer", player);
 		final String INSERT_PLAYER =
@@ -99,7 +99,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 	}
 
 	@Override
-	public Player getPlayer(Username username)
+	public Player getPlayer(GameID gameID, Username username)
 	{
 		logger.entering("SQLPlayerDAO", "getPlayer", username);
 		final String GET_PLAYER =
@@ -165,7 +165,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 	}
 
 	@Override
-	public boolean updatePlayer(Player player)
+	public boolean updatePlayer(GameID gameID, Player player)
 	{
 		logger.entering("SQLPlayerDAO", "updatePlayer", player);
 		final String UPDATE_PLAYER =
@@ -191,7 +191,7 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 	}
 
 	@Override
-	public boolean deletePlayer(Player player)
+	public boolean deletePlayer(GameID gameID, Player player)
 	{
 		logger.entering("SQLPlayerDAO", "deletePlayer", player);
 		final String DELETE_PLAYER =
@@ -211,5 +211,12 @@ public class SQLPlayerDAO extends AbstractDAO implements IPlayerDAO
 		}
 		logger.exiting("SQLPlayerDAO", "deletePlayer", false);
 		return false;
+	}
+
+	@Override
+	public List<Player> getAllPlayersInGame(GameID gameID)
+	{
+		List<Player> results = new ArrayList<>();
+		return results;
 	}
 }
