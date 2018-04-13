@@ -37,6 +37,11 @@ public class FlatPlayerDAO implements IPlayerDAO
     public FlatPlayerDAO() throws IOException{
         this.players = new HashMap<>();
         File playerDirectory = new File(PATH);
+        if(!playerDirectory.exists())
+        {
+            playerDirectory.mkdir();
+            return;
+        }
         if(!playerDirectory.isDirectory())
             throw new FileSystemException(PATH, null, PATH + " is not a directory!");
         for(File folder : playerDirectory.listFiles()) //for each folder in the directory
@@ -177,10 +182,12 @@ public class FlatPlayerDAO implements IPlayerDAO
             logger.log(Level.SEVERE, "That user doesn't already exist.");
             return false;
         }
-        File oldUser = new File(createFilenameFor(game, player.getUsername()));
+        File oldPlayer = new File(createFilenameFor(game, player.getUsername()));
+        File gameFolder = new File(createFilenameFor(game));
         try
         {
-            oldUser.delete();
+            oldPlayer.delete();
+            gameFolder.delete(); // if it was the last player this will work, otherwise it will fail
         } catch(Exception e)
         {
             e.printStackTrace();
