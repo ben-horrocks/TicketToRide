@@ -1,6 +1,7 @@
 package daos;
 
 import java.io.*;
+import java.nio.file.FileSystemException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,16 +18,47 @@ public class FlatCommandDAO implements ICommandDAO
 {
     private Map<GameID, List<Command>> commands = new HashMap<>();
     private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
+    private static final String suffix = ".cmd";
     private static final Logger logger= LogKeeper.getSingleton().getLogger();
-    private static FlatCommandDAO SINGLETON;
 
-    synchronized public FlatCommandDAO getSINGLETON()
+    public FlatCommandDAO() throws IOException
     {
-        if(SINGLETON == null){
-            SINGLETON = new FlatCommandDAO();
+        commands = new HashMap<>();
+        File FlatGameDirectory = new File(COMMANDPATH);
+        if(!FlatGameDirectory.exists())
+        {
+            throw new FileSystemException(COMMANDPATH, null, COMMANDPATH + "Doesn't Exist!");
+        } else if(!FlatGameDirectory.isDirectory())
+        {
+            throw new FileSystemException(COMMANDPATH, null, COMMANDPATH + "is not a directory!");
         }
-        return SINGLETON;
+        for (File game : FlatGameDirectory.listFiles())
+        {
+            if(game.isDirectory() && game.canRead())
+            {
+                List<Command> commandList = new ArrayList<>();
+                GameID id = new GameID(game.getName());
+                for(File cmd : game.listFiles())
+                {
+                    if(cmd.isFile() && cmd.canRead())
+                    {
+                        ObjectInputStream is = new ObjectInputStream(new FileInputStream(cmd));
+                        Command command = null;
+                        try
+                        {
+                            command = (Command) is.readObject();
+                        } catch (ClassNotFoundException | ClassCastException e)
+                        {
+                            throw new IOException("Error reading " + cmd.getName() + " as a Command. Abort import!", e);
+                        }
+                        commandList.add(command);
+                    }
+                }
+                this.commands.put(id, commandList);
+            }
+        }
     }
+
 
     @Override
     public boolean addNewCommand(Command command)
@@ -37,7 +69,7 @@ public class FlatCommandDAO implements ICommandDAO
         if(cmds == null)
         {
             new File(COMMANDPATH + id.getId()).mkdir();
-            File file = new File(COMMANDPATH + id.getId() + "_0");
+            File file = new File(COMMANDPATH + id.getId() + "_0" + suffix);
             try
             {
                 file.createNewFile();
@@ -56,7 +88,7 @@ public class FlatCommandDAO implements ICommandDAO
         } else
         {
             int commandNum = cmds.size();
-            File file = new File(COMMANDPATH + id.getId() + "_" + Integer.toString(commandNum));
+            File file = new File(COMMANDPATH + id.getId() + "_" + Integer.toString(commandNum) + suffix);
             try
             {
                 file.createNewFile();
@@ -93,7 +125,7 @@ public class FlatCommandDAO implements ICommandDAO
             logger.log(Level.WARNING, "That gameID doesn't already exist in the database.");
             return false;
         }
-        File dir = new File(COMMANDPATH + id);
+        File dir = new File(COMMANDPATH + id + suffix);
         if(!dir.exists() || !dir.isDirectory())
         {
             logger.log(Level.SEVERE, "COULD FIND COMMANDS TO DELETE.");
