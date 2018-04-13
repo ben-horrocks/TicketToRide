@@ -11,10 +11,21 @@ import common.game_data.ServerGameData;
 
 public class FlatGameDataDAO implements IGameDataDAO
 {
-    private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
     private Map<GameID, ServerGameData> games = new HashMap<>();
-    public static final String  GAMEDATAPATH = "database" + File.separator + "Command";
+
+    private static final String  GAMEDATAPATH = "database" + File.separator + "FlatFile" + File.separator + "GameData";
+    private static final Logger logger = LogKeeper.getSingleton().getLogger();
+    private static FlatGameDataDAO SINGLETON;
+
+    synchronized public FlatGameDataDAO getSINGLETON()
+    {
+        if(SINGLETON == null){
+            SINGLETON = new FlatGameDataDAO();
+        }
+        return SINGLETON;
+    }
+
     @Override
     public boolean addNewGameData(ServerGameData gameData)
     {
@@ -48,8 +59,9 @@ public class FlatGameDataDAO implements IGameDataDAO
     public ServerGameData getGameData(GameID id)
     {
         logger.entering("FlatGameDataDAO", "getGameData");
-        //Why do we need to get a game data if we already have it???
-        return null;
+        ServerGameData game = games.get(id);
+        logger.exiting("FlatGameDataDAO", "getGameData", game);
+        return game;
     }
 
     @Override
@@ -75,9 +87,10 @@ public class FlatGameDataDAO implements IGameDataDAO
             return false;
         }
         File newGame = new File(GAMEDATAPATH + gameData.getId().getId());
+        ObjectOutputStream os = null;
         try
         {
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(newGame));
+            os = new ObjectOutputStream(new FileOutputStream(newGame, false));
             os.writeObject(gameData);
             os.close();
         } catch (IOException e)
