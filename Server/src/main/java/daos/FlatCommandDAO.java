@@ -20,15 +20,6 @@ public class FlatCommandDAO implements ICommandDAO
     private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
     private static final String suffix = ".cmd";
     private static final Logger logger= LogKeeper.getSingleton().getLogger();
-    private static FlatCommandDAO SINGLETON;
-
-    synchronized public FlatCommandDAO getSINGLETON()
-    {
-        if(SINGLETON == null){
-            SINGLETON = new FlatCommandDAO();
-        }
-        return SINGLETON;
-    }
 
     public FlatCommandDAO() throws IOException
     {
@@ -45,7 +36,7 @@ public class FlatCommandDAO implements ICommandDAO
         {
             if(game.isDirectory() && game.canRead())
             {
-                List<Command> commands = new ArrayList<>();
+                List<Command> commandList = new ArrayList<>();
                 GameID id = new GameID(game.getName());
                 for(File cmd : game.listFiles())
                 {
@@ -60,8 +51,10 @@ public class FlatCommandDAO implements ICommandDAO
                         {
                             throw new IOException("Error reading " + cmd.getName() + " as a Command. Abort import!", e);
                         }
+                        commandList.add(command);
                     }
                 }
+                this.commands.put(id, commandList);
             }
         }
     }

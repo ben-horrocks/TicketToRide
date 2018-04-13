@@ -18,15 +18,6 @@ public class FlatGameDataDAO implements IGameDataDAO
     private static final String  GAMEDATAPATH = "database" + File.separator + "FlatFile" + File.separator + "GameData";
     private static final String suffix = ".game";
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
-    private static FlatGameDataDAO SINGLETON;
-
-    synchronized public FlatGameDataDAO getSINGLETON()
-    {
-        if(SINGLETON == null){
-            SINGLETON = new FlatGameDataDAO();
-        }
-        return SINGLETON;
-    }
 
     public FlatGameDataDAO() throws IOException
     {
