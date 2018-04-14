@@ -134,7 +134,26 @@ public class SQLUserDAOTest
 	public void getAllUsers()
 	{
 		List<User> users = new ArrayList<>();
+		String test = "Test";
+		String pw = "Password";
+		String anotherTest = "AnotherTest";
+		String panda = "Pa4nda";
+		Username username = new Username(test);
+		Password password = new Password(pw);
+		User user = new User(username, password);
+		users.add(user);
+		boolean success = dao.addNewUser(user);
+		assertTrue(success);
 
+		username = new Username(anotherTest);
+		password = new Password(panda);
+		user = new User(username, password);
+		users.add(user);
+		success = dao.addNewUser(user);
+		assertTrue(success);
+
+		List<User> sqlUsers = dao.getAllUsers();
+		assertTrue(users.equals(sqlUsers));
 	}
 
 	@Test

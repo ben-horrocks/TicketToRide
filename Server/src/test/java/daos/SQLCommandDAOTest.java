@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import CS340.TicketServer.ServerFacade;
 import common.cards.HandDestinationCards;
@@ -133,7 +134,8 @@ public class SQLCommandDAOTest {
         commandDao.addNewCommand(serverCommand);
 
         //Check to see if command was added
-        Command dbCommand = commandDao.getCommandsByGameId();
+		GameID id = new GameID();
+        List<Command> dbCommands = commandDao.getCommandsByGameId(id);
 
     }
 
