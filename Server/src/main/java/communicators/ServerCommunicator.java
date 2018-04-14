@@ -122,6 +122,6 @@ public class ServerCommunicator
             return;
         }
         new ServerCommunicator();
-        new PushTimer();
+        new HeartBeat();
     }
 }

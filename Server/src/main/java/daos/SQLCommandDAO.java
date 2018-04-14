@@ -1,7 +1,10 @@
 package daos;
 
+import org.sqlite.SQLiteConnection;
+
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,20 +14,30 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import CS340.TicketServer.LogKeeper;
+import CS340.TicketServer.ServerFacade;
+import common.cards.HandDestinationCards;
+import common.cards.HandTrainCards;
+import common.chat.ChatItem;
 import common.communication.Command;
+import common.communication.CommandParams;
 import common.game_data.GameID;
+import common.game_data.GameInfo;
+import common.map.Edge;
+import common.player_info.Password;
+import common.player_info.User;
+import common.player_info.Username;
 
 /**
  * Created by Carter on 4/9/18.
  */
 
-public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
+public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
     public SQLCommandDAO(Connection connection) { super(connection); }
 
-    private static class CommandEntry
+    public static class CommandEntry
     {
         static final String TABLE_NAME = "Commands";
         static final String COLUMN_NAME_GAME_ID = "GameID";
@@ -177,5 +190,71 @@ public class SQLCommandDAO extends AbstractDAO implements ICommandDAO {
             }
         }
         return id;
+    }
+
+    public static void main (String[] args) {
+        //set up driver
+        try {
+            final String driver = "org.sqlite.JDBC";
+            Class.forName(driver);
+        }
+        catch(java.lang.ClassNotFoundException e) {
+            // ERROR! Could not load database driver
+        }
+
+        //create conection to Database
+        String dbName = "Server/TicketToRide.sqlite";
+        String connectionURL = "jdbc:sqlite:" + dbName;
+        Connection connection = null;
+        try {
+            // Open a database connection
+            connection = DriverManager.getConnection(connectionURL);
+            // Start a transaction
+            connection.setAutoCommit(false);
+        }
+        catch (SQLException ex) {
+            // ERROR
+            System.out.println("ERROR: SQL exception while attempting to open database");
+            ex.printStackTrace();
+        }
+
+        //Set up all necessary stuff for running tests
+        String stringClassName = String.class.getName();
+        String gameIDClassname = GameID.class.getName();
+        String playerClassName = User.class.getName();
+        String usernameClassName = Username.class.getName();
+        String handDestinationCardsClassName = HandDestinationCards.class.getName();
+        String handTrainCardClassName = HandTrainCards.class.getName();
+        String chatItemClassName = ChatItem.class.getName();
+        String edgeClassName = Edge.class.getName();
+
+        //Make user
+        String test = "Test";
+        String pw = "Password";
+        String anotherTest = "AnotherTest";
+        String panda = "Pa4nda";
+        Username username = new Username(test);
+        Password password = new Password(pw);
+        User user = new User(username, password);
+
+        //Make new game
+        String gameName = "newGame";
+        GameID id = new GameID();
+
+        //Make command
+        String[] parameterTypes = {usernameClassName, gameIDClassname};
+        Object[] parameters = {user, id};
+        CommandParams commandParams =
+                new CommandParams("getAvailableGameInfo", parameterTypes, parameters);
+        Command serverCommand =
+                new Command(commandParams, ServerFacade.class.getName());
+
+        //RUN TESTS
+        SQLCommandDAO dao = new SQLCommandDAO(connection);
+
+        dao.createTable();
+        dao.addNewCommand(serverCommand);
+        dao.getCommandsByGameId(id);
+
     }
 }
