@@ -42,12 +42,19 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
         boolean isMyGame = LobbyPresenter.getInstance().isMyGame(holder.id);
         boolean hasJoinedGame = LobbyPresenter.getInstance().hasJoinedGame(holder.id);
         String status = (isMyGame ? "Start" : (hasJoinedGame ? "Joined" : "Join"));
+        if (LobbyPresenter.getInstance().isInGame(game.getID()))
+        {
+            status = "Resume";
+        }
         String formattedPlayerCount = Integer.toString(game.getPlayerCount()) + '/' + '5';
         holder.GameName.setText(game.getName());
         holder.JoinStart.setText(status);
         if (hasJoinedGame)
         {
-            holder.JoinStart.setTextColor(Color.BLACK);
+            if (status.equals("Resume"))
+                holder.JoinStart.setTextColor(Color.CYAN);
+            else
+                holder.JoinStart.setTextColor(Color.BLACK);
         } else if (!game.canStart(LobbyPresenter.getInstance().getPlayer()))
         {
             holder.JoinStart.setTextColor(Color.RED);

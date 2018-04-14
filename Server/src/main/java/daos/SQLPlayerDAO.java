@@ -31,6 +31,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		static final String COLUMN_NAME_PLAYER = "player";
 	}
 
+
 	@Override
 	boolean createTable()
 	{
@@ -98,7 +99,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	}
 
 	@Override
-	public Player getPlayer(GameID gameID, Username username)
+	public Player getPlayer(GameID id, Username username)
 	{
 		logger.entering("SQLPlayerDAO", "getPlayer", username);
 		final String GET_PLAYER =
@@ -164,7 +165,12 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	}
 
 	@Override
-	public boolean updatePlayer(GameID gameID, Player player)
+	public List<Player> getAllPlayersInGame(GameID game) {
+		return null;
+	}
+
+	@Override
+	public boolean updatePlayer(GameID id, Player player)
 	{
 		logger.entering("SQLPlayerDAO", "updatePlayer", player);
 		final String UPDATE_PLAYER =
@@ -210,12 +216,5 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		}
 		logger.exiting("SQLPlayerDAO", "deletePlayer", false);
 		return false;
-	}
-
-	@Override
-	public List<Player> getAllPlayersInGame(GameID gameID)
-	{
-		List<Player> results = new ArrayList<>();
-		return results;
 	}
 }

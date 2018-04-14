@@ -21,7 +21,7 @@ import CS340.TicketServer.LogKeeper;
 import common.player_info.User;
 import common.player_info.Username;
 
-public class FlatUserDAO implements IUserDAO
+public class FlatUserDAO implements IUserDAO, IDAO
 {
 
     private Map<Username, User> users;
@@ -33,7 +33,7 @@ public class FlatUserDAO implements IUserDAO
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
     private static final String LOGGER_TAG = "FlatUserDAO";
 
-    public FlatUserDAO() throws IOException {
+    public FlatUserDAO(boolean clearDatabase) throws IOException {
         this.users = new HashMap<>();
         File userDirectory = new File(PATH);
         if(!userDirectory.exists())
@@ -43,21 +43,27 @@ public class FlatUserDAO implements IUserDAO
         }
         if(!userDirectory.isDirectory())
             throw new FileSystemException(PATH, null, PATH + " is not a directory!");
-        for(File file : userDirectory.listFiles())
+        if(clearDatabase)
         {
-            if(file.isFile() && file.canRead())
+            clearData();
+        } else
+        {
+            for(File file : userDirectory.listFiles())
             {
-                ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
-                User input = null;
-                try
+                if(file.isFile() && file.canRead())
                 {
-                    input = (User) is.readObject();
-                } catch (ClassNotFoundException | ClassCastException e) {
-                    throw new IOException("Error reading " + file.getName() + " as a User. Abort import!", e);
-                }
+                    ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
+                    User input = null;
+                    try
+                    {
+                        input = (User) is.readObject();
+                    } catch (ClassNotFoundException | ClassCastException e) {
+                        throw new IOException("Error reading " + file.getName() + " as a User. Abort import!", e);
+                    }
 
-                Username name = input.getUsername();
-                users.put(name, input);
+                    Username name = input.getUsername();
+                    users.put(name, input);
+                }
             }
         }
     }
@@ -163,5 +169,15 @@ public class FlatUserDAO implements IUserDAO
     private String createFilenameFromUsername(Username name)
     {
         return PATH + File.separator + name.toString() + EXTENSION;
+    }
+
+    @Override
+    public void clearData()
+    {
+        File dir = new File(PATH);
+        for(File user : dir.listFiles())
+        {
+            user.delete();
+        }
     }
 }

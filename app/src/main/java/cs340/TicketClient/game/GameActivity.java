@@ -49,10 +49,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 StartGamePacket packet = (StartGamePacket) extras.get("packet");
                 presenter.fillModel(packet);
             }
-            else if (extras.get("packet") instanceof ClientGameData)
+            else if (extras.get("resumeGame") instanceof ClientGameData)
             {
-                ClientGameData data = (ClientGameData)extras.get("packet");
-                presenter.fillModel(data);
+                ClientGameData data = (ClientGameData)extras.get("resumeGame");
+                presenter.fillData(data);
             }
         }
 
@@ -67,10 +67,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         // Start the game off by having the player pick their destination cards
         Fragment destinationViewFragment = fm.findFragmentById(R.id.fragment_destination_card);
-        if (destinationViewFragment == null && presenter.getDestinationCards() != null)
+        HandDestinationCards cards = presenter.getModel().getInitialDCards();
+        if (destinationViewFragment == null && cards != null)
         {
             Bundle toDestinationVF = new Bundle();
-            toDestinationVF.putSerializable("cards", presenter.getDestinationCards());
+            toDestinationVF.putSerializable("cards",cards);
             destinationViewFragment = new DestinationCardFragment();
             destinationViewFragment.setArguments(toDestinationVF);
             // Set the destination fragment and set the transition

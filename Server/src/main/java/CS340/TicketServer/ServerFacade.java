@@ -370,15 +370,6 @@ public class ServerFacade implements IServer
         return signal;
     }
 
-	@Override
-	public Signal resumeGame(GameID gameID, Username username)
-	{
-		logger.entering("ServerFacade", "resumeGame", new Object[]{gameID, username});
-		// TODO: implement
-		logger.exiting("ServerFacade", "resumeGame");
-		return new Signal(SignalType.ERROR, "Implement resumeGame in ServerFacade");
-	}
-
 	/**
      * @return A signal specifying whether or not the function worked.
      * @pre Parameters must be non-null
@@ -682,6 +673,7 @@ public class ServerFacade implements IServer
         if (item.shouldReport())
         {
             ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
+            game.addHistoryItem(item);
             Set<User> players = game.getUsers();
             for (User u : players)
             {
@@ -805,9 +797,16 @@ public class ServerFacade implements IServer
 
     public Signal resumeGame(User user, GameID id)
     {
-        ServerGameData game = Database.SINGLETON.getOpenGameByID(id);
-        ClientGameData resumeGame = new ClientGameData(game, user.getUsername());
-        return new Signal(SignalType.OK, resumeGame);
+        try {
+            Database.SINGLETON.setUserInGame(user.getUsername(), true);
+            ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+            ClientGameData resumeGame = new ClientGameData(game, user.getUsername());
+            return new Signal(SignalType.OK, resumeGame);
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
+            return new Signal(SignalType.ERROR, "Couldnt find game");
+        }
     }
 
 }

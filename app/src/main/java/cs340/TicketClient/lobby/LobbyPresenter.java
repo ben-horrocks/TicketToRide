@@ -349,7 +349,7 @@ public class LobbyPresenter implements ILobbyPresenter
         protected void onPostExecute(Signal signal) {
 
 
-            if (signal.getSignalType() == SignalType.ERROR) {
+            if (signal.getSignalType() != SignalType.ERROR) {
                 if (activity != null) {
                     try
                     {

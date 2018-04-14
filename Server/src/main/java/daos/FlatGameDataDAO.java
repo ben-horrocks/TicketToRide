@@ -10,7 +10,7 @@ import CS340.TicketServer.LogKeeper;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
 
-public class FlatGameDataDAO implements IGameDataDAO
+public class FlatGameDataDAO implements IGameDataDAO, IDAO
 {
 
     private Map<GameID, ServerGameData> games;
@@ -19,7 +19,7 @@ public class FlatGameDataDAO implements IGameDataDAO
     private static final String suffix = ".game";
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
-    public FlatGameDataDAO() throws IOException
+    public FlatGameDataDAO(boolean clearDatabase) throws IOException
     {
         games = new HashMap<>();
         File FlatGameDirectory = new File(GAMEDATAPATH);
@@ -30,22 +30,29 @@ public class FlatGameDataDAO implements IGameDataDAO
         {
             throw new FileSystemException(GAMEDATAPATH, null, GAMEDATAPATH + "is not a directory!");
         }
-        for (File game : FlatGameDirectory.listFiles())
+        if(clearDatabase)
         {
-            if(game.isFile() && game.canRead())
+            clearData();
+        }
+        else
+        {
+            for (File game : FlatGameDirectory.listFiles())
             {
-                GameID id = new GameID(game.getName());
-                ObjectInputStream is = new ObjectInputStream(new FileInputStream(game));
-                ServerGameData gameData = null;
-                try
+                if(game.isFile() && game.canRead())
                 {
-                    gameData = (ServerGameData) is.readObject(); //turn the file into a player
-                } catch (ClassNotFoundException | ClassCastException e) {
-                    throw new IOException("Error reading " + game.getName() + " as a Game. Abort import!", e);
+                    GameID id = new GameID(game.getName());
+                    ObjectInputStream is = new ObjectInputStream(new FileInputStream(game));
+                    ServerGameData gameData = null;
+                    try
+                    {
+                        gameData = (ServerGameData) is.readObject(); //turn the file into a player
+                    } catch (ClassNotFoundException | ClassCastException e) {
+                        throw new IOException("Error reading " + game.getName() + " as a Game. Abort import!", e);
+                    }
+                    games.put(id, gameData);
                 }
-                games.put(id, gameData);
-            }
 
+            }
         }
     }
 
@@ -161,5 +168,15 @@ public class FlatGameDataDAO implements IGameDataDAO
     private String getGameFileName(GameID id)
     {
         return GAMEDATAPATH + File.separator + id.getId() + suffix;
+    }
+
+    @Override
+    public void clearData()
+    {
+        File dir = new File(GAMEDATAPATH);
+        for(File game : dir.listFiles())
+        {
+            game.delete();
+        }
     }
 }
