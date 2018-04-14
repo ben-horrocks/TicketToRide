@@ -91,6 +91,36 @@ public class ServerCommunicator
 
     public static void main(String[] args)
     {
+        if(args.length < 4 || args.length > 5)
+        {
+            System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+            return;
+        }
+        String databaseType = args[2];
+        int commandNum = Integer.parseInt(args[3]);
+        Boolean cleanDatabase = false;
+        if(args.length == 5)
+        {
+            if(args[4].equals("--clean"))
+            {
+                cleanDatabase = true;
+            } else
+            {
+                System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+                return;
+            }
+        }
+        if(databaseType.equals("sql"))
+        {
+            //get plugin to setup sql here
+        } else if(databaseType.equals("flat"))
+        {
+            //get plugin to setup FlatFile here
+        } else
+        {
+            System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+            return;
+        }
         new ServerCommunicator();
         new PushTimer();
     }
