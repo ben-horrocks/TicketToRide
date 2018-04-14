@@ -10,14 +10,14 @@ import CS340.TicketServer.LogKeeper;
 import common.communication.Command;
 import common.game_data.GameID;
 
-public class FlatCommandDAO implements ICommandDAO
+public class FlatCommandDAO implements ICommandDAO, IDAO
 {
     private Map<GameID, List<Command>> commands = new HashMap<>();
     private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
     private static final String suffix = ".cmd";
     private static final Logger logger= LogKeeper.getSingleton().getLogger();
 
-    public FlatCommandDAO() throws IOException
+    public FlatCommandDAO(boolean clearDatabase) throws IOException
     {
         commands = new HashMap<>();
         File FlatGameDirectory = new File(COMMANDPATH);
@@ -28,29 +28,35 @@ public class FlatCommandDAO implements ICommandDAO
         {
             throw new FileSystemException(COMMANDPATH, null, COMMANDPATH + "is not a directory!");
         }
-        for (File game : FlatGameDirectory.listFiles())
+        if(clearDatabase)
         {
-            if(game.isDirectory() && game.canRead())
+            clearData();
+        } else
+        {
+            for (File game : FlatGameDirectory.listFiles())
             {
-                List<Command> commandList = new ArrayList<>();
-                GameID id = new GameID(game.getName());
-                for(File cmd : game.listFiles())
+                if(game.isDirectory() && game.canRead())
                 {
-                    if(cmd.isFile() && cmd.canRead())
+                    List<Command> commandList = new ArrayList<>();
+                    GameID id = new GameID(game.getName());
+                    for(File cmd : game.listFiles())
                     {
-                        ObjectInputStream is = new ObjectInputStream(new FileInputStream(cmd));
-                        Command command = null;
-                        try
+                        if(cmd.isFile() && cmd.canRead())
                         {
-                            command = (Command) is.readObject();
-                        } catch (ClassNotFoundException | ClassCastException e)
-                        {
-                            throw new IOException("Error reading " + cmd.getName() + " as a Command. Abort import!", e);
+                            ObjectInputStream is = new ObjectInputStream(new FileInputStream(cmd));
+                            Command command = null;
+                            try
+                            {
+                                command = (Command) is.readObject();
+                            } catch (ClassNotFoundException | ClassCastException e)
+                            {
+                                throw new IOException("Error reading " + cmd.getName() + " as a Command. Abort import!", e);
+                            }
+                            commandList.add(command);
                         }
-                        commandList.add(command);
                     }
+                    this.commands.put(id, commandList);
                 }
-                this.commands.put(id, commandList);
             }
         }
     }
@@ -157,5 +163,19 @@ public class FlatCommandDAO implements ICommandDAO
     private String getCommandFileName(GameID id, int num)
     {
         return COMMANDPATH + File.separator + id.getId() + File.separator + Integer.toString(num);
+    }
+
+    @Override
+    public void clearData()
+    {
+        File dir = new File(COMMANDPATH);
+        for(File game : dir.listFiles())
+        {
+            for(File cmd : game.listFiles())
+            {
+                cmd.delete();
+            }
+            game.delete();
+        }
     }
 }
