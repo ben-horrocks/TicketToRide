@@ -23,7 +23,7 @@ import common.player_info.Username;
  * Created by Ben_D on 4/9/2018.
  */
 
-public class FlatPlayerDAO implements IPlayerDAO
+public class FlatPlayerDAO implements IPlayerDAO, IDAO
 {
     private Map<GameID, Map<Username, Player>> players = new HashMap<>();
 
@@ -34,7 +34,7 @@ public class FlatPlayerDAO implements IPlayerDAO
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
     private static final String LOGGER_TAG = "FlatPlayerDAO";
 
-    public FlatPlayerDAO() throws IOException{
+    public FlatPlayerDAO(boolean clearDatabase) throws IOException{
         this.players = new HashMap<>();
         File playerDirectory = new File(PATH);
         if(!playerDirectory.exists())
@@ -44,28 +44,34 @@ public class FlatPlayerDAO implements IPlayerDAO
         }
         if(!playerDirectory.isDirectory())
             throw new FileSystemException(PATH, null, PATH + " is not a directory!");
-        for(File folder : playerDirectory.listFiles()) //for each folder in the directory
+        if(clearDatabase)
         {
-            GameID gameID = new GameID(folder.getName()); //the name of the folder is the GameID
-            players.put(gameID, new HashMap<Username, Player>());
-            if(folder.isDirectory() && folder.canRead()) //for each file in the folder
+            clearData();
+        } else
+        {
+            for(File folder : playerDirectory.listFiles()) //for each folder in the directory
             {
-                for(File file : folder.listFiles())
+                GameID gameID = new GameID(folder.getName()); //the name of the folder is the GameID
+                players.put(gameID, new HashMap<Username, Player>());
+                if(folder.isDirectory() && folder.canRead()) //for each file in the folder
                 {
-                    if (file.isFile() && file.canRead())
+                    for(File file : folder.listFiles())
                     {
-                        ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
-                        Player player = null;
-                        try
+                        if (file.isFile() && file.canRead())
                         {
-                            player = (Player) is.readObject(); //turn the file into a player
-                        } catch (ClassNotFoundException | ClassCastException e) {
-                            throw new IOException("Error reading " + file.getName() + " as a Player. Abort import!", e);
-                        }
+                            ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
+                            Player player = null;
+                            try
+                            {
+                                player = (Player) is.readObject(); //turn the file into a player
+                            } catch (ClassNotFoundException | ClassCastException e) {
+                                throw new IOException("Error reading " + file.getName() + " as a Player. Abort import!", e);
+                            }
 
-                        //put the data into memory
-                        Username name = player.getUsername();
-                        players.get(gameID).put(name, player);
+                            //put the data into memory
+                            Username name = player.getUsername();
+                            players.get(gameID).put(name, player);
+                        }
                     }
                 }
             }
@@ -205,5 +211,19 @@ public class FlatPlayerDAO implements IPlayerDAO
     private String createFilenameFor(GameID game, Username name)
     {
         return createFilenameFor(game) + File.separator + name + EXTENSION;
+    }
+
+    @Override
+    public void clearData()
+    {
+        File dir = new File(PATH);
+        for(File game : dir.listFiles())
+        {
+            for(File player : game.listFiles())
+            {
+                player.delete();
+            }
+            game.delete();
+        }
     }
 }

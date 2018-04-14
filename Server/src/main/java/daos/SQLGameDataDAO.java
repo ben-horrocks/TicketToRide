@@ -21,7 +21,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
 	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
-	SQLGameDataDAO(Connection connection)
+	public SQLGameDataDAO(Connection connection)
 	{
 		super(connection);
 	}
