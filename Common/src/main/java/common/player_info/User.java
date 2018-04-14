@@ -1,6 +1,9 @@
 package common.player_info;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import common.game_data.GameID;
 
 /**
  * A user in the game. A user has a username, password, screenName, and authorization token.
@@ -11,6 +14,7 @@ public class User implements Serializable
     private Password password;
     private AuthToken token;
     private boolean inGame;
+    private ArrayList<GameID> joinedGames;
 
     /**
      * @param username   The username for this user.
@@ -23,6 +27,14 @@ public class User implements Serializable
         this.username = username;
         this.password = pass;
         this.token = new AuthToken();
+    }
+
+    public ArrayList<GameID> getJoinedGames() {
+        return joinedGames;
+    }
+
+    public void setJoinedGames(ArrayList<GameID> joinedGames) {
+        this.joinedGames = joinedGames;
     }
 
     public Username getUsername()

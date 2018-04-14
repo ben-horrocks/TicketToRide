@@ -265,13 +265,6 @@ public class ClientProxy implements IClient
                                        Object[] params)
     {
         User u = Database.SINGLETON.getPlayer(client);
-        if (!u.isInGame())
-        {
-            if (!methodName.equals("updateGameList") && !methodName.equals("startGame"))
-            {
-                return new Signal(SignalType.ERROR, "Client cannot receive game updates");
-            }
-        }
         logger.entering("ClientProxy", "sendCommandToClient",
                         new Object[]{client, methodName, paramTypes, params});
         logger.fine("Sending \"" + methodName + "\" command to: " + client.getName());

@@ -56,7 +56,7 @@ public class GamePresenter
         model.setInitialDCards(packet.getInitialDestinationCards());
     }
 
-    public void fillModel(ClientGameData data)
+    public void fillData(ClientGameData data)
     {
         model.setGameData(data);
         model.setInitialDCards(null);
@@ -365,5 +365,9 @@ public class GamePresenter
         protected void onPostExecute(Signal signal) {
             super.onPostExecute(signal);
         }
+    }
+
+    public GameModel getModel() {
+        return model;
     }
 }
