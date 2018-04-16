@@ -112,10 +112,10 @@ public class ServerCommunicator
         }
         if(databaseType.equals("sql"))
         {
-            //get plugin to setup sql here
+            ServerFacade.getSINGLETON().setPlugin("SQL", commandNum, cleanDatabase);
         } else if(databaseType.equals("flat"))
         {
-            //get plugin to setup FlatFile here
+            ServerFacade.getSINGLETON().setPlugin("FlatFile", commandNum, cleanDatabase);
         } else
         {
             System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
