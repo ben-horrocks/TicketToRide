@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import CS340.TicketServer.LogKeeper;
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -30,7 +27,6 @@ public class FlatUserDAO implements IUserDAO, IDAO
                                       + "FlatFile" + File.separator
                                       + "User";
     private static final String EXTENSION = ".usr";
-    private static final Logger logger = LogKeeper.getSingleton().getLogger();
     private static final String LOGGER_TAG = "FlatUserDAO";
 
     public FlatUserDAO(boolean clearDatabase) throws IOException {
@@ -71,10 +67,9 @@ public class FlatUserDAO implements IUserDAO, IDAO
     @Override
     public boolean addNewUser(User user)
     {
-        logger.entering(LOGGER_TAG, "addNewUser", user);
         if(users.get(user.getUsername()) != null)
         {
-            logger.log(Level.WARNING, "That user already exists. Perhaps you meant to update instead?");
+//            logger.log(Level.WARNING, "That user already exists. Perhaps you meant to update instead?");
             return false;
         }
         File newUserFile = new File(createFilenameFromUsername(user.getUsername()));
@@ -92,39 +87,33 @@ public class FlatUserDAO implements IUserDAO, IDAO
             return false;
         }
         users.put(user.getUsername(), user);
-        logger.exiting(LOGGER_TAG, "addNewUser", true);
         return true;
     }
 
     @Override
     public User getUser(Username username)
     {
-        logger.entering(LOGGER_TAG, "getUser", username);
         User user = users.get(username);
-        logger.exiting(LOGGER_TAG, "getUser", user);
         return user;
     }
 
     @Override
     public List<User> getAllUsers()
     {
-        logger.entering(LOGGER_TAG, "getAllUsers");
         List<User> allUsers = new ArrayList<>();
         for(User u : users.values())
         {
             allUsers.add(u);
         }
-        logger.exiting(LOGGER_TAG, "getAllUsers", allUsers);
         return allUsers;
     }
 
     @Override
     public boolean updateUser(User user)
     {
-        logger.entering(LOGGER_TAG, "updateUser", user);
         if(users.get(user.getUsername()) == null)
         {
-            logger.log(Level.WARNING, "That user doesn't already exist. Perhaps you meant to add instead?");
+//            logger.log(Level.WARNING, "That user doesn't already exist. Perhaps you meant to add instead?");
             return false;
         }
         File updatedUserFile = new File(createFilenameFromUsername(user.getUsername()));
@@ -140,17 +129,15 @@ public class FlatUserDAO implements IUserDAO, IDAO
             return false;
         }
         users.put(user.getUsername(), user);
-        logger.exiting(LOGGER_TAG, "updateUser", true);
         return true;
     }
 
     @Override
     public boolean deleteUser(User user)
     {
-        logger.entering(LOGGER_TAG, "deleteUser", user);
         if(users.get(user.getUsername()) == null)
         {
-            logger.log(Level.SEVERE, "That user doesn't already exist.");
+//            logger.log(Level.SEVERE, "That user doesn't already exist.");
             return false;
         }
         File oldUser = new File(createFilenameFromUsername(user.getUsername()));
@@ -162,7 +149,6 @@ public class FlatUserDAO implements IUserDAO, IDAO
             e.printStackTrace();
         }
         users.remove(user.getUsername());
-        logger.exiting(LOGGER_TAG, "deleteUser", true);
         return true;
     }
 
