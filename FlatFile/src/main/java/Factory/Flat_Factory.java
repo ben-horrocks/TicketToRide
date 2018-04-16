@@ -17,11 +17,13 @@ import daos.IUserDAO;
 public class Flat_Factory implements IFactory {
 
 
+    boolean clearData = false;
+
     @Override
     public IUserDAO createUserDAO() {
         FlatUserDAO dao = null;
         try {
-            dao = new FlatUserDAO();
+            dao = new FlatUserDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
 //            logger.warning(e + " - creating user DAO in Flat_Factory ");
@@ -34,7 +36,7 @@ public class Flat_Factory implements IFactory {
     public IPlayerDAO createPlayerDAO() {
         FlatPlayerDAO dao = null;
         try {
-            dao = new FlatPlayerDAO();
+            dao = new FlatPlayerDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +47,7 @@ public class Flat_Factory implements IFactory {
     public ICommandDAO createCommandDAO() {
         FlatCommandDAO dao = null;
         try {
-            dao = new FlatCommandDAO();
+            dao = new FlatCommandDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,10 +58,16 @@ public class Flat_Factory implements IFactory {
     public IGameDataDAO createGameDataDAO() {
         FlatGameDataDAO dao = null;
         try {
-            dao = new FlatGameDataDAO();
+            dao = new FlatGameDataDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return dao;
+    }
+
+    @Override
+    public void setClearData(boolean clearData)
+    {
+        this.clearData = clearData;
     }
 }

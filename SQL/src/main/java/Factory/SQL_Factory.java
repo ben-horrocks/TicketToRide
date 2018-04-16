@@ -20,6 +20,8 @@ import daos.SQLUserDAO;
 
 public class SQL_Factory implements IFactory {
 
+    boolean clearData = false;
+
     @Override
     public IUserDAO createUserDAO() {
         //logger.entering("SQL_Factory", "createUserDAO");
@@ -110,5 +112,11 @@ public class SQL_Factory implements IFactory {
         }
 
         return new SQLGameDataDAO(connection);
+    }
+
+    @Override
+    public void setClearData(boolean clearData)
+    {
+        this.clearData = clearData;
     }
 }
