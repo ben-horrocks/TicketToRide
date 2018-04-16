@@ -47,7 +47,7 @@ public class ServerFacade implements IServer
     private static final Object dbMutex = new Object();
     private static final Object mutex = new Object();
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
-    private static PluginRegistry registry = new PluginRegistry();
+    public static PluginRegistry registry = new PluginRegistry();
     private boolean lastTurnEmmitted = false;
 
     /**

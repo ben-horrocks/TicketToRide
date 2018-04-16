@@ -7,12 +7,18 @@ import common.game_data.GameID;
 import common.game_data.ServerGameData;
 import common.player_info.User;
 import common.player_info.Username;
-import daos.*;
-import Factory.*;
+//import daos.*;
+//import Factory.*;
 
 public class DatabasePlugin implements IDatabasePlugin
 {
-    DatabasePlugin(int numCommands, boolean cleanData)
+
+    public DatabasePlugin()
+    {
+        System.out.println("I got here without parameters!");
+    }
+
+    public DatabasePlugin(int numCommands, boolean cleanData)
     {
         System.out.println("A Flat File Database was created");
     }

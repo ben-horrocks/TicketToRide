@@ -90,17 +90,17 @@ public class ServerCommunicator
 
     public static void main(String[] args)
     {
-        if(args.length < 4 || args.length > 5)
-        {
+        if(args.length < 2 || args.length > 3)
+            {
             System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
             return;
         }
-        String databaseType = args[2];
-        int commandNum = Integer.parseInt(args[3]);
+        String databaseType = args[0];
+        int commandNum = Integer.parseInt(args[1]);
         Boolean cleanDatabase = false;
-        if(args.length == 5)
+        if(args.length == 3)
         {
-            if(args[4].equals("--clean"))
+            if(args[2].equals("--clean"))
             {
                 cleanDatabase = true;
             } else

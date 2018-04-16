@@ -37,10 +37,10 @@ public class PluginRegistry
         if(descriptor == null)
             throw new ClassNotFoundException("Did not find a " + pluginName + " plugin!");
         File jarFile = new File(descriptor.getFilePath());
-        ClassLoader pluginLoader = URLClassLoader.newInstance(new URL[] {jarFile.toURL()});
+        URLClassLoader pluginLoader = URLClassLoader.newInstance(new URL[] {jarFile.toURL()});
 
-        Class<?> pluginClass = pluginLoader.loadClass(pluginClassName);
-        Constructor<?> constructor = pluginClass.getConstructor();
+        Class<?> pluginClass = Class.forName(pluginClassName, true, pluginLoader);
+        Constructor<?> constructor = pluginClass.getConstructor(int.class, boolean.class);
         return (IDatabasePlugin) constructor.newInstance(numberOfCommands, clear);
     }
 }
