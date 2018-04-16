@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
-
 import CS340.TicketServer.*;
 import common.player_info.Username;
 
@@ -110,15 +109,22 @@ public class ServerCommunicator
                 return;
             }
         }
-        if(databaseType.equals("sql"))
+        try
         {
-            ServerFacade.getSINGLETON().setPlugin("SQL", commandNum, cleanDatabase);
-        } else if(databaseType.equals("flat"))
+            if(databaseType.equals("sql"))
+            {
+                ServerFacade.getSINGLETON().setPlugin("SQL", "plugin.DatabasePlugin", commandNum, cleanDatabase);
+            } else if(databaseType.equals("flat"))
+            {
+                ServerFacade.getSINGLETON().setPlugin("FlatFile", "plugin.DatabasePlugin", commandNum, cleanDatabase);
+            } else
+            {
+                System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+                return;
+            }
+        } catch(Exception e)
         {
-            ServerFacade.getSINGLETON().setPlugin("FlatFile", commandNum, cleanDatabase);
-        } else
-        {
-            System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+            e.printStackTrace();
             return;
         }
         new ServerCommunicator();
