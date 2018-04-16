@@ -32,6 +32,8 @@ import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 import communicators.ServerCommunicator;
+import plugin.IDatabasePlugin;
+import plugin.PluginDescriptor;
 import plugin.PluginRegistry;
 
 public class ServerFacade implements IServer
@@ -41,8 +43,11 @@ public class ServerFacade implements IServer
      * these fields make access to the database thread safe
      */
     private static volatile ServerFacade SINGLETON;
+    private static volatile IDatabasePlugin DATABASE;
+    private static final Object dbMutex = new Object();
     private static final Object mutex = new Object();
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
+    private static PluginRegistry registry = new PluginRegistry();
     private boolean lastTurnEmmitted = false;
 
     /**
@@ -58,13 +63,12 @@ public class ServerFacade implements IServer
         {
             throw new InstantiationError("Creating of this object is not allowed.");
         }
-        PluginRegistry registry = new PluginRegistry();
         registry.scanForPlugins("Server" + File.separator + "libs");
     }
 
-    public void setPlugin(String pluginName, int numberOfCommands, boolean clear)
+    public void setPlugin(String pluginName, String pluginClassName, int numberOfCommands, boolean clear) throws Exception
     {
-
+        DATABASE = registry.loadPlugin(pluginName, pluginClassName, numberOfCommands, clear);
     }
 
     /**
@@ -92,6 +96,11 @@ public class ServerFacade implements IServer
         }
         logger.exiting("ServerFacade", "getSINGLETON");
         return newServer;
+    }
+
+    synchronized public static IDatabasePlugin getDATABASE()
+    {
+        return DATABASE;
     }
 
     /**

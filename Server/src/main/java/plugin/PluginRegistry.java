@@ -31,7 +31,7 @@ public class PluginRegistry
         }
     }
 
-    public IDatabasePlugin loadPlugin(String pluginName, String pluginClassName) throws Exception
+    public IDatabasePlugin loadPlugin(String pluginName, String pluginClassName, int numberOfCommands, boolean clear) throws Exception
     {
         PluginDescriptor descriptor = plugins.get(pluginName);
         if(descriptor == null)
@@ -41,6 +41,6 @@ public class PluginRegistry
 
         Class<?> pluginClass = pluginLoader.loadClass(pluginClassName);
         Constructor<?> constructor = pluginClass.getConstructor();
-        return (IDatabasePlugin) constructor.newInstance();
+        return (IDatabasePlugin) constructor.newInstance(numberOfCommands, clear);
     }
 }
