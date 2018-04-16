@@ -2,15 +2,24 @@ package plugin;
 
 import java.io.File;
 
-public class PluginDescriptor {
+public class PluginDescriptor
+{
     private String filePath;
     private String pluginName;
-    private String pluginClassPath;
 
-    public PluginDescriptor(File jarFile)
+    public PluginDescriptor(String filePath, String pluginName)
     {
-        filePath = jarFile.getPath();
-        pluginName = jarFile.getName();
-        pluginClassPath = "";
+        this.filePath = filePath;
+        this.pluginName = pluginName;
+    }
+
+    public String getFilePath()
+    {
+        return filePath;
+    }
+
+    public String getPluginName()
+    {
+        return pluginName;
     }
 }
