@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import common.communication.Command;
 import daos.*;
 import daos.CommandDAO;
 
@@ -35,7 +36,15 @@ public class Factory implements IFactory {
             //logger.exiting("Factory", "createUserDAO", false);
         }
 
-        return new UserDAO(connection);
+        //Make the UserDAO
+        UserDAO dao = new UserDAO(connection);
+
+        //Check if needs to clear database
+        if (clearData) {
+            dao.clearData();
+        }
+
+        return dao;
     }
 
     @Override
@@ -58,7 +67,15 @@ public class Factory implements IFactory {
             //logger.exiting("Factory", "createPlayerDAO", false);
         }
 
-        return new PlayerDAO(connection);
+        //Make the Player DAO
+        PlayerDAO dao = new PlayerDAO(connection);
+
+        //check if needs to clear data
+        if (clearData) {
+            dao.clearData();
+        }
+
+        return dao;
     }
 
     @Override
@@ -81,7 +98,15 @@ public class Factory implements IFactory {
             //logger.exiting("Factory", "createPlayerDAO", false);
         }
 
-        return new CommandDAO(connection);
+        //make new Command DAO
+        CommandDAO dao = new CommandDAO(connection);
+
+        //check if needs to clear data
+        if (clearData) {
+            dao.clearData();
+        }
+
+        return dao;
     }
 
     @Override
@@ -104,7 +129,15 @@ public class Factory implements IFactory {
             //logger.exiting("Factory", "createGameDataDAO", false);
         }
 
-        return new GameDataDAO(connection);
+        //Make new Game Data DAO
+        GameDataDAO dao = new GameDataDAO(connection);
+
+        //check if needs to clear data
+        if (clearData) {
+            dao.clearData();
+        }
+
+        return dao;
     }
 
     @Override

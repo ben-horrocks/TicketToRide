@@ -26,6 +26,7 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	private static class PlayerEntry
 	{
 		static final String TABLE_NAME = "Players";
+		static final String COLUMN_NAME_GAME_ID = "gameID";
 		static final String COLUMN_NAME_USERNAME = "username";
 		static final String COLUMN_NAME_PLAYER = "player";
 	}
@@ -37,6 +38,7 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 //		logger.entering("PlayerDAO", "createTable");
 		final String CREATE_PLAYER_TABLE =
 				"CREATE TABLE " + PlayerEntry.TABLE_NAME + " ('" +
+						PlayerEntry.COLUMN_NAME_GAME_ID + "' TEXT NOT NULL, '" +
 						PlayerEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL, '" +
 						PlayerEntry.COLUMN_NAME_PLAYER + "' BLOB NOT NULL UNIQUE, " +
 						"PRIMARY KEY('" + PlayerEntry.COLUMN_NAME_USERNAME + "') )";
@@ -165,6 +167,30 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 
 	@Override
 	public List<Player> getAllPlayersInGame(GameID game) {
+
+		//		logger.entering("PlayerDAO", "getAllPlayers");
+		final String GET_PLAYERS =
+				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
+						" FROM " + PlayerEntry.TABLE_NAME;
+		try
+		{
+			List<Player> players = new ArrayList<>();
+			PreparedStatement statement = connection.prepareStatement(GET_PLAYERS);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+			{
+				byte[] bytes = rs.getBytes(1);
+				Player player = (Player) byteArrayToObject(bytes);
+				players.add(player);
+			}
+//			logger.exiting("PlayerDAO", "getAllPlayers", players);
+			return players;
+		} catch (SQLException | IOException | ClassNotFoundException e)
+		{
+//			logger.warning(e + " - getting all players");
+			e.printStackTrace();
+		}
+//		logger.exiting("PlayerDAO", "getAllPlayers", null);
 		return null;
 	}
 
