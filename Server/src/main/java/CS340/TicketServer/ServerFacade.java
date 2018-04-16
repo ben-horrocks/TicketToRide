@@ -1,6 +1,7 @@
 package CS340.TicketServer;
 
 
+import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -31,6 +32,7 @@ import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 import communicators.ServerCommunicator;
+import plugin.PluginRegistry;
 
 public class ServerFacade implements IServer
 {
@@ -56,6 +58,13 @@ public class ServerFacade implements IServer
         {
             throw new InstantiationError("Creating of this object is not allowed.");
         }
+        PluginRegistry registry = new PluginRegistry();
+        registry.scanForPlugins("Server" + File.separator + "libs");
+    }
+
+    public void setPlugin(String pluginName, int numberOfCommands, boolean clear)
+    {
+
     }
 
     /**
@@ -65,7 +74,7 @@ public class ServerFacade implements IServer
      * @pre None.
      * @post Will return the SINGLETON.
      */
-    static ServerFacade getSINGLETON()
+    public static ServerFacade getSINGLETON()
     {
         logger.entering("ServerFacade", "getSINGLETON");
         ServerFacade newServer = SINGLETON;
