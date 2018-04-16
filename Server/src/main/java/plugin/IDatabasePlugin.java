@@ -10,6 +10,8 @@ import common.player_info.Username;
 import daos.IUserDAO;
 
 public interface IDatabasePlugin {
+    IDatabasePlugin accessDatabase();
+
     boolean initializeDatabase(boolean cleanSlate);
 
     User getUser(Username name);
