@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import common.player_info.User;
 import common.player_info.Username;
 
-public class FlatUserDAO implements IUserDAO, IDAO
+public class UserDAO implements IUserDAO, IDAO
 {
 
     private Map<Username, User> users;
@@ -27,9 +27,9 @@ public class FlatUserDAO implements IUserDAO, IDAO
                                       + "FlatFile" + File.separator
                                       + "User";
     private static final String EXTENSION = ".usr";
-    private static final String LOGGER_TAG = "FlatUserDAO";
+    private static final String LOGGER_TAG = "UserDAO";
 
-    public FlatUserDAO(boolean clearDatabase) throws IOException {
+    public UserDAO(boolean clearDatabase) throws IOException {
         this.users = new HashMap<>();
         File userDirectory = new File(PATH);
         if(!userDirectory.exists())

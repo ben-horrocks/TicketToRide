@@ -22,7 +22,7 @@ import common.player_info.Username;
  * Created by Ben_D on 4/9/2018.
  */
 
-public class FlatPlayerDAO implements IPlayerDAO, IDAO
+public class PlayerDAO implements IPlayerDAO, IDAO
 {
     private Map<GameID, Map<Username, Player>> players = new HashMap<>();
 
@@ -30,9 +30,9 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
                                       + "FlatFile" + File.separator
                                       + "Player" + File.separator;
     private static final String EXTENSION = ".plr";
-    private static final String LOGGER_TAG = "FlatPlayerDAO";
+    private static final String LOGGER_TAG = "PlayerDAO";
 
-    public FlatPlayerDAO(boolean clearDatabase) throws IOException{
+    public PlayerDAO(boolean clearDatabase) throws IOException{
         this.players = new HashMap<>();
         File playerDirectory = new File(PATH);
         if(!playerDirectory.exists())

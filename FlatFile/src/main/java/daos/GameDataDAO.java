@@ -7,7 +7,7 @@ import java.util.*;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
 
-public class FlatGameDataDAO implements IGameDataDAO, IDAO
+public class GameDataDAO implements IGameDataDAO, IDAO
 {
 
     private Map<GameID, ServerGameData> games;
@@ -15,7 +15,7 @@ public class FlatGameDataDAO implements IGameDataDAO, IDAO
     private static final String  GAMEDATAPATH = "database" + File.separator + "FlatFile" + File.separator + "GameData";
     private static final String suffix = ".game";
 
-    public FlatGameDataDAO(boolean clearDatabase) throws IOException
+    public GameDataDAO(boolean clearDatabase) throws IOException
     {
         games = new HashMap<>();
         File FlatGameDirectory = new File(GAMEDATAPATH);

@@ -14,11 +14,11 @@ import common.game_data.GameID;
 import common.player_info.Player;
 import common.player_info.Username;
 
-public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
+public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 {
 ////	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
-	public SQLPlayerDAO(Connection connection)
+	public PlayerDAO(Connection connection)
 	{
 		super(connection);
 	}
@@ -34,7 +34,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	@Override
 	boolean createTable()
 	{
-//		logger.entering("SQLPlayerDAO", "createTable");
+//		logger.entering("PlayerDAO", "createTable");
 		final String CREATE_PLAYER_TABLE =
 				"CREATE TABLE " + PlayerEntry.TABLE_NAME + " ('" +
 						PlayerEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL, '" +
@@ -47,7 +47,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		} catch (SQLException e)
 		{
 //			logger.warning(e + " - creating table " + PlayerEntry.TABLE_NAME);
-//			logger.exiting("SQLPlayerDAO", "createTable", false);
+//			logger.exiting("PlayerDAO", "createTable", false);
 			return false;
 		}
 		return true;
@@ -56,7 +56,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	@Override
 	boolean deleteTable()
 	{
-//		logger.entering("SQLPlayerDAO", "deleteTable");
+//		logger.entering("PlayerDAO", "deleteTable");
 		final String DELETE_PLAYER_TABLE = "DROP TABLE " + PlayerEntry.TABLE_NAME;
 		try
 		{
@@ -65,17 +65,17 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		} catch (SQLException e)
 		{
 //			logger.warning(e + " - deleting table " + PlayerEntry.TABLE_NAME);
-//			logger.exiting("SQLPlayerDAO", "deleteTable", false);
+//			logger.exiting("PlayerDAO", "deleteTable", false);
 			return false;
 		}
-//		logger.exiting("SQLPlayerDAO", "deleteTable", true);
+//		logger.exiting("PlayerDAO", "deleteTable", true);
 		return true;
 	}
 
 	@Override
 	public boolean addNewPlayer(GameID gameID, Player player)
 	{
-//		logger.entering("SQLPlayerDAO", "addNewPlayer", player);
+//		logger.entering("PlayerDAO", "addNewPlayer", player);
 		final String INSERT_PLAYER =
 				"INSERT INTO Player (" + PlayerEntry.COLUMN_NAME_USERNAME +
 						", " + PlayerEntry.COLUMN_NAME_PLAYER +
@@ -90,17 +90,17 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		} catch (SQLException | IOException e)
 		{
 //			logger.warning(e + " - adding new player " + player);
-//			logger.exiting("SQLPlayerDAO", "addNewPlayer", false);
+//			logger.exiting("PlayerDAO", "addNewPlayer", false);
 			return false;
 		}
-//		logger.exiting("SQLPlayerDAO", "addNewPlayer", true);
+//		logger.exiting("PlayerDAO", "addNewPlayer", true);
 		return true;
 	}
 
 	@Override
 	public Player getPlayer(GameID id, Username username)
 	{
-//		logger.entering("SQLPlayerDAO", "getPlayer", username);
+//		logger.entering("PlayerDAO", "getPlayer", username);
 		final String GET_PLAYER =
 				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
 						" FROM " + PlayerEntry.TABLE_NAME +
@@ -121,7 +121,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 					Player player = (Player) byteArrayToObject(bytes);
 					rs.close();
 					statement.close();
-//					logger.exiting("SQLPlayerDAO", "getPlayer", player);
+//					logger.exiting("PlayerDAO", "getPlayer", player);
 					return player;
 				}
 			}
@@ -130,14 +130,14 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 //			logger.warning(e + " - getting player " + username);
 			e.printStackTrace();
 		}
-//		logger.exiting("SQLPlayerDAO", "getPlayer", null);
+//		logger.exiting("PlayerDAO", "getPlayer", null);
 		return null;
 	}
 
 	@Override
 	public List<Player> getAllPlayers()
 	{
-//		logger.entering("SQLPlayerDAO", "getAllPlayers");
+//		logger.entering("PlayerDAO", "getAllPlayers");
 		final String GET_PLAYERS =
 				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
 						" FROM " + PlayerEntry.TABLE_NAME;
@@ -152,14 +152,14 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 				Player player = (Player) byteArrayToObject(bytes);
 				players.add(player);
 			}
-//			logger.exiting("SQLPlayerDAO", "getAllPlayers", players);
+//			logger.exiting("PlayerDAO", "getAllPlayers", players);
 			return players;
 		} catch (SQLException | IOException | ClassNotFoundException e)
 		{
 //			logger.warning(e + " - getting all players");
 			e.printStackTrace();
 		}
-//		logger.exiting("SQLPlayerDAO", "getAllPlayers", null);
+//		logger.exiting("PlayerDAO", "getAllPlayers", null);
 		return null;
 	}
 
@@ -171,7 +171,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	@Override
 	public boolean updatePlayer(GameID id, Player player)
 	{
-//		logger.entering("SQLPlayerDAO", "updatePlayer", player);
+//		logger.entering("PlayerDAO", "updatePlayer", player);
 		final String UPDATE_PLAYER =
 				"UPDATE " + PlayerEntry.TABLE_NAME +
 						" SET " + PlayerEntry.COLUMN_NAME_PLAYER + " = ?" +
@@ -183,21 +183,21 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 			statement.setObject(1, playerAsBytes);
 			statement.setString(2, player.getName());
 			statement.executeUpdate();
-//			logger.exiting("SQLPlayerDAO", "updatePlayer", true);
+//			logger.exiting("PlayerDAO", "updatePlayer", true);
 			return true;
 		} catch (SQLException | IOException e)
 		{
 //			logger.warning(e + " - updating player - " + player);
 			e.printStackTrace();
 		}
-//		logger.exiting("SQLPlayerDAO", "updatePlayer", false);
+//		logger.exiting("PlayerDAO", "updatePlayer", false);
 		return false;
 	}
 
 	@Override
 	public boolean deletePlayer(GameID gameID, Player player)
 	{
-//		logger.entering("SQLPlayerDAO", "deletePlayer", player);
+//		logger.entering("PlayerDAO", "deletePlayer", player);
 		final String DELETE_PLAYER =
 				"DELETE FROM " + PlayerEntry.TABLE_NAME +
 						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ?";
@@ -206,14 +206,14 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 			PreparedStatement statement = connection.prepareStatement(DELETE_PLAYER);
 			statement.setObject(1, player.getName());
 			statement.executeUpdate();
-//			logger.exiting("SQLPlayerDAO", "deletePlayer", true);
+//			logger.exiting("PlayerDAO", "deletePlayer", true);
 			return true;
 		} catch (SQLException e)
 		{
 //			logger.warning(e + " - deleting player - " + player);
 			e.printStackTrace();
 		}
-//		logger.exiting("SQLPlayerDAO", "deletePlayer", false);
+//		logger.exiting("PlayerDAO", "deletePlayer", false);
 		return false;
 	}
 }

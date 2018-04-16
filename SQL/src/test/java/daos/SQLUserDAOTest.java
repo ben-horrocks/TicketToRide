@@ -14,7 +14,7 @@ import java.util.List;
 import common.player_info.Password;
 import common.player_info.User;
 import common.player_info.Username;
-import communicators.ConnectionSetup;
+//import communicators.ConnectionSetup;
 
 import static org.junit.Assert.*;
 
@@ -24,13 +24,13 @@ import static org.junit.Assert.*;
 public class SQLUserDAOTest
 {
 	private Connection connection;
-	private SQLUserDAO dao;
+	private UserDAO dao;
 
 	@Before
 	public void setUp() throws Exception
 	{
-		this.connection = ConnectionSetup.setup();
-		this.dao = new SQLUserDAO(connection);
+//		this.connection = ConnectionSetup.setup();
+		this.dao = new UserDAO(connection);
 	}
 
 	@After
@@ -48,7 +48,7 @@ public class SQLUserDAOTest
 		{
 			DatabaseMetaData meta = connection.getMetaData();
 			ResultSet rs = meta.getTables(null, null,
-					SQLUserDAO.UserEntry.TABLE_NAME, new String[] {"TABLE"});
+                                          UserDAO.UserEntry.TABLE_NAME, new String[] {"TABLE"});
 			if (rs.next())
 			{
 				System.out.println("	TABLE_NAME: " + rs.getString("TABLE_NAME"));
@@ -75,7 +75,7 @@ public class SQLUserDAOTest
 		{
 			DatabaseMetaData meta = connection.getMetaData();
 			ResultSet rs = meta.getTables(null, null,
-					SQLUserDAO.UserEntry.TABLE_NAME, new String[] {"TABLE"});
+                                          UserDAO.UserEntry.TABLE_NAME, new String[] {"TABLE"});
 			if (rs.next())
 			{
 				assert(false);

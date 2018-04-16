@@ -3,28 +3,21 @@ package Factory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
-import daos.ICommandDAO;
-import daos.IGameDataDAO;
-import daos.IPlayerDAO;
-import daos.IUserDAO;
-import daos.SQLCommandDAO;
-import daos.SQLGameDataDAO;
-import daos.SQLPlayerDAO;
-import daos.SQLUserDAO;
+import daos.*;
+import daos.CommandDAO;
 
 /**
  * Created by Carter on 4/14/18.
  */
 
-public class SQL_Factory implements IFactory {
+public class Factory implements IFactory {
 
     boolean clearData = false;
 
     @Override
     public IUserDAO createUserDAO() {
-        //logger.entering("SQL_Factory", "createUserDAO");
+        //logger.entering("Factory", "createUserDAO");
         
         //create conection to Database
         String dbName = "Server/TicketToRideDB.sqlite";
@@ -38,16 +31,16 @@ public class SQL_Factory implements IFactory {
         }
         catch (SQLException e) {
             // ERROR
-            //logger.warning(e + " - creating user DAO in SQL_Factory ");
-            //logger.exiting("SQL_Factory", "createUserDAO", false);
+            //logger.warning(e + " - creating user DAO in Factory ");
+            //logger.exiting("Factory", "createUserDAO", false);
         }
 
-        return new SQLUserDAO(connection);
+        return new UserDAO(connection);
     }
 
     @Override
     public IPlayerDAO createPlayerDAO() {
-        //logger.entering("SQL_Factory", "createPlayerDAO");
+        //logger.entering("Factory", "createPlayerDAO");
 
         //create conection to Database
         String dbName = "Server/TicketToRide.sqlite";
@@ -61,16 +54,16 @@ public class SQL_Factory implements IFactory {
         }
         catch (SQLException e) {
             // ERROR
-            //logger.warning(e + " - creating player DAO in SQL_Factory ");
-            //logger.exiting("SQL_Factory", "createPlayerDAO", false);
+            //logger.warning(e + " - creating player DAO in Factory ");
+            //logger.exiting("Factory", "createPlayerDAO", false);
         }
 
-        return new SQLPlayerDAO(connection);
+        return new PlayerDAO(connection);
     }
 
     @Override
     public ICommandDAO createCommandDAO() {
-        //logger.entering("SQL_Factory", "createCommandDAO");
+        //logger.entering("Factory", "createCommandDAO");
 
         //create conection to Database
         String dbName = "Server/TicketToRide.sqlite";
@@ -84,16 +77,16 @@ public class SQL_Factory implements IFactory {
         }
         catch (SQLException e) {
             // ERROR
-            //logger.warning(e + " - creating command DAO in SQL_Factory ");
-            //logger.exiting("SQL_Factory", "createPlayerDAO", false);
+            //logger.warning(e + " - creating command DAO in Factory ");
+            //logger.exiting("Factory", "createPlayerDAO", false);
         }
 
-        return new SQLCommandDAO(connection);
+        return new CommandDAO(connection);
     }
 
     @Override
     public IGameDataDAO createGameDataDAO() {
-        //logger.entering("SQL_Factory", "createGameDataDAO");
+        //logger.entering("Factory", "createGameDataDAO");
 
         //create conection to Database
         String dbName = "Server/TicketToRide.sqlite";
@@ -107,11 +100,11 @@ public class SQL_Factory implements IFactory {
         }
         catch (SQLException e) {
             // ERROR
-            //logger.warning(e + " - creating game data DAO in SQL_Factory ");
-            //logger.exiting("SQL_Factory", "createGameDataDAO", false);
+            //logger.warning(e + " - creating game data DAO in Factory ");
+            //logger.exiting("Factory", "createGameDataDAO", false);
         }
 
-        return new SQLGameDataDAO(connection);
+        return new GameDataDAO(connection);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import CS340.TicketServer.ServerFacade;
+//import CS340.TicketServer.ServerFacade;
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.chat.ChatItem;
@@ -21,9 +21,7 @@ import common.map.Edge;
 import common.player_info.Password;
 import common.player_info.User;
 import common.player_info.Username;
-import communicators.ConnectionSetup;
-
-import static org.junit.Assert.*;
+//import communicators.ConnectionSetup;
 
 /**
  * Created by Carter on 4/11/18.
@@ -32,7 +30,7 @@ public class SQLCommandDAOTest {
 
     //Database connection and DAO
     Connection mConnection;
-    SQLCommandDAO commandDao;
+    CommandDAO commandDao;
 
     //Info for creating CommandParams
     private static final String stringClassName = String.class.getName();
@@ -48,8 +46,8 @@ public class SQLCommandDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        this.mConnection = ConnectionSetup.setup();
-        commandDao = new SQLCommandDAO(mConnection);
+//        this.mConnection = ConnectionSetup.setup();
+        commandDao = new CommandDAO(mConnection);
     }
 
     @After
@@ -66,7 +64,7 @@ public class SQLCommandDAOTest {
         try {
             DatabaseMetaData metaData = mConnection.getMetaData();
             ResultSet rs = metaData.getTables(null, null,
-                    SQLCommandDAO.CommandEntry.COLUMN_NAME_COMMAND, new String[] {"TABLE"});
+                                              CommandDAO.CommandEntry.COLUMN_NAME_COMMAND, new String[] {"TABLE"});
 
             if (rs.next())
             {
@@ -94,7 +92,7 @@ public class SQLCommandDAOTest {
         {
             DatabaseMetaData meta = mConnection.getMetaData();
             ResultSet rs = meta.getTables(null, null,
-                    SQLCommandDAO.CommandEntry.TABLE_NAME, new String[] {"TABLE"});
+                                          CommandDAO.CommandEntry.TABLE_NAME, new String[] {"TABLE"});
             if (rs.next())
             {
                 assert(false);
@@ -127,11 +125,11 @@ public class SQLCommandDAOTest {
         Object[] parameters = {user};
         CommandParams commandParams =
                 new CommandParams("getAvailableGameInfo", parameterTypes, parameters);
-        Command serverCommand =
-                new Command(commandParams, ServerFacade.class.getName());
+//        Command serverCommand =
+//                new Command(commandParams, ServerFacade.class.getName());
 
         //Add command to DAO
-        commandDao.addNewCommand(serverCommand);
+//        commandDao.addNewCommand(serverCommand);
 
         //Check to see if command was added
 		GameID id = new GameID();

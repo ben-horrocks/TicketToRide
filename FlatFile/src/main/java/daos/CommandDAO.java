@@ -9,13 +9,13 @@ import java.util.logging.Logger;
 import common.communication.Command;
 import common.game_data.GameID;
 
-public class FlatCommandDAO implements ICommandDAO, IDAO
+public class CommandDAO implements ICommandDAO, IDAO
 {
     private Map<GameID, List<Command>> commands = new HashMap<>();
     private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
     private static final String suffix = ".cmd";
 
-    public FlatCommandDAO(boolean clearDatabase) throws IOException
+    public CommandDAO(boolean clearDatabase) throws IOException
     {
         commands = new HashMap<>();
         File FlatGameDirectory = new File(COMMANDPATH);

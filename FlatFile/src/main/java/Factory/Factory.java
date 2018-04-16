@@ -1,42 +1,37 @@
 package Factory;
 
 import java.io.IOException;
-import daos.FlatCommandDAO;
-import daos.FlatGameDataDAO;
-import daos.FlatPlayerDAO;
-import daos.FlatUserDAO;
-import daos.ICommandDAO;
-import daos.IGameDataDAO;
-import daos.IPlayerDAO;
-import daos.IUserDAO;
+
+import daos.*;
+import daos.UserDAO;
 
 /**
  * Created by Carter on 4/14/18.
  */
 
-public class Flat_Factory implements IFactory {
+public class Factory implements IFactory {
 
 
     boolean clearData = false;
 
     @Override
     public IUserDAO createUserDAO() {
-        FlatUserDAO dao = null;
+        UserDAO dao = null;
         try {
-            dao = new FlatUserDAO(clearData);
+            dao = new UserDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
-//            logger.warning(e + " - creating user DAO in Flat_Factory ");
-//            logger.exiting("Flat_Factory", "createUserDAO", false);
+//            logger.warning(e + " - creating user DAO in Factory ");
+//            logger.exiting("Factory", "createUserDAO", false);
         }
         return dao;
     }
 
     @Override
     public IPlayerDAO createPlayerDAO() {
-        FlatPlayerDAO dao = null;
+        PlayerDAO dao = null;
         try {
-            dao = new FlatPlayerDAO(clearData);
+            dao = new PlayerDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,9 +40,9 @@ public class Flat_Factory implements IFactory {
 
     @Override
     public ICommandDAO createCommandDAO() {
-        FlatCommandDAO dao = null;
+        CommandDAO dao = null;
         try {
-            dao = new FlatCommandDAO(clearData);
+            dao = new CommandDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,9 +51,9 @@ public class Flat_Factory implements IFactory {
 
     @Override
     public IGameDataDAO createGameDataDAO() {
-        FlatGameDataDAO dao = null;
+        GameDataDAO dao = null;
         try {
-            dao = new FlatGameDataDAO(clearData);
+            dao = new GameDataDAO(clearData);
         } catch (IOException e) {
             e.printStackTrace();
         }
