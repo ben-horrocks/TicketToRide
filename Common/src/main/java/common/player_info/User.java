@@ -33,6 +33,11 @@ public class User implements Serializable
         return joinedGames;
     }
 
+    public void addGame(GameID id)
+    {
+        joinedGames.add(id);
+    }
+
     public void setJoinedGames(ArrayList<GameID> joinedGames) {
         this.joinedGames = joinedGames;
     }

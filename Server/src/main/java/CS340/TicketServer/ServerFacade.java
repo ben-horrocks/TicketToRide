@@ -202,6 +202,7 @@ public class ServerFacade implements IServer
         //Created name that is not in the database.
         //create new serverGameData with new name and starting player
         ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
+        startingUser.addGame(serverGameData.getId());
         boolean openGameAdded = database.addOpenGame(serverGameData);
         if (openGameAdded)
         {
@@ -233,6 +234,7 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "joinGame", new Object[]{user, id});
         Database database = Database.SINGLETON;
+        user.addGame(id);
         ServerGameData serverGameData = database.getOpenGameByID(id);
         if (!serverGameData.isGameFull())
         {
