@@ -30,6 +30,6 @@ public interface IDatabasePlugin {
     boolean updateGame(ServerGameData game);
 
     List<Command> getCommands(GameID id);
-    boolean addCommand(GameID id);
+    boolean addCommand(Command command);
     /* No Delete commands because the database should handle that by itself */
 }

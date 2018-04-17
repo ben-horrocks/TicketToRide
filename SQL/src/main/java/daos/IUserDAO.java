@@ -15,5 +15,5 @@ public interface IUserDAO
 	User getUser(Username username);
 	List<User> getAllUsers();
 	boolean updateUser(User user);
-	boolean deleteUser(User user);
+	boolean deleteUser(Username user);
 }
