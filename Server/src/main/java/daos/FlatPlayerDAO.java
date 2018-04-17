@@ -25,7 +25,7 @@ import common.player_info.Username;
 
 public class FlatPlayerDAO implements IPlayerDAO, IDAO
 {
-    private Map<GameID, Map<Username, Player>> players = new HashMap<>();
+    private Map<GameID, Map<Username, Player>> players;
 
     private static final String  PATH = "database" + File.separator
                                       + "FlatFile" + File.separator
