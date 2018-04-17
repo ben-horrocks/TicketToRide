@@ -1,127 +1,168 @@
 package plugin;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import Factory.*;
 import common.communication.Command;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
 import common.player_info.User;
 import common.player_info.Username;
+import daos.*;
 //import daos.*;
 //import Factory.*;
 
 public class DatabasePlugin implements IDatabasePlugin
 {
+    private int deltaCommands;
+    private IFactory factory = new Factory();
+    private ICommandDAO commandDAO;
+    private IGameDataDAO gameDataDAO;
+    private IUserDAO userDAO;
 
-    public DatabasePlugin()
-    {
-        System.out.println("I got here without parameters!");
-    }
+    private static final Object mutex = new Object();
 
     public DatabasePlugin(int numCommands, boolean cleanData)
     {
+        deltaCommands = numCommands;
+        initializeDatabase(cleanData);
         System.out.println("A Flat File Database was created");
     }
 
     @Override
     public IDatabasePlugin accessDatabase()
     {
-        return null;
+        synchronized (mutex)
+        {
+            return this;
+        }
     }
 
     @Override
     public boolean initializeDatabase(boolean cleanSlate)
     {
-        return false;
+        commandDAO = factory.createCommandDAO();
+        gameDataDAO = factory.createGameDataDAO();
+        userDAO = factory.createUserDAO();
+        return true;
     }
 
     @Override
     public User getUser(Username name)
     {
-        return null;
+        return userDAO.getUser(name);
     }
 
     @Override
     public List<User> getAllUsers()
     {
-        return null;
+        return userDAO.getAllUsers();
     }
 
     @Override
     public boolean addUser(User user)
     {
-        return false;
+        return userDAO.addNewUser(user);
     }
 
     @Override
     public boolean deleteUser(Username name)
     {
-        return false;
+        return userDAO.deleteUser(name);
     }
 
     @Override
     public boolean updateUser(User user)
     {
-        return false;
+        return userDAO.updateUser(user);
     }
 
     @Override
     public ServerGameData getGame(GameID id)
     {
-        return null;
+        return gameDataDAO.getGameData(id);
     }
 
     @Override
     public List<ServerGameData> getRunningGames()
     {
-        return null;
+        List<ServerGameData> games = gameDataDAO.getAllGameData();
+        List<ServerGameData> returnGames = new ArrayList<>();
+        for(ServerGameData game : games)
+        {
+            if(game.isGameStarted())
+            {
+                returnGames.add(game);
+            }
+        }
+        return returnGames;
     }
 
     @Override
     public List<ServerGameData> getOpenGames()
     {
-        return null;
+        List<ServerGameData> games = gameDataDAO.getAllGameData();
+        List<ServerGameData> returnGames = new ArrayList<>();
+        for(ServerGameData game : games)
+        {
+            if(!game.isGameStarted())
+            {
+                returnGames.add(game);
+            }
+        }
+        return returnGames;
     }
 
     @Override
     public List<ServerGameData> getAllGames()
     {
-        return null;
+        return gameDataDAO.getAllGameData();
     }
 
     @Override
     public List<ServerGameData> getRunningGames(Username user)
     {
-        return null;
+        List<ServerGameData> games = gameDataDAO.getAllGameData();
+        List<ServerGameData> returnGames = new ArrayList<>();
+        for(ServerGameData game : games)
+        {
+            if(game.isGameStarted() && game.getPlayer(user.getName()) != null)
+            {
+                returnGames.add(game);
+            }
+        }
+        return returnGames;
     }
 
     @Override
     public boolean addGame(ServerGameData game)
     {
-        return false;
+        return gameDataDAO.addNewGameData(game);
     }
 
     @Override
     public boolean deleteGame(GameID id)
     {
-        return false;
+        return gameDataDAO.deleteGameData(id);
     }
 
     @Override
     public boolean updateGame(ServerGameData game)
     {
-        return false;
+        return gameDataDAO.updateGameData(game);
     }
 
     @Override
     public List<Command> getCommands(GameID id)
     {
-        return null;
+        return commandDAO.getCommandsByGameId(id);
     }
 
     @Override
-    public boolean addCommand(GameID id)
+    public boolean addCommand(Command command)
     {
-        return false;
+        return commandDAO.addNewCommand(command);
     }
 }
