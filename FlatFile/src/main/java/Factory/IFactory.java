@@ -14,4 +14,6 @@ public interface IFactory {
     public IPlayerDAO createPlayerDAO();
     public ICommandDAO createCommandDAO();
     public IGameDataDAO createGameDataDAO();
+    public void setClearData(boolean clearData);
+
 }

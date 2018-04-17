@@ -6,18 +6,16 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import CS340.TicketServer.LogKeeper;
 import common.communication.Command;
 import common.game_data.GameID;
 
-public class FlatCommandDAO implements ICommandDAO, IDAO
+public class CommandDAO implements ICommandDAO, IDAO
 {
     private Map<GameID, List<Command>> commands = new HashMap<>();
     private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
     private static final String suffix = ".cmd";
-    private static final Logger logger= LogKeeper.getSingleton().getLogger();
 
-    public FlatCommandDAO(boolean clearDatabase) throws IOException
+    public CommandDAO(boolean clearDatabase) throws IOException
     {
         commands = new HashMap<>();
         File FlatGameDirectory = new File(COMMANDPATH);
@@ -65,7 +63,6 @@ public class FlatCommandDAO implements ICommandDAO, IDAO
     @Override
     public boolean addNewCommand(Command command)
     {
-        logger.entering("FlatCommandDAO","addNewCommand");
         GameID id = getGameIdFromCommand(command);
         List<Command> cmds = commands.get(id);
         if(cmds == null)
@@ -105,32 +102,28 @@ public class FlatCommandDAO implements ICommandDAO, IDAO
             }
             cmds.add(command);
         }
-        logger.exiting("FlatCommandDAO","addNewCommand");
         return true;
     }
 
     @Override
     public List<Command> getCommandsByGameId(GameID id)
     {
-        logger.entering("FlatCommandDAO","addNewCommand");
         List<Command> cmds = commands.get(id);
-        logger.exiting("FlatCommandDAO","addNewCommand");
         return cmds;
     }
 
     @Override
     public boolean deleteCommandsByGameId(GameID id)
     {
-        logger.entering("FlatCommandDAO","addNewCommand");
         if(commands.get(id) == null)
         {
-            logger.log(Level.WARNING, "That gameID doesn't already exist in the database.");
+//            logger.log(Level.WARNING, "That gameID doesn't already exist in the database.");
             return false;
         }
         File dir = new File(getDirectoryFileName(id));
         if(!dir.exists() || !dir.isDirectory())
         {
-            logger.log(Level.SEVERE, "COULD FIND COMMANDS TO DELETE.");
+//            logger.log(Level.SEVERE, "COULD FIND COMMANDS TO DELETE.");
             return false;
         }
         //We have to delete each individual file before we can delete the directory.
@@ -140,7 +133,6 @@ public class FlatCommandDAO implements ICommandDAO, IDAO
         }
         dir.delete();
         commands.remove(id);
-        logger.exiting("FlatCommandDAO","addNewCommand");
         return false;
     }
 

@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
-
 import CS340.TicketServer.*;
 import common.player_info.Username;
 
@@ -91,17 +90,17 @@ public class ServerCommunicator
 
     public static void main(String[] args)
     {
-        if(args.length < 4 || args.length > 5)
-        {
+        if(args.length < 2 || args.length > 3)
+            {
             System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
             return;
         }
-        String databaseType = args[2];
-        int commandNum = Integer.parseInt(args[3]);
+        String databaseType = args[0];
+        int commandNum = Integer.parseInt(args[1]);
         Boolean cleanDatabase = false;
-        if(args.length == 5)
+        if(args.length == 3)
         {
-            if(args[4].equals("--clean"))
+            if(args[2].equals("--clean"))
             {
                 cleanDatabase = true;
             } else
@@ -110,15 +109,22 @@ public class ServerCommunicator
                 return;
             }
         }
-        if(databaseType.equals("sql"))
+        try
         {
-            //get plugin to setup sql here
-        } else if(databaseType.equals("flat"))
+            if(databaseType.equals("sql"))
+            {
+                ServerFacade.getSINGLETON().setPlugin("SQL", "plugin.DatabasePlugin", commandNum, cleanDatabase);
+            } else if(databaseType.equals("flat"))
+            {
+                ServerFacade.getSINGLETON().setPlugin("FlatFile", "plugin.DatabasePlugin", commandNum, cleanDatabase);
+            } else
+            {
+                System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+                return;
+            }
+        } catch(Exception e)
         {
-            //get plugin to setup FlatFile here
-        } else
-        {
-            System.out.println("USAGE: java ServerCommunicator ['sql' or 'flat'] [commandnum] [optional: --clean]");
+            e.printStackTrace();
             return;
         }
         new ServerCommunicator();

@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import CS340.TicketServer.LogKeeper;
 import common.game_data.GameID;
 import common.player_info.Player;
 import common.player_info.Username;
@@ -23,7 +22,7 @@ import common.player_info.Username;
  * Created by Ben_D on 4/9/2018.
  */
 
-public class FlatPlayerDAO implements IPlayerDAO, IDAO
+public class PlayerDAO implements IPlayerDAO, IDAO
 {
     private Map<GameID, Map<Username, Player>> players;
 
@@ -31,10 +30,9 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
                                       + "FlatFile" + File.separator
                                       + "Player" + File.separator;
     private static final String EXTENSION = ".plr";
-    private static final Logger logger = LogKeeper.getSingleton().getLogger();
-    private static final String LOGGER_TAG = "FlatPlayerDAO";
+    private static final String LOGGER_TAG = "PlayerDAO";
 
-    public FlatPlayerDAO(boolean clearDatabase) throws IOException{
+    public PlayerDAO(boolean clearDatabase) throws IOException{
         this.players = new HashMap<>();
         File playerDirectory = new File(PATH);
         if(!playerDirectory.exists())
@@ -81,11 +79,10 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
     @Override
     public boolean addNewPlayer(GameID game, Player player)
     {
-        logger.entering(LOGGER_TAG, "addNewPlayer", player);
         Map gamePlayers = players.get(game);
         if(gamePlayers.get(player.getUsername()) != null)
         {
-            logger.log(Level.WARNING, "That player already exists. Perhaps you meant to update instead?");
+//            logger.log(Level.WARNING, "That player already exists. Perhaps you meant to update instead?");
             return false;
         }
         //Make sure the Directory exists for this game
@@ -110,7 +107,6 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
             return false;
         }
         gamePlayers.put(player.getUsername(), player);
-        logger.exiting(LOGGER_TAG, "addNewPlayer", true);
         return true;
     }
 
@@ -118,16 +114,13 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
     public Player getPlayer(GameID game, Username name)
     {
         Object[] params = {game, name};
-        logger.entering(LOGGER_TAG, "getPlayer", params);
         Player player = players.get(game).get(name);
-        logger.exiting(LOGGER_TAG, "getPlayer", player);
         return player;
     }
 
     @Override
     public List<Player> getAllPlayers()
     {
-        logger.entering(LOGGER_TAG, "getAllPlayers");
         List<Player> allPlayers = new ArrayList<>();
         for(Map<Username, Player> game : players.values())
         {
@@ -136,30 +129,26 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
                 allPlayers.add(p);
             }
         }
-        logger.exiting(LOGGER_TAG, "getAllPlayers", allPlayers);
         return allPlayers;
     }
 
     @Override
     public List<Player> getAllPlayersInGame(GameID game)
     {
-        logger.entering(LOGGER_TAG, "getAllPlayersInGame", game);
         List<Player> allPlayers = new ArrayList<>();
         for(Player p : players.get(game).values())
         {
             allPlayers.add(p);
         }
-        logger.exiting(LOGGER_TAG, "getAllPlayersInGame", allPlayers);
         return allPlayers;
     }
 
     @Override
     public boolean updatePlayer(GameID game, Player player)
     {
-        logger.entering(LOGGER_TAG, "updatePlayer", player);
         if(players.get(game).get(player.getUsername()) == null)
         {
-            logger.log(Level.WARNING, "That player doesn't already exist. Perhaps you meant to add instead?");
+//            logger.log(Level.WARNING, "That player doesn't already exist. Perhaps you meant to add instead?");
             return false;
         }
         File updatedPlayerFile = new File(createFilenameFor(game, player.getUsername()));
@@ -175,17 +164,15 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
             return false;
         }
         players.get(game).put(player.getUsername(), player);
-        logger.exiting(LOGGER_TAG, "updateUser", true);
         return true;
     }
 
     @Override
     public boolean deletePlayer(GameID game, Player player)
     {
-        logger.entering(LOGGER_TAG, "deletePlayer", player);
         if(players.get(game).get(player.getUsername()) == null)
         {
-            logger.log(Level.SEVERE, "That user doesn't already exist.");
+//            logger.log(Level.SEVERE, "That user doesn't already exist.");
             return false;
         }
         File oldPlayer = new File(createFilenameFor(game, player.getUsername()));
@@ -199,7 +186,6 @@ public class FlatPlayerDAO implements IPlayerDAO, IDAO
             e.printStackTrace();
         }
         players.get(game).remove(player.getUsername());
-        logger.exiting(LOGGER_TAG, "deletePlayer", true);
         return true;
     }
 

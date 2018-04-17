@@ -1,6 +1,7 @@
 package CS340.TicketServer;
 
 
+import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -31,6 +32,9 @@ import common.player_info.TrainPieces;
 import common.player_info.User;
 import common.player_info.Username;
 import communicators.ServerCommunicator;
+import plugin.IDatabasePlugin;
+import plugin.PluginDescriptor;
+import plugin.PluginRegistry;
 
 public class ServerFacade implements IServer
 {
@@ -39,8 +43,11 @@ public class ServerFacade implements IServer
      * these fields make access to the database thread safe
      */
     private static volatile ServerFacade SINGLETON;
+    private static volatile IDatabasePlugin DATABASE;
+    private static final Object dbMutex = new Object();
     private static final Object mutex = new Object();
     private static final Logger logger = LogKeeper.getSingleton().getLogger();
+    public static PluginRegistry registry = new PluginRegistry();
     private boolean lastTurnEmmitted = false;
 
     /**
@@ -56,6 +63,12 @@ public class ServerFacade implements IServer
         {
             throw new InstantiationError("Creating of this object is not allowed.");
         }
+        registry.scanForPlugins("Server" + File.separator + "libs");
+    }
+
+    public void setPlugin(String pluginName, String pluginClassName, int numberOfCommands, boolean clear) throws Exception
+    {
+        DATABASE = registry.loadPlugin(pluginName, pluginClassName, numberOfCommands, clear);
     }
 
     /**
@@ -65,7 +78,7 @@ public class ServerFacade implements IServer
      * @pre None.
      * @post Will return the SINGLETON.
      */
-    static ServerFacade getSINGLETON()
+    public static ServerFacade getSINGLETON()
     {
         logger.entering("ServerFacade", "getSINGLETON");
         ServerFacade newServer = SINGLETON;
@@ -83,6 +96,11 @@ public class ServerFacade implements IServer
         }
         logger.exiting("ServerFacade", "getSINGLETON");
         return newServer;
+    }
+
+    synchronized public static IDatabasePlugin getDATABASE()
+    {
+        return DATABASE;
     }
 
     /**
@@ -202,6 +220,7 @@ public class ServerFacade implements IServer
         //Created name that is not in the database.
         //create new serverGameData with new name and starting player
         ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
+        startingUser.addGame(serverGameData.getId());
         boolean openGameAdded = database.addOpenGame(serverGameData);
         if (openGameAdded)
         {
@@ -233,6 +252,7 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "joinGame", new Object[]{user, id});
         Database database = Database.SINGLETON;
+        user.addGame(id);
         ServerGameData serverGameData = database.getOpenGameByID(id);
         if (!serverGameData.isGameFull())
         {
