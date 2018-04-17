@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Factory.*;
 import common.communication.Command;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
@@ -16,6 +17,7 @@ import daos.*;
 public class DatabasePlugin implements IDatabasePlugin
 {
     private int deltaCommands;
+    private IFactory factory = new Factory();
     private ICommandDAO commandDAO;
     private IGameDataDAO gameDataDAO;
     private IUserDAO userDAO;
@@ -41,16 +43,9 @@ public class DatabasePlugin implements IDatabasePlugin
     @Override
     public boolean initializeDatabase(boolean cleanSlate)
     {
-        try
-        {
-            commandDAO = new CommandDAO(cleanSlate);
-            gameDataDAO = new GameDataDAO(cleanSlate);
-            userDAO = new UserDAO(cleanSlate);
-        } catch(IOException e)
-        {
-            e.printStackTrace();
-            return false;
-        }
+        commandDAO = factory.createCommandDAO();
+        gameDataDAO = factory.createGameDataDAO();
+        userDAO = factory.createUserDAO();
         return true;
     }
 
