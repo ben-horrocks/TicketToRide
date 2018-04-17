@@ -264,7 +264,6 @@ public class ClientProxy implements IClient
     private Signal sendCommandToClient(Username client, String methodName, String[] paramTypes,
                                        Object[] params)
     {
-        User u = Database.SINGLETON.getPlayer(client);
         logger.entering("ClientProxy", "sendCommandToClient",
                         new Object[]{client, methodName, paramTypes, params});
         logger.fine("Sending \"" + methodName + "\" command to: " + client.getName());

@@ -117,12 +117,14 @@ public class ServerFacade implements IServer
     public Signal login(String username, String password)
     {
         logger.entering("ServerFacade", "login", new Object[]{username, password});
-        Database database = Database.SINGLETON;
+        //Database database = Database.SINGLETON;
         Username uName = new Username(username);
         //Password pWord = new Password(password);
 
         //Check that user is already registered
-        User user = database.getPlayer(uName);
+        //User user = database.getPlayer(uName);
+        User user = DATABASE.getUser(uName);
+
         if (user == null)
         {
             String errorMsg = "Sorry, you are not registered yet";
@@ -159,20 +161,22 @@ public class ServerFacade implements IServer
     public Signal register(String username, String password)
     {
         logger.entering("ServerFacade", "register", new Object[]{username, password});
-        Database database = Database.SINGLETON;
+        //Database database = Database.SINGLETON;
 
         Username uName = new Username(username);
         Password pWord = new Password(password);
 
         //Check that user is already registered
-        User user = database.getPlayer(uName);
+        //User user = database.getPlayer(uName);
+        User user = DATABASE.getUser(uName);
         if (user == null)
         {
 
             AuthToken token = new AuthToken();
             user = new User(uName, pWord);
             user.setToken(token);
-            database.addPlayer(user);
+            //database.addPlayer(user);
+            DATABASE.addUser(user);
             Signal signal = new Signal(SignalType.OK, user);
             logger.exiting("ServerFacade", "register", signal);
             return signal;
@@ -198,14 +202,14 @@ public class ServerFacade implements IServer
     public Signal addGame(String gameName, User startingUser)
     {
         logger.entering("ServerFacade", "addGame", new Object[]{gameName, startingUser});
-        Database database = Database.SINGLETON;
+        //Database database = Database.SINGLETON;
 
         Integer increment = 1;
         StringBuilder finalName = new StringBuilder(gameName);
 
         //If a provided serverGameData name is already in the database, modify with a numeric symbol in parentheses
         //which is appended to the end of the name
-        String suffix = "";
+        /*String suffix = "";
         while (database.getOpenGameByName(gameName + suffix) != null)
         {
             if (finalName.length() != gameName.length())
@@ -215,13 +219,14 @@ public class ServerFacade implements IServer
             suffix = "(" + increment.toString() + ")";
             finalName.append(suffix);
             increment++;
-        }
+        }*/
 
         //Created name that is not in the database.
         //create new serverGameData with new name and starting player
         ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
         startingUser.addGame(serverGameData.getId());
-        boolean openGameAdded = database.addOpenGame(serverGameData);
+        //boolean openGameAdded = database.addOpenGame(serverGameData);
+        boolean openGameAdded = DATABASE.addGame(serverGameData);
         if (openGameAdded)
         {
             Signal signal = new Signal(SignalType.OK, serverGameData);
@@ -251,9 +256,10 @@ public class ServerFacade implements IServer
     public Signal joinGame(User user, GameID id)
     {
         logger.entering("ServerFacade", "joinGame", new Object[]{user, id});
-        Database database = Database.SINGLETON;
+        //Database database = Database.SINGLETON;
         user.addGame(id);
-        ServerGameData serverGameData = database.getOpenGameByID(id);
+        //ServerGameData serverGameData = database.getOpenGameByID(id);
+        ServerGameData serverGameData = DATABASE.getGame(id);
         if (!serverGameData.isGameFull())
         {
             //Check if serverGameData contains user
@@ -290,8 +296,9 @@ public class ServerFacade implements IServer
     public Signal startGame(GameID id)
     {
         logger.entering("ServerFacade", "startGame", id);
-        Database database = Database.SINGLETON;
-        ServerGameData serverGameData = database.getOpenGameByID(id);
+        //Database database = Database.SINGLETON;
+        //ServerGameData serverGameData = database.getOpenGameByID(id);
+        ServerGameData serverGameData = DATABASE.getGame(id);
         if (serverGameData == null)
         {
             String errMsg = "Sorry, this serverGameData does not exist";
@@ -304,10 +311,12 @@ public class ServerFacade implements IServer
             //start serverGameData
             serverGameData.startGame();
             //remove the serverGameData from the list of open games and move to the list of running games
-            boolean gameDeleted = database.deleteOpenGame(serverGameData);
+            //boolean gameDeleted = database.deleteOpenGame(serverGameData);
+            boolean gameDeleted = DATABASE.getOpenGames().remove(serverGameData);
             if (gameDeleted)
             {
-                database.addRunningGame(serverGameData);
+                //database.addRunningGame(serverGameData);
+                DATABASE.getRunningGames().add(serverGameData);
                 broadcastGameListChange();
                 //Initialize player hands
                 HashMap<Username, HandTrainCards> hands = new HashMap<>();
@@ -398,10 +407,18 @@ public class ServerFacade implements IServer
     @Override
     public Signal getAvailableGameInfo(Username user)
     {
-        List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
+        /*List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
         for(GameInfo game: Database.SINGLETON.getAllRunningGames())
         {
             if(game.hasUser(user))
+            {
+                games.add(game);
+            }
+        }*/
+        List<ServerGameData> games = DATABASE.getOpenGames();
+        for(ServerGameData game: DATABASE.getRunningGames())
+        {
+            if(game.getPlayer(user.getName()) != null)
             {
                 games.add(game);
             }
@@ -467,15 +484,17 @@ public class ServerFacade implements IServer
         logger.entering("ServerFacade", "returnDestinationCards",
                         new Object[]{id, user, pickedCards, returnCards});
         //Data setup
-        Database database = Database.SINGLETON;
-        ServerGameData game = database.getRunningGameByID(id);
+        //Database database = Database.SINGLETON;
+        //ServerGameData game = database.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         //Tell the game to update
 		boolean isMyTurn = game.getTurnQueue().isMyTurn(user);
         game.playerDrewDestinationCard(user.getName(), pickedCards, returnCards, isMyTurn);
         //Tell the clients to update
         ClientProxy.getSINGLETON().playerDrewDestinationCards(user, pickedCards, id);
         Set<User> otherPlayers = game.getUsers();
-		User agent = database.getPlayer(user);
+		//User agent = database.getPlayer(user);
+		User agent = DATABASE.getUser(user);
         otherPlayers.remove(agent);
         for (User u : otherPlayers)
         {
@@ -506,7 +525,8 @@ public class ServerFacade implements IServer
     public Signal sendChat(GameID id, ChatItem item)
     {
         logger.entering("ServerFacade", "sendChat", new Object[]{id, item});
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         game.addChatMessage(item);
         for (User user : game.getUsers())
         {
@@ -539,12 +559,13 @@ public class ServerFacade implements IServer
         logger.entering("ServerFacade", "drawFaceUp", new Object[]{id, user, index});
 
         //Data Setup
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         //Update GameData
         TrainCard card = game.faceUpDraw(index);
         //Alert Clients
         Set<User> otherUsers = game.getUsers();
-        otherUsers.remove(Database.SINGLETON.getPlayer(user));
+        otherUsers.remove(/*Database.SINGLETON.getPlayer(user)*/ DATABASE.getUser(user));
         for (User u : otherUsers)
         {
             Signal s =
@@ -591,7 +612,8 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "drawDestinationCards", new Object[]{id, user});
         //Data Setup
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         //Update GameData
         List<DestinationCard> cards = game.destinationDraw();
         if(cards.size() == 0)
@@ -621,12 +643,13 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "drawDeck", new Object[]{id, user});
         //Data Setup
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         //Update GameData
         TrainCard card = game.drawFromTrainDeck();
         //Alert Opponents
         Set<User> otherUsers = game.getUsers();
-        otherUsers.remove(Database.SINGLETON.getPlayer(user));
+        otherUsers.remove(DATABASE.getUser(user)/*Database.SINGLETON.getPlayer(user)*/);
         for (User u : otherUsers)
         {
             Signal s = ClientProxy.getSINGLETON().opponentDrewDeckCard(u.getUsername(), user);
@@ -660,14 +683,15 @@ public class ServerFacade implements IServer
     {
         logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
         //Data Setup
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         Player player = game.getPlayer(user.getName());
         player.addPoints(edge.computePointValue());
         //Update GameData
         game.edgeClaimed(edge,spent.getTrainCards());
         //Alert Opponents
         Set<User> opponents = game.getUsers();
-        opponents.remove(Database.SINGLETON.getPlayer(user));
+        opponents.remove(/*Database.SINGLETON.getPlayer(user)*/ DATABASE.getUser(user));
         for (User u : opponents)
         {
             ClientProxy.getSINGLETON().playerClaimedEdge(u.getUsername(), edge);
@@ -692,7 +716,8 @@ public class ServerFacade implements IServer
         //Report the command (if applicable)
         if (item.shouldReport())
         {
-            ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
+            //ServerGameData game = Database.SINGLETON.getRunningGameByID(item.getGame());
+            ServerGameData game = DATABASE.getGame(item.getGame());
             game.addHistoryItem(item);
             Set<User> players = game.getUsers();
             for (User u : players)
@@ -710,7 +735,8 @@ public class ServerFacade implements IServer
     public Signal lastTurn(GameID id)
     {
         logger.entering("ServerFacade", "lastTurn", id);
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         for(User u: game.getUsers())
         {
             ClientProxy.getSINGLETON().lastTurn(u.getUsername());
@@ -723,7 +749,8 @@ public class ServerFacade implements IServer
 
     public Signal nextTurn(GameID gameID)
 	{
-		ServerGameData game = Database.SINGLETON.getRunningGameByID(gameID);
+		//ServerGameData game = Database.SINGLETON.getRunningGameByID(gameID);
+        ServerGameData game = DATABASE.getGame(gameID);
 		game.nextTurn();
 		for (User u : game.getUsers())
 		{
@@ -752,21 +779,24 @@ public class ServerFacade implements IServer
 
     @Override
     public Signal EndGame(GameID id) {
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         PlayerList players = new PlayerList((ArrayList<Player>)game.getPlayers());
         Signal s = null;
         for (User u : game.getUsers())
         {
            s = ClientProxy.getSINGLETON().EndGame(u.getUsername(), players);
         }
-        Database.SINGLETON.deleteOpenGame(game);
+        //Database.SINGLETON.deleteOpenGame(game);
+        DATABASE.deleteGame(id);
         return s;
     }
 
     public Signal turnEnded(GameID id, Username name)
     {
         logger.entering("ServerFacade", "turnEnded", id);
-        ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+        ServerGameData game = DATABASE.getGame(id);
         if(game.isLastTurn() && !lastTurnEmmitted)
         {
             nextTurn(id);
@@ -794,7 +824,7 @@ public class ServerFacade implements IServer
 
 	private void broadcastGameListChange()
     {
-        Set<Username> users = Database.SINGLETON.getAllUsernames();
+        /*Set<Username> users = Database.SINGLETON.getAllUsernames();
         for(Username u: users)
         {
             List<GameInfo> games = Database.SINGLETON.getAllOpenGames();
@@ -806,20 +836,42 @@ public class ServerFacade implements IServer
                 }
             }
             ClientProxy.getSINGLETON().updateGameList(u, games);
+        }*/
+
+        List<User> users = DATABASE.getAllUsers();
+        for(User u: users)
+        {
+            List<ServerGameData> games = DATABASE.getOpenGames();
+            for(ServerGameData g: DATABASE.getRunningGames())
+            {
+                if(g.getUsers().contains(u))
+                {
+                    games.add(g);
+                }
+            }
+            ArrayList<GameInfo> gameInfos = new ArrayList<>();
+            for (ServerGameData g : games)
+            {
+                gameInfos.add(new GameInfo(g));
+            }
+            ClientProxy.getSINGLETON().updateGameList(u.getUsername(), gameInfos);
         }
     }
 
     public Signal exitGame(Username user, GameID id)
     {
-        Database.SINGLETON.setUserInGame(user, false);
+        //Database.SINGLETON.setUserInGame(user, false);
+        DATABASE.getUser(user).setInGame(false);
         return new Signal(SignalType.OK, "User exited");
     }
 
     public Signal resumeGame(User user, GameID id)
     {
         try {
-            Database.SINGLETON.setUserInGame(user.getUsername(), true);
-            ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+            //Database.SINGLETON.setUserInGame(user.getUsername(), true);
+            DATABASE.getUser(user.getUsername()).setInGame(true);
+            //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
+            ServerGameData game = DATABASE.getGame(id);
             ClientGameData resumeGame = new ClientGameData(game, user.getUsername());
             return new Signal(SignalType.OK, resumeGame);
         } catch (NullPointerException e)
