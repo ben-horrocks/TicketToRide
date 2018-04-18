@@ -24,7 +24,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Carter on 4/11/18.
  */
-public class SQLCommandDAOTest {
+public class SQLSQLCommandDAOTest
+{
 
 	private static final String stringClassName = String.class.getName();
 	private static final String gameIDClassname = GameID.class.getName();
@@ -34,11 +35,11 @@ public class SQLCommandDAOTest {
 	private static final String handTrainCardClassName = HandTrainCards.class.getName();
 	private static final String chatItemClassName = ChatItem.class.getName();
 	private static final String edgeClassName = Edge.class.getName();
-    private CommandDAO dao;
+    private SQLCommandDAO dao;
 
     @Before
     public void setUp() {
-        dao = new CommandDAO();
+        dao = new SQLCommandDAO();
     }
 
     @After

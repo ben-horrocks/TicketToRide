@@ -3,18 +3,14 @@ package plugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import Factory.Factory;
 import common.communication.Command;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
 import common.player_info.Player;
 import common.player_info.User;
 import common.player_info.Username;
-import daos.CommandDAO;
-import daos.GameDataDAO;
-import daos.IDAO;
-import daos.PlayerDAO;
-import daos.UserDAO;
+import daos.*;
+import daos.SQLCommandDAO;
 
 /**
  * Created by Carter on 4/16/18.
@@ -47,41 +43,41 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     	if (cleanSlate)
 		{
 			boolean cleared;
-			IDAO dao = new CommandDAO();
+			IDAO dao = new SQLCommandDAO();
 			cleared = dao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(dao);
 			if (!cleared) return false;
-			dao = new GameDataDAO();
+			dao = new SQLGameDataDAO();
 			cleared = dao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(dao);
 			if (!cleared) return false;
-			dao = new UserDAO();
+			dao = new SQLUserDAO();
 			cleared = dao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(dao);
 			if (!cleared) return false;
-			dao = new PlayerDAO();
+			dao = new SQLPlayerDAO();
 			cleared = dao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(dao);
 			return cleared;
 		}
-		IDAO dao = new CommandDAO();
+		IDAO dao = new SQLCommandDAO();
     	commitAndClose(dao);
-    	dao = new GameDataDAO();
+    	dao = new SQLGameDataDAO();
     	commitAndClose(dao);
-    	dao = new UserDAO();
+    	dao = new SQLUserDAO();
     	commitAndClose(dao);
-    	dao = new PlayerDAO();
+    	dao = new SQLPlayerDAO();
     	commitAndClose(dao);
     	return true;
     }
 
     @Override
     public User getUser(Username name) {
-    	UserDAO dao = new UserDAO();
+    	SQLUserDAO dao = new SQLUserDAO();
     	User user = dao.getUser(name);
     	commitAndClose(dao);
     	return user;
@@ -89,7 +85,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public List<User> getAllUsers() {
-    	UserDAO dao = new UserDAO();
+    	SQLUserDAO dao = new SQLUserDAO();
         List<User> users = dao.getAllUsers();
         commitAndClose(dao);
         return users;
@@ -97,7 +93,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean addUser(User user) {
-    	UserDAO dao = new UserDAO();
+    	SQLUserDAO dao = new SQLUserDAO();
     	boolean successful = dao.addNewUser(user);
 		commitAndClose(dao);
     	return successful;
@@ -105,7 +101,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean deleteUser(Username name) {
-        UserDAO dao = new UserDAO();
+        SQLUserDAO dao = new SQLUserDAO();
         boolean successful = dao.deleteUser(name);
 		commitAndClose(dao);
         return successful;
@@ -113,7 +109,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean updateUser(User user) {
-        UserDAO dao = new UserDAO();
+        SQLUserDAO dao = new SQLUserDAO();
         boolean successful = dao.updateUser(user);
 		commitAndClose(dao);
         return successful;
@@ -121,7 +117,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public ServerGameData getGame(GameID id) {
-        GameDataDAO dao = new GameDataDAO();
+        SQLGameDataDAO dao = new SQLGameDataDAO();
         ServerGameData data = dao.getGameData(id);
         commitAndClose(dao);
         return data;
@@ -129,7 +125,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public List<ServerGameData> getRunningGames() {
-    	GameDataDAO dao = new GameDataDAO();
+    	SQLGameDataDAO dao = new SQLGameDataDAO();
         List<ServerGameData> gameData = dao.getAllGameData();
         List<ServerGameData> runningGames = new ArrayList<>();
         for (ServerGameData game : gameData)
@@ -145,7 +141,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public List<ServerGameData> getOpenGames() {
-    	GameDataDAO dao = new GameDataDAO();
+    	SQLGameDataDAO dao = new SQLGameDataDAO();
 		List<ServerGameData> gameData = dao.getAllGameData();
 		List<ServerGameData> openGames = new ArrayList<>();
 		for (ServerGameData game : gameData)
@@ -161,7 +157,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public List<ServerGameData> getAllGames() {
-        GameDataDAO dao = new GameDataDAO();
+        SQLGameDataDAO dao = new SQLGameDataDAO();
         List<ServerGameData> games = dao.getAllGameData();
         commitAndClose(dao);
         return games;
@@ -169,7 +165,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public List<ServerGameData> getRunningGames(Username user) {
-    	GameDataDAO dao = new GameDataDAO();
+    	SQLGameDataDAO dao = new SQLGameDataDAO();
 		List<ServerGameData> gameData = dao.getAllGameData();
 		List<ServerGameData> runningGames = new ArrayList<>();
 		for (ServerGameData game : gameData)
@@ -192,7 +188,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean addGame(ServerGameData game) {
-    	GameDataDAO dao = new GameDataDAO();
+    	SQLGameDataDAO dao = new SQLGameDataDAO();
     	boolean successful = dao.addNewGameData(game);
     	commitAndClose(dao);
         return successful;
@@ -200,7 +196,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean deleteGame(GameID id) {
-        GameDataDAO dao = new GameDataDAO();
+        SQLGameDataDAO dao = new SQLGameDataDAO();
         boolean successful = dao.deleteGameData(id);
         commitAndClose(dao);
         return successful;
@@ -208,7 +204,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean updateGame(ServerGameData game) {
-        GameDataDAO dao = new GameDataDAO();
+        SQLGameDataDAO dao = new SQLGameDataDAO();
         boolean successful = dao.updateGameData(game);
         commitAndClose(dao);
         return successful;
@@ -216,7 +212,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public List<Command> getCommands(GameID id) {
-        CommandDAO dao = new CommandDAO();
+        SQLCommandDAO dao = new SQLCommandDAO();
         List<Command> commands = dao.getCommandsByGameId(id);
         commitAndClose(dao);
         return commands;
@@ -224,7 +220,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean addCommand(Command command) {
-        CommandDAO dao = new CommandDAO();
+        SQLCommandDAO dao = new SQLCommandDAO();
         boolean successful = dao.addNewCommand(command);
         commitAndClose(dao);
         return successful;

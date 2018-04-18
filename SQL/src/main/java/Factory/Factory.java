@@ -1,7 +1,7 @@
 package Factory;
 
 import daos.*;
-import daos.CommandDAO;
+import daos.SQLCommandDAO;
 
 /**
  * Created by Carter on 4/14/18.
@@ -11,22 +11,22 @@ public class Factory implements IFactory {
 
     @Override
     public IUserDAO createUserDAO() {
-        return new UserDAO();
+        return new SQLUserDAO();
     }
 
     @Override
     public IPlayerDAO createPlayerDAO() {
-        return new PlayerDAO();
+        return new SQLPlayerDAO();
     }
 
     @Override
     public ICommandDAO createCommandDAO() {
-       return new CommandDAO();
+       return new SQLCommandDAO();
     }
 
     @Override
     public IGameDataDAO createGameDataDAO() {
-        return new GameDataDAO();
+        return new SQLGameDataDAO();
     }
 
     @Override

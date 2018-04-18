@@ -17,10 +17,10 @@ import common.game_data.ServerGameData;
 /**
  * Created by Kavika F.
  */
-public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
+public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
 
-	public GameDataDAO()
+	public SQLGameDataDAO()
 	{
 		super();
 	}
@@ -58,7 +58,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 	@Override
 	boolean createTable()
 	{
-//		logger.entering("GameDataDAO", "createTable");
+//		logger.entering("SQLGameDataDAO", "createTable");
 		final String CREATE_GAMEDATA_TABLE =
 				"CREATE TABLE " + DataEntry.TABLE_NAME + " ( " +
 						DataEntry.COLUMN_NAME_GAME_ID + " TEXT NOT NULL UNIQUE, " +
@@ -72,18 +72,18 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		}
 		catch (SQLException e)
 		{
-			System.err.println(e + " - creating table in GameDataDAO");
+			System.err.println(e + " - creating table in SQLGameDataDAO");
 			e.printStackTrace();
 			return false;
 		}
-//		logger.exiting("GameDataDAO", "createTable", true);
+//		logger.exiting("SQLGameDataDAO", "createTable", true);
 		return true;
 	}
 
 	@Override
 	boolean deleteTable()
 	{
-//		logger.entering("GameDataDAO", "deleteTable");
+//		logger.entering("SQLGameDataDAO", "deleteTable");
 		final String DELETE_GAME_DATA_TABLE = "DROP TABLE " + DataEntry.TABLE_NAME;
 		try
 		{
@@ -93,18 +93,18 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		}
 		catch (SQLException e)
 		{
-			System.err.println(e + " - deleting table in UserDAO");
+			System.err.println(e + " - deleting table in SQLUserDAO");
 			e.printStackTrace();
 			return false;
 		}
-//		logger.exiting("GameDataDAO", "deleteTable", true);
+//		logger.exiting("SQLGameDataDAO", "deleteTable", true);
 		return true;
 	}
 
 	@Override
 	public boolean addNewGameData(ServerGameData gameData)
 	{
-//		logger.entering("GameDataDAO", "addNewGameData", gameData);
+//		logger.entering("SQLGameDataDAO", "addNewGameData", gameData);
 		final String ADD_GAME_DATA =
 				"INSERT INTO " + DataEntry.TABLE_NAME +
 						" (" + DataEntry.COLUMN_NAME_GAME_ID +
@@ -126,14 +126,14 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			e.printStackTrace();
 			return false;
 		}
-//		logger.exiting("GameDataDAO", "addNewGameData", true);
+//		logger.exiting("SQLGameDataDAO", "addNewGameData", true);
 		return true;
 	}
 
 	@Override
 	public ServerGameData getGameData(GameID id)
 	{
-//		logger.entering("GameDataDAO", "getGameData", id);
+//		logger.entering("SQLGameDataDAO", "getGameData", id);
 		final String GET_GAME_DATA =
 				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
 						" FROM " + DataEntry.TABLE_NAME +
@@ -154,7 +154,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 				else
 				{
 					ServerGameData data = (ServerGameData)byteArrayToObject(bytes);
-//					logger.exiting("GameDataDAO", "getGameData", data);
+//					logger.exiting("SQLGameDataDAO", "getGameData", data);
 					return data;
 				}
 			}
@@ -166,14 +166,14 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //			logger.warning(e + " - getting game data " + gameID);
 			e.printStackTrace();
 		}
-//		logger.exiting("GameDataDAO", "getGameData", null);
+//		logger.exiting("SQLGameDataDAO", "getGameData", null);
 		return null;
 	}
 
 	@Override
 	public List<ServerGameData> getAllGameData()
 	{
-//		logger.entering("GameDataDAO", "getAllGameData");
+//		logger.entering("SQLGameDataDAO", "getAllGameData");
 		final String GET_ALL_DATA =
 				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
 						" FROM " + DataEntry.TABLE_NAME;
@@ -188,7 +188,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 				ServerGameData game = (ServerGameData)byteArrayToObject(bytes);
 				games.add(game);
 			}
-//			logger.exiting("GameDataDAO", "getAllGameData", games);
+//			logger.exiting("SQLGameDataDAO", "getAllGameData", games);
 			rs.close();
 			statement.close();
 			return games;
@@ -198,14 +198,14 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //			logger.warning(e + " - getting all games");
 			e.printStackTrace();
 		}
-//		logger.exiting("GameDataDAO", "getAllGameData", null);
+//		logger.exiting("SQLGameDataDAO", "getAllGameData", null);
 		return null;
 	}
 
 	@Override
 	public boolean updateGameData(ServerGameData gameData)
 	{
-//		logger.entering("GameDataDAO", "updateGameData", gameData);
+//		logger.entering("SQLGameDataDAO", "updateGameData", gameData);
 		final String UPDATE_GAME =
 				"UPDATE " + DataEntry.TABLE_NAME +
 						" SET " + DataEntry.COLUMN_NAME_GAME_DATA + " = ?" +
@@ -218,7 +218,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.setString(2, gameData.getId().getId());
 			statement.executeUpdate();
 			statement.close();
-//			logger.exiting("GameDataDAO", "updateGameData", true);
+//			logger.exiting("SQLGameDataDAO", "updateGameData", true);
 			return true;
 		}
 		catch (SQLException | IOException e)
@@ -226,14 +226,14 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //			logger.warning(e + " - updating GameData - " + gameData.getId());
 			e.printStackTrace();
 		}
-//		logger.exiting("GameDataDAO", "updateGameData", false);
+//		logger.exiting("SQLGameDataDAO", "updateGameData", false);
 		return false;
 	}
 
 	@Override
 	public boolean deleteGameData(GameID gameID)
 	{
-//		logger.entering("GameDataDAO", "deleteGameData", gameData);
+//		logger.entering("SQLGameDataDAO", "deleteGameData", gameData);
 		final String DELETE_DATA =
 				"DELETE FROM " + DataEntry.TABLE_NAME +
 						" WHERE " + DataEntry.COLUMN_NAME_GAME_ID + " = ?";
@@ -243,7 +243,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.setObject(1, gameID);
 			statement.executeUpdate();
 			statement.close();
-//			logger.exiting("GameDataDAO", "deleteGameData", true);
+//			logger.exiting("SQLGameDataDAO", "deleteGameData", true);
 			return true;
 		}
 		catch (SQLException e)
@@ -251,7 +251,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //			logger.warning(e + " - deleting GameData - " + gameData.getId());
 			e.printStackTrace();
 		}
-//		logger.exiting("GameDataDAO", "deleteGameData", false);
+//		logger.exiting("SQLGameDataDAO", "deleteGameData", false);
 		return false;
 	}
 }

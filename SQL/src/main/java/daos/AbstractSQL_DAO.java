@@ -13,7 +13,7 @@ import Factory.ConnectionSetup;
 abstract class AbstractSQL_DAO implements IDAO
 {
 	Connection connection;
-	AbstractSQL_DAO()
+	public AbstractSQL_DAO()
 	{
 		connection = ConnectionSetup.setup();
 		if (!tableExists())

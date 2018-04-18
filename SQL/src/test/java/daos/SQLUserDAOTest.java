@@ -4,9 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +18,12 @@ import static org.junit.Assert.*;
  */
 public class SQLUserDAOTest
 {
-	private UserDAO dao;
+	private SQLUserDAO dao;
 
 	@Before
 	public void setUp()
 	{
-		this.dao = new UserDAO();
+		this.dao = new SQLUserDAO();
 	}
 
 	@After

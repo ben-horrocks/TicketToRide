@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Kavika F.
  */
-public class SQLGameDataDAOTest
+public class SQLSQLGameDataDAOTest
 {
 
 	@Before

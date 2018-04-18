@@ -21,12 +21,12 @@ import static org.junit.Assert.*;
  */
 public class SQLPlayerDAOTest
 {
-	private PlayerDAO dao;
+	private SQLPlayerDAO dao;
 
     @Before
     public void setUp()
 	{
-		this.dao = new PlayerDAO();
+		this.dao = new SQLPlayerDAO();
     }
 
     @After

@@ -26,9 +26,9 @@ import common.player_info.Username;
  * Created by Carter on 4/9/18.
  */
 
-public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
+public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 
-    public CommandDAO() { super(); }
+    public SQLCommandDAO() { super(); }
 
     public static class CommandEntry
     {
@@ -72,7 +72,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             statement.close();
         } catch (SQLException e)
         {
-			System.err.println(e + " - creating table in CommandDAO");
+			System.err.println(e + " - creating table in SQLCommandDAO");
 			e.printStackTrace();
             return false;
         }
@@ -89,17 +89,17 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             statement.close();
         } catch (SQLException e)
         {
-			System.err.println(e + " - deleting table in UserDAO");
+			System.err.println(e + " - deleting table in SQLUserDAO");
 			e.printStackTrace();
             return false;
         }
-        //logger.exiting("CommandDAO", "deleteTable", true);
+        //logger.exiting("SQLCommandDAO", "deleteTable", true);
         return true;
     }
 
     @Override
     public boolean addNewCommand(Command command) {
-        //logger.entering("PlayerDAO", "addNewCommand", command);
+        //logger.entering("SQLPlayerDAO", "addNewCommand", command);
         final String INSERT_PLAYER =
                 "INSERT INTO Commands (" + CommandEntry.COLUMN_NAME_GAME_ID +
                         ", " + CommandEntry.COLUMN_NAME_COMMAND +
@@ -124,13 +124,13 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 				return false;
 			}
         }
-        //logger.exiting("CommandDAO", "addNewCommand", true);
+        //logger.exiting("SQLCommandDAO", "addNewCommand", true);
         return true;
     }
 
     @Override
     public List<Command> getCommandsByGameId(GameID id) {
-        //logger.entering("CommandDAO", "getCommandByGameId", id);
+        //logger.entering("SQLCommandDAO", "getCommandByGameId", id);
         final String GET_COMMANDS =
                 "SELECT " + CommandEntry.COLUMN_NAME_COMMAND +
                         " FROM " + CommandEntry.TABLE_NAME +
@@ -150,20 +150,20 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             }
 			rs.close();
 			statement.close();
-			//logger.exiting("CommandDAO", "getCommand", id);
+			//logger.exiting("SQLCommandDAO", "getCommand", id);
 			return commandList;
         } catch (SQLException | IOException | ClassNotFoundException e)
         {
             //logger.warning(e + " - getting commands for id: " + id);
             e.printStackTrace();
         }
-        //logger.exiting("CommandDAO", "getCommand", null);
+        //logger.exiting("SQLCommandDAO", "getCommand", null);
         return null;
     }
 
     @Override
     public boolean deleteCommandsByGameId(GameID id) {
-        //logger.entering("CommandDAO", "deleteCommandsByGameId", id);
+        //logger.entering("SQLCommandDAO", "deleteCommandsByGameId", id);
         final String DELETE_COMMANDS =
                 "DELETE FROM " + CommandEntry.TABLE_NAME +
                         " WHERE " + CommandEntry.COLUMN_NAME_GAME_ID + " = ?";
@@ -173,7 +173,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             statement.setString(1, id.getId());
             statement.execute();
             statement.close();
-            //logger.exiting("CommandDAO", "getCommand", id);
+            //logger.exiting("SQLCommandDAO", "getCommand", id);
             return true;
 
         } catch (SQLException e)
@@ -181,7 +181,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             //logger.warning(e + " - getting commands for id: " + id);
             e.printStackTrace();
         }
-        //logger.exiting("CommandDAO", "getCommand", null);
+        //logger.exiting("SQLCommandDAO", "getCommand", null);
         return false;
     }
 
@@ -255,7 +255,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 //                new Command(commandParams, ServerFacade.class.getName());
 
         //RUN TESTS
-        CommandDAO dao = new CommandDAO();
+        SQLCommandDAO dao = new SQLCommandDAO();
 
         dao.createTable();
 //        dao.addNewCommand(serverCommand);
