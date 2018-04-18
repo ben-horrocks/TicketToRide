@@ -2,6 +2,7 @@ package daos;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +28,7 @@ import common.player_info.Username;
 
 public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 
-    public CommandDAO(Connection connection) { super(connection); }
+    public CommandDAO() { super(); }
 
     public static class CommandEntry
     {
@@ -36,6 +37,27 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         static final String COLUMN_NAME_COMMAND = "Command";
     }
 
+    @Override
+	boolean tableExists()
+	{
+		try
+		{
+			DatabaseMetaData meta = connection.getMetaData();
+			ResultSet rs = meta.getTables(null, null,
+					CommandEntry.TABLE_NAME, new String[] {"TABLE"});
+			if (rs.next())
+			{
+				rs.close();
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			// Shouldn't really have errors.
+			System.out.println("SQLException when checking if table exists - " + e);
+		}
+		return false;
+	}
 
     @Override
     boolean createTable() {
@@ -49,9 +71,8 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             statement.executeUpdate(CREATE_COMMAND_TABLE);
         } catch (SQLException e)
         {
-            e.printStackTrace();
-            //logger.warning(e + " - creating table " + CommandEntry.TABLE_NAME);
-            //logger.exiting("CommandDAO", "createTable", false);
+			System.err.println(e + " - creating table in CommandDAO");
+			e.printStackTrace();
             return false;
         }
         return true;
@@ -66,9 +87,8 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             statement.executeUpdate(DELETE_COMMAND_TABLE);
         } catch (SQLException e)
         {
-            e.printStackTrace();
-            //logger.warning(e + " - deleting table " + CommandEntry.TABLE_NAME);
-            //logger.exiting("CommandDAO", "deleteTable", false);
+			System.err.println(e + " - deleting table in UserDAO");
+			e.printStackTrace();
             return false;
         }
         //logger.exiting("CommandDAO", "deleteTable", true);
@@ -101,9 +121,8 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
             statement.executeUpdate();
         } catch (SQLException | IOException e)
         {
-            e.printStackTrace();
-            //logger.warning(e + " - adding new command " + command);
-            //logger.exiting("CommandDAO", "addNewCommand", false);
+			System.err.println(e + " - adding new command");
+			e.printStackTrace();
             return false;
         }
         //logger.exiting("CommandDAO", "addNewCommand", true);
@@ -243,7 +262,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 //                new Command(commandParams, ServerFacade.class.getName());
 
         //RUN TESTS
-        CommandDAO dao = new CommandDAO(connection);
+        CommandDAO dao = new CommandDAO();
 
         dao.createTable();
 //        dao.addNewCommand(serverCommand);

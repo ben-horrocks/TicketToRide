@@ -2,6 +2,7 @@ package daos;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,9 +20,9 @@ import common.game_data.ServerGameData;
 public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
 
-	public GameDataDAO(Connection connection)
+	public GameDataDAO()
 	{
-		super(connection);
+		super();
 	}
 
 	private static class DataEntry
@@ -29,6 +30,28 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		static final String TABLE_NAME = "GameData";
 		static final String COLUMN_NAME_GAME_ID = "game_id";
 		static final String COLUMN_NAME_GAME_DATA = "game_data";
+	}
+
+	@Override
+	boolean tableExists()
+	{
+		try
+		{
+			DatabaseMetaData meta = connection.getMetaData();
+			ResultSet rs = meta.getTables(null, null,
+					DataEntry.TABLE_NAME, new String[] {"TABLE"});
+			if (rs.next())
+			{
+				rs.close();
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			// Shouldn't really have errors.
+			System.out.println("SQLException when checking if table exists - " + e);
+		}
+		return false;
 	}
 
 	@Override
@@ -47,8 +70,8 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		}
 		catch (SQLException e)
 		{
-//			logger.warning(e + " - creating table " + DataEntry.TABLE_NAME);
-//			logger.exiting("GameDataDAO", "createTable", false);
+			System.err.println(e + " - creating table in GameDataDAO");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("GameDataDAO", "createTable", true);
@@ -67,8 +90,8 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		}
 		catch (SQLException e)
 		{
-//			logger.warning(e + " - deleting table " + DataEntry.TABLE_NAME);
-//			logger.exiting("GameDataDAO", "deleteTable", false);
+			System.err.println(e + " - deleting table in UserDAO");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("GameDataDAO", "deleteTable", true);
@@ -95,8 +118,8 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		}
 		catch (SQLException | IOException e)
 		{
-//			logger.warning(e + " - adding new game data " + gameData);
-//			logger.exiting("GameDataDAO", "addNewGameData", false);
+			System.err.println(e + " - adding new gameData");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("GameDataDAO", "addNewGameData", true);

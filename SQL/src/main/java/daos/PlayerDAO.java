@@ -2,6 +2,7 @@ package daos;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,9 +19,9 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 {
 ////	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
-	public PlayerDAO(Connection connection)
+	public PlayerDAO()
 	{
-		super(connection);
+		super();
 	}
 
 	private static class PlayerEntry
@@ -31,6 +32,27 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		static final String COLUMN_NAME_PLAYER = "player";
 	}
 
+	@Override
+	boolean tableExists()
+	{
+		try
+		{
+			DatabaseMetaData meta = connection.getMetaData();
+			ResultSet rs = meta.getTables(null, null,
+					PlayerEntry.TABLE_NAME, new String[] {"TABLE"});
+			if (rs.next())
+			{
+				rs.close();
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			// Shouldn't really have errors.
+			System.out.println("SQLException when checking if table exists - " + e);
+		}
+		return false;
+	}
 
 	@Override
 	boolean createTable()
@@ -48,8 +70,8 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 			statement.executeUpdate(CREATE_PLAYER_TABLE);
 		} catch (SQLException e)
 		{
-//			logger.warning(e + " - creating table " + PlayerEntry.TABLE_NAME);
-//			logger.exiting("PlayerDAO", "createTable", false);
+			System.err.println(e + " - creating table in PlayerDAO");
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -66,8 +88,8 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 			statement.executeUpdate(DELETE_PLAYER_TABLE);
 		} catch (SQLException e)
 		{
-//			logger.warning(e + " - deleting table " + PlayerEntry.TABLE_NAME);
-//			logger.exiting("PlayerDAO", "deleteTable", false);
+			System.err.println(e + " - deleting table in UserDAO");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("PlayerDAO", "deleteTable", true);
@@ -91,8 +113,8 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 			statement.executeUpdate();
 		} catch (SQLException | IOException e)
 		{
-//			logger.warning(e + " - adding new player " + player);
-//			logger.exiting("PlayerDAO", "addNewPlayer", false);
+			System.err.println(e + " - adding new player");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("PlayerDAO", "addNewPlayer", true);

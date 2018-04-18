@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 //import CS340.TicketServer.ServerFacade;
+import Factory.ConnectionSetup;
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.chat.ChatItem;
@@ -32,22 +33,12 @@ public class SQLCommandDAOTest {
     Connection mConnection;
     CommandDAO commandDao;
 
-    //Info for creating CommandParams
-    private static final String stringClassName = String.class.getName();
-    private static final String gameIDClassname = GameID.class.getName();
-    private static final String playerClassName = User.class.getName();
     private static final String usernameClassName = Username.class.getName();
-    private static final String handDestinationCardsClassName =
-            HandDestinationCards.class.getName();
-    private static final String handTrainCardClassName =
-            HandTrainCards.class.getName();
-    private static final String chatItemClassName = ChatItem.class.getName();
-    private static final String edgeClassName = Edge.class.getName();
 
     @Before
     public void setUp() throws Exception {
-//        this.mConnection = ConnectionSetup.setup();
-        commandDao = new CommandDAO(mConnection);
+		this.mConnection = ConnectionSetup.setup();
+        commandDao = new CommandDAO();
     }
 
     @After
