@@ -91,7 +91,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 	{
 		openConnection();
 //		logger.entering("SQLUserDAO", "deleteTable");
-		final String DELETE_USERS_TABLE = "DROP TABLE " + UserEntry.TABLE_NAME;
+		final String DELETE_USERS_TABLE = "DROP TABLE IF EXISTS " + UserEntry.TABLE_NAME;
 		try
 		{
 			Statement statement = connection.createStatement();

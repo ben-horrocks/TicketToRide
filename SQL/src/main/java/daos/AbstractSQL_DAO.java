@@ -15,7 +15,7 @@ abstract class AbstractSQL_DAO implements IDAO
 	Connection connection;
 	public AbstractSQL_DAO()
 	{
-
+		connection = ConnectionSetup.setup();
 	}
 
 	abstract boolean tableExists();
@@ -52,19 +52,19 @@ abstract class AbstractSQL_DAO implements IDAO
 
 	@Override
 	public boolean openConnection() {
-		connection = ConnectionSetup.setup();
-		if (!tableExists())
-		{
-			createTable();
-			try
-			{
-				connection.commit();
-			}
-			catch (SQLException e)
-			{
-				System.err.println(e + " - committing connection");
-			}
-		}
+//		connection..;
+//		if (!tableExists())
+//		{
+//			createTable();
+//			try
+//			{
+//				connection.commit();
+//			}
+//			catch (SQLException e)
+//			{
+//				System.err.println(e + " - committing connection");
+//			}
+//		}
 		return true;
 	}
 

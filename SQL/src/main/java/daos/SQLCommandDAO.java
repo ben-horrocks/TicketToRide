@@ -103,7 +103,7 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 
         openConnection();
 
-        final String DELETE_COMMAND_TABLE = "DROP TABLE " + CommandEntry.TABLE_NAME;
+        final String DELETE_COMMAND_TABLE = "DROP TABLE IF EXISTS " + CommandEntry.TABLE_NAME;
         try
         {
             Statement statement = connection.createStatement();

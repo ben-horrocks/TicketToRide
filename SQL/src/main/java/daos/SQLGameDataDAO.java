@@ -1,6 +1,5 @@
 package daos;
 
-import com.sun.security.ntlm.Server;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -96,7 +95,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 	{
 		openConnection();
 //		logger.entering("SQLGameDataDAO", "deleteTable");
-		final String DELETE_GAME_DATA_TABLE = "DROP TABLE " + DataEntry.TABLE_NAME;
+		final String DELETE_GAME_DATA_TABLE = "DROP TABLE IF EXISTS " + DataEntry.TABLE_NAME;
 		try
 		{
 			Statement statement = connection.createStatement();

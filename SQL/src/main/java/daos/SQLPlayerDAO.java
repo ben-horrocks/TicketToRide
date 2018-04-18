@@ -81,7 +81,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	boolean deleteTable()
 	{
 //		logger.entering("SQLPlayerDAO", "deleteTable");
-		final String DELETE_PLAYER_TABLE = "DROP TABLE " + PlayerEntry.TABLE_NAME;
+		final String DELETE_PLAYER_TABLE = "DROP TABLE  IF EXISTS " + PlayerEntry.TABLE_NAME;
 		try
 		{
 			Statement statement = connection.createStatement();

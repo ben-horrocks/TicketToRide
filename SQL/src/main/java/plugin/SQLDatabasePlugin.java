@@ -3,7 +3,7 @@ package plugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import Factory.Factory;
+import Factory.SQLFactory;
 import common.communication.Command;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
@@ -24,7 +24,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     private int numCommands;
     private boolean cleanData;
 
-    private Factory factory;
+    private SQLFactory SQLFactory;
     SQLCommandDAO cDao;
     SQLGameDataDAO gdDao;
     SQLPlayerDAO pDao;
@@ -35,7 +35,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
         this.numCommands = numCommands;
         this.cleanData = cleanData;
 
-        factory = new Factory();
+        SQLFactory = new SQLFactory();
 
         initializeDatabase(cleanData);
 		System.out.println("An SQL File Database was created");
@@ -51,29 +51,32 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     @Override
     public boolean initializeDatabase(boolean cleanSlate) {
 
-        cDao = (SQLCommandDAO) factory.createCommandDAO();
-        gdDao = (SQLGameDataDAO) factory.createGameDataDAO();
-        pDao = (SQLPlayerDAO) factory.createPlayerDAO();
+        cDao = (SQLCommandDAO) SQLFactory.createCommandDAO();
+        gdDao = (SQLGameDataDAO) SQLFactory.createGameDataDAO();
+        pDao = (SQLPlayerDAO) SQLFactory.createPlayerDAO();
 
         if (cleanSlate)
 		{
 			boolean cleared;
-
+			cDao.openConnection();
 			cleared = cDao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(cDao);
 			if (!cleared) return false;
 
+            gdDao.openConnection();
 			cleared = gdDao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(gdDao);
 			if (!cleared) return false;
 
+            pDao.openConnection();
 			cleared = pDao.clearData();
 			if (!cleared) return false;
 			cleared = commitAndClose(pDao);
 			if (!cleared) return false;
 
+            uDao.openConnection();
             cleared = uDao.clearData();
             if (!cleared) return false;
             cleared = commitAndClose(uDao);
@@ -250,7 +253,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 		*/
 		successful = dao.commitConnection();
 		if (!successful) return false;
-		successful = dao.closeConnection();
+//		successful = dao.closeConnection();
 		return successful;
 	}
 }
