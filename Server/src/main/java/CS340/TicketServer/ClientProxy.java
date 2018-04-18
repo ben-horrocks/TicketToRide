@@ -89,7 +89,10 @@ public class ClientProxy implements IClient
         String methodName = "updateGameList";
         String[] paramTypes = {userNameClassName, List.class.getName()};
         Object[] params = {user, gameList};
-        Signal signal = sendCommandToClient(user, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(user, methodName, paramTypes, params);
+
         logger.exiting("ClientProxy", "updateGameList", signal);
         return signal;
     }
@@ -103,7 +106,9 @@ public class ClientProxy implements IClient
         String methodName = "startGame";
         String[] paramTypes = {startGamePacketClassName};
         Object[] params = {packet};
-        Signal signal = sendCommandToClient(packetRecipient, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(packetRecipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "startGame", signal);
         return signal;
     }
@@ -121,7 +126,9 @@ public class ClientProxy implements IClient
         String methodName = "updateFaceUpCards";
         String[] paramTypes = {userNameClassName, handTrainCardsClassName};
         Object[] params = {name, newFaceUps};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "updateFaceUpCards", signal);
         return signal;
     }
@@ -134,7 +141,9 @@ public class ClientProxy implements IClient
         String methodName = "opponentDrewDestinationCards";
         String[] paramTypes = {userNameClassName, userNameClassName, intClassName};
         Object[] params = {recipient, opponent, amount};
-        Signal signal = sendCommandToClient(recipient, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(recipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "opponentDrewDestinationCards", signal);
         return signal;
     }
@@ -148,7 +157,9 @@ public class ClientProxy implements IClient
         String methodName = "opponentDrewFaceUpCard";
         String[] paramTypes = {userNameClassName, userNameClassName, intClassName, trainCardClassName};
         Object[] params = {recipient, opponent, index, replacement};
-        Signal signal = sendCommandToClient(recipient, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(recipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "opponentDrewFaceUpCard", signal);
         return signal;
     }
@@ -160,7 +171,9 @@ public class ClientProxy implements IClient
         String methodName = "opponentDrewDeckCard";
         String[] paramTypes = {userNameClassName, userNameClassName};
         Object[] params = {recipient, opponent};
-        Signal signal = sendCommandToClient(recipient, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(recipient, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "opponentDrewDeckCard", signal);
         return signal;
     }
@@ -172,7 +185,9 @@ public class ClientProxy implements IClient
         String methodName = "playerDrewDestinationCards";
         String[] paramTypes = {userNameClassName, handDestinationCardsClassName, gameIDClassName};
         Object[] params = {name, cards, gameID};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "playerDrewDestinationCards", signal);
         return signal;
     }
@@ -184,7 +199,9 @@ public class ClientProxy implements IClient
         String methodName = "addChatItem";
         String[] paramTypes = {userNameClassName, chatItemClassName};
         Object[] params = {name, item};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "addChatItem", signal);
         return signal;
     }
@@ -196,7 +213,9 @@ public class ClientProxy implements IClient
         String methodName = "addHistoryItem";
         String[] paramTypes = {userNameClassName, historyItemClassName};
         Object[] params = {name, item};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "addHistoryItem", signal);
         return signal;
     }
@@ -208,7 +227,9 @@ public class ClientProxy implements IClient
         String methodName = "playerClaimedEdge";
         String[] paramTypes = {userNameClassName, edgeClassName};
         Object[] params = {name, edge};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "playerClaimedEdge", signal);
         return signal;
     }
@@ -220,7 +241,9 @@ public class ClientProxy implements IClient
 		String methodName = "updateTurnQueue";
 		String[] paramTypes = {userNameClassName};
 		Object[] params = {username};
-		Signal signal = sendCommandToClient(username, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(username, methodName, paramTypes, params);
 		logger.exiting("ClientProxy", "updateTurnQueue", signal);
 		return signal;
 	}
@@ -232,7 +255,9 @@ public class ClientProxy implements IClient
         String methodName = "gameEnded";
         String[] paramTypes = {endGameClassName};
         Object[] params = {players};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "updateTurnQueue", signal);
         return signal;
     }
@@ -244,7 +269,9 @@ public class ClientProxy implements IClient
         String methodName = "lastTurn";
         String[] paramTypes = {userNameClassName};
         Object[] params = {name};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "lastTurn", signal);
         return signal;
     }
@@ -256,7 +283,9 @@ public class ClientProxy implements IClient
         String methodName = "startTurn";
         String[] paramTypes = {userNameClassName};
         Object[] params = {name};
-        Signal signal = sendCommandToClient(name, methodName, paramTypes, params);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(name, methodName, paramTypes, params);
         logger.exiting("ClientProxy", "startTurn", signal);
         return signal;
     }
@@ -297,7 +326,9 @@ public class ClientProxy implements IClient
         String[] parameterTypes = {Username.class.getName(),PlayerList.class.getName()};
         Object[] parameters = {user, playerList};
         CommandParams endGameCommand = new CommandParams("EndGame", parameterTypes, parameters);
-        Signal signal = sendCommandToClient(user, "EndGame", parameterTypes, parameters);
+        Signal signal = new Signal(SignalType.OK, "Starting up");
+        if(!ServerFacade.getSINGLETON().isStartingUp())
+            signal = sendCommandToClient(user, "EndGame", parameterTypes, parameters);
         return signal;
     }
 }
