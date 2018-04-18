@@ -24,7 +24,7 @@ import common.game_data.ServerGameData;
 public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
 
-	private Map<GameID, ServerGameData> cache;
+	private Map<GameID, ServerGameData> cache = new HashMap<>();
 
 	public SQLGameDataDAO()
 	{
@@ -134,79 +134,84 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			return false;
 		}
 //		logger.exiting("SQLGameDataDAO", "addNewGameData", true);
+		cache.put(gameData.getId(), gameData);
 		return true;
 	}
 
 	@Override
 	public ServerGameData getGameData(GameID id)
 	{
+		return cache.get(id);
 //		logger.entering("SQLGameDataDAO", "getGameData", id);
-		final String GET_GAME_DATA =
-				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
-						" FROM " + DataEntry.TABLE_NAME +
-						" WHERE " + DataEntry.COLUMN_NAME_GAME_ID + " = ?";
-		String gameID = id.getId();
-		try
-		{
-			PreparedStatement statement = connection.prepareStatement(GET_GAME_DATA);
-			statement.setString(1, gameID);
-			ResultSet rs = statement.executeQuery();
-			if (rs.next())
-			{
-				byte[] bytes = rs.getBytes(1);
-				if (bytes == null)
-				{
-//					logger.fine("Nothing found with gameID: " + gameID);
-				}
-				else
-				{
-					ServerGameData data = (ServerGameData)byteArrayToObject(bytes);
-//					logger.exiting("SQLGameDataDAO", "getGameData", data);
-					return data;
-				}
-			}
-			rs.close();
-			statement.close();
-		}
-		catch (SQLException | IOException | ClassNotFoundException e)
-		{
-//			logger.warning(e + " - getting game data " + gameID);
-			e.printStackTrace();
-		}
-//		logger.exiting("SQLGameDataDAO", "getGameData", null);
-		return null;
+//		final String GET_GAME_DATA =
+//				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
+//						" FROM " + DataEntry.TABLE_NAME +
+//						" WHERE " + DataEntry.COLUMN_NAME_GAME_ID + " = ?";
+//		String gameID = id.getId();
+//		try
+//		{
+//			PreparedStatement statement = connection.prepareStatement(GET_GAME_DATA);
+//			statement.setString(1, gameID);
+//			ResultSet rs = statement.executeQuery();
+//			if (rs.next())
+//			{
+//				byte[] bytes = rs.getBytes(1);
+//				if (bytes == null)
+//				{
+////					logger.fine("Nothing found with gameID: " + gameID);
+//				}
+//				else
+//				{
+//					ServerGameData data = (ServerGameData)byteArrayToObject(bytes);
+////					logger.exiting("SQLGameDataDAO", "getGameData", data);
+//					return data;
+//				}
+//			}
+//			rs.close();
+//			statement.close();
+//		}
+//		catch (SQLException | IOException | ClassNotFoundException e)
+//		{
+////			logger.warning(e + " - getting game data " + gameID);
+//			e.printStackTrace();
+//		}
+////		logger.exiting("SQLGameDataDAO", "getGameData", null);
+//		return null;
 	}
 
 	@Override
 	public List<ServerGameData> getAllGameData()
 	{
+		List<ServerGameData> games = new ArrayList<>();
+		games.addAll(cache.values());
+		return games;
 //		logger.entering("SQLGameDataDAO", "getAllGameData");
-		final String GET_ALL_DATA =
-				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
-						" FROM " + DataEntry.TABLE_NAME;
-		try
-		{
-			List<ServerGameData> games = new ArrayList<>();
-			PreparedStatement statement = connection.prepareStatement(GET_ALL_DATA);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next())
-			{
-				byte[] bytes = rs.getBytes(1);
-				ServerGameData game = (ServerGameData)byteArrayToObject(bytes);
-				games.add(game);
-			}
-//			logger.exiting("SQLGameDataDAO", "getAllGameData", games);
-			rs.close();
-			statement.close();
-			return games;
-		}
-		catch (SQLException | IOException | ClassNotFoundException e)
-		{
-//			logger.warning(e + " - getting all games");
-			e.printStackTrace();
-		}
-//		logger.exiting("SQLGameDataDAO", "getAllGameData", null);
-		return null;
+//		final String GET_ALL_DATA =
+//				"SELECT " + DataEntry.COLUMN_NAME_GAME_DATA +
+//						" FROM " + DataEntry.TABLE_NAME;
+//		try
+//		{
+//			List<ServerGameData> games = new ArrayList<>();
+//			PreparedStatement statement = connection.prepareStatement(GET_ALL_DATA);
+//			ResultSet rs = statement.executeQuery();
+//			while (rs.next())
+//			{
+//				byte[] bytes = rs.getBytes(1);
+//				ServerGameData game = (ServerGameData)byteArrayToObject(bytes);
+//				games.add(game);
+//			}
+////			logger.exiting("SQLGameDataDAO", "getAllGameData", games);
+//			rs.close();
+//			statement.close();
+//			return games;
+//		}
+//		catch (SQLException | IOException | ClassNotFoundException e)
+//		{
+////			logger.warning(e + " - getting all games");
+//			e.printStackTrace();
+//		}
+////		logger.exiting("SQLGameDataDAO", "getAllGameData", null);
+//		return null;
 	}
 
 	@Override
@@ -226,6 +231,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.executeUpdate();
 			statement.close();
 //			logger.exiting("SQLGameDataDAO", "updateGameData", true);
+			cache.put(gameData.getId(), gameData);
 			return true;
 		}
 		catch (SQLException | IOException e)
@@ -251,6 +257,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.executeUpdate();
 			statement.close();
 //			logger.exiting("SQLGameDataDAO", "deleteGameData", true);
+			cache.remove(gameID);
 			return true;
 		}
 		catch (SQLException e)
