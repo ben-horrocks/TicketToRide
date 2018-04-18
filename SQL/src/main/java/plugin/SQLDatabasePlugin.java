@@ -229,7 +229,8 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
             return false;
         }
         if (cDao.getCommandsByGameId(id).size() == numCommands) {
-
+            gdDao.updateGameData(gdDao.getGameData(id));
+            cDao.deleteCommandsByGameId(id);
         }
 
         commitAndClose(cDao);
