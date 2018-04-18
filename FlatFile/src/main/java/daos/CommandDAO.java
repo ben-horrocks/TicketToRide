@@ -12,17 +12,24 @@ import common.game_data.GameID;
 public class CommandDAO implements ICommandDAO, IDAO
 {
     private Map<GameID, List<Command>> commands = new HashMap<>();
-    private static final String COMMANDPATH = "database" + File.separator + "FlatFile" + File.separator + "Command";
-    private static final String suffix = ".cmd";
+    private static final String  COMMANDPATH = "Server" + File.separator
+            + "src" + File.separator
+            + "main" + File.separator
+            + "java" + File.separator
+            + "database" + File.separator
+            + "FlatFile" + File.separator
+            + "Command";
+    private static final String suffix = ".cmm";
 
     public CommandDAO(boolean clearDatabase) throws IOException
     {
         commands = new HashMap<>();
-        File FlatGameDirectory = new File(COMMANDPATH);
-        if(!FlatGameDirectory.exists())
+        File flatGameDirectory = new File(COMMANDPATH);
+        if(!flatGameDirectory.exists())
         {
-            new File(COMMANDPATH).mkdir();
-        } else if(!FlatGameDirectory.isDirectory())
+            flatGameDirectory.mkdir();
+            return;
+        } else if(!flatGameDirectory.isDirectory())
         {
             throw new FileSystemException(COMMANDPATH, null, COMMANDPATH + "is not a directory!");
         }
@@ -31,7 +38,7 @@ public class CommandDAO implements ICommandDAO, IDAO
             clearData();
         } else
         {
-            for (File game : FlatGameDirectory.listFiles())
+            for (File game : flatGameDirectory.listFiles())
             {
                 if(game.isDirectory() && game.canRead())
                 {
@@ -39,7 +46,7 @@ public class CommandDAO implements ICommandDAO, IDAO
                     GameID id = new GameID(game.getName());
                     for(File cmd : game.listFiles())
                     {
-                        if(cmd.isFile() && cmd.canRead())
+                        if(cmd.isFile() && cmd.canRead() && cmd.getName().endsWith(suffix))
                         {
                             ObjectInputStream is = new ObjectInputStream(new FileInputStream(cmd));
                             Command command = null;
@@ -154,7 +161,7 @@ public class CommandDAO implements ICommandDAO, IDAO
 
     private String getCommandFileName(GameID id, int num)
     {
-        return COMMANDPATH + File.separator + id.getId() + File.separator + Integer.toString(num);
+        return COMMANDPATH + File.separator + id.getId() + File.separator + Integer.toString(num) + suffix;
     }
 
     @Override

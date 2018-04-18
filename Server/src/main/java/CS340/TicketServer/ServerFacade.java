@@ -717,8 +717,10 @@ public class ServerFacade implements IServer
         HistoryItem item = new HistoryItem(cmd);
         //Report the command (if applicable)
         Command commandReport = new Command(cmd, ServerFacade.class.getName());
-        shouldStore(commandReport);
-        getDATABASE().addCommand(commandReport);
+        if(shouldStore(commandReport))
+        {
+            getDATABASE().addCommand(commandReport);
+        }
 
         if (item.shouldReport())
         {

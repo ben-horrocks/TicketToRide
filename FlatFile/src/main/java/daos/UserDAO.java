@@ -9,12 +9,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+
+import javax.print.DocFlavor;
+
 import common.player_info.User;
 import common.player_info.Username;
 
@@ -23,7 +27,11 @@ public class UserDAO implements IUserDAO, IDAO
 
     private Map<Username, User> users;
 
-    private static final String  PATH = "database" + File.separator
+    private static final String  PATH = "Server" + File.separator
+                                      + "src" + File.separator
+                                      + "main" + File.separator
+                                      + "java" + File.separator
+                                      + "database" + File.separator
                                       + "FlatFile" + File.separator
                                       + "User";
     private static final String EXTENSION = ".usr";
@@ -32,6 +40,8 @@ public class UserDAO implements IUserDAO, IDAO
     public UserDAO(boolean clearDatabase) throws IOException {
         this.users = new HashMap<>();
         File userDirectory = new File(PATH);
+        String absPath = userDirectory.getAbsolutePath();
+        System.out.println(absPath);
         if(!userDirectory.exists())
         {
             userDirectory.mkdir();
@@ -46,7 +56,7 @@ public class UserDAO implements IUserDAO, IDAO
         {
             for(File file : userDirectory.listFiles())
             {
-                if(file.isFile() && file.canRead())
+                if(file.isFile() && file.canRead() && file.getName().endsWith(EXTENSION))
                 {
                     ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
                     User input = null;
@@ -133,14 +143,14 @@ public class UserDAO implements IUserDAO, IDAO
     }
 
     @Override
-    public boolean deleteUser(User user)
+    public boolean deleteUser(Username user)
     {
-        if(users.get(user.getUsername()) == null)
+        if(users.get(user) == null)
         {
 //            logger.log(Level.SEVERE, "That user doesn't already exist.");
             return false;
         }
-        File oldUser = new File(createFilenameFromUsername(user.getUsername()));
+        File oldUser = new File(createFilenameFromUsername(user));
         try
         {
             oldUser.delete();
@@ -148,7 +158,7 @@ public class UserDAO implements IUserDAO, IDAO
         {
             e.printStackTrace();
         }
-        users.remove(user.getUsername());
+        users.remove(user);
         return true;
     }
 
