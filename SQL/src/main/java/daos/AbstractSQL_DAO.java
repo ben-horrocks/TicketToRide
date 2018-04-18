@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Factory.ConnectionSetup;
-import common.player_info.User;
 
 abstract class AbstractSQL_DAO implements IDAO
 {
@@ -73,7 +72,8 @@ abstract class AbstractSQL_DAO implements IDAO
 		}
 		catch (SQLException e)
 		{
-			System.err.println(e + " - committing DB connection");
+			System.err.println("ERROR: Committing DB connection");
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -88,7 +88,7 @@ abstract class AbstractSQL_DAO implements IDAO
 		}
 		catch (SQLException e)
 		{
-			System.err.println(e + " - closing DB connection");
+			System.err.println("ERROR: Closing DB connection");
 			return false;
 		}
 	}

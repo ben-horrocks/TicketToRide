@@ -4,14 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-//import CS340.TicketServer.ServerFacade;
-import Factory.ConnectionSetup;
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
 import common.chat.ChatItem;
@@ -22,6 +16,9 @@ import common.map.Edge;
 import common.player_info.Password;
 import common.player_info.User;
 import common.player_info.Username;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 //import communicators.ConnectionSetup;
 
 /**
@@ -29,79 +26,52 @@ import common.player_info.Username;
  */
 public class SQLCommandDAOTest {
 
-    //Database connection and DAO
-    Connection mConnection;
-    CommandDAO commandDao;
-
-    private static final String usernameClassName = Username.class.getName();
+	private static final String stringClassName = String.class.getName();
+	private static final String gameIDClassname = GameID.class.getName();
+	private static final String playerClassName = User.class.getName();
+	private static final String usernameClassName = Username.class.getName();
+	private static final String handDestinationCardsClassName = HandDestinationCards.class.getName();
+	private static final String handTrainCardClassName = HandTrainCards.class.getName();
+	private static final String chatItemClassName = ChatItem.class.getName();
+	private static final String edgeClassName = Edge.class.getName();
+    private CommandDAO dao;
 
     @Before
-    public void setUp() throws Exception {
-		this.mConnection = ConnectionSetup.setup();
-        commandDao = new CommandDAO();
+    public void setUp() {
+        dao = new CommandDAO();
     }
 
     @After
-    public void tearDown() throws Exception {
-        mConnection.close();
+    public void tearDown() {
+        dao.closeConnection();
     }
 
     @Test
-    public void createTable() throws Exception {
-
-       boolean tableCreated = commandDao.createTable();
-       assert(tableCreated);
-
-        try {
-            DatabaseMetaData metaData = mConnection.getMetaData();
-            ResultSet rs = metaData.getTables(null, null,
-                                              CommandDAO.CommandEntry.COLUMN_NAME_COMMAND, new String[] {"TABLE"});
-
-            if (rs.next())
-            {
-                System.out.println("	TABLE_NAME: " + rs.getString("TABLE_NAME"));
-            }
-            else
-            {
-                assert(false);
-            }
-        }
-		catch (SQLException e)
-        {
-            // Shouldn't really have errors.
-            System.out.println("SQLException when checking if table exists - " + e);
-            assert(false);
-        }
-
+    public void createTable() {
+		if (dao.tableExists())
+		{
+			dao.deleteTable();
+		}
+		boolean success = dao.createTable();
+		assertTrue(success);
+		success = dao.tableExists();
+		assertTrue(success);
     }
 
     @Test
-    public void deleteTable() throws Exception {
-        boolean success = commandDao.deleteTable();
-        assert(success);
-        try
-        {
-            DatabaseMetaData meta = mConnection.getMetaData();
-            ResultSet rs = meta.getTables(null, null,
-                                          CommandDAO.CommandEntry.TABLE_NAME, new String[] {"TABLE"});
-            if (rs.next())
-            {
-                assert(false);
-            }
-            else
-            {
-                System.out.println("No such table... Good!");
-            }
-        }
-        catch (SQLException e)
-        {
-            System.out.println("SQLException when checking if table exists - " + e);
-            assert(false);
-        }
+    public void deleteTable() {
+		if (!dao.tableExists())
+		{
+			dao.createTable();
+		}
+		boolean success = dao.deleteTable();
+		assertTrue(success);
+		success = dao.tableExists();
+		assertFalse(success);
     }
 
     @Test
-    public void addNewCommand() throws Exception {
+    public void addNewCommand() {
         //Make User
         String test = "Test";
         String pw = "Password";
@@ -124,7 +94,7 @@ public class SQLCommandDAOTest {
 
         //Check to see if command was added
 		GameID id = new GameID();
-        List<Command> dbCommands = commandDao.getCommandsByGameId(id);
+        List<Command> dbCommands = dao.getCommandsByGameId(id);
 
     }
 

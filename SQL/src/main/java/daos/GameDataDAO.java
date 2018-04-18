@@ -49,7 +49,8 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		catch (SQLException e)
 		{
 			// Shouldn't really have errors.
-			System.out.println("SQLException when checking if table exists - " + e);
+			System.err.println("SQLException when checking if GameData table exists.");
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -67,6 +68,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		{
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(CREATE_GAMEDATA_TABLE);
+			statement.close();
 		}
 		catch (SQLException e)
 		{
@@ -87,6 +89,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		{
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(DELETE_GAME_DATA_TABLE);
+			statement.close();
 		}
 		catch (SQLException e)
 		{
@@ -115,6 +118,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.setString(1, gameData.getId().getId());
 			statement.setObject(2, dataAsBytes);
 			statement.executeUpdate();
+			statement.close();
 		}
 		catch (SQLException | IOException e)
 		{
@@ -150,12 +154,12 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 				else
 				{
 					ServerGameData data = (ServerGameData)byteArrayToObject(bytes);
-					rs.close();
-					statement.close();
 //					logger.exiting("GameDataDAO", "getGameData", data);
 					return data;
 				}
 			}
+			rs.close();
+			statement.close();
 		}
 		catch (SQLException | IOException | ClassNotFoundException e)
 		{
@@ -185,6 +189,8 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 				games.add(game);
 			}
 //			logger.exiting("GameDataDAO", "getAllGameData", games);
+			rs.close();
+			statement.close();
 			return games;
 		}
 		catch (SQLException | IOException | ClassNotFoundException e)
@@ -211,6 +217,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.setObject(1, dataAsBytes);
 			statement.setString(2, gameData.getId().getId());
 			statement.executeUpdate();
+			statement.close();
 //			logger.exiting("GameDataDAO", "updateGameData", true);
 			return true;
 		}
@@ -235,6 +242,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			PreparedStatement statement = connection.prepareStatement(DELETE_DATA);
 			statement.setObject(1, gameID);
 			statement.executeUpdate();
+			statement.close();
 //			logger.exiting("GameDataDAO", "deleteGameData", true);
 			return true;
 		}

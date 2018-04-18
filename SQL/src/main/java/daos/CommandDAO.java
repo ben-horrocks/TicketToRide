@@ -54,7 +54,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 		catch (SQLException e)
 		{
 			// Shouldn't really have errors.
-			System.out.println("SQLException when checking if table exists - " + e);
+			System.out.println("SQLException when checking if Command table exists - " + e);
 		}
 		return false;
 	}
@@ -69,6 +69,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         {
             Statement statement = connection.createStatement();
             statement.executeUpdate(CREATE_COMMAND_TABLE);
+            statement.close();
         } catch (SQLException e)
         {
 			System.err.println(e + " - creating table in CommandDAO");
@@ -85,6 +86,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         {
             Statement statement = connection.createStatement();
             statement.executeUpdate(DELETE_COMMAND_TABLE);
+            statement.close();
         } catch (SQLException e)
         {
 			System.err.println(e + " - deleting table in UserDAO");
@@ -105,25 +107,22 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 
         //get game id from provided command
         GameID id = getGameIdFromCommand(command);
-        if (id == null) {
-            //logger.warning("did not find id for command: " + command);
-            //logger.exiting("CommandDAO", "addNewCommand", false);
-            return false;
-        }
-
-        try
-        {
-            byte[] commandAsBytes = objectToByteArray(command);
-            PreparedStatement statement = connection.prepareStatement(INSERT_PLAYER);
-            statement.setString(1, id.getId());
-            statement.setString(2, command.getMethodName());
-            statement.setObject(3, commandAsBytes);
-            statement.executeUpdate();
-        } catch (SQLException | IOException e)
-        {
-			System.err.println(e + " - adding new command");
-			e.printStackTrace();
-            return false;
+        if (id != null) {
+			try
+			{
+				byte[] commandAsBytes = objectToByteArray(command);
+				PreparedStatement statement = connection.prepareStatement(INSERT_PLAYER);
+				statement.setString(1, id.getId());
+				statement.setString(2, command.getMethodName());
+				statement.setObject(3, commandAsBytes);
+				statement.executeUpdate();
+				statement.close();
+			} catch (SQLException | IOException e)
+			{
+				System.err.println(e + " - adding new command");
+				e.printStackTrace();
+				return false;
+			}
         }
         //logger.exiting("CommandDAO", "addNewCommand", true);
         return true;
@@ -140,7 +139,6 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         {
             PreparedStatement statement = connection.prepareStatement(GET_COMMANDS);
             statement.setString(1, id.getId());
-
             ArrayList<Command> commandList = new ArrayList<>();
             ResultSet rs = statement.executeQuery();
             while (rs.next())
@@ -150,16 +148,10 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
                 commandList.add(foundCommand);
 
             }
-            if (commandList.isEmpty())
-            {
-                //logger.fine("Nothing found with game id: " + id.getId());
-            } else
-            {
-                rs.close();
-                statement.close();
-                //logger.exiting("CommandDAO", "getCommand", id);
-                return commandList;
-            }
+			rs.close();
+			statement.close();
+			//logger.exiting("CommandDAO", "getCommand", id);
+			return commandList;
         } catch (SQLException | IOException | ClassNotFoundException e)
         {
             //logger.warning(e + " - getting commands for id: " + id);
@@ -204,6 +196,7 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         return id;
     }
 
+    /*
     public static void main (String[] args) {
         //set up driver
         try {
@@ -268,5 +261,5 @@ public class CommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 //        dao.addNewCommand(serverCommand);
         dao.getCommandsByGameId(id);
 
-    }
+    }*/
 }
