@@ -14,7 +14,7 @@ import daos.CommandDAO;
 
 public class Factory implements IFactory {
 
-    boolean clearData = false;
+    private boolean clearData = false;
 
     @Override
     public IUserDAO createUserDAO() {

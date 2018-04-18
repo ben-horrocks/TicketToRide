@@ -15,5 +15,5 @@ public interface IGameDataDAO
 	ServerGameData getGameData(GameID id);
 	List<ServerGameData> getAllGameData();
 	boolean updateGameData(ServerGameData gameData);
-	boolean deleteGameData(GameID gameData);
+	boolean deleteGameData(GameID gameID);
 }
