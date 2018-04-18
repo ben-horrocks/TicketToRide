@@ -1,8 +1,6 @@
 package daos;
 
-import java.io.EOFException;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import common.player_info.User;
 import common.player_info.Username;
@@ -141,11 +138,7 @@ public class UserDAO extends AbstractSQL_DAO implements IUserDAO
 			if (rs.next())
 			{
 				byte[] bytes = rs.getBytes(1);
-				if (bytes == null)
-				{
-//					logger.fine("Nothing found with username: " + username);
-				}
-				else
+				if (bytes != null)
 				{
 					return (User)byteArrayToObject(bytes);
 //					logger.exiting("UserDAO", "getUser", user);

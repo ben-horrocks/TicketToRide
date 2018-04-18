@@ -54,4 +54,28 @@ public class Point implements Serializable
     {
         return destinationCardPoints + longestPathPoints + routesClaimedPoints + incompleteDestincationCardPoints;
     }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Point point = (Point) o;
+
+		if (destinationCardPoints != point.destinationCardPoints) return false;
+		if (longestPathPoints != point.longestPathPoints) return false;
+		if (routesClaimedPoints != point.routesClaimedPoints) return false;
+		return incompleteDestincationCardPoints == point.incompleteDestincationCardPoints;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = destinationCardPoints;
+		result = 31 * result + longestPathPoints;
+		result = 31 * result + routesClaimedPoints;
+		result = 31 * result + incompleteDestincationCardPoints;
+		return result;
+	}
 }

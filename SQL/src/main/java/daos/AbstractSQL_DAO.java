@@ -49,8 +49,7 @@ abstract class AbstractSQL_DAO implements IDAO
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		User user = (User)object;
-		oos.writeObject(user);
+		oos.writeObject(object);
 		oos.close();
 		return baos.toByteArray();
 	}

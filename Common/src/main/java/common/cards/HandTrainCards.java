@@ -107,4 +107,24 @@ public class HandTrainCards implements Serializable
     {
         return trainCards.size();
     }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		HandTrainCards that = (HandTrainCards) o;
+
+		if (!trainCards.equals(that.trainCards)) return false;
+		return trainColorCounts.equals(that.trainColorCounts);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = trainCards.hashCode();
+		result = 31 * result + trainColorCounts.hashCode();
+		return result;
+	}
 }
