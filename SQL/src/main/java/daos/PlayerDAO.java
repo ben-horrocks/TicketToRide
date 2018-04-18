@@ -1,14 +1,13 @@
 package daos;
 
 import java.io.IOException;
-import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import common.game_data.GameID;
 import common.player_info.Player;
@@ -18,9 +17,9 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 {
 ////	private static final Logger logger = LogKeeper.getSingleton().getLogger();
 
-	public PlayerDAO(Connection connection)
+	public PlayerDAO()
 	{
-		super(connection);
+		super();
 	}
 
 	private static class PlayerEntry
@@ -31,6 +30,28 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		static final String COLUMN_NAME_PLAYER = "player";
 	}
 
+	@Override
+	boolean tableExists()
+	{
+		try
+		{
+			DatabaseMetaData meta = connection.getMetaData();
+			ResultSet rs = meta.getTables(null, null,
+					PlayerEntry.TABLE_NAME, new String[] {"TABLE"});
+			if (rs.next())
+			{
+				rs.close();
+				return true;
+			}
+		}
+		catch (SQLException e)
+		{
+			// Shouldn't really have errors.
+			System.out.println("SQLException when checking if table exists.");
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	@Override
 	boolean createTable()
@@ -41,15 +62,16 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 						PlayerEntry.COLUMN_NAME_GAME_ID + "' TEXT NOT NULL, '" +
 						PlayerEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL, '" +
 						PlayerEntry.COLUMN_NAME_PLAYER + "' BLOB NOT NULL UNIQUE, " +
-						"PRIMARY KEY('" + PlayerEntry.COLUMN_NAME_USERNAME + "') )";
+						"PRIMARY KEY('" + PlayerEntry.COLUMN_NAME_GAME_ID + "') )";
 		try
 		{
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(CREATE_PLAYER_TABLE);
+			statement.close();
 		} catch (SQLException e)
 		{
-//			logger.warning(e + " - creating table " + PlayerEntry.TABLE_NAME);
-//			logger.exiting("PlayerDAO", "createTable", false);
+			System.err.println("ERROR: Creating table in PlayerDAO");
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -64,10 +86,11 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		{
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(DELETE_PLAYER_TABLE);
+			statement.close();
 		} catch (SQLException e)
 		{
-//			logger.warning(e + " - deleting table " + PlayerEntry.TABLE_NAME);
-//			logger.exiting("PlayerDAO", "deleteTable", false);
+			System.err.println("ERROR: Deleting table in UserDAO");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("PlayerDAO", "deleteTable", true);
@@ -79,20 +102,24 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	{
 //		logger.entering("PlayerDAO", "addNewPlayer", player);
 		final String INSERT_PLAYER =
-				"INSERT INTO Player (" + PlayerEntry.COLUMN_NAME_USERNAME +
+				"INSERT INTO " + PlayerEntry.TABLE_NAME + "("
+						+ PlayerEntry.COLUMN_NAME_GAME_ID +
+						", " + PlayerEntry.COLUMN_NAME_USERNAME +
 						", " + PlayerEntry.COLUMN_NAME_PLAYER +
-						") VALUES (?,?)";
+						") VALUES (?,?,?)";
 		try
 		{
 			byte[] playerAsBytes = objectToByteArray(player);
 			PreparedStatement statement = connection.prepareStatement(INSERT_PLAYER);
-			statement.setString(1, player.getName());
-			statement.setObject(2, playerAsBytes);
+			statement.setString(1, gameID.getId());
+			statement.setString(2, player.getName());
+			statement.setObject(3, playerAsBytes);
 			statement.executeUpdate();
+			statement.close();
 		} catch (SQLException | IOException e)
 		{
-//			logger.warning(e + " - adding new player " + player);
-//			logger.exiting("PlayerDAO", "addNewPlayer", false);
+			System.err.println("ERROR: Adding new player");
+			e.printStackTrace();
 			return false;
 		}
 //		logger.exiting("PlayerDAO", "addNewPlayer", true);
@@ -106,19 +133,18 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		final String GET_PLAYER =
 				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
 						" FROM " + PlayerEntry.TABLE_NAME +
-						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ?";
+						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ? " +
+						"AND " + PlayerEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
 			PreparedStatement statement = connection.prepareStatement(GET_PLAYER);
 			statement.setString(1, username.getName());
+			statement.setString(2, id.getId());
 			ResultSet rs = statement.executeQuery();
 			if (rs.next())
 			{
 				byte[] bytes = rs.getBytes(1);
-				if (bytes == null)
-				{
-//					logger.fine("Nothing found with username: " + username);
-				} else
+				if (bytes != null)
 				{
 					Player player = (Player) byteArrayToObject(bytes);
 					rs.close();
@@ -155,6 +181,8 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 				players.add(player);
 			}
 //			logger.exiting("PlayerDAO", "getAllPlayers", players);
+			rs.close();
+			statement.close();
 			return players;
 		} catch (SQLException | IOException | ClassNotFoundException e)
 		{
@@ -171,11 +199,13 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		//		logger.entering("PlayerDAO", "getAllPlayers");
 		final String GET_PLAYERS =
 				"SELECT " + PlayerEntry.COLUMN_NAME_PLAYER +
-						" FROM " + PlayerEntry.TABLE_NAME;
+						" FROM " + PlayerEntry.TABLE_NAME +
+				" WHERE " + PlayerEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
 			List<Player> players = new ArrayList<>();
 			PreparedStatement statement = connection.prepareStatement(GET_PLAYERS);
+			statement.setString(1, game.getId());
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
 			{
@@ -184,6 +214,8 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 				players.add(player);
 			}
 //			logger.exiting("PlayerDAO", "getAllPlayers", players);
+			rs.close();
+			statement.close();
 			return players;
 		} catch (SQLException | IOException | ClassNotFoundException e)
 		{
@@ -201,16 +233,19 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		final String UPDATE_PLAYER =
 				"UPDATE " + PlayerEntry.TABLE_NAME +
 						" SET " + PlayerEntry.COLUMN_NAME_PLAYER + " = ?" +
-						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ?";
+						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ? " +
+						" AND " + PlayerEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
 			PreparedStatement statement = connection.prepareStatement(UPDATE_PLAYER);
 			byte[] playerAsBytes = objectToByteArray(player);
 			statement.setObject(1, playerAsBytes);
 			statement.setString(2, player.getName());
-			statement.executeUpdate();
+			statement.setString(3, id.getId());
+			int resultCount = statement.executeUpdate();
+			statement.close();
 //			logger.exiting("PlayerDAO", "updatePlayer", true);
-			return true;
+			return resultCount > 0;
 		} catch (SQLException | IOException e)
 		{
 //			logger.warning(e + " - updating player - " + player);
@@ -232,6 +267,7 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 			PreparedStatement statement = connection.prepareStatement(DELETE_PLAYER);
 			statement.setObject(1, player.getName());
 			statement.executeUpdate();
+			statement.close();
 //			logger.exiting("PlayerDAO", "deletePlayer", true);
 			return true;
 		} catch (SQLException e)

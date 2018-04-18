@@ -260,4 +260,35 @@ public class Player implements Serializable
         return user.getUsername();
     }
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Player player = (Player) o;
+
+		if (!user.equals(player.user)) return false;
+		if (!hand.equals(player.hand)) return false;
+		if (!destinations.equals(player.destinations)) return false;
+		if (color != player.color) return false;
+		if (!score.equals(player.score)) return false;
+		if (!claimedEdges.equals(player.claimedEdges)) return false;
+		if (!pieces.equals(player.pieces)) return false;
+		return turnState.getClass().equals(player.turnState.getClass());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = user.hashCode();
+		result = 31 * result + hand.hashCode();
+		result = 31 * result + destinations.hashCode();
+		result = 31 * result + color.hashCode();
+		result = 31 * result + score.hashCode();
+		result = 31 * result + claimedEdges.hashCode();
+		result = 31 * result + pieces.hashCode();
+		result = 31 * result + turnState.hashCode();
+		return result;
+	}
 }

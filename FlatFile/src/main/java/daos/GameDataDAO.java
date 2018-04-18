@@ -12,17 +12,24 @@ public class GameDataDAO implements IGameDataDAO, IDAO
 
     private Map<GameID, ServerGameData> games;
 
-    private static final String  GAMEDATAPATH = "database" + File.separator + "FlatFile" + File.separator + "GameData";
+    private static final String  GAMEDATAPATH = "Server" + File.separator
+            + "src" + File.separator
+            + "main" + File.separator
+            + "java" + File.separator
+            + "database" + File.separator
+            + "FlatFile" + File.separator
+            + "GameData";
     private static final String suffix = ".game";
 
     public GameDataDAO(boolean clearDatabase) throws IOException
     {
         games = new HashMap<>();
-        File FlatGameDirectory = new File(GAMEDATAPATH);
-        if(!FlatGameDirectory.exists())
+        File flatGameDirectory = new File(GAMEDATAPATH);
+        if(!flatGameDirectory.exists())
         {
-            new File(GAMEDATAPATH).mkdir();
-        } else if(!FlatGameDirectory.isDirectory())
+            flatGameDirectory.mkdir();
+            return;
+        } else if(!flatGameDirectory.isDirectory())
         {
             throw new FileSystemException(GAMEDATAPATH, null, GAMEDATAPATH + "is not a directory!");
         }
@@ -32,11 +39,10 @@ public class GameDataDAO implements IGameDataDAO, IDAO
         }
         else
         {
-            for (File game : FlatGameDirectory.listFiles())
+            for (File game : flatGameDirectory.listFiles())
             {
-                if(game.isFile() && game.canRead())
+                if(game.isFile() && game.canRead() && game.getName().endsWith(suffix))
                 {
-                    GameID id = new GameID(game.getName());
                     ObjectInputStream is = new ObjectInputStream(new FileInputStream(game));
                     ServerGameData gameData = null;
                     try
@@ -45,7 +51,7 @@ public class GameDataDAO implements IGameDataDAO, IDAO
                     } catch (ClassNotFoundException | ClassCastException e) {
                         throw new IOException("Error reading " + game.getName() + " as a Game. Abort import!", e);
                     }
-                    games.put(id, gameData);
+                    games.put(gameData.getId(), gameData);
                 }
 
             }
@@ -127,14 +133,14 @@ public class GameDataDAO implements IGameDataDAO, IDAO
     }
 
     @Override
-    public boolean deleteGameData(ServerGameData gameData)
+    public boolean deleteGameData(GameID game)
     {
-        if(games.get(gameData.getId()) == null)
+        if(games.get(game) == null)
         {
 //            logger.log(Level.SEVERE, "That game doesn't already exist.");
             return false;
         }
-        File newGame = new File(getGameFileName(gameData.getId()));
+        File newGame = new File(getGameFileName(game));
         if(!newGame.exists())
         {
 //            logger.log(Level.SEVERE, "Unable to find " + newGame.getName() + "in the file system.");
@@ -147,7 +153,7 @@ public class GameDataDAO implements IGameDataDAO, IDAO
         {
             e.printStackTrace();
         }
-        games.remove(gameData.getId());
+        games.remove(game);
         return true;
     }
 

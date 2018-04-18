@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +13,6 @@ import java.util.List;
 import common.player_info.Password;
 import common.player_info.User;
 import common.player_info.Username;
-//import communicators.ConnectionSetup;
 
 import static org.junit.Assert.*;
 
@@ -23,73 +21,44 @@ import static org.junit.Assert.*;
  */
 public class SQLUserDAOTest
 {
-	private Connection connection;
 	private UserDAO dao;
 
 	@Before
-	public void setUp() throws Exception
+	public void setUp()
 	{
-//		this.connection = ConnectionSetup.setup();
-		this.dao = new UserDAO(connection);
+		this.dao = new UserDAO();
 	}
 
 	@After
-	public void tearDown() throws Exception
+	public void tearDown()
 	{
-		connection.close();
+		dao.closeConnection();
 	}
 
 	@Test
 	public void createTable()
 	{
+		if (dao.tableExists())
+		{
+			dao.deleteTable();
+		}
 		boolean success = dao.createTable();
-		assert(success);
-		try
-		{
-			DatabaseMetaData meta = connection.getMetaData();
-			ResultSet rs = meta.getTables(null, null,
-                                          UserDAO.UserEntry.TABLE_NAME, new String[] {"TABLE"});
-			if (rs.next())
-			{
-				System.out.println("	TABLE_NAME: " + rs.getString("TABLE_NAME"));
-			}
-			else
-			{
-				assert(false);
-			}
-		}
-		catch (SQLException e)
-		{
-			// Shouldn't really have errors.
-			System.out.println("SQLException when checking if table exists - " + e);
-			assert(false);
-		}
+		assertTrue(success);
+		success = dao.tableExists();
+		assertTrue(success);
 	}
 
 	@Test
 	public void deleteTable()
 	{
+		if (!dao.tableExists())
+		{
+			dao.createTable();
+		}
 		boolean success = dao.deleteTable();
-		assert(success);
-		try
-		{
-			DatabaseMetaData meta = connection.getMetaData();
-			ResultSet rs = meta.getTables(null, null,
-                                          UserDAO.UserEntry.TABLE_NAME, new String[] {"TABLE"});
-			if (rs.next())
-			{
-				assert(false);
-			}
-			else
-			{
-				System.out.println("No such table... Good! Means it was deleted.");
-			}
-		}
-		catch (SQLException e)
-		{
-			System.out.println("SQLException when checking if table exists - " + e);
-			assert(false);
-		}
+		assertTrue(success);
+		success = dao.tableExists();
+		assertFalse(success);
 	}
 
 	@Test
@@ -153,16 +122,60 @@ public class SQLUserDAOTest
 		assertTrue(success);
 
 		List<User> sqlUsers = dao.getAllUsers();
-		assertTrue(users.equals(sqlUsers));
+		for (User u : sqlUsers)
+		{
+			assertTrue(users.contains(u));
+		}
 	}
 
 	@Test
 	public void updateUser()
 	{
+		String test = "Test";
+		String pw = "Password";
+		String anotherTest = "AnotherTest";
+		String panda = "Pa4nda";
+		Username username = new Username(test);
+		Password password = new Password(pw);
+		User user = new User(username, password);
+		dao.addNewUser(user);
+
+		username = new Username(anotherTest);
+		password = new Password(panda);
+		user = new User(username, password);
+		dao.addNewUser(user);
+
+		username = new Username("new name'");
+		user = new User(username, password);
+		boolean successful = dao.updateUser(user);
+		assertFalse(successful);
+
+		username = new Username(test);
+		password = new Password("rofl");
+		user = new User(username, password);
+		successful = dao.updateUser(user);
+		assertTrue(successful);
 	}
 
 	@Test
 	public void deleteUser()
 	{
+		String test = "Test";
+		String pw = "Password";
+		String anotherTest = "AnotherTest";
+		String panda = "Pa4nda";
+		Username username = new Username(test);
+		Password password = new Password(pw);
+		User user = new User(username, password);
+		dao.addNewUser(user);
+
+		username = new Username(anotherTest);
+		password = new Password(panda);
+		User user2 = new User(username, password);
+		dao.addNewUser(user2);
+
+		dao.deleteUser(user.getUsername());
+		user = dao.getUser(user.getUsername());
+		assertTrue(user == null);
 	}
 }

@@ -163,6 +163,28 @@ public class DatabasePlugin implements IDatabasePlugin
     @Override
     public boolean addCommand(Command command)
     {
-        return commandDAO.addNewCommand(command);
+        boolean success = commandDAO.addNewCommand(command);
+        if(!success) return false;
+        Object[] params = command.getParameters();
+        String[] paramTypes = command.getParameterTypeNames();
+        int index = 0;
+        GameID id = null;
+        for(String type : paramTypes)
+        {
+            if(type.equals(GameID.class.getName()))
+            {
+                id = (GameID) params[index];
+                break;
+            }
+            index++;
+        }
+        if(id == null) return false;
+        if(commandDAO.getCommandsByGameId(id).size() == deltaCommands)
+        {
+            ServerGameData game = gameDataDAO.getGameData(id); //assuming the in-memory data is right
+            success &= gameDataDAO.updateGameData(game);
+            success &= commandDAO.deleteCommandsByGameId(id);
+        }
+        return success;
     }
 }

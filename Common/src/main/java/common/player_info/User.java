@@ -27,6 +27,7 @@ public class User implements Serializable
         this.username = username;
         this.password = pass;
         this.token = new AuthToken();
+        this.joinedGames = new ArrayList<>();
     }
 
     public ArrayList<GameID> getJoinedGames() {
@@ -35,6 +36,8 @@ public class User implements Serializable
 
     public void addGame(GameID id)
     {
+        if(joinedGames == null)
+            joinedGames = new ArrayList<GameID>();
         joinedGames.add(id);
     }
 

@@ -234,6 +234,7 @@ public class ServerFacade implements IServer
         //create new serverGameData with new name and starting player
         ServerGameData serverGameData = new ServerGameData(finalName.toString(), startingUser);
         startingUser.addGame(serverGameData.getId());
+        getDATABASE().updateUser(startingUser);
         //boolean openGameAdded = database.addOpenGame(serverGameData);
         boolean openGameAdded = getDATABASE().addGame(serverGameData);
         if (openGameAdded)
@@ -281,6 +282,8 @@ public class ServerFacade implements IServer
 
             }
             serverGameData.addPlayer(user);
+            user.addGame(serverGameData.getId());
+            getDATABASE().updateUser(user);
             Signal signal = new Signal(SignalType.OK, serverGameData);
             broadcastGameListChange();
             logger.exiting("ServerFacade", "joinGame", signal);
@@ -321,86 +324,76 @@ public class ServerFacade implements IServer
             serverGameData.startGame();
             //remove the serverGameData from the list of open games and move to the list of running games
             //boolean gameDeleted = database.deleteOpenGame(serverGameData);
-            boolean gameDeleted = getDATABASE().getOpenGames().remove(serverGameData);
-            if (gameDeleted)
+            //database.addRunningGame(serverGameData);
+            getDATABASE().getRunningGames().add(serverGameData);
+            broadcastGameListChange();
+            //Initialize player hands
+            HashMap<Username, HandTrainCards> hands = new HashMap<>();
+            HashMap<Username, HandDestinationCards> destCards = new HashMap<>();
+            for (User p : serverGameData.getUsers())
             {
-                //database.addRunningGame(serverGameData);
-                getDATABASE().getRunningGames().add(serverGameData);
-                broadcastGameListChange();
-                //Initialize player hands
-                HashMap<Username, HandTrainCards> hands = new HashMap<>();
-                HashMap<Username, HandDestinationCards> destCards = new HashMap<>();
-                for (User p : serverGameData.getUsers())
+                //drawing the players hand
+                ArrayList<TrainCard> hand = new ArrayList<>();
+                if (serverGameData.getName().equals("test"))
                 {
-                    //drawing the players hand
-                    ArrayList<TrainCard> hand = new ArrayList<>();
-                    if (serverGameData.getName().equals("test"))
+                    for (int i = 0; i < 10; i++)
                     {
-                        for (int i = 0; i < 10; i++)
-                        {
-                            hand.add(serverGameData.drawFromTrainDeck());
-                        }
-                        for (Player player : serverGameData.getPlayers())
-                        {
-                            player.setPieces(new TrainPieces(5));
-                        }
-                    } else if(serverGameData.getName().equals("test1"))
-                    {
-                        for (int i = 0; i < 50; i++)
-                        {
-                            hand.add(serverGameData.drawFromTrainDeck());
-                        }
-                        for (Player player : serverGameData.getPlayers())
-                        {
-                            player.setPieces(new TrainPieces(15));
-                        }
+                        hand.add(serverGameData.drawFromTrainDeck());
                     }
-                    else
+                    for (Player player : serverGameData.getPlayers())
                     {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            hand.add(serverGameData.drawFromTrainDeck());
-                        }
+                        player.setPieces(new TrainPieces(5));
                     }
-
-
-                    serverGameData.playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
-                    hands.put(p.getUsername(), new HandTrainCards(hand));
-                    //drawing players initial destination cards
-                    List<DestinationCard> dest = serverGameData.destinationDraw();
-                    destCards.put(p.getUsername(), new HandDestinationCards(dest));
-                }
-
-                //Update all the players
-                logger.finest("Entering StartGame Alert Loop");
-                for (User u : serverGameData.getUsers())
+                } else if(serverGameData.getName().equals("test1"))
                 {
-                    u.setInGame(true);
-                    //create ClientGameData
-                    ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
-                    //create the packet
-                    StartGamePacket packet = new StartGamePacket(destCards.get(u.getUsername()),
-                                                                 hands.get(u.getUsername()),
-                                                                 gameData);
-                    Signal s = ClientProxy.getSINGLETON().startGame(packet);
-                    if (s.getSignalType().equals(SignalType.ERROR))
+                    for (int i = 0; i < 50; i++)
                     {
-                        logger.exiting("ServerFacade", "startGame", s);
-                        return s;
+                        hand.add(serverGameData.drawFromTrainDeck());
+                    }
+                    for (Player player : serverGameData.getPlayers())
+                    {
+                        player.setPieces(new TrainPieces(15));
                     }
                 }
-                logger.finest("Exiting StartGame Alert Loop");
-                //return start signal to player
-                Signal signal = new Signal(SignalType.OK, "Accepted");
-                logger.exiting("ServerFacade", "startGame", signal);
-                return signal;
-            } else
-            {
-                String errorMessage = "Game " + serverGameData.getId() + " not deleted.";
-                Signal signal = new Signal(SignalType.ERROR, errorMessage);
-                logger.exiting("ServerFacade", "startGame", signal);
-                return signal;
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        hand.add(serverGameData.drawFromTrainDeck());
+                    }
+                }
+
+
+                serverGameData.playerDrewTrainCard(p.getStringUserName(), new HandTrainCards(hand));
+                hands.put(p.getUsername(), new HandTrainCards(hand));
+                //drawing players initial destination cards
+                List<DestinationCard> dest = serverGameData.destinationDraw();
+                destCards.put(p.getUsername(), new HandDestinationCards(dest));
             }
+
+            //Update all the players
+            logger.finest("Entering StartGame Alert Loop");
+            for (User u : serverGameData.getUsers())
+            {
+                u.setInGame(true);
+                //create ClientGameData
+                ClientGameData gameData = new ClientGameData(serverGameData, u.getUsername());
+                //create the packet
+                StartGamePacket packet = new StartGamePacket(destCards.get(u.getUsername()),
+                                                             hands.get(u.getUsername()),
+                                                             gameData);
+                Signal s = ClientProxy.getSINGLETON().startGame(packet);
+                if (s.getSignalType().equals(SignalType.ERROR))
+                {
+                    logger.exiting("ServerFacade", "startGame", s);
+                    return s;
+                }
+            }
+            logger.finest("Exiting StartGame Alert Loop");
+            //return start signal to player
+            Signal signal = new Signal(SignalType.OK, "Accepted");
+            logger.exiting("ServerFacade", "startGame", signal);
+            return signal;
         }
         String errMsg = "Sorry, this serverGameData has already started.";
         Signal signal = new Signal(SignalType.ERROR, errMsg);
@@ -427,7 +420,12 @@ public class ServerFacade implements IServer
         List<ServerGameData> games = getDATABASE().getOpenGames();
         List<ServerGameData> runningGames = getDATABASE().getRunningGames(user);
         games.addAll(runningGames);
-        return new Signal(SignalType.OK, games);
+        List<GameInfo> gameInfo = new ArrayList<>();
+        for(ServerGameData game : games)
+        {
+            gameInfo.add(new GameInfo(game));
+        }
+        return new Signal(SignalType.OK, gameInfo);
     }
 
     /**
@@ -717,8 +715,10 @@ public class ServerFacade implements IServer
         HistoryItem item = new HistoryItem(cmd);
         //Report the command (if applicable)
         Command commandReport = new Command(cmd, ServerFacade.class.getName());
-        shouldStore(commandReport);
-        getDATABASE().addCommand(commandReport);
+        if(shouldStore(commandReport))
+        {
+            getDATABASE().addCommand(commandReport);
+        }
 
         if (item.shouldReport())
         {
@@ -729,7 +729,7 @@ public class ServerFacade implements IServer
             for (User u : players)
             {
                 Signal s = ClientProxy.getSINGLETON().addHistoryItem(u.getUsername(), item);
-                if (s.getSignalType().equals(SignalType.ERROR))
+                if (s.getSignalType().equals(SignalType.ERROR) && !item.getAction().contains("start"))
                 {
                     logger.warning("Error from addHistoryItem( " + item.toString() + " )");
                 }

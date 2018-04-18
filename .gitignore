@@ -9,4 +9,5 @@
 .idea
 .externalNativeBuild
 server_log*
-.idea/*
+/.idea/*
+/Server/src/main/java/database/*

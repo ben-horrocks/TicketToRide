@@ -113,7 +113,7 @@ public class ServerCommunicator
         {
             if(databaseType.equals("sql"))
             {
-                ServerFacade.getSINGLETON().setPlugin("SQL", "plugin.DatabasePlugin", commandNum, cleanDatabase);
+                ServerFacade.getSINGLETON().setPlugin("SQL", "plugin.SQLDatabasePlugin", commandNum, cleanDatabase);
             } else if(databaseType.equals("flat"))
             {
                 ServerFacade.getSINGLETON().setPlugin("FlatFile", "plugin.DatabasePlugin", commandNum, cleanDatabase);

@@ -74,8 +74,8 @@ public class HistoryItem implements Serializable
             case IServer.DRAW_DECK_METHOD:
             {
                 game = (GameID) params[0];
-                Username user = (Username) params[1];
-                action.append(user.getName());
+                name = (Username) params[1];
+                action.append(name.getName());
                 action.append(" drew a card from the deck");
                 break;
             }

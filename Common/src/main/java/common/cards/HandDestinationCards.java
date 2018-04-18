@@ -72,4 +72,21 @@ public class HandDestinationCards implements Serializable
     {
         return destinationCards.size();
     }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		HandDestinationCards that = (HandDestinationCards) o;
+
+		return destinationCards.equals(that.destinationCards);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return destinationCards.hashCode();
+	}
 }

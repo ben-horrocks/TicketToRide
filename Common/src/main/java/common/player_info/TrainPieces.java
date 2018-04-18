@@ -17,4 +17,21 @@ public class TrainPieces implements Serializable
     public int getNumTrainPieces() { return numTrainPieces; }
 
     public void useTrainPieces(int numUsed) { numTrainPieces -= numUsed; }
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		TrainPieces that = (TrainPieces) o;
+
+		return numTrainPieces == that.numTrainPieces;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return numTrainPieces;
+	}
 }
