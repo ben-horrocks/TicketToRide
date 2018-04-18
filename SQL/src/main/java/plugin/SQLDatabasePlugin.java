@@ -87,7 +87,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public User getUser(Username name) {
     	SQLUserDAO dao = new SQLUserDAO();
     	User user = dao.getUser(name);
-    	commitAndClose(dao);
+
     	return user;
     }
 
@@ -95,7 +95,6 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public List<User> getAllUsers() {
     	SQLUserDAO dao = new SQLUserDAO();
         List<User> users = dao.getAllUsers();
-        commitAndClose(dao);
         return users;
     }
 
@@ -103,7 +102,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public boolean addUser(User user) {
     	SQLUserDAO dao = new SQLUserDAO();
     	boolean successful = dao.addNewUser(user);
-		commitAndClose(dao);
+
     	return successful;
     }
 
@@ -111,7 +110,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public boolean deleteUser(Username name) {
         SQLUserDAO dao = new SQLUserDAO();
         boolean successful = dao.deleteUser(name);
-		commitAndClose(dao);
+
         return successful;
     }
 
@@ -119,7 +118,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public boolean updateUser(User user) {
         SQLUserDAO dao = new SQLUserDAO();
         boolean successful = dao.updateUser(user);
-		commitAndClose(dao);
+
         return successful;
     }
 
@@ -127,7 +126,6 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public ServerGameData getGame(GameID id) {
         SQLGameDataDAO dao = new SQLGameDataDAO();
         ServerGameData data = dao.getGameData(id);
-        commitAndClose(dao);
         return data;
     }
 
@@ -143,7 +141,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				runningGames.add(game);
 			}
 		}
-		commitAndClose(dao);
+
 		return runningGames;
     }
 
@@ -159,22 +157,19 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				openGames.add(game);
 			}
 		}
-		commitAndClose(dao);
+
 		return openGames;
     }
 
     @Override
     public List<ServerGameData> getAllGames() {
-        SQLGameDataDAO dao = new SQLGameDataDAO();
-        List<ServerGameData> games = dao.getAllGameData();
-        commitAndClose(dao);
+        List<ServerGameData> games = gdDao.getAllGameData();
         return games;
     }
 
     @Override
     public List<ServerGameData> getRunningGames(Username user) {
-    	SQLGameDataDAO dao = new SQLGameDataDAO();
-		List<ServerGameData> gameData = dao.getAllGameData();
+		List<ServerGameData> gameData = gdDao.getAllGameData();
 		List<ServerGameData> runningGames = new ArrayList<>();
 		for (ServerGameData game : gameData)
 		{
@@ -190,54 +185,45 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				}
 			}
 		}
-		commitAndClose(dao);
+
 		return runningGames;
     }
 
     @Override
     public boolean addGame(ServerGameData game) {
-    	SQLGameDataDAO dao = new SQLGameDataDAO();
-    	boolean successful = dao.addNewGameData(game);
-    	commitAndClose(dao);
+    	boolean successful = gdDao.addNewGameData(game);
         return successful;
     }
 
     @Override
     public boolean deleteGame(GameID id) {
-        SQLGameDataDAO dao = new SQLGameDataDAO();
-        boolean successful = dao.deleteGameData(id);
-        commitAndClose(dao);
+        boolean successful = gdDao.deleteGameData(id);
         return successful;
     }
 
     @Override
     public boolean updateGame(ServerGameData game) {
-        SQLGameDataDAO dao = new SQLGameDataDAO();
-        boolean successful = dao.updateGameData(game);
-        commitAndClose(dao);
+        boolean successful = gdDao.updateGameData(game);
         return successful;
     }
 
     @Override
     public List<Command> getCommands(GameID id) {
-        SQLCommandDAO dao = new SQLCommandDAO();
-        List<Command> commands = dao.getCommandsByGameId(id);
-        commitAndClose(dao);
+
+        List<Command> commands = cDao.getCommandsByGameId(id);
         return commands;
     }
 
     @Override
     public boolean addCommand(Command command) {
 
-        SQLCommandDAO dao = new SQLCommandDAO();
-        boolean successful = dao.addNewCommand(command);
-        commitAndClose(dao);
 
-        GameID id = dao.getGameIdFromCommand(command);
+        boolean successful = cDao.addNewCommand(command);
+        GameID id = cDao.getGameIdFromCommand(command);
         if (id == null) {
             return false;
         }
-        if (dao.getCommandsByGameId(id).size() == numCommands) {
+        if (cDao.getCommandsByGameId(id).size() == numCommands) {
 
         }
 
