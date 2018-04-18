@@ -198,7 +198,7 @@ public class UserDAO extends AbstractSQL_DAO implements IUserDAO
 	}
 
 	@Override
-	public boolean deleteUser(User user)
+	public boolean deleteUser(Username username)
 	{
 //		logger.entering("UserDAO", "deleteUser", user);
 		final String DELETE_USER =
@@ -207,7 +207,7 @@ public class UserDAO extends AbstractSQL_DAO implements IUserDAO
 		try
 		{
 			PreparedStatement statement = connection.prepareStatement(DELETE_USER);
-			statement.setObject(1, user.getStringUserName());
+			statement.setObject(1, username);
 			statement.executeUpdate();
 //			logger.exiting("UserDAO", "deleteUser", true);
 			return true;
