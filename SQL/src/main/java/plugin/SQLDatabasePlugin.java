@@ -3,6 +3,7 @@ package plugin;
 import java.util.ArrayList;
 import java.util.List;
 
+import Factory.Factory;
 import common.communication.Command;
 import common.game_data.GameID;
 import common.game_data.ServerGameData;
@@ -23,10 +24,18 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     private int numCommands;
     private boolean cleanData;
 
+    private Factory factory;
+    SQLCommandDAO cDao;
+    SQLGameDataDAO gdDao;
+    SQLPlayerDAO pDao;
+
     public SQLDatabasePlugin(int numCommands, boolean cleanData)
     {
         this.numCommands = numCommands;
         this.cleanData = cleanData;
+
+        factory = new Factory();
+
         initializeDatabase(cleanData);
 		System.out.println("An SQL File Database was created");
     }
@@ -40,38 +49,37 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean initializeDatabase(boolean cleanSlate) {
-    	if (cleanSlate)
+
+        cDao = (SQLCommandDAO) factory.createCommandDAO();
+        gdDao = (SQLGameDataDAO) factory.createGameDataDAO();
+        pDao = (SQLPlayerDAO) factory.createPlayerDAO();
+
+        if (cleanSlate)
 		{
 			boolean cleared;
-			IDAO dao = new SQLCommandDAO();
-			cleared = dao.clearData();
+
+			cleared = cDao.clearData();
 			if (!cleared) return false;
-			cleared = commitAndClose(dao);
+			cleared = commitAndClose(cDao);
 			if (!cleared) return false;
-			dao = new SQLGameDataDAO();
-			cleared = dao.clearData();
+
+			cleared = gdDao.clearData();
 			if (!cleared) return false;
-			cleared = commitAndClose(dao);
+			cleared = commitAndClose(gdDao);
 			if (!cleared) return false;
-			dao = new SQLUserDAO();
-			cleared = dao.clearData();
+
+			cleared = pDao.clearData();
 			if (!cleared) return false;
-			cleared = commitAndClose(dao);
+			cleared = commitAndClose(pDao);
 			if (!cleared) return false;
-			dao = new SQLPlayerDAO();
-			cleared = dao.clearData();
-			if (!cleared) return false;
-			cleared = commitAndClose(dao);
+
 			return cleared;
 		}
-		IDAO dao = new SQLCommandDAO();
-    	commitAndClose(dao);
-    	dao = new SQLGameDataDAO();
-    	commitAndClose(dao);
-    	dao = new SQLUserDAO();
-    	commitAndClose(dao);
-    	dao = new SQLPlayerDAO();
-    	commitAndClose(dao);
+
+    	commitAndClose(cDao);
+    	commitAndClose(gdDao);
+    	commitAndClose(pDao);
+
     	return true;
     }
 
