@@ -9,59 +9,29 @@ import daos.CommandDAO;
 
 public class Factory implements IFactory {
 
-    private boolean clearData = false;
-
     @Override
     public IUserDAO createUserDAO() {
-        UserDAO dao = new UserDAO();
-
-        //Check if needs to clear database
-        if (clearData) {
-            dao.clearData();
-        }
-
-        return dao;
+        return new UserDAO();
     }
 
     @Override
     public IPlayerDAO createPlayerDAO() {
-        PlayerDAO dao = new PlayerDAO();
-
-        //check if needs to clear data
-        if (clearData) {
-            dao.clearData();
-        }
-
-        return dao;
+        return new PlayerDAO();
     }
 
     @Override
     public ICommandDAO createCommandDAO() {
-        CommandDAO dao = new CommandDAO();
-
-        //check if needs to clear data
-        if (clearData) {
-            dao.clearData();
-        }
-
-        return dao;
+       return new CommandDAO();
     }
 
     @Override
     public IGameDataDAO createGameDataDAO() {
-        GameDataDAO dao = new GameDataDAO();
-
-        //check if needs to clear data
-        if (clearData) {
-            dao.clearData();
-        }
-
-        return dao;
+        return new GameDataDAO();
     }
 
     @Override
     public void setClearData(boolean clearData)
     {
-        this.clearData = clearData;
+        // Do nothing
     }
 }

@@ -44,7 +44,7 @@ public class UserDAO extends AbstractSQL_DAO implements IUserDAO
 		}
 		catch (SQLException e)
 		{
-			System.err.println("SQLException when checking if table exists - " + e);
+			System.err.println("SQLException when checking if User table exists - " + e);
 			e.printStackTrace();
 		}
 		return false;

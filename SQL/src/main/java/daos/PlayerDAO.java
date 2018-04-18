@@ -47,7 +47,7 @@ public class PlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		catch (SQLException e)
 		{
 			// Shouldn't really have errors.
-			System.out.println("SQLException when checking if table exists.");
+			System.out.println("SQLException when checking if Player table exists.");
 			e.printStackTrace();
 		}
 		return false;

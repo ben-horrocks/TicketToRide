@@ -10,9 +10,9 @@ import daos.IUserDAO;
  */
 
 public interface IFactory {
-    public IUserDAO createUserDAO();
-    public IPlayerDAO createPlayerDAO();
-    public ICommandDAO createCommandDAO();
-    public IGameDataDAO createGameDataDAO();
-    public void setClearData(boolean clearData);
+    IUserDAO createUserDAO();
+    IPlayerDAO createPlayerDAO();
+    ICommandDAO createCommandDAO();
+    IGameDataDAO createGameDataDAO();
+    void setClearData(boolean clearData);
 }

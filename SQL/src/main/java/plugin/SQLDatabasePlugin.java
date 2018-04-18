@@ -29,9 +29,10 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     public SQLDatabasePlugin(int numCommands, boolean cleanData)
     {
-        System.out.println("An SQL File Database was created");
         this.numCommands = numCommands;
         this.cleanData = cleanData;
+        initializeDatabase(cleanData);
+		System.out.println("An SQL File Database was created");
     }
 
     @Override
@@ -67,6 +68,14 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 			cleared = commitAndClose(dao);
 			return cleared;
 		}
+		IDAO dao = new CommandDAO();
+    	commitAndClose(dao);
+    	dao = new GameDataDAO();
+    	commitAndClose(dao);
+    	dao = new UserDAO();
+    	commitAndClose(dao);
+    	dao = new PlayerDAO();
+    	commitAndClose(dao);
     	return true;
     }
 
@@ -225,11 +234,13 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 	{
 		boolean successful;
 
+		/*	-- Debugging statement to check what methods an IDAO has --
 		Object[] methods = IDAO.class.getDeclaredMethods();
 		for (int i = 0; i < methods.length; i++)
 		{
 			System.out.println("Method " + i + ": " + methods[i]);
 		}
+		*/
 		successful = dao.commitConnection();
 		if (!successful) return false;
 		successful = dao.closeConnection();
