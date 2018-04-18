@@ -28,6 +28,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     SQLCommandDAO cDao;
     SQLGameDataDAO gdDao;
     SQLPlayerDAO pDao;
+    SQLUserDAO uDao;
 
     public SQLDatabasePlugin(int numCommands, boolean cleanData)
     {
@@ -73,66 +74,67 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 			cleared = commitAndClose(pDao);
 			if (!cleared) return false;
 
+            cleared = uDao.clearData();
+            if (!cleared) return false;
+            cleared = commitAndClose(uDao);
+            if (!cleared) return false;
+
 			return cleared;
 		}
 
     	commitAndClose(cDao);
     	commitAndClose(gdDao);
     	commitAndClose(pDao);
+        commitAndClose(uDao);
 
-    	return true;
+        return true;
     }
 
     @Override
     public User getUser(Username name) {
-    	SQLUserDAO dao = new SQLUserDAO();
-    	User user = dao.getUser(name);
-
+    	User user = uDao.getUser(name);
+    	commitAndClose(uDao);
     	return user;
     }
 
     @Override
     public List<User> getAllUsers() {
-    	SQLUserDAO dao = new SQLUserDAO();
-        List<User> users = dao.getAllUsers();
+        List<User> users = uDao.getAllUsers();
+        commitAndClose(uDao);
         return users;
     }
 
     @Override
     public boolean addUser(User user) {
-    	SQLUserDAO dao = new SQLUserDAO();
-    	boolean successful = dao.addNewUser(user);
-
+    	boolean successful = uDao.addNewUser(user);
+		commitAndClose(uDao);
     	return successful;
     }
 
     @Override
     public boolean deleteUser(Username name) {
-        SQLUserDAO dao = new SQLUserDAO();
-        boolean successful = dao.deleteUser(name);
-
+        boolean successful = uDao.deleteUser(name);
+		commitAndClose(uDao);
         return successful;
     }
 
     @Override
     public boolean updateUser(User user) {
-        SQLUserDAO dao = new SQLUserDAO();
-        boolean successful = dao.updateUser(user);
-
+        boolean successful = uDao.updateUser(user);
+		commitAndClose(uDao);
         return successful;
     }
 
     @Override
     public ServerGameData getGame(GameID id) {
-        SQLGameDataDAO dao = new SQLGameDataDAO();
-        ServerGameData data = dao.getGameData(id);
+        ServerGameData data = gdDao.getGameData(id);
+        commitAndClose(gdDao);
         return data;
     }
 
     @Override
     public List<ServerGameData> getRunningGames() {
-    	SQLGameDataDAO dao = new SQLGameDataDAO();
-        List<ServerGameData> gameData = dao.getAllGameData();
+        List<ServerGameData> gameData = gdDao.getAllGameData();
         List<ServerGameData> runningGames = new ArrayList<>();
         for (ServerGameData game : gameData)
 		{
@@ -141,14 +143,13 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				runningGames.add(game);
 			}
 		}
-
+		commitAndClose(gdDao);
 		return runningGames;
     }
 
     @Override
     public List<ServerGameData> getOpenGames() {
-    	SQLGameDataDAO dao = new SQLGameDataDAO();
-		List<ServerGameData> gameData = dao.getAllGameData();
+		List<ServerGameData> gameData = gdDao.getAllGameData();
 		List<ServerGameData> openGames = new ArrayList<>();
 		for (ServerGameData game : gameData)
 		{
@@ -157,7 +158,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				openGames.add(game);
 			}
 		}
-
+		commitAndClose(gdDao);
 		return openGames;
     }
 
@@ -185,7 +186,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				}
 			}
 		}
-
+		commitAndClose(dao);
 		return runningGames;
     }
 
