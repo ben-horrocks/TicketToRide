@@ -7,18 +7,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import common.player_info.User;
 import common.player_info.Username;
 
 public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 {
-////	private static final Logger logger = LogKeeper.getSingleton().getLogger();
+
+	//cache is a map from String username to User Objects
+	private Map<String, User> cache;
 
 	public SQLUserDAO()
 	{
 		super();
+		cache = new HashMap<>();
 	}
 
 	static class UserEntry
@@ -119,74 +128,79 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			return false;
 		}
 //		logger.exiting("SQLUserDAO", "addNewUser", true);
+		cache.put(user.getStringUserName(), user);
 		return true;
 	}
 
 	@Override
 	public User getUser(Username username)
 	{
+		return cache.get(username.getName());
 //		logger.entering("SQLUserDAO", "getUser", username);
-		final String GET_USER =
-				"SELECT " + UserEntry.COLUMN_NAME_USER +
-						" FROM " + UserEntry.TABLE_NAME +
-						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
-		try
-		{
-			PreparedStatement statement = connection.prepareStatement(GET_USER);
-			statement.setString(1, username.getName());
-			ResultSet rs = statement.executeQuery();
-			if (rs.next())
-			{
-				byte[] bytes = rs.getBytes(1);
-				if (bytes != null)
-				{
-					return (User)byteArrayToObject(bytes);
-//					logger.exiting("SQLUserDAO", "getUser", user);
-				}
-			}
-			rs.close();
-			statement.close();
-		}
-		catch (SQLException | IOException | ClassNotFoundException e)
-		{
-//			logger.warning(e + " - getting user " + username);
-			e.printStackTrace();
-		}
-//		logger.exiting("SQLUserDAO", "getUser", null);
-		return null;
+//		final String GET_USER =
+//				"SELECT " + UserEntry.COLUMN_NAME_USER +
+//						" FROM " + UserEntry.TABLE_NAME +
+//						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
+//		try
+//		{
+//			PreparedStatement statement = connection.prepareStatement(GET_USER);
+//			statement.setString(1, username.getName());
+//			ResultSet rs = statement.executeQuery();
+//			if (rs.next())
+//			{
+//				byte[] bytes = rs.getBytes(1);
+//				if (bytes != null)
+//				{
+//					return (User)byteArrayToObject(bytes);
+////					logger.exiting("SQLUserDAO", "getUser", user);
+//				}
+//			}
+//			rs.close();
+//			statement.close();
+//		}
+//		catch (SQLException | IOException | ClassNotFoundException e)
+//		{
+////			logger.warning(e + " - getting user " + username);
+//			e.printStackTrace();
+//		}
+////		logger.exiting("SQLUserDAO", "getUser", null);
+//		return null;
 	}
 
 	@Override
 	public List<User> getAllUsers()
 	{
-//		logger.entering("SQLUserDAO", "getAllUsers");
-		final String GET_USERS =
-				"SELECT " + UserEntry.COLUMN_NAME_USER +
-						" FROM " + UserEntry.TABLE_NAME;
-		try
-		{
-			List<User> users = new ArrayList<>();
-			PreparedStatement statement = connection.prepareStatement(GET_USERS);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next())
-			{
-				byte[] bytes = rs.getBytes(1);
-				if (bytes.length == 0) continue;
-				User user = (User)byteArrayToObject(bytes);
-				users.add(user);
-			}
-//			logger.exiting("SQLUserDAO", "getAllUsers", users);
-			rs.close();
-			statement.close();
-			return users;
-		}
-		catch (SQLException | IOException | ClassNotFoundException e)
-		{
-//			logger.warning(e + " - getting all users");
-			e.printStackTrace();
-		}
-//		logger.exiting("SQLUserDAO", "getAllUsers", null);
-		return null;
+		List<User> users = new ArrayList<>();
+		users.addAll(cache.values());
+		return users;
+////		logger.entering("SQLUserDAO", "getAllUsers");
+//		final String GET_USERS =
+//				"SELECT " + UserEntry.COLUMN_NAME_USER +
+//						" FROM " + UserEntry.TABLE_NAME;
+//		try
+//		{
+//			List<User> users = new ArrayList<>();
+//			PreparedStatement statement = connection.prepareStatement(GET_USERS);
+//			ResultSet rs = statement.executeQuery();
+//			while (rs.next())
+//			{
+//				byte[] bytes = rs.getBytes(1);
+//				if (bytes.length == 0) continue;
+//				User user = (User)byteArrayToObject(bytes);
+//				users.add(user);
+//			}
+////			logger.exiting("SQLUserDAO", "getAllUsers", users);
+//			rs.close();
+//			statement.close();
+//			return users;
+//		}
+//		catch (SQLException | IOException | ClassNotFoundException e)
+//		{
+////			logger.warning(e + " - getting all users");
+//			e.printStackTrace();
+//		}
+////		logger.exiting("SQLUserDAO", "getAllUsers", null);
+//		return null;
 	}
 
 	@Override
@@ -206,6 +220,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			int resultCount = statement.executeUpdate();
 			statement.close();
 //			logger.exiting("SQLUserDAO", "updateUser", true);
+			cache.put(user.getStringUserName(), user);
 			return resultCount > 0;
 		}
 		catch (SQLException | IOException e)
@@ -231,6 +246,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			statement.executeUpdate();
 			statement.close();
 //			logger.exiting("SQLUserDAO", "deleteUser", true);
+			cache.remove(username);
 			return true;
 		}
 		catch (SQLException e)

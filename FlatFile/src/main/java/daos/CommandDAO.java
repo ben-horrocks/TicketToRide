@@ -142,7 +142,7 @@ public class CommandDAO implements ICommandDAO, IDAO
         }
         dir.delete();
         commands.remove(id);
-        return false;
+        return true;
     }
 
     private GameID getGameIdFromCommand(Command command) {

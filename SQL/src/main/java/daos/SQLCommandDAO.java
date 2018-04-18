@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import common.cards.HandDestinationCards;
 import common.cards.HandTrainCards;
@@ -26,9 +29,17 @@ import common.player_info.Username;
  * Created by Carter on 4/9/18.
  */
 
-public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
+public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
+{
 
-    public SQLCommandDAO() { super(); }
+    //cache is a Map of GameIDs to Sets of Commands for that particular game
+    private Map<GameID, Set<Command>> cache;
+
+    public SQLCommandDAO()
+    {
+        super();
+        cache = new HashMap<>();
+    }
 
     public static class CommandEntry
     {
@@ -99,14 +110,18 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 
     @Override
     public boolean addNewCommand(Command command) {
+
+        //Check if the cache value is reached
+        GameID id = getGameIdFromCommand(command);
+        if (cache.get(id).size() == 5) {
+
+        }
         //logger.entering("SQLPlayerDAO", "addNewCommand", command);
         final String INSERT_PLAYER =
                 "INSERT INTO Commands (" + CommandEntry.COLUMN_NAME_GAME_ID +
                         ", " + CommandEntry.COLUMN_NAME_COMMAND +
                         ") VALUES (?,?)";
 
-        //get game id from provided command
-        GameID id = getGameIdFromCommand(command);
         if (id != null) {
 			try
 			{
@@ -194,71 +209,4 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         }
         return id;
     }
-
-    /*
-    public static void main (String[] args) {
-        //set up driver
-        try {
-            final String driver = "org.sqlite.JDBC";
-            Class.forName(driver);
-        }
-        catch(java.lang.ClassNotFoundException e) {
-            // ERROR! Could not load database driver
-        }
-
-        //create conection to Database
-        String dbName = "Server/TicketToRide.sqlite";
-        String connectionURL = "jdbc:sqlite:" + dbName;
-        Connection connection = null;
-        try {
-            // Open a database connection
-            connection = DriverManager.getConnection(connectionURL);
-            // Start a transaction
-            connection.setAutoCommit(false);
-        }
-        catch (SQLException ex) {
-            // ERROR
-            System.out.println("ERROR: SQL exception while attempting to open database");
-            ex.printStackTrace();
-        }
-
-        //Set up all necessary stuff for running tests
-        String stringClassName = String.class.getName();
-        String gameIDClassname = GameID.class.getName();
-        String playerClassName = User.class.getName();
-        String usernameClassName = Username.class.getName();
-        String handDestinationCardsClassName = HandDestinationCards.class.getName();
-        String handTrainCardClassName = HandTrainCards.class.getName();
-        String chatItemClassName = ChatItem.class.getName();
-        String edgeClassName = Edge.class.getName();
-
-        //Make user
-        String test = "Test";
-        String pw = "Password";
-        String anotherTest = "AnotherTest";
-        String panda = "Pa4nda";
-        Username username = new Username(test);
-        Password password = new Password(pw);
-        User user = new User(username, password);
-
-        //Make new game
-        String gameName = "newGame";
-        GameID id = new GameID();
-
-        //Make command
-        String[] parameterTypes = {usernameClassName, gameIDClassname};
-        Object[] parameters = {user, id};
-        CommandParams commandParams =
-                new CommandParams("getAvailableGameInfo", parameterTypes, parameters);
-//        Command serverCommand =
-//                new Command(commandParams, ServerFacade.class.getName());
-
-        //RUN TESTS
-        SQLCommandDAO dao = new SQLCommandDAO();
-
-        dao.createTable();
-//        dao.addNewCommand(serverCommand);
-        dao.getCommandsByGameId(id);
-
-    }*/
 }
