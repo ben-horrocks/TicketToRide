@@ -36,8 +36,7 @@ public class HandTrainCards implements Serializable
     {
         for (TrainCard card : cards)
         {
-            List<TrainCard> cardsToRemove = new ArrayList<>();
-            cardsToRemove.addAll(trainCards);
+            List<TrainCard> cardsToRemove = new ArrayList<>(trainCards);
             for (TrainCard card2 : cardsToRemove)
             {
                 if (card.equals(card2))
