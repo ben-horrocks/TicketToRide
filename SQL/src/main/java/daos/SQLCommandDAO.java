@@ -33,7 +33,7 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 {
 
     //cache is a Map of GameIDs to Sets of Commands for that particular game
-    private Map<GameID, Set<Command>> cache;
+    private Map<GameID, List<Command>> cache;
 
     public SQLCommandDAO()
     {
@@ -72,6 +72,7 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 
     @Override
     boolean createTable() {
+        openConnection();
         final String CREATE_COMMAND_TABLE =
                 "CREATE TABLE " + CommandEntry.TABLE_NAME + " ( " +
                         CommandEntry.COLUMN_NAME_GAME_ID + " TEXT NOT NULL, " +
@@ -85,13 +86,23 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
         {
 			System.err.println(e + " - creating table in SQLCommandDAO");
 			e.printStackTrace();
+			closeConnection();
             return false;
         }
+
+        //Add new mapping in cache for new commands
+        cache = new HashMap<>();
+
+        commitConnection();
+        closeConnection();
         return true;
     }
 
     @Override
     boolean deleteTable() {
+
+        openConnection();
+
         final String DELETE_COMMAND_TABLE = "DROP TABLE " + CommandEntry.TABLE_NAME;
         try
         {
@@ -102,21 +113,30 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
         {
 			System.err.println(e + " - deleting table in SQLUserDAO");
 			e.printStackTrace();
+			closeConnection();
             return false;
         }
         //logger.exiting("SQLCommandDAO", "deleteTable", true);
+
+        //Add new mapping in cache for new commands
+        cache = new HashMap<>();
+
+        commitConnection();
+        closeConnection();
         return true;
     }
 
     @Override
     public boolean addNewCommand(Command command) {
 
+        openConnection();
+
         //Check if the cache value is reached
         GameID id = getGameIdFromCommand(command);
-        if (cache.get(id).size() == 5) {
 
-        }
-        //logger.entering("SQLPlayerDAO", "addNewCommand", command);
+        //update cache
+        cache.get(id).add(command);
+
         final String INSERT_PLAYER =
                 "INSERT INTO Commands (" + CommandEntry.COLUMN_NAME_GAME_ID +
                         ", " + CommandEntry.COLUMN_NAME_COMMAND +
@@ -135,49 +155,63 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 			{
 				System.err.println(e + " - adding new command");
 				e.printStackTrace();
+				closeConnection();
 				return false;
 			}
         }
-        //logger.exiting("SQLCommandDAO", "addNewCommand", true);
+        commitConnection();
+        closeConnection();
         return true;
     }
 
     @Override
     public List<Command> getCommandsByGameId(GameID id) {
-        //logger.entering("SQLCommandDAO", "getCommandByGameId", id);
-        final String GET_COMMANDS =
-                "SELECT " + CommandEntry.COLUMN_NAME_COMMAND +
-                        " FROM " + CommandEntry.TABLE_NAME +
-                        " WHERE " + CommandEntry.COLUMN_NAME_GAME_ID + " = ?";
-        try
-        {
-            PreparedStatement statement = connection.prepareStatement(GET_COMMANDS);
-            statement.setString(1, id.getId());
-            ArrayList<Command> commandList = new ArrayList<>();
-            ResultSet rs = statement.executeQuery();
-            while (rs.next())
-            {
-                byte[] bytes = rs.getBytes(1);
-                Command foundCommand = (Command) byteArrayToObject(bytes);
-                commandList.add(foundCommand);
 
-            }
-			rs.close();
-			statement.close();
-			//logger.exiting("SQLCommandDAO", "getCommand", id);
-			return commandList;
-        } catch (SQLException | IOException | ClassNotFoundException e)
-        {
-            //logger.warning(e + " - getting commands for id: " + id);
-            e.printStackTrace();
+        List<Command> list = cache.get(id);
+        if (list == null) {
+            list = new ArrayList<>();
         }
-        //logger.exiting("SQLCommandDAO", "getCommand", null);
-        return null;
+        return list;
+
+//        //logger.entering("SQLCommandDAO", "getCommandByGameId", id);
+//        final String GET_COMMANDS =
+//                "SELECT " + CommandEntry.COLUMN_NAME_COMMAND +
+//                        " FROM " + CommandEntry.TABLE_NAME +
+//                        " WHERE " + CommandEntry.COLUMN_NAME_GAME_ID + " = ?";
+//        try
+//        {
+//            PreparedStatement statement = connection.prepareStatement(GET_COMMANDS);
+//            statement.setString(1, id.getId());
+//            ArrayList<Command> commandList = new ArrayList<>();
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next())
+//            {
+//                byte[] bytes = rs.getBytes(1);
+//                Command foundCommand = (Command) byteArrayToObject(bytes);
+//                commandList.add(foundCommand);
+//
+//            }
+//			rs.close();
+//			statement.close();
+//			//logger.exiting("SQLCommandDAO", "getCommand", id);
+//			return commandList;
+//        } catch (SQLException | IOException | ClassNotFoundException e)
+//        {
+//            //logger.warning(e + " - getting commands for id: " + id);
+//            e.printStackTrace();
+//        }
+//        //logger.exiting("SQLCommandDAO", "getCommand", null);
+//        return null;
     }
 
     @Override
     public boolean deleteCommandsByGameId(GameID id) {
-        //logger.entering("SQLCommandDAO", "deleteCommandsByGameId", id);
+
+        //update cache
+        cache.remove(id);
+
+        openConnection();
+
         final String DELETE_COMMANDS =
                 "DELETE FROM " + CommandEntry.TABLE_NAME +
                         " WHERE " + CommandEntry.COLUMN_NAME_GAME_ID + " = ?";
@@ -187,19 +221,20 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
             statement.setString(1, id.getId());
             statement.execute();
             statement.close();
-            //logger.exiting("SQLCommandDAO", "getCommand", id);
+            commitConnection();
+            closeConnection();
             return true;
 
         } catch (SQLException e)
         {
-            //logger.warning(e + " - getting commands for id: " + id);
             e.printStackTrace();
         }
-        //logger.exiting("SQLCommandDAO", "getCommand", null);
+        closeConnection();
         return false;
+
     }
 
-    private GameID getGameIdFromCommand(Command command) {
+    public GameID getGameIdFromCommand(Command command) {
         String[] typeNames = command.getParameterTypeNames();
         GameID id = null;
         for (int i = 0; i < typeNames.length; i++) {

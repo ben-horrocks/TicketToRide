@@ -15,19 +15,7 @@ abstract class AbstractSQL_DAO implements IDAO
 	Connection connection;
 	public AbstractSQL_DAO()
 	{
-		connection = ConnectionSetup.setup();
-		if (!tableExists())
-		{
-			createTable();
-			try
-			{
-				connection.commit();
-			}
-			catch (SQLException e)
-			{
-				System.err.println(e + " - committing connection");
-			}
-		}
+
 	}
 
 	abstract boolean tableExists();
@@ -60,6 +48,24 @@ abstract class AbstractSQL_DAO implements IDAO
 		Object object = inputStream.readObject();
 		inputStream.close();
 		return object;
+	}
+
+	@Override
+	public boolean openConnection() {
+		connection = ConnectionSetup.setup();
+		if (!tableExists())
+		{
+			createTable();
+			try
+			{
+				connection.commit();
+			}
+			catch (SQLException e)
+			{
+				System.err.println(e + " - committing connection");
+			}
+		}
+		return true;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ package daos;
 public interface IDAO
 {
 	boolean clearData();
+	boolean openConnection();
 	boolean commitConnection();
 	boolean closeConnection();
 }

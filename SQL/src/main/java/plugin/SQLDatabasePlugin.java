@@ -220,9 +220,19 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     @Override
     public boolean addCommand(Command command) {
+
         SQLCommandDAO dao = new SQLCommandDAO();
         boolean successful = dao.addNewCommand(command);
         commitAndClose(dao);
+
+        GameID id = dao.getGameIdFromCommand(command);
+        if (id == null) {
+            return false;
+        }
+        if (dao.getCommandsByGameId(id).size() == numCommands) {
+
+        }
+
         return successful;
     }
 
