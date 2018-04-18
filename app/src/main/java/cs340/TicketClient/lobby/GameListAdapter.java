@@ -141,7 +141,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.viewHo
                     {
                         LobbyPresenter.getInstance().resumeGame(id);
                     }
-                    if (LobbyPresenter.getInstance().isMyGame(id))
+                    else if (LobbyPresenter.getInstance().isMyGame(id))
                     {
                         LobbyPresenter.getInstance().startGame(id);
                     }
