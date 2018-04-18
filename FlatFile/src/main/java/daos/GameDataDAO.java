@@ -43,7 +43,6 @@ public class GameDataDAO implements IGameDataDAO, IDAO
             {
                 if(game.isFile() && game.canRead() && game.getName().endsWith(suffix))
                 {
-                    GameID id = new GameID(game.getName());
                     ObjectInputStream is = new ObjectInputStream(new FileInputStream(game));
                     ServerGameData gameData = null;
                     try
@@ -52,7 +51,7 @@ public class GameDataDAO implements IGameDataDAO, IDAO
                     } catch (ClassNotFoundException | ClassCastException e) {
                         throw new IOException("Error reading " + game.getName() + " as a Game. Abort import!", e);
                     }
-                    games.put(id, gameData);
+                    games.put(gameData.getId(), gameData);
                 }
 
             }
