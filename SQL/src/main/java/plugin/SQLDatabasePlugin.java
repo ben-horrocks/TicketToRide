@@ -186,25 +186,28 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				}
 			}
 		}
-		commitAndClose(dao);
+		commitAndClose(cDao);
 		return runningGames;
     }
 
     @Override
     public boolean addGame(ServerGameData game) {
     	boolean successful = gdDao.addNewGameData(game);
+    	commitAndClose(gdDao);
         return successful;
     }
 
     @Override
     public boolean deleteGame(GameID id) {
         boolean successful = gdDao.deleteGameData(id);
+        commitAndClose(gdDao);
         return successful;
     }
 
     @Override
     public boolean updateGame(ServerGameData game) {
         boolean successful = gdDao.updateGameData(game);
+        commitAndClose(gdDao);
         return successful;
     }
 
@@ -212,6 +215,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public List<Command> getCommands(GameID id) {
 
         List<Command> commands = cDao.getCommandsByGameId(id);
+        commitAndClose(cDao);
         return commands;
     }
 
@@ -228,6 +232,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
         }
 
+        commitAndClose(cDao);
         return successful;
     }
 
