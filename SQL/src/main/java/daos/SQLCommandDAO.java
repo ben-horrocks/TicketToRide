@@ -64,7 +64,7 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
         final String CREATE_COMMAND_TABLE =
                 "CREATE TABLE " + CommandEntry.TABLE_NAME + " ( " +
                         CommandEntry.COLUMN_NAME_GAME_ID + " TEXT NOT NULL, " +
-                        CommandEntry.COLUMN_NAME_COMMAND + "BLOB NOT NULL )";
+                        CommandEntry.COLUMN_NAME_COMMAND + " BLOB NOT NULL )";
         try
         {
             Statement statement = connection.createStatement();
