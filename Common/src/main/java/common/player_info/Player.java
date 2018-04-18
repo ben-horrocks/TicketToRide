@@ -165,7 +165,7 @@ public class Player implements Serializable
         ITurnState state = getTurnState();
         claimedEdges.addEdge(edge);
         checkDestinationCards();
-        hand.getTrainCards().removeAll(spent);
+        hand.removeAll(spent);
         pieces.useTrainPieces(spent.size());
 
         getTurnState().claimEdge(this, edge, spent);

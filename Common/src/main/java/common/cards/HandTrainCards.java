@@ -3,6 +3,8 @@ package common.cards;
 import java.io.Serializable;
 import java.util.*;
 
+import common.player_info.TrainPieces;
+
 public class HandTrainCards implements Serializable
 {
 
@@ -27,6 +29,20 @@ public class HandTrainCards implements Serializable
         for (TrainCard card : trainCards)
         {
             addToMap(card.getType());
+        }
+    }
+
+    public void removeAll(List<TrainCard> cards)
+    {
+        for (TrainCard card : cards)
+        {
+            for (TrainCard card2 : trainCards)
+            {
+                if (card.equals(card2))
+                {
+                    trainCards.remove(card2);
+                }
+            }
         }
     }
 
