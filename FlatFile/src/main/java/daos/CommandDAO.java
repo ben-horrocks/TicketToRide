@@ -116,6 +116,8 @@ public class CommandDAO implements ICommandDAO, IDAO
     public List<Command> getCommandsByGameId(GameID id)
     {
         List<Command> cmds = commands.get(id);
+        if(cmds == null)
+            cmds = new ArrayList<>();
         return cmds;
     }
 
