@@ -565,6 +565,9 @@ public class ServerFacade implements IServer
         ServerGameData game = getDATABASE().getGame(id);
         //Update GameData
         TrainCard card = game.faceUpDraw(index);
+        ArrayList<TrainCard> temp = new ArrayList<TrainCard>();
+        temp.add(card);
+        game.playerDrewTrainCard(user.getName(), new HandTrainCards(temp));
         //Alert Clients
         Set<User> otherUsers = game.getUsers();
         otherUsers.remove(/*Database.SINGLETON.getPlayer(user)*/ getDATABASE().getUser(user));

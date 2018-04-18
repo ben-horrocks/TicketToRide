@@ -43,6 +43,7 @@ public class DatabasePlugin implements IDatabasePlugin
     @Override
     public boolean initializeDatabase(boolean cleanSlate)
     {
+        factory.setClearData(cleanSlate);
         commandDAO = factory.createCommandDAO();
         gameDataDAO = factory.createGameDataDAO();
         userDAO = factory.createUserDAO();
