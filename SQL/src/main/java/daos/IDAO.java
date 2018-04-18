@@ -5,5 +5,5 @@ package daos;
  */
 public interface IDAO
 {
-	void clearData();
+	boolean clearData();
 }

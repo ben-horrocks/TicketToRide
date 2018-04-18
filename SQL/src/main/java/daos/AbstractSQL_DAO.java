@@ -21,10 +21,13 @@ abstract class AbstractSQL_DAO implements IDAO
 	abstract boolean deleteTable();
 
 	@Override
-	public void clearData()
+	public boolean clearData()
 	{
-		deleteTable();
-		createTable();
+		boolean cleared;
+		cleared = deleteTable();
+		if (!cleared) return false;
+		cleared = createTable();
+		return cleared;
 	}
 
 	byte[] objectToByteArray(Object object) throws IOException

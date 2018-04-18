@@ -201,7 +201,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 	}
 
 	@Override
-	public boolean deleteGameData(ServerGameData gameData)
+	public boolean deleteGameData(GameID gameID)
 	{
 //		logger.entering("GameDataDAO", "deleteGameData", gameData);
 		final String DELETE_DATA =
@@ -210,7 +210,7 @@ public class GameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		try
 		{
 			PreparedStatement statement = connection.prepareStatement(DELETE_DATA);
-			statement.setObject(1, gameData.getId().getId());
+			statement.setObject(1, gameID);
 			statement.executeUpdate();
 //			logger.exiting("GameDataDAO", "deleteGameData", true);
 			return true;
