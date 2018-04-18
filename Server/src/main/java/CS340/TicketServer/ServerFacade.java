@@ -684,7 +684,7 @@ public class ServerFacade implements IServer
     @Override
     public Signal playerClaimedEdge(GameID id, Username user, Edge edge, HandTrainCards spent)
     {
-        logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge});
+        logger.entering("ServerFacade", "claimEdge", new Object[]{id, user, edge, spent});
         //Data Setup
         //ServerGameData game = Database.SINGLETON.getRunningGameByID(id);
         ServerGameData game = getDATABASE().getGame(id);

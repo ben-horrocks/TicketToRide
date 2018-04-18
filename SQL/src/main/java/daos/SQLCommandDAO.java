@@ -113,8 +113,7 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO {
 				byte[] commandAsBytes = objectToByteArray(command);
 				PreparedStatement statement = connection.prepareStatement(INSERT_PLAYER);
 				statement.setString(1, id.getId());
-				statement.setString(2, command.getMethodName());
-				statement.setObject(3, commandAsBytes);
+				statement.setObject(2, commandAsBytes);
 				statement.executeUpdate();
 				statement.close();
 			} catch (SQLException | IOException e)
