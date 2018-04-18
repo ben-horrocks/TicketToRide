@@ -62,6 +62,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 	@Override
 	boolean createTable()
 	{
+		openConnection();
 //		logger.entering("SQLUserDAO", "createTable");
 		final String CREATE_USERS_TABLE =
 				"CREATE TABLE " + UserEntry.TABLE_NAME + " ( '" +
@@ -76,15 +77,19 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		{
 			System.err.println("ERROR: creating table in SQLUserDAO");
 			e.printStackTrace();
+			closeConnection();
 			return false;
 		}
 //		logger.exiting("SQLUserDAO", "createTable", true);
+		commitConnection();
+		closeConnection();
 		return true;
 	}
 
 	@Override
 	boolean deleteTable()
 	{
+		openConnection();
 //		logger.entering("SQLUserDAO", "deleteTable");
 		final String DELETE_USERS_TABLE = "DROP TABLE " + UserEntry.TABLE_NAME;
 		try
@@ -96,15 +101,19 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		{
 			System.err.println("ERROR: deleting table in SQLUserDAO");
 			e.printStackTrace();
+			closeConnection();
 			return false;
 		}
 //		logger.exiting("SQLUserDAO", "deleteTable", true);
+		commitConnection();
+		closeConnection();
 		return true;
 	}
 
 	@Override
 	public boolean addNewUser(User user)
 	{
+		openConnection();
 //		logger.entering("SQLUserDAO", "addNewUser", user);
 		final String INSERT_USER =
 				"INSERT INTO " + UserEntry.TABLE_NAME +
@@ -125,10 +134,13 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		{
 			System.err.println(e + " - adding new user");
 			e.printStackTrace();
+			closeConnection();
 			return false;
 		}
 //		logger.exiting("SQLUserDAO", "addNewUser", true);
 		cache.put(user.getStringUserName(), user);
+		commitConnection();
+		closeConnection();
 		return true;
 	}
 
@@ -206,6 +218,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 	@Override
 	public boolean updateUser(User user)
 	{
+		openConnection();
 //		logger.entering("SQLUserDAO", "updateUser", user);
 		final String UPDATE_USER =
 				"UPDATE " + UserEntry.TABLE_NAME +
@@ -221,7 +234,15 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			statement.close();
 //			logger.exiting("SQLUserDAO", "updateUser", true);
 			cache.put(user.getStringUserName(), user);
-			return resultCount > 0;
+			if(resultCount > 0)
+			{
+				commitConnection();
+				closeConnection();
+				return true;
+			}else {
+				closeConnection();
+				return false;
+			}
 		}
 		catch (SQLException | IOException e)
 		{
@@ -229,12 +250,14 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			e.printStackTrace();
 		}
 //		logger.exiting("SQLUserDAO", "updateUser", false);
+		closeConnection();
 		return false;
 	}
 
 	@Override
 	public boolean deleteUser(Username username)
 	{
+		openConnection();
 //		logger.entering("SQLUserDAO", "deleteUser", user);
 		final String DELETE_USER =
 				"DELETE FROM " + UserEntry.TABLE_NAME +
@@ -247,6 +270,8 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			statement.close();
 //			logger.exiting("SQLUserDAO", "deleteUser", true);
 			cache.remove(username);
+			commitConnection();
+			closeConnection();
 			return true;
 		}
 		catch (SQLException e)
@@ -255,6 +280,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			e.printStackTrace();
 		}
 //		logger.exiting("SQLUserDAO", "deleteUser", false);
+		closeConnection();
 		return false;
 	}
 }
