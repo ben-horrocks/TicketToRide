@@ -1,5 +1,7 @@
 package daos;
 
+import com.sun.security.ntlm.Server;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -8,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import common.game_data.GameID;
@@ -20,9 +24,12 @@ import common.game_data.ServerGameData;
 public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
 
+	private Map<GameID, ServerGameData> cache;
+
 	public SQLGameDataDAO()
 	{
 		super();
+		cache = new HashMap<>();
 	}
 
 	private static class DataEntry

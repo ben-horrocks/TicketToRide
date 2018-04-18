@@ -7,18 +7,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import common.player_info.User;
 import common.player_info.Username;
 
 public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 {
-////	private static final Logger logger = LogKeeper.getSingleton().getLogger();
+
+	//cache is a map from String username to User Objects
+	private Map<String, User> cache;
 
 	public SQLUserDAO()
 	{
 		super();
+		cache = new HashMap<>();
 	}
 
 	static class UserEntry
