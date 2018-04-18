@@ -172,6 +172,7 @@ public class CommandDAO implements ICommandDAO, IDAO
         File dir = new File(COMMANDPATH);
         for(File game : dir.listFiles())
         {
+            if(game.listFiles() != null)
             for(File cmd : game.listFiles())
             {
                 cmd.delete();
