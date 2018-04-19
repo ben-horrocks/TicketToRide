@@ -45,15 +45,17 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 	@Override
 	boolean tableExists()
 	{
-		Connection connection = SQLDatabasePlugin.getConnection();
+		openConnection();
+
 		try
 		{
-			DatabaseMetaData meta = connection.getMetaData();
+			DatabaseMetaData meta = mConnection.getMetaData();
 			ResultSet rs = meta.getTables(null, null,
 					UserEntry.TABLE_NAME, new String[] {"TABLE"});
 			if (rs.next())
 			{
 				rs.close();
+				closeConnection(true);
 				return true;
 			}
 		}
@@ -61,34 +63,36 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		{
 			System.err.println("SQLException when checking if User table exists - " + e);
 			e.printStackTrace();
+			closeConnection(false);
+			return false;
 		}
-		return false;
+		closeConnection(true);
+		return true;
 	}
 
 	@Override
 	boolean createTable()
 	{
 		openConnection();
-//		logger.entering("SQLUserDAO", "createTable");
+
 		final String CREATE_USERS_TABLE =
 				"CREATE TABLE " + UserEntry.TABLE_NAME + " ( '" +
 						UserEntry.COLUMN_NAME_USERNAME + "' TEXT NOT NULL UNIQUE, '" +
 						UserEntry.COLUMN_NAME_USER + "' BLOB NOT NULL UNIQUE )";
 		try
 		{
-			Statement statement = connection.createStatement();
+			Statement statement = mConnection.createStatement();
 			statement.executeUpdate(CREATE_USERS_TABLE);
 		}
 		catch (SQLException e)
 		{
 			System.err.println("ERROR: creating table in SQLUserDAO");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
 			return false;
 		}
-//		logger.exiting("SQLUserDAO", "createTable", true);
-		commitConnection();
-		closeConnection();
+
+		closeConnection(true);
 		return true;
 	}
 
@@ -96,31 +100,33 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 	boolean deleteTable()
 	{
 		openConnection();
-//		logger.entering("SQLUserDAO", "deleteTable");
+
 		final String DELETE_USERS_TABLE = "DROP TABLE IF EXISTS " + UserEntry.TABLE_NAME;
 		try
 		{
-			Statement statement = connection.createStatement();
+			Statement statement = mConnection.createStatement();
 			statement.executeUpdate(DELETE_USERS_TABLE);
 		}
 		catch (SQLException e)
 		{
 			System.err.println("ERROR: deleting table in SQLUserDAO");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
 			return false;
 		}
-//		logger.exiting("SQLUserDAO", "deleteTable", true);
-		commitConnection();
-		closeConnection();
+
+		closeConnection(true);
 		return true;
 	}
 
 	@Override
 	public boolean addNewUser(User user)
 	{
+		//Add user to cache
+		cache.put(user.getStringUserName(), user);
+
 		openConnection();
-//		logger.entering("SQLUserDAO", "addNewUser", user);
+
 		final String INSERT_USER =
 				"INSERT INTO " + UserEntry.TABLE_NAME +
 						" (" + UserEntry.COLUMN_NAME_USERNAME +
@@ -130,7 +136,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		{
 			byte[] userAsBytes = objectToByteArray(user);
 
-			PreparedStatement statement = connection.prepareStatement(INSERT_USER);
+			PreparedStatement statement = mConnection.prepareStatement(INSERT_USER);
 			statement.setString(1, user.getStringUserName());
 			statement.setObject(2, userAsBytes);
 			statement.executeUpdate();
@@ -140,13 +146,11 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		{
 			System.err.println(e + " - adding new user");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
 			return false;
 		}
-//		logger.exiting("SQLUserDAO", "addNewUser", true);
-		cache.put(user.getStringUserName(), user);
-		commitConnection();
-		closeConnection();
+
+		closeConnection(true);
 		return true;
 	}
 
@@ -154,35 +158,6 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 	public User getUser(Username username)
 	{
 		return cache.get(username.getName());
-//		logger.entering("SQLUserDAO", "getUser", username);
-//		final String GET_USER =
-//				"SELECT " + UserEntry.COLUMN_NAME_USER +
-//						" FROM " + UserEntry.TABLE_NAME +
-//						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
-//		try
-//		{
-//			PreparedStatement statement = connection.prepareStatement(GET_USER);
-//			statement.setString(1, username.getName());
-//			ResultSet rs = statement.executeQuery();
-//			if (rs.next())
-//			{
-//				byte[] bytes = rs.getBytes(1);
-//				if (bytes != null)
-//				{
-//					return (User)byteArrayToObject(bytes);
-////					logger.exiting("SQLUserDAO", "getUser", user);
-//				}
-//			}
-//			rs.close();
-//			statement.close();
-//		}
-//		catch (SQLException | IOException | ClassNotFoundException e)
-//		{
-////			logger.warning(e + " - getting user " + username);
-//			e.printStackTrace();
-//		}
-////		logger.exiting("SQLUserDAO", "getUser", null);
-//		return null;
 	}
 
 	@Override
@@ -191,48 +166,20 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		List<User> users = new ArrayList<>();
 		users.addAll(cache.values());
 		return users;
-////		logger.entering("SQLUserDAO", "getAllUsers");
-//		final String GET_USERS =
-//				"SELECT " + UserEntry.COLUMN_NAME_USER +
-//						" FROM " + UserEntry.TABLE_NAME;
-//		try
-//		{
-//			List<User> users = new ArrayList<>();
-//			PreparedStatement statement = connection.prepareStatement(GET_USERS);
-//			ResultSet rs = statement.executeQuery();
-//			while (rs.next())
-//			{
-//				byte[] bytes = rs.getBytes(1);
-//				if (bytes.length == 0) continue;
-//				User user = (User)byteArrayToObject(bytes);
-//				users.add(user);
-//			}
-////			logger.exiting("SQLUserDAO", "getAllUsers", users);
-//			rs.close();
-//			statement.close();
-//			return users;
-//		}
-//		catch (SQLException | IOException | ClassNotFoundException e)
-//		{
-////			logger.warning(e + " - getting all users");
-//			e.printStackTrace();
-//		}
-////		logger.exiting("SQLUserDAO", "getAllUsers", null);
-//		return null;
 	}
 
 	@Override
 	public boolean updateUser(User user)
 	{
 		openConnection();
-//		logger.entering("SQLUserDAO", "updateUser", user);
+
 		final String UPDATE_USER =
 				"UPDATE " + UserEntry.TABLE_NAME +
 						" SET " + UserEntry.COLUMN_NAME_USER + " = ?" +
 						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(UPDATE_USER);
+			PreparedStatement statement = mConnection.prepareStatement(UPDATE_USER);
 			byte[] userAsBytes = objectToByteArray(user);
 			statement.setObject(1, userAsBytes);
 			statement.setString(2, user.getStringUserName());
@@ -242,55 +189,51 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			cache.put(user.getStringUserName(), user);
 			if(resultCount > 0)
 			{
-				commitConnection();
-				closeConnection();
+				closeConnection(true);
 				return true;
 			}else {
-				closeConnection();
+				closeConnection(false);
 				return false;
 			}
 		}
 		catch (SQLException | IOException e)
 		{
-//			logger.warning(e + " - updating User - " + user);
 			e.printStackTrace();
+			closeConnection(false);
+			return false;
 		}
-//		logger.exiting("SQLUserDAO", "updateUser", false);
-		closeConnection();
-		return false;
+
 	}
 
 	@Override
 	public boolean deleteUser(Username username)
 	{
 		openConnection();
-//		logger.entering("SQLUserDAO", "deleteUser", user);
+
 		final String DELETE_USER =
 				"DELETE FROM " + UserEntry.TABLE_NAME +
 						" WHERE " + UserEntry.COLUMN_NAME_USERNAME + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(DELETE_USER);
+			PreparedStatement statement = mConnection.prepareStatement(DELETE_USER);
 			statement.setObject(1, username);
 			statement.executeUpdate();
 			statement.close();
-//			logger.exiting("SQLUserDAO", "deleteUser", true);
+
 			cache.remove(username);
-			commitConnection();
-			closeConnection();
+			closeConnection(true);
 			return true;
 		}
 		catch (SQLException e)
 		{
-//			logger.warning(e + " - deleting User - " + user);
 			e.printStackTrace();
+			closeConnection(false);
+			return false;
 		}
-//		logger.exiting("SQLUserDAO", "deleteUser", false);
-		closeConnection();
-		return false;
+
 	}
 
-	public boolean openConnection() {
+	public void openConnection() {
 		//set up driver
 		try {
 			final String driver = "org.sqlite.JDBC";
@@ -306,9 +249,9 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 
 		try {
 			// Open a database connection
-			connection = DriverManager.getConnection(connectionURL);
+			mConnection = DriverManager.getConnection(connectionURL);
 			// Start a transaction
-			connection.setAutoCommit(false);
+			mConnection.setAutoCommit(false);
 		}
 		catch (SQLException ex) {
 			// ERROR
@@ -317,23 +260,21 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		}
 	}
 
-	private boolean closeConnection(boolean commit) {
+	private void closeConnection(boolean commit) {
 		try {
 			if (commit) {
-				connection.commit();
+				mConnection.commit();
 			}
 			else {
-				connection.rollback();
+				mConnection.rollback();
 			}
 
-			connection.close();
-			connection = null;
-			return true;
+			mConnection.close();
+			mConnection = null;
 		}
 		catch (SQLException ex) {
 			System.out.println("ERROR: SQL exception while closing database connection");
 			ex.printStackTrace();
-			return false;
 		}
 	}
 }

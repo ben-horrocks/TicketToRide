@@ -38,7 +38,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 	{
 		try
 		{
-			DatabaseMetaData meta = connection.getMetaData();
+			DatabaseMetaData meta = mConnection.getMetaData();
 			ResultSet rs = meta.getTables(null, null,
 					PlayerEntry.TABLE_NAME, new String[] {"TABLE"});
 			if (rs.next())
@@ -68,7 +68,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 						"PRIMARY KEY('" + PlayerEntry.COLUMN_NAME_GAME_ID + "') )";
 		try
 		{
-			Statement statement = connection.createStatement();
+			Statement statement = mConnection.createStatement();
 			statement.executeUpdate(CREATE_PLAYER_TABLE);
 			statement.close();
 		} catch (SQLException e)
@@ -87,7 +87,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		final String DELETE_PLAYER_TABLE = "DROP TABLE  IF EXISTS " + PlayerEntry.TABLE_NAME;
 		try
 		{
-			Statement statement = connection.createStatement();
+			Statement statement = mConnection.createStatement();
 			statement.executeUpdate(DELETE_PLAYER_TABLE);
 			statement.close();
 		} catch (SQLException e)
@@ -113,7 +113,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		try
 		{
 			byte[] playerAsBytes = objectToByteArray(player);
-			PreparedStatement statement = connection.prepareStatement(INSERT_PLAYER);
+			PreparedStatement statement = mConnection.prepareStatement(INSERT_PLAYER);
 			statement.setString(1, gameID.getId());
 			statement.setString(2, player.getName());
 			statement.setObject(3, playerAsBytes);
@@ -140,7 +140,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 						"AND " + PlayerEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(GET_PLAYER);
+			PreparedStatement statement = mConnection.prepareStatement(GET_PLAYER);
 			statement.setString(1, username.getName());
 			statement.setString(2, id.getId());
 			ResultSet rs = statement.executeQuery();
@@ -175,7 +175,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		try
 		{
 			List<Player> players = new ArrayList<>();
-			PreparedStatement statement = connection.prepareStatement(GET_PLAYERS);
+			PreparedStatement statement = mConnection.prepareStatement(GET_PLAYERS);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
 			{
@@ -207,7 +207,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		try
 		{
 			List<Player> players = new ArrayList<>();
-			PreparedStatement statement = connection.prepareStatement(GET_PLAYERS);
+			PreparedStatement statement = mConnection.prepareStatement(GET_PLAYERS);
 			statement.setString(1, game.getId());
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
@@ -240,7 +240,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 						" AND " + PlayerEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(UPDATE_PLAYER);
+			PreparedStatement statement = mConnection.prepareStatement(UPDATE_PLAYER);
 			byte[] playerAsBytes = objectToByteArray(player);
 			statement.setObject(1, playerAsBytes);
 			statement.setString(2, player.getName());
@@ -267,7 +267,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 						" WHERE " + PlayerEntry.COLUMN_NAME_USERNAME + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(DELETE_PLAYER);
+			PreparedStatement statement = mConnection.prepareStatement(DELETE_PLAYER);
 			statement.setObject(1, player.getName());
 			statement.executeUpdate();
 			statement.close();
@@ -282,7 +282,7 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		return false;
 	}
 
-	public boolean openConnection() {
+	public void openConnection() {
 		//set up driver
 		try {
 			final String driver = "org.sqlite.JDBC";
@@ -298,9 +298,9 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 
 		try {
 			// Open a database connection
-			connection = DriverManager.getConnection(connectionURL);
+			mConnection = DriverManager.getConnection(connectionURL);
 			// Start a transaction
-			connection.setAutoCommit(false);
+			mConnection.setAutoCommit(false);
 		}
 		catch (SQLException ex) {
 			// ERROR
@@ -309,23 +309,21 @@ public class SQLPlayerDAO extends AbstractSQL_DAO implements IPlayerDAO
 		}
 	}
 
-	private boolean closeConnection(boolean commit) {
+	private void closeConnection(boolean commit) {
 		try {
 			if (commit) {
-				connection.commit();
+				mConnection.commit();
 			}
 			else {
-				connection.rollback();
+				mConnection.rollback();
 			}
 
-			connection.close();
-			connection = null;
-			return true;
+			mConnection.close();
+			mConnection = null;
 		}
 		catch (SQLException ex) {
 			System.out.println("ERROR: SQL exception while closing database connection");
 			ex.printStackTrace();
-			return false;
 		}
 	}
 }
