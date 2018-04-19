@@ -46,12 +46,13 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 	{
 		try
 		{
-			DatabaseMetaData meta = connection.getMetaData();
+			DatabaseMetaData meta = mConnection.getMetaData();
 			ResultSet rs = meta.getTables(null, null,
 					DataEntry.TABLE_NAME, new String[] {"TABLE"});
 			if (rs.next())
 			{
 				rs.close();
+				closeConnection(true);
 				return true;
 			}
 		}
@@ -61,6 +62,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			System.err.println("SQLException when checking if GameData table exists.");
 			e.printStackTrace();
 		}
+		closeConnection(true);
 		return false;
 	}
 
@@ -76,7 +78,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 						"PRIMARY KEY( " + DataEntry.COLUMN_NAME_GAME_ID + ") )";
 		try
 		{
-			Statement statement = connection.createStatement();
+			Statement statement = mConnection.createStatement();
 			statement.executeUpdate(CREATE_GAMEDATA_TABLE);
 			statement.close();
 		}
@@ -84,12 +86,11 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		{
 			System.err.println(e + " - creating table in SQLGameDataDAO");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
 			return false;
 		}
 //		logger.exiting("SQLGameDataDAO", "createTable", true);
-		commitConnection();
-		closeConnection();
+		closeConnection(true);
 		return true;
 	}
 
@@ -101,7 +102,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		final String DELETE_GAME_DATA_TABLE = "DROP TABLE IF EXISTS " + DataEntry.TABLE_NAME;
 		try
 		{
-			Statement statement = connection.createStatement();
+			Statement statement = mConnection.createStatement();
 			statement.executeUpdate(DELETE_GAME_DATA_TABLE);
 			statement.close();
 		}
@@ -109,12 +110,11 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		{
 			System.err.println(e + " - deleting table in SQLUserDAO");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
 			return false;
 		}
 //		logger.exiting("SQLGameDataDAO", "deleteTable", true);
-		commitConnection();
-		closeConnection();
+		closeConnection(true);
 		return true;
 	}
 
@@ -132,7 +132,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		{
 			byte[] dataAsBytes = objectToByteArray(gameData);
 
-			PreparedStatement statement = connection.prepareStatement(ADD_GAME_DATA);
+			PreparedStatement statement = mConnection.prepareStatement(ADD_GAME_DATA);
 			statement.setString(1, gameData.getId().getId());
 			statement.setObject(2, dataAsBytes);
 			statement.executeUpdate();
@@ -142,13 +142,12 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		{
 			System.err.println(e + " - adding new gameData");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
 			return false;
 		}
 //		logger.exiting("SQLGameDataDAO", "addNewGameData", true);
 		cache.put(gameData.getId(), gameData);
-		commitConnection();
-		closeConnection();
+		closeConnection(true);
 		return true;
 	}
 
@@ -164,7 +163,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //		String gameID = id.getId();
 //		try
 //		{
-//			PreparedStatement statement = connection.prepareStatement(GET_GAME_DATA);
+//			PreparedStatement statement = mConnection.prepareStatement(GET_GAME_DATA);
 //			statement.setString(1, gameID);
 //			ResultSet rs = statement.executeQuery();
 //			if (rs.next())
@@ -206,7 +205,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //		try
 //		{
 //			List<ServerGameData> games = new ArrayList<>();
-//			PreparedStatement statement = connection.prepareStatement(GET_ALL_DATA);
+//			PreparedStatement statement = mConnection.prepareStatement(GET_ALL_DATA);
 //			ResultSet rs = statement.executeQuery();
 //			while (rs.next())
 //			{
@@ -239,7 +238,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 						" WHERE " + DataEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(UPDATE_GAME);
+			PreparedStatement statement = mConnection.prepareStatement(UPDATE_GAME);
 			byte[] dataAsBytes = objectToByteArray(statement);
 			statement.setObject(1, dataAsBytes);
 			statement.setString(2, gameData.getId().getId());
@@ -247,8 +246,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			statement.close();
 //			logger.exiting("SQLGameDataDAO", "updateGameData", true);
 			cache.put(gameData.getId(), gameData);
-			commitConnection();
-			closeConnection();
+			closeConnection(true);
 			return true;
 		}
 		catch (SQLException | IOException e)
@@ -257,7 +255,7 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			e.printStackTrace();
 		}
 //		logger.exiting("SQLGameDataDAO", "updateGameData", false);
-		closeConnection();
+		closeConnection(false);
 		return false;
 	}
 
@@ -271,14 +269,13 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 						" WHERE " + DataEntry.COLUMN_NAME_GAME_ID + " = ?";
 		try
 		{
-			PreparedStatement statement = connection.prepareStatement(DELETE_DATA);
+			PreparedStatement statement = mConnection.prepareStatement(DELETE_DATA);
 			statement.setObject(1, gameID);
 			statement.executeUpdate();
 			statement.close();
 //			logger.exiting("SQLGameDataDAO", "deleteGameData", true);
 			cache.remove(gameID);
-			commitConnection();
-			closeConnection();
+			closeConnection(true);
 			return true;
 		}
 		catch (SQLException e)
@@ -287,11 +284,11 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 			e.printStackTrace();
 		}
 //		logger.exiting("SQLGameDataDAO", "deleteGameData", false);
-		closeConnection();
+		closeConnection(false);
 		return false;
 	}
 
-	public boolean openConnection() {
+	public void openConnection() {
 		//set up driver
 		try {
 			final String driver = "org.sqlite.JDBC";
@@ -303,13 +300,13 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 
 		//create conection to Database
 		String dbName = "Server/TicketToRide.sqlite";
-		String connectionURL = "jdbc:sqlite:" + dbName;
+		String mConnectionURL = "jdbc:sqlite:" + dbName;
 
 		try {
-			// Open a database connection
-			connection = DriverManager.getConnection(connectionURL);
+			// Open a database mConnection
+			mConnection = DriverManager.getConnection(mConnectionURL);
 			// Start a transaction
-			connection.setAutoCommit(false);
+			mConnection.setAutoCommit(false);
 		}
 		catch (SQLException ex) {
 			// ERROR
@@ -318,23 +315,21 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 		}
 	}
 
-	private boolean closeConnection(boolean commit) {
+	private void closeConnection(boolean commit) {
 		try {
 			if (commit) {
-				connection.commit();
+				mConnection.commit();
 			}
 			else {
-				connection.rollback();
+				mConnection.rollback();
 			}
 
-			connection.close();
-			connection = null;
-			return true;
+			mConnection.close();
+			mConnection = null;
 		}
 		catch (SQLException ex) {
-			System.out.println("ERROR: SQL exception while closing database connection");
+			System.out.println("ERROR: SQL exception while closing database mConnection");
 			ex.printStackTrace();
-			return false;
 		}
 	}
 }
