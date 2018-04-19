@@ -57,6 +57,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
         cDao = (SQLCommandDAO) SQLFactory.createCommandDAO();
         gdDao = (SQLGameDataDAO) SQLFactory.createGameDataDAO();
         pDao = (SQLPlayerDAO) SQLFactory.createPlayerDAO();
+        uDao = (SQLUserDAO) SQLFactory.createUserDAO();
 
         if (cleanSlate)
 		{

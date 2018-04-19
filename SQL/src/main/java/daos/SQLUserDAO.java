@@ -244,8 +244,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 		}
 
 		//create conection to Database
-		String dbName = "Server/TicketToRide.sqlite";
-		String connectionURL = "jdbc:sqlite:" + dbName;
+		String connectionURL = "jdbc:sqlite:TicketToRide.db";
 
 		try {
 			// Open a database connection
