@@ -4,6 +4,7 @@ package daos;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +23,8 @@ import common.game_data.ServerGameData;
  */
 public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 {
+
+	Connection mConnection;
 
 	private Map<GameID, ServerGameData> cache = new HashMap<>();
 
@@ -286,5 +289,52 @@ public class SQLGameDataDAO extends AbstractSQL_DAO implements IGameDataDAO
 //		logger.exiting("SQLGameDataDAO", "deleteGameData", false);
 		closeConnection();
 		return false;
+	}
+
+	public boolean openConnection() {
+		//set up driver
+		try {
+			final String driver = "org.sqlite.JDBC";
+			Class.forName(driver);
+		}
+		catch(java.lang.ClassNotFoundException e) {
+			// ERROR! Could not load database driver
+		}
+
+		//create conection to Database
+		String dbName = "Server/TicketToRide.sqlite";
+		String connectionURL = "jdbc:sqlite:" + dbName;
+
+		try {
+			// Open a database connection
+			connection = DriverManager.getConnection(connectionURL);
+			// Start a transaction
+			connection.setAutoCommit(false);
+		}
+		catch (SQLException ex) {
+			// ERROR
+			System.out.println("ERROR: SQL exception while attempting to open database");
+			ex.printStackTrace();
+		}
+	}
+
+	private boolean closeConnection(boolean commit) {
+		try {
+			if (commit) {
+				connection.commit();
+			}
+			else {
+				connection.rollback();
+			}
+
+			connection.close();
+			connection = null;
+			return true;
+		}
+		catch (SQLException ex) {
+			System.out.println("ERROR: SQL exception while closing database connection");
+			ex.printStackTrace();
+			return false;
+		}
 	}
 }

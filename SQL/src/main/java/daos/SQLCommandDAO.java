@@ -32,6 +32,8 @@ import common.player_info.Username;
 public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 {
 
+    Connection mConnection;
+
     //cache is a Map of GameIDs to Sets of Commands for that particular game
     private Map<GameID, List<Command>> cache;
 
@@ -51,14 +53,17 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
     @Override
 	boolean tableExists()
 	{
+	    openConnection();
+
 		try
 		{
-			DatabaseMetaData meta = connection.getMetaData();
+			DatabaseMetaData meta = mConnection.getMetaData();
 			ResultSet rs = meta.getTables(null, null,
 					CommandEntry.TABLE_NAME, new String[] {"TABLE"});
 			if (rs.next())
 			{
 				rs.close();
+				closeConnection(true);
 				return true;
 			}
 		}
@@ -66,35 +71,40 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 		{
 			// Shouldn't really have errors.
 			System.out.println("SQLException when checking if Command table exists - " + e);
+			closeConnection(false);
+			return false;
 		}
-		return false;
+
+		closeConnection(true);
+		return true;
 	}
 
     @Override
     boolean createTable() {
+
         openConnection();
+
         final String CREATE_COMMAND_TABLE =
                 "CREATE TABLE " + CommandEntry.TABLE_NAME + " ( " +
                         CommandEntry.COLUMN_NAME_GAME_ID + " TEXT NOT NULL, " +
                         CommandEntry.COLUMN_NAME_COMMAND + " BLOB NOT NULL )";
         try
         {
-            Statement statement = connection.createStatement();
+            Statement statement = mConnection.createStatement();
             statement.executeUpdate(CREATE_COMMAND_TABLE);
             statement.close();
         } catch (SQLException e)
         {
 			System.err.println(e + " - creating table in SQLCommandDAO");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
             return false;
         }
 
         //Add new mapping in cache for new commands
         cache = new HashMap<>();
 
-        commitConnection();
-        closeConnection();
+        closeConnection(true);
         return true;
     }
 
@@ -106,36 +116,32 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
         final String DELETE_COMMAND_TABLE = "DROP TABLE IF EXISTS " + CommandEntry.TABLE_NAME;
         try
         {
-            Statement statement = connection.createStatement();
+            Statement statement = mConnection.createStatement();
             statement.executeUpdate(DELETE_COMMAND_TABLE);
             statement.close();
         } catch (SQLException e)
         {
 			System.err.println(e + " - deleting table in SQLUserDAO");
 			e.printStackTrace();
-			closeConnection();
+			closeConnection(false);
             return false;
         }
-        //logger.exiting("SQLCommandDAO", "deleteTable", true);
 
         //Add new mapping in cache for new commands
         cache = new HashMap<>();
 
-        commitConnection();
-        closeConnection();
+        closeConnection(true);
         return true;
     }
 
     @Override
     public boolean addNewCommand(Command command) {
 
-        openConnection();
-
-        //Check if the cache value is reached
-        GameID id = getGameIdFromCommand(command);
-
         //update cache
+        GameID id = getGameIdFromCommand(command);
         cache.get(id).add(command);
+
+        openConnection();
 
         final String INSERT_PLAYER =
                 "INSERT INTO Commands (" + CommandEntry.COLUMN_NAME_GAME_ID +
@@ -146,7 +152,7 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 			try
 			{
 				byte[] commandAsBytes = objectToByteArray(command);
-				PreparedStatement statement = connection.prepareStatement(INSERT_PLAYER);
+				PreparedStatement statement = mConnection.prepareStatement(INSERT_PLAYER);
 				statement.setString(1, id.getId());
 				statement.setObject(2, commandAsBytes);
 				statement.executeUpdate();
@@ -155,12 +161,12 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
 			{
 				System.err.println(e + " - adding new command");
 				e.printStackTrace();
-				closeConnection();
+				closeConnection(false);
 				return false;
 			}
         }
-        commitConnection();
-        closeConnection();
+
+        closeConnection(true);
         return true;
     }
 
@@ -173,35 +179,6 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
         }
         return list;
 
-//        //logger.entering("SQLCommandDAO", "getCommandByGameId", id);
-//        final String GET_COMMANDS =
-//                "SELECT " + CommandEntry.COLUMN_NAME_COMMAND +
-//                        " FROM " + CommandEntry.TABLE_NAME +
-//                        " WHERE " + CommandEntry.COLUMN_NAME_GAME_ID + " = ?";
-//        try
-//        {
-//            PreparedStatement statement = connection.prepareStatement(GET_COMMANDS);
-//            statement.setString(1, id.getId());
-//            ArrayList<Command> commandList = new ArrayList<>();
-//            ResultSet rs = statement.executeQuery();
-//            while (rs.next())
-//            {
-//                byte[] bytes = rs.getBytes(1);
-//                Command foundCommand = (Command) byteArrayToObject(bytes);
-//                commandList.add(foundCommand);
-//
-//            }
-//			rs.close();
-//			statement.close();
-//			//logger.exiting("SQLCommandDAO", "getCommand", id);
-//			return commandList;
-//        } catch (SQLException | IOException | ClassNotFoundException e)
-//        {
-//            //logger.warning(e + " - getting commands for id: " + id);
-//            e.printStackTrace();
-//        }
-//        //logger.exiting("SQLCommandDAO", "getCommand", null);
-//        return null;
     }
 
     @Override
@@ -217,21 +194,19 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
                         " WHERE " + CommandEntry.COLUMN_NAME_GAME_ID + " = ?";
         try
         {
-            PreparedStatement statement = connection.prepareStatement(DELETE_COMMANDS);
+            PreparedStatement statement = mConnection.prepareStatement(DELETE_COMMANDS);
             statement.setString(1, id.getId());
             statement.execute();
             statement.close();
-            commitConnection();
-            closeConnection();
-            return true;
 
         } catch (SQLException e)
         {
             e.printStackTrace();
+            closeConnection(false);
         }
-        closeConnection();
-        return false;
 
+        closeConnection(false);
+        return true;
     }
 
     public GameID getGameIdFromCommand(Command command) {
@@ -243,5 +218,50 @@ public class SQLCommandDAO extends AbstractSQL_DAO implements ICommandDAO
             }
         }
         return id;
+    }
+
+    public void openConnection() {
+        //set up driver
+        try {
+            final String driver = "org.sqlite.JDBC";
+            Class.forName(driver);
+        }
+        catch(java.lang.ClassNotFoundException e) {
+            // ERROR! Could not load database driver
+        }
+
+        //create conection to Database
+        String dbName = "Server/TicketToRide.sqlite";
+        String connectionURL = "jdbc:sqlite:" + dbName;
+
+        try {
+            // Open a database connection
+            mConnection = DriverManager.getConnection(connectionURL);
+            // Start a transaction
+            mConnection.setAutoCommit(false);
+        }
+        catch (SQLException ex) {
+            // ERROR
+            System.out.println("ERROR: SQL exception while attempting to open database");
+            ex.printStackTrace();
+        }
+    }
+
+    private void closeConnection(boolean commit) {
+        try {
+            if (commit) {
+                mConnection.commit();
+            }
+            else {
+                mConnection.rollback();
+            }
+
+            mConnection.close();
+            mConnection = null;
+        }
+        catch (SQLException ex) {
+            System.out.println("ERROR: SQL exception while closing database connection");
+            ex.printStackTrace();
+        }
     }
 }

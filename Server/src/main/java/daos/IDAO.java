@@ -1,11 +1,12 @@
 package daos;
 
+import java.sql.Connection;
+
 /**
  * Created by Kavika F.
  */
 public interface IDAO
 {
-	boolean clearData();
-	boolean commitConnection();
-	boolean closeConnection();
+	boolean clearData(Connection connection);
+
 }

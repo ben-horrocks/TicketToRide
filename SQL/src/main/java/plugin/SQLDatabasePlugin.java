@@ -1,5 +1,8 @@
 package plugin;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 
     private static final Object mutex = new Object();
 
-    private int numCommands;
+    private int deltaCommands;
     private boolean cleanData;
 
     private SQLFactory SQLFactory;
@@ -30,9 +33,9 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     SQLPlayerDAO pDao;
     SQLUserDAO uDao;
 
-    public SQLDatabasePlugin(int numCommands, boolean cleanData)
+    public SQLDatabasePlugin(int deltaCommands, boolean cleanData)
     {
-        this.numCommands = numCommands;
+        this.deltaCommands = deltaCommands;
         this.cleanData = cleanData;
 
         SQLFactory = new SQLFactory();
@@ -58,37 +61,21 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
         if (cleanSlate)
 		{
 			boolean cleared;
-			cDao.openConnection();
+
 			cleared = cDao.clearData();
 			if (!cleared) return false;
-			cleared = commitAndClose(cDao);
-			if (!cleared) return false;
 
-            gdDao.openConnection();
 			cleared = gdDao.clearData();
 			if (!cleared) return false;
-			cleared = commitAndClose(gdDao);
-			if (!cleared) return false;
 
-            pDao.openConnection();
 			cleared = pDao.clearData();
 			if (!cleared) return false;
-			cleared = commitAndClose(pDao);
-			if (!cleared) return false;
 
-            uDao.openConnection();
             cleared = uDao.clearData();
-            if (!cleared) return false;
-            cleared = commitAndClose(uDao);
             if (!cleared) return false;
 
 			return cleared;
 		}
-
-    	commitAndClose(cDao);
-    	commitAndClose(gdDao);
-    	commitAndClose(pDao);
-        commitAndClose(uDao);
 
         return true;
     }
@@ -96,42 +83,36 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     @Override
     public User getUser(Username name) {
     	User user = uDao.getUser(name);
-    	commitAndClose(uDao);
     	return user;
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> users = uDao.getAllUsers();
-        commitAndClose(uDao);
         return users;
     }
 
     @Override
     public boolean addUser(User user) {
     	boolean successful = uDao.addNewUser(user);
-		commitAndClose(uDao);
     	return successful;
     }
 
     @Override
     public boolean deleteUser(Username name) {
         boolean successful = uDao.deleteUser(name);
-		commitAndClose(uDao);
         return successful;
     }
 
     @Override
     public boolean updateUser(User user) {
         boolean successful = uDao.updateUser(user);
-		commitAndClose(uDao);
         return successful;
     }
 
     @Override
     public ServerGameData getGame(GameID id) {
         ServerGameData data = gdDao.getGameData(id);
-        commitAndClose(gdDao);
         return data;
     }
 
@@ -146,7 +127,6 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				runningGames.add(game);
 			}
 		}
-		commitAndClose(gdDao);
 		return runningGames;
     }
 
@@ -161,7 +141,6 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				openGames.add(game);
 			}
 		}
-		commitAndClose(gdDao);
 		return openGames;
     }
 
@@ -189,28 +168,24 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
 				}
 			}
 		}
-		commitAndClose(cDao);
 		return runningGames;
     }
 
     @Override
     public boolean addGame(ServerGameData game) {
     	boolean successful = gdDao.addNewGameData(game);
-    	commitAndClose(gdDao);
         return successful;
     }
 
     @Override
     public boolean deleteGame(GameID id) {
         boolean successful = gdDao.deleteGameData(id);
-        commitAndClose(gdDao);
         return successful;
     }
 
     @Override
     public boolean updateGame(ServerGameData game) {
         boolean successful = gdDao.updateGameData(game);
-        commitAndClose(gdDao);
         return successful;
     }
 
@@ -218,7 +193,6 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
     public List<Command> getCommands(GameID id) {
 
         List<Command> commands = cDao.getCommandsByGameId(id);
-        commitAndClose(cDao);
         return commands;
     }
 
@@ -231,29 +205,12 @@ public class SQLDatabasePlugin implements IDatabasePlugin {
         if (id == null) {
             return false;
         }
-        if (cDao.getCommandsByGameId(id).size() == numCommands) {
+        if (cDao.getCommandsByGameId(id).size() == deltaCommands) {
             gdDao.updateGameData(gdDao.getGameData(id));
             cDao.deleteCommandsByGameId(id);
         }
 
-        commitAndClose(cDao);
         return successful;
     }
 
-    private boolean commitAndClose(IDAO dao)
-	{
-		boolean successful;
-
-		/*	-- Debugging statement to check what methods an IDAO has --
-		Object[] methods = IDAO.class.getDeclaredMethods();
-		for (int i = 0; i < methods.length; i++)
-		{
-			System.out.println("Method " + i + ": " + methods[i]);
-		}
-		*/
-		successful = dao.commitConnection();
-		if (!successful) return false;
-//		successful = dao.closeConnection();
-		return successful;
-	}
 }
