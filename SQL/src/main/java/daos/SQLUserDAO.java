@@ -243,7 +243,7 @@ public class SQLUserDAO extends AbstractSQL_DAO implements IUserDAO
 			// ERROR! Could not load database driver
 		}
 
-		//create conection to Database
+		//create connection to Database
 		String connectionURL = "jdbc:sqlite:TicketToRide.db";
 
 		try {
